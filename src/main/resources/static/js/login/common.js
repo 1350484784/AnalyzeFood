@@ -83,34 +83,46 @@ function login(){
     var userNameRagex = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
     var pwdRegex = /^[\x21-\x7E]{6,20}$/;
 
+    alert(333)
+
 	if(userName == ''){
 		alert("请输入用户名");
 		return false;
 	}
 
+    alert(222)
+
 	if(userPass == ''){
 		alert("请输入密码");
-		return ;
+		return false;
 	}
 
-	if(userName==='admin' && userPass==='admin123'){
-        return true;
-    }
-    if(!userNameRagex.test(userName)){
+    alert(111)
+
+    if(!userNameRagex.test(userName) && userName!= 'admin'){
         alert("用户名必须是手机号");
         return false;
     }
-    if(!pwdRegex.test(userPass)){
+    if(!pwdRegex.test(userPass) && userPass != 'admin123'){
         alert("密码6-20位");
         return false;
     }
 
 	//判断是否选中复选框，如果选中，添加cookie  
-		if($('#checkeds').prop("checked")){
+	if($('#checkeds').prop("checked")){
 		//添加cookie    
 		setCookie();
-
 	}
+
+	alert(123)
+	$.ajax({
+        type: "POST",
+        url: "/user/login" ,
+        data: $('#login_form').serialize(),
+        success:function (data) {
+            
+        }
+    });
 }
 
 //获取input的所有id
