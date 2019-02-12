@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <link rel="stylesheet" th:href="@{/css/login/reset.css}" />
+    <link rel="stylesheet" th:href="@{/css/login/common.css}" />
+    <link rel="stylesheet" th:href="@{/css/login/bootstrap.css}" />
+
+    <script th:src="@{/js/jquery-3.2.1.js}"></script>
+    <script th:src="@{/js/login/jquery.base64.js}"></script>
+    <script th:src="@{/js/login/jquery.cookie.js}"></script>
+    <script th:src="@{/js/login/common.js}"></script>
+
+</head>
+<body style="background-color:#D7D2CF">
+    <div class="header clearfix">
+        <a th:href="@{/to/register}" class="login" name="Preg_index_none_log">还没有帐号？马上注册</a>
+        <div class="logo-txt">欢迎登录</div>
+    </div>
+
+    <div class="wrap login_wrap " >
+        <div class="content">
+
+            <div class="login_box">
+                <div class="leftimg">
+                    <!--<img src="img/login_1.jpg" style="width:400px;height: 300px;"/>-->
+                </div>
+                <div class="login_form">
+                    <div class="login_title">
+                        登录
+                    </div>
+
+                    <form action="#" method="post">
+                        <div class="form_text_ipt">
+                            <input id="login_code" name="phone" type="text" placeholder="手机号">
+                        </div>
+                        <span class="ececk_warning" th:if="${error=='error'}">用户名密码错误</span>
+                        <div class="form_text_ipt">
+                            <input id="login_password" name="pwd" type="password" placeholder="密码">
+                        </div>
+
+                        <div class="form_check_ipt">
+                            <div class="left check_left">
+                                <label><input id="checkeds" name="remember" type="checkbox"> 记住密码</label>
+                            </div>
+                            <div class="right check_right">
+                                <a th:href="@{/to/lt}">忘记密码</a>
+                            </div>
+                        </div>
+                        <div class="form_btn">
+                            <input id="subLogin"  onclick="login()" type="button" value="提 交 "/>
+                        </div>
+
+                    </form>
+                    <!--<div class="other_login">-->
+                        <!--<div class="left other_left">-->
+                            <!--<span>其它登录方式</span>-->
+                        <!--</div>-->
+                        <!--<div class="right other_right">-->
+                            <!--<a href="#">QQ登录</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--底部-->
+    <div class="zbs">
+        <div id="footer_container" class="footer_container text-m box">
+            <div id="footercontent" class="container standard-footer" scopeid="footer">
+                <div class="footer-left col-md-8">
+                    <div class="footer-column " style="clear: both;">
+                        <!--<p style="float:left; margin-left: 28px;">我们饰家 信守每一个承诺 关注每一个细节 做好每一件事 诚心诚意服务好每一位客户</p>-->
+                        <div id="footerbanner" style="float:left;text-align: center;margin: 10px auto;vertical-align: middle" class="container">
+                            Copyright © &nbsp;Carey 2019 &nbsp; &nbsp; &nbsp;每日膳食分析
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
