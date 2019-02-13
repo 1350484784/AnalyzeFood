@@ -46,10 +46,10 @@
                 <div class="spanpass"  ><span id="user_pass" style="text-align: left!important;"></span></div>
             </div>
             <div class="msg-field">
-                <div class="input-box" style="width: 240px;float: left; border-right: 0px">
+                <div class="input-box" style="width: 240px;float: left; ">
                     <label class="title">验证码</label>
                     <div class="input-wrapper captcha-box">
-                        <input type="text" id="smsCode" name="mobileCode" maxlength="6" placeholder="请输入手机验证码">
+                        <input type="text" id="smsCode" name="mobileCode" maxlength="6" placeholder="请输入验证码">
                         <!--<input type="text" id="smsCode"  name="mobileCode" onblur="checkUser2()" maxlength="11" placeholder="请输入手机号码">-->
                     </div>
                 </div>
@@ -57,7 +57,10 @@
 
                 <!--<input type="button" id="sendSmsCode" value="获取短信验证码" style="display:inline-block; float: right;  color: grey;  height: 40px; width: 139px; background-color: #f7f7f7;  border: 1px solid #cccccc; " class="send-msg"  onclick="noPhonforCheckWord($(this))">-->
 
-                <canvas id="canvas" width="100" height="44"></canvas>
+                <div style="float: right; height: 40px; border:1px solid #CCCCCC">
+                    <canvas id="canvas" width="100" height="40"></canvas>
+                </div>
+
 
                 <div class="spanpass"><span id="sms_pass" style="text-align: left!important;"></span></div>
             </div>
@@ -82,7 +85,7 @@
                 </div>
                 <div class="spanpass"><span id="repwd_pass" style="text-align: left!important;"></span></div>
             </div>
-            <input type="submit" class="submit-btn" value="提交注册">
+            <input type="submit" class="submit-btn" value="注   册">
         </div>
     </form>
 </div>

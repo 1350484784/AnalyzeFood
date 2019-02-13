@@ -12,49 +12,13 @@
     <script th:src="@{/js/login/jquery.cookie.js}"></script>
     <script th:src="@{/js/login/common.js}"></script>
 
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
-        /*]]>*/
-    </script>
+    <!--<script th:inline="javascript">-->
+        <!--/*<![CDATA[*/-->
+        <!--var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径-->
+        <!--/*]]>*/-->
+    <!--</script>-->
 
-    <script th:inline="javascript">
-        function login2(){
-            var userName = $('#login_code').val();
-            var userPass = $('#login_password').val();
 
-            var userNameRagex = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
-            var pwdRegex = /^[\x21-\x7E]{6,20}$/;
-
-            if(userName == ''){
-                alert("请输入用户名");
-                return false;
-            }
-
-            if(userPass == ''){
-                alert("请输入密码");
-                return false;
-            }
-
-            if(!userNameRagex.test(userName) && userName!= 'admin'){
-                alert("用户名必须是手机号");
-                return false;
-            }
-            if(!pwdRegex.test(userPass) && userPass != 'admin123'){
-                alert("密码6-20位");
-                return false;
-            }
-
-            $.ajax({
-                type: "POST",
-                url: contextPath+"/user/login" ,
-                data: $('#login_form').serialize(),
-                success:function (data) {
-                    alert(data)
-                }
-            });
-        }
-    </script>
 </head>
 <body style="background-color:#D7D2CF">
     <div class="header clearfix">
@@ -74,7 +38,7 @@
                         登录
                     </div>
 
-                    <form id="login_form" action="#" method="post">
+                    <form id="login_form" th:action="@{/user/login}" method="post">
                         <div class="form_text_ipt">
                             <input id="login_code" name="phone" type="text" placeholder="手机号">
                         </div>
@@ -92,7 +56,8 @@
                             </div>
                         </div>
                         <div class="form_btn">
-                            <input id="subLogin"  onclick="login2()" type="button" value="提 交 "/>
+                            <!--<input type="submit" value="登 录"> </input>-->
+                            <input onclick="login()" type="button" value="登 录"/>
                         </div>
 
                     </form>

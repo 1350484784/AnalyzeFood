@@ -10,7 +10,6 @@ $(function(){
 		$(this).parent().css({
 			'box-shadow':'none',
 		});
-		//$(this).parent().next().hide();
 	});
 	
 	//表单验证
@@ -22,8 +21,6 @@ $(function(){
 			$(this).parent().css({
 				'border':'solid 1px red',
 			});
-			//$(this).parent().next().find('span').html('helow');
-			//$(this).parent().next().show();
 		}else{
 			$(this).css({
 				'color':'#ccc',
@@ -31,7 +28,6 @@ $(function(){
 			$(this).parent().css({
 				'border':'solid 1px #ccc',
 			});
-			//$(this).parent().next().hide();
 		}
 	});
 	$('.form_text_ipt input').focus('input propertychange',function(){
@@ -83,21 +79,16 @@ function login(){
     var userNameRagex = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
     var pwdRegex = /^[\x21-\x7E]{6,20}$/;
 
-    alert(333)
 
 	if(userName == ''){
 		alert("请输入用户名");
 		return false;
 	}
 
-    alert(222)
-
 	if(userPass == ''){
 		alert("请输入密码");
 		return false;
 	}
-
-    alert(111)
 
     if(!userNameRagex.test(userName) && userName!= 'admin'){
         alert("用户名必须是手机号");
@@ -114,20 +105,8 @@ function login(){
 		setCookie();
 	}
 
-	alert(123)
-	$.ajax({
-        type: "POST",
-        url: "/user/login" ,
-        data: $('#login_form').serialize(),
-        success:function (data) {
-            
-        }
-    });
+	$('#login_form').submit();
 }
-
-//获取input的所有id
-
-//获取span的所有id
 
 
 var div1=document.getElementsByClassName("m-lion-dialog");
