@@ -33,4 +33,10 @@ public class UserControl {
 
         return "";
     }
+
+    @RequestMapping("/findPhone")
+    public String findPhone(){
+
+        return "";
+    }
 }

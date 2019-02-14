@@ -14,7 +14,13 @@
     <script th:src="@{/js/login/verification.js}"></script>
     <!--<script th:src="@{/js/login/common.js}"></script>-->
 
-    <script>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+        var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
+    /*]]>*/
+    </script>
+
+    <script th:inline="javascript">
         $(function () {
             var show_num = [];
             draw(show_num);
@@ -47,8 +53,8 @@
         /*手机号判断*/
         function userTel(inputid, spanid) {
             $(inputid).blur(function () {
-                var uname=$("#user").val();
-                var choose=$(".accept-items").val();
+                var username=$("#user").val();
+                // var choose=$(".accept-items").val();
 
                 if ($.trim($(inputid).val()).length == 0) {
                     $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 手机号没有输入");
@@ -62,21 +68,21 @@
                     }else{
                         $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-spinner fa-pulse' style = 'color:grey'></span> 验证中&nbsp;...");
                         $(spanid).removeClass('red_size');
-                        // $.ajax({
-                        //     type:"GET",
-                        //     url:contextPath+"/user/findPhone",
-                        //     data:{phone:uname,choose:choose},
-                        //     success:function (resultData) {
-                        //         if(resultData==true){
-                        //             $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle'></span> 手机号已经注册&nbsp;...").css("color","red");
-                        //         }else {
-                        //             $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-check-circle' style='color: #00FF00'></span> 验证通过,你的账户可以注册&nbsp;...").css("color","green");
-                        //         }
-                        //     },
-                        //     error:function () {
-                        //         alert("服务器请求失败");
-                        //     }
-                        // });
+                        $.ajax({
+                            type:"GET",
+                            url:contextPath+"/user/findPhone",
+                            data:{phone:username},
+                            success:function (resultData) {
+                                if(resultData==true){
+                                    $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle'></span> 手机号已经注册&nbsp;...").css("color","red");
+                                }else {
+                                    $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-check-circle' style='color: #00FF00'></span> 验证通过,你的账户可以注册&nbsp;...").css("color","green");
+                                }
+                            },
+                            error:function () {
+                                alert("服务器请求失败");
+                            }
+                        });
                     }
                 }
                 $(inputid).focus(function () {
