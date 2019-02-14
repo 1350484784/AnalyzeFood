@@ -109,68 +109,30 @@ function login(){
 }
 
 
-var div1=document.getElementsByClassName("m-lion-dialog");
-var div2=document.getElementsByClassName("m-lion-dialog-overlay");
-function check(){
-	var pwd = document.getElementById("pwd");
-	var suggestion=document.getElementById("suggestion");
-	if(!pwd.value){
-		suggestion.style.display="block";
-	}else{
-		suggestion.style.display="none";
-
-	}
-
-}
-function delclick(){
-	var pws = document.getElementById("m-lion-dialog-overlay");
-	var pw = document.getElementById("m-lion-dialog");
-	pw.style.display="none";
-	pws.style.display="none";
-}
-function checkother(){
-	var pws = document.getElementById("m-lion-dialog-overlay");
-	var pw = document.getElementById("m-lion-dialog");
-	pw.style.display="block";
-	pws.style.display="block";
-}
+// var div1=document.getElementsByClassName("m-lion-dialog");
+// var div2=document.getElementsByClassName("m-lion-dialog-overlay");
+// function check(){
+// 	var pwd = document.getElementById("pwd");
+// 	var suggestion=document.getElementById("suggestion");
+// 	if(!pwd.value){
+// 		suggestion.style.display="block";
+// 	}else{
+// 		suggestion.style.display="none";
+//
+// 	}
+//
+// }
+// function delclick(){
+// 	var pws = document.getElementById("m-lion-dialog-overlay");
+// 	var pw = document.getElementById("m-lion-dialog");
+// 	pw.style.display="none";
+// 	pws.style.display="none";
+// }
+// function checkother(){
+// 	var pws = document.getElementById("m-lion-dialog-overlay");
+// 	var pw = document.getElementById("m-lion-dialog");
+// 	pw.style.display="block";
+// 	pws.style.display="block";
+// }
 //输入密码提示
-function  submitB(){
-	var user = document.getElementById("user");
-	var user_pass = document.getElementById("user_pass");
-	var pwd = document.getElementById("pwd");
-	var pwd_pass = document.getElementById("pwd_pass");
-	var smsCode = document.getElementById("smsCode");
-	var sms_pass = document.getElementById("sms_pass");
-	if(!smsCode.value){
-		sms_pass.style.color="red";
-		sms_pass.style.fontSize = "13px";
-		sms_pass.style.height="2em";
-		sms_pass.style.lineHeight="2em";
-		sms_pass.innerHTML = '请填写您的验证码。';
-		smsCode.focus();
-		return false;
-	}
-	if(!user.value){
-		user_pass.style.color="red";
-		user_pass.style.fontSize = "13px";
-		user_pass.style.height="2em";
-		user_pass.style.lineHeight="2em";
-		user_pass.innerHTML = '请填写您的手机号码。';
-		user.focus();
-		return false;
-	}
-	if(!pwd.value){
-		pwd_pass.style.color="red";
-		pwd_pass.style.fontSize = "13px";
-		pwd_pass.style.height="2em";
-		pwd_pass.style.lineHeight="2em";
-		pwd_pass.innerHTML = '请填写您的用户密码。';
-		pwd.focus();
-		return false;
-	}
-	else{
-		var f = sendParam();
-		return f;
-	}
-}
+

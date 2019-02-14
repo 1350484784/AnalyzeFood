@@ -26,4 +26,11 @@ public class UserControl {
         model.addAttribute("error","error");
         return "/html/login";
     }
+
+
+    @RequestMapping("/register")
+    public String register(){
+
+        return "";
+    }
 }

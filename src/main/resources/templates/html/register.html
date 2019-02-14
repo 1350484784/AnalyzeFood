@@ -12,6 +12,7 @@
 
     <script th:src="@{/js/jquery-3.2.1.js}"></script>
     <script th:src="@{/js/login/verification.js}"></script>
+    <!--<script th:src="@{/js/login/common.js}"></script>-->
 
     <script>
         $(function () {
@@ -21,7 +22,164 @@
             $("#canvas").on('click',function(){
                 draw(show_num);
             });
+
+            userTel('#user', "#user_pass");
+
+            // userYan('#smsCode', "#sms_pass");
+            userYan('#smsCode', show_num.join(""), "#sms_pass")
+
+            userPwd('#pwd', "#pwd_pass");
         });
+
+
+        // 验证手机号
+        function isPhoneNo(phone) {
+            var pattern = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
+            return pattern.test(phone);
+        }
+
+        // 验证密码
+        function isPwdNo(pwd) {
+            var pattern = /^[\x21-\x7E]{6,20}$/;
+            return pattern.test(pwd);
+        }
+
+        /*手机号判断*/
+        function userTel(inputid, spanid) {
+            $(inputid).blur(function () {
+                var uname=$("#user").val();
+                var choose=$(".accept-items").val();
+
+                if ($.trim($(inputid).val()).length == 0) {
+                    $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 手机号没有输入");
+                    $(spanid).addClass('red_size');
+
+                } else {
+                    if (isPhoneNo($.trim($(inputid).val())) == false) {
+                        $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 手机号码不正确");
+                        $(spanid).addClass('red_size');
+
+                    }else{
+                        $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-spinner fa-pulse' style = 'color:grey'></span> 验证中&nbsp;...");
+                        $(spanid).removeClass('red_size');
+                        // $.ajax({
+                        //     type:"GET",
+                        //     url:contextPath+"/user/findPhone",
+                        //     data:{phone:uname,choose:choose},
+                        //     success:function (resultData) {
+                        //         if(resultData==true){
+                        //             $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle'></span> 手机号已经注册&nbsp;...").css("color","red");
+                        //         }else {
+                        //             $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-check-circle' style='color: #00FF00'></span> 验证通过,你的账户可以注册&nbsp;...").css("color","green");
+                        //         }
+                        //     },
+                        //     error:function () {
+                        //         alert("服务器请求失败");
+                        //     }
+                        // });
+                    }
+                }
+                $(inputid).focus(function () {
+                    $(spanid).html("");
+                });
+            });
+        }
+
+        function userYan(inputid, code, spanid) {
+            $(inputid).blur(function () {
+                if ($.trim($(inputid).val()).length == 0) {
+                    $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 验证码没有输入");
+                    $(spanid).addClass('red_size');
+                } else {
+                    if ($.trim($(inputid).val()).toLowerCase() != code) {
+                        $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 验证码不正确");
+                        $(spanid).addClass('red_size');
+                    }
+                }
+                $(inputid).focus(function () {
+                    $(spanid).html("");
+                });
+            });
+        }
+
+        function userPwd(inputid, spanid) {
+            $(inputid).blur(function () {
+                if ($.trim($(inputid).val()).length == 0) {
+                    $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 密码没有输入");
+                    $(spanid).addClass('red_size');
+                } else {
+                    if (isPwdNo($.trim($(inputid).val())) == false) {
+                        $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 请输入六位以的密码组合");
+                        $(spanid).addClass('red_size');
+
+                    }
+                }
+                $(inputid).focus(function () {
+                    $(spanid).html("");
+                });
+            });
+        }
+
+        function check(){
+            var pwd = document.getElementById("pwd");
+            var suggestion=document.getElementById("suggestion");
+            if(!pwd.value){
+                suggestion.style.display="block";
+            }else{
+                suggestion.style.display="none";
+            }
+
+        }
+        function check(){
+            var pwd = document.getElementById("pwd");
+            var suggestion=document.getElementById("suggestion");
+            if(!pwd.value){
+                suggestion.style.display="block";
+            }else{
+                suggestion.style.display="none";
+            }
+        }
+
+        function  submit_btn(){
+            // var user = document.getElementById("user");
+            // var user_pass = document.getElementById("user_pass");
+            // var pwd = document.getElementById("pwd");
+            // var pwd_pass = document.getElementById("pwd_pass");
+            // var smsCode = document.getElementById("smsCode");
+            // var sms_pass = document.getElementById("sms_pass");
+
+            if($('#user').val()==''){
+                // user_pass.style.color="red";
+                // user_pass.style.fontSize = "13px";
+                // user_pass.style.height="2em";
+                // user_pass.style.lineHeight="2em";
+                // user_pass.innerHTML = '请填写您的手机号码。';
+                $('#user_pass').html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 手机号没有输入");
+                $('#user_pass').addClass('red_size');
+                return false;
+            }
+            if($('#pwd').val()==''){
+                // pwd_pass.style.color="red";
+                // pwd_pass.style.fontSize = "13px";
+                // pwd_pass.style.height="2em";
+                // pwd_pass.style.lineHeight="2em";
+                // pwd_pass.innerHTML = '请填写您的用户密码。';
+                $('#pwd_pass').html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 密码没有输入");
+                $('#pwd_pass').addClass('red_size');
+                return false;
+            }
+            if($('#smsCode').val()==''){
+                // sms_pass.style.color="red";
+                // sms_pass.style.fontSize = "13px";
+                // sms_pass.style.height="2em";
+                // sms_pass.style.lineHeight="2em";
+                // sms_pass.innerHTML = '请填写您的验证码。';
+                $('#sms_pass').html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 验证码没有输入");
+                $('#sms_pass').addClass('red_size');
+                return false;
+            }
+            $('#register_form').submit();
+        }
     </script>
 
 
@@ -34,7 +192,7 @@
 </div>
 
 <div class="main ">
-    <form id="enterReg_form" th:action="@{/user/register}" method="post" autocomplete="off" onsubmit="return submitB()">
+    <form id="register_form" th:action="@{/user/register}" method="post">
         <div class="reg-form">
             <div class="phone-field">
                 <div class="input-box clearfix">
@@ -50,17 +208,13 @@
                     <label class="title">验证码</label>
                     <div class="input-wrapper captcha-box">
                         <input type="text" id="smsCode" name="mobileCode" maxlength="6" placeholder="请输入验证码">
-                        <!--<input type="text" id="smsCode"  name="mobileCode" onblur="checkUser2()" maxlength="11" placeholder="请输入手机号码">-->
                     </div>
                 </div>
                 <input type="hidden" id="checkWordReturn">
 
-                <!--<input type="button" id="sendSmsCode" value="获取短信验证码" style="display:inline-block; float: right;  color: grey;  height: 40px; width: 139px; background-color: #f7f7f7;  border: 1px solid #cccccc; " class="send-msg"  onclick="noPhonforCheckWord($(this))">-->
-
                 <div style="float: right; height: 40px; border:1px solid #CCCCCC">
                     <canvas id="canvas" width="100" height="40"></canvas>
                 </div>
-
 
                 <div class="spanpass"><span id="sms_pass" style="text-align: left!important;"></span></div>
             </div>
@@ -68,12 +222,12 @@
                 <div class="input-box clearfix" style="margin-bottom:0;">
                     <label class="title">设置密码</label>
                     <div class="input-wrapper">
-                        <input type="password" onfocus="check()" id="pwd" name="pwd" maxlength="20" class="encrypt" style="display: inline-block;" placeholder="请输入密码">
+                        <input type="password" onfocus="check()" id="pwd" name="pwd" maxlength="20" class="encrypt" style="display: inline-block;" placeholder="请输入密码" />
                     </div>
                 </div>
                 <div class="spanpass"><span id="pwd_pass" style="text-align: left!important;" ></span></div>
                 <div>
-                    <div id="suggestion" style="color: #9a9a9a;font-size: 13px"><em>&nbsp;&nbsp;6-20个字符，由字母，数字和符号两种以上组合&nbsp;</em><a id="pswSuggestion" href="javascript:void(0)" onclick="checkother()">密码设置建议</a></div>
+                    <div id="suggestion" style="color: #9a9a9a;font-size: 13px"><em>&nbsp;&nbsp;6-20个字符，由字母，数字和符号两种以上组合&nbsp;</em></div>
                 </div>
             </div>
             <div class="password-field">
@@ -84,9 +238,31 @@
                     </div>
                 </div>
                 <div class="spanpass"><span id="repwd_pass" style="text-align: left!important;"></span></div>
+                <script>
+                    function yanConfirmPwd(inputid, spanid) {
+                        $(inputid).blur(function () {
+                            if ($.trim($(inputid).val()).length == 0) {
+                                $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 重复密码没有输入");
+                                $(spanid).addClass('red_size');
+                            } else {
+                                if ($('#pwd').val() != $(inputid).val() ) {
+                                    $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 重复密码不一致");
+                                    $(spanid).addClass('red_size');
+                                }
+                            }
+                            $(inputid).focus(function () {
+                                $(spanid).html("");
+                            });
+                        });
+                    };
+                    yanConfirmPwd('#repwd', "#repwd_pass");
+                </script>
+
             </div>
-            <input type="submit" class="submit-btn" value="注   册">
+            <input type="button" class="submit-btn" onclick="submit_btn()" value="注   册">
         </div>
+
+
     </form>
 </div>
 
