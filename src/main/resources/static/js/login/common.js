@@ -109,30 +109,3 @@ function login(){
 }
 
 
-// var div1=document.getElementsByClassName("m-lion-dialog");
-// var div2=document.getElementsByClassName("m-lion-dialog-overlay");
-// function check(){
-// 	var pwd = document.getElementById("pwd");
-// 	var suggestion=document.getElementById("suggestion");
-// 	if(!pwd.value){
-// 		suggestion.style.display="block";
-// 	}else{
-// 		suggestion.style.display="none";
-//
-// 	}
-//
-// }
-// function delclick(){
-// 	var pws = document.getElementById("m-lion-dialog-overlay");
-// 	var pw = document.getElementById("m-lion-dialog");
-// 	pw.style.display="none";
-// 	pws.style.display="none";
-// }
-// function checkother(){
-// 	var pws = document.getElementById("m-lion-dialog-overlay");
-// 	var pw = document.getElementById("m-lion-dialog");
-// 	pw.style.display="block";
-// 	pws.style.display="block";
-// }
-//输入密码提示
-

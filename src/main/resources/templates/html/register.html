@@ -12,7 +12,6 @@
 
     <script th:src="@{/js/jquery-3.2.1.js}"></script>
     <script th:src="@{/js/login/verification.js}"></script>
-    <!--<script th:src="@{/js/login/common.js}"></script>-->
 
     <script th:inline="javascript">
     /*<![CDATA[*/
@@ -22,19 +21,12 @@
 
     <script th:inline="javascript">
         $(function () {
-            var show_num = [];
-            draw(show_num);
-
-            $("#canvas").on('click',function(){
-                draw(show_num);
-            });
 
             userTel('#user', "#user_pass");
 
-            // userYan('#smsCode', "#sms_pass");
-            userYan('#smsCode', show_num.join(""), "#sms_pass")
-
             userPwd('#pwd', "#pwd_pass");
+
+            userYan2('#smsCode',"#sms_pass")
         });
 
 
@@ -76,7 +68,7 @@
                                 if(resultData==true){
                                     $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle'></span> 手机号已经注册&nbsp;...").css("color","red");
                                 }else {
-                                    $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-check-circle' style='color: #00FF00'></span> 验证通过,你的账户可以注册&nbsp;...").css("color","green");
+                                    $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-check-circle' style='color: #00FF00'></span> 验证通过,你的账户可以注册").css("color","green");
                                 }
                             },
                             error:function () {
@@ -108,6 +100,18 @@
             });
         }
 
+        function userYan2(inputid, spanid) {
+            $(inputid).blur(function () {
+                if ($.trim($(inputid).val()).length == 0) {
+                    $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 验证码没有输入");
+                    $(spanid).addClass('red_size');
+                }
+                $(inputid).focus(function () {
+                    $(spanid).html("");
+                });
+            });
+        }
+
         function userPwd(inputid, spanid) {
             $(inputid).blur(function () {
                 if ($.trim($(inputid).val()).length == 0) {
@@ -115,7 +119,7 @@
                     $(spanid).addClass('red_size');
                 } else {
                     if (isPwdNo($.trim($(inputid).val())) == false) {
-                        $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 请输入六位以的密码组合");
+                        $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 请输入6-20个字符的密码");
                         $(spanid).addClass('red_size');
 
                     }
@@ -147,43 +151,32 @@
         }
 
         function  submit_btn(){
-            // var user = document.getElementById("user");
-            // var user_pass = document.getElementById("user_pass");
-            // var pwd = document.getElementById("pwd");
-            // var pwd_pass = document.getElementById("pwd_pass");
-            // var smsCode = document.getElementById("smsCode");
-            // var sms_pass = document.getElementById("sms_pass");
 
             if($('#user').val()==''){
-                // user_pass.style.color="red";
-                // user_pass.style.fontSize = "13px";
-                // user_pass.style.height="2em";
-                // user_pass.style.lineHeight="2em";
-                // user_pass.innerHTML = '请填写您的手机号码。';
                 $('#user_pass').html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 手机号没有输入");
                 $('#user_pass').addClass('red_size');
                 return false;
             }
             if($('#pwd').val()==''){
-                // pwd_pass.style.color="red";
-                // pwd_pass.style.fontSize = "13px";
-                // pwd_pass.style.height="2em";
-                // pwd_pass.style.lineHeight="2em";
-                // pwd_pass.innerHTML = '请填写您的用户密码。';
                 $('#pwd_pass').html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 密码没有输入");
                 $('#pwd_pass').addClass('red_size');
                 return false;
             }
             if($('#smsCode').val()==''){
-                // sms_pass.style.color="red";
-                // sms_pass.style.fontSize = "13px";
-                // sms_pass.style.height="2em";
-                // sms_pass.style.lineHeight="2em";
-                // sms_pass.innerHTML = '请填写您的验证码。';
                 $('#sms_pass').html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 验证码没有输入");
                 $('#sms_pass').addClass('red_size');
                 return false;
             }
+
+            var show_num = [];
+            draw(show_num);
+
+            $("#canvas").on('click',function(){
+                draw(show_num);
+            });
+            userYan('#smsCode', show_num.join(""), "#sms_pass")
+
+
             $('#register_form').submit();
         }
     </script>

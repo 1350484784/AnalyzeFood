@@ -1,10 +1,9 @@
-package com.cs.analyzefood.mvc;
+package com.cs.analyzefood.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -16,20 +15,20 @@ import javax.servlet.MultipartConfigElement;
 //springMVC.xml的替代品
 
 @Configuration
-public class SpringBootMVC extends WebMvcConfigurerAdapter implements WebMvcConfigurer {
+public class SpringBootMVC implements WebMvcConfigurer {
 
-    //虚拟路径
-    @Value("${web.upload-path}")
-    private String path;
+//    //虚拟路径
+//    @Value("${web.upload-path}")
+//    private String path;
 
-    //接收上传信息
-    @Bean
-    public MultipartConfigElement multipartConfigElement(){
-        MultipartConfigFactory factory = new MultipartConfigFactory(); //文件最大KB,MB
-        factory.setMaxFileSize("20MB"); //单个文件最大
-        factory.setMaxRequestSize("100MB");//设置总上传数据总大小
-        return factory.createMultipartConfig();
-    }
+//    //接收上传信息
+//    @Bean
+//    public MultipartConfigElement multipartConfigElement(){
+//        MultipartConfigFactory factory = new MultipartConfigFactory(); //文件最大KB,MB
+//        factory.setMaxFileSize("20MB"); //单个文件最大
+//        factory.setMaxRequestSize("100MB");//设置总上传数据总大小
+//        return factory.createMultipartConfig();
+//    }
 
 
 
@@ -44,8 +43,7 @@ public class SpringBootMVC extends WebMvcConfigurerAdapter implements WebMvcConf
 
 //        registry.addViewController("/").setViewName("/html/login");
 //        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        super.addViewControllers(registry);
-
+//        super.addViewControllers(registry);
     }
 
 //    @Override

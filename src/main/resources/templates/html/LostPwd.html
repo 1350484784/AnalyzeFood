@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" th:href="@{/css/login/reset.css}" />
+    <link rel="stylesheet" th:href="@{/css/login/common.css}" />
+    <link rel="stylesheet" th:href="@{/css/login/bootstrap.css}" />
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
+        /*]]>*/
+    </script>
+    <style>
+        input{
+            margin: 5px;
+        }
+    </style>
+</head>
+    <script th:src="@{/js/jquery-3.2.1.js}"></script>
+    <script th:src="@{/js/login/jquery.base64.js}"></script>
+    <script th:src="@{/js/login/jquery.cookie.js}"></script>
+    <script th:src="@{/js/login/common.js}"></script>
+
+
+<body style="background-color:#D7D2CF;">
+<div class="header clearfix ">
+    <a th:href="@{/to/login}" class="login" name="Preg_index_none_log">返回登录&gt;</a>
+    <div class="logo-txt">找回密码</div>
+</div>
+<div class="wrap login_wrap " >
+    <div class="content">
+        <div class="login_box">
+            <div class="leftimg">
+            </div>
+            <div class="login_form">
+                <div class="login_title">
+                    找回密码
+                </div>
+
+                <script th:inline="javascript">
+                    /*<![CDATA[*/
+
+                    /*防刷新：检测是否存在cookie*/
+                    //            $(function () {
+                    //                if($.cookie("captcha")){
+                    //                    var count = $.cookie("captcha");
+                    //                    var btn = $('#sendSmsCode');
+                    //                    btn.val(count+'秒后可重新获取').attr('disabled',true).css('cursor','inherit').css("background-color","#edeeee");
+                    //                    var resend = setInterval(function(){
+                    //                        count--;
+                    //                        if (count > 0){
+                    //                            btn.val(count+'秒后可重新获取').attr('disabled',true).css('cursor','inherit');
+                    //                            $.cookie("captcha", count, {path: '/', expires: (1/86400)*count});
+                    //                        }else {
+                    //                            btn.val("获取短信验证码").removeClass('disabled').removeAttr('disabled').css("cursor","pointer");
+                    //                            btn.css("background-color","#f7f7f7");
+                    //                            clearInterval(resend);
+                    //                        }
+                    //                    }, 1000);
+                    //                }
+                    //            })
+
+                    /*点击改变按钮状态，已经简略掉ajax发送短信验证的代码*/
+                    function getCheckWord(obj){
+                        if($("#user").val() == ''){
+                            $('#user_pass').html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 手机号没有输入");
+                            $('#user_pass').addClass('red_size');
+                            return false;
+                        }
+                        var btn = obj;
+                        var count = 60;
+                        btn.val(count+"秒后可重新获取").css("background-color","#edeeee");
+                        var resend = setInterval(function(){
+                            count--;
+                            if (count > 0){
+                                btn.val(count+"秒后可重新获取");
+                                $.cookie("captcha", count, {path: '/', expires: (1/86400)*count});
+                            }else {
+                                btn.val("获取短信验证码").removeAttr('disabled').css("cursor","pointer");
+                                btn.css("background-color","#f7f7f7");
+                                clearInterval(resend);
+                            }
+                        }, 1000);
+                        btn.attr('disabled',true).css('cursor','inherit');
+                        var phoneNum = $("#user").val();
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: contextPath+"/user/getCheckWord",
+                            data: "phoneNum=" + phoneNum,
+                            success: function (resultData) {
+                                $("#checkWordReturn").val(resultData)
+                            },
+                            error: function (){
+                                alert("验证码发送服务出错,请稍后再试 ...")
+                            }
+                        })
+
+                    }
+                    /*]]>*/
+
+                </script>
+
+
+
+                <form th:action="@{/user/lostPwd}" method="post">
+                    <div class="reg-form" style="width: 300px;">
+                        <div class="phone-field" style="margin-bottom: 15px;">
+                            <div class="input-box clearfix" style="width: 290px;">
+                                <div class="input-wrapper">
+                                    <input type="text" id="user" placeholder="请输入手机号" name="phone" style="height: 26px"/>
+                                </div>
+                            </div>
+                            <div class="spanpass"  ><span id="user_pass" style="text-align: left!important;"></span></div>
+                        </div>
+                        <div class="msg-field">
+                            <div class="input-box" style="width: 150px;float: left; border-right: 0px">
+                                <div class="input-wrapper captcha-box">
+                                    <input type="text" id="smsCode" style=" width: 142px;height: 26px" name="mobileCode" maxlength="6" placeholder="请输入手机验证码">
+                                </div>
+
+                            </div>
+                            <input type="hidden" id="checkWordReturn">
+                            <input type="button" id="sendSmsCode"  value="获取短信验证码" style=" margin: 0;display:inline-block; float: left;  color: grey;  height: 38px; width: 139px; background-color: #f7f7f7;  border: 1px solid #cccccc;" class="send-msg"  onclick="getCheckWord($(this))">
+                            <!--验证码倒计时-->
+                            <div class="spanpass"><span id="sms_pass" style="text-align: left!important;"></span></div>
+                        </div>
+                        <div class="password-field" style="margin-top: 50px;margin-bottom: 0px; ">
+                            <div class="input-box clearfix" style="margin-bottom:0;width: 290px;">
+                                <div class="input-wrapper" >
+                                    <input type="password"  id="pwd" name="pwd" maxlength="20" class="encrypt" style="display: inline-block; width: 280px;height: 26px" placeholder="请设置新密码">
+                                </div>
+                            </div>
+                            <div class="spanpass"><span id="pwd_pass" style="text-align: left!important;" ></span></div>
+                        </div>
+                        <div class="form_btn" style="width: 290px;margin: 0">
+                            <input id="subLogin" type="submit" style="width: 280px;" value="提  交"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    // 验证手机号
+    function isPhoneNo(phone) {
+        var pattern = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
+        return pattern.test(phone);
+    }
+    //验证验证码
+    function isYanNo(Yan){
+        var checkwordReturn = $("#checkWordReturn").val()
+        if(checkwordReturn==null||checkwordReturn==''){
+            return false;
+        }
+        return checkwordReturn.test(Yan);
+    }
+    // 验证密码
+    function isPwdNo(pwd) {
+        var pattern = /^[\x21-\x7E]{6,20}$/;
+        return pattern.test(pwd);
+    }
+
+    /*手机号判断*/
+    function userTel(inputid, spanid) {
+        $(inputid).blur(function () {
+            var uname=$("#user").val();
+            var choose=$(".accept-items").val();
+
+            if ($.trim($(inputid).val()).length == 0) {
+                $('#user_pass').html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 手机号没有输入");
+                $('#user_pass').addClass('red_size');
+
+            } else {
+                if (isPhoneNo($.trim($(inputid).val())) == false) {
+                    $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 手机号码不正确");
+                    $(spanid).addClass('red_size');
+                }else{
+                    $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-spinner fa-pulse' style = 'color:grey'></span> 验证中&nbsp;...");
+                    $(spanid).removeClass('red_size');
+                    $.ajax({
+                        type:"GET",
+                        url:contextPath+"/user/findPhone",
+                        data:{phone:uname,choose:choose},
+                        success:function (resultData) {
+                            if(resultData==true){
+                                $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-check-circle' style='color: #00FF00'></span> 手机号存在&nbsp;...").css("color","green");
+                            }else {
+                                $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' ></span> 手机号不存在&nbsp;...").css("color","red");
+                            }
+                        },
+                        error:function () {
+                            alert("服务器请求失败");
+                        }
+                    });
+                }
+            }
+            $(inputid).focus(function () {
+                $(spanid).html("");
+            });
+        });
+    }
+    userTel('#user', "#user_pass");
+    function userYan(inputid, spanid) {
+        $(inputid).blur(function () {
+            if ($.trim($(inputid).val()).length == 0) {
+                $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 验证码没有输入");
+                $(spanid).addClass('red_size');
+            } else {
+                if (isYanNo($.trim($(inputid).val())) == false) {
+                    $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 验证码不正确");
+                    $(spanid).addClass('red_size');
+
+                }
+            }
+            $(inputid).focus(function () {
+                $(spanid).html("");
+            });
+        });
+    };
+
+    userYan('#smsCode', "#sms_pass");
+    function userPwd(inputid, spanid) {
+        $(inputid).blur(function () {
+            if ($.trim($(inputid).val()).length == 0) {
+                $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 密码没有输入");
+                $(spanid).addClass('red_size');
+            } else {
+                if (isPwdNo($.trim($(inputid).val())) == false) {
+                    $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 请输入六位以的密码组合");
+                    $(spanid).addClass('red_size');
+
+                }
+            }
+            $(inputid).focus(function () {
+                $(spanid).html("");
+            });
+        });
+    };
+
+    userPwd('#pwd', "#pwd_pass");
+</script>
+
+<!--底部-->
+<div class="zbs">
+    <div id="footer_container" class="footer_container text-m box">
+        <div id="footercontent" class="container standard-footer" scopeid="footer">
+            <div class="footer-left col-md-8">
+                <div class="footer-column " style="clear: both;">
+                    <div id="footerbanner" style="float:left;text-align: center;margin: 10px auto;vertical-align: middle" class="container">
+                        Copyright © &nbsp;Carey 2019 &nbsp; &nbsp; &nbsp;每日膳食分析
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

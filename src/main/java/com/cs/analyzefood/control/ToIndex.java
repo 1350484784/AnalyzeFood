@@ -17,4 +17,8 @@ public class ToIndex {
         return "/html/register";
     }
 
+    @RequestMapping("/lostPwd")
+    public String lt(){
+        return "/html/LostPwd";
+    }
 }
