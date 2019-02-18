@@ -11,12 +11,12 @@ public class MessageConfig
 	/**
 	 * 开发者注册后系统自动生成的账号，可在官网登录后查看
 	 */
-	public static final String ACCOUNT_SID = "84686ed1034744758a7eb1dd7715da09";
+	public static final String ACCOUNT_SID = "759a53b8200e4c5a9690d2b6d85e8431";
 
 	/**
 	 * 开发者注册后系统自动生成的TOKEN，可在官网登录后查看
 	 */
-	public static final String AUTH_TOKEN = "e0d93eeceee84a778eb3802e208101d6";
+	public static final String AUTH_TOKEN = "9a9e0a1df85e45b1adfe866e5850b94d";
 
 	/**
 	 * 响应数据类型, JSON或XML

@@ -19,6 +19,6 @@ public class ToIndex {
 
     @RequestMapping("/lostPwd")
     public String lt(){
-        return "/html/LostPwd";
+        return "/html/lostPwd";
     }
 }
