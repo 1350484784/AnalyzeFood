@@ -21,4 +21,9 @@ public class ToIndex {
     public String lt(){
         return "/html/lostPwd";
     }
+
+    @RequestMapping("/CMSIndex")
+    public String toAdminIndex(){
+        return "/html/manage/index";
+    }
 }

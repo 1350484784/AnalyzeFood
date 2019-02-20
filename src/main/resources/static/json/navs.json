@@ -1,0 +1,33 @@
+[
+  {
+    "title": "后台首页",
+    "icon": "icon-computer",
+    "href": "page/main.html",
+    "spread": false
+  },
+  {
+    "title": "用户信息",
+    "icon": "icon-computer",
+    "href": "page/user.html",
+    "spread": false
+  },
+  {
+    "title": "膳食信息",
+    "icon": "icon-computer",
+    "href": "page/food.html",
+    "spread": false
+  },
+
+  {
+    "title": "文章列表",
+    "icon": "icon-text",
+    "href": "page/news/newsList.html",
+    "spread": false
+  },
+  {
+    "title": "系统基本参数",
+    "icon": "&#xe631;",
+    "href": "page/systemParameter/systemParameter.html",
+    "spread": false
+  }
+]
