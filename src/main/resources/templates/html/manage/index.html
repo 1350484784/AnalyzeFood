@@ -18,6 +18,11 @@
     <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
     <script type="text/javascript" th:src="@{/js/manage/leftNav.js}"></script>
     <script type="text/javascript" th:src="@{/js/manage/index.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
+        /*]]>*/
+    </script>
 </head>
 <body class="main_body">
 <div class="layui-layout layui-layout-admin">
@@ -51,10 +56,8 @@
             <ul class="layui-nav top_menu">
                 <li class="layui-nav-item" >
                     <a href="javascript:;">
-                        <!--img 链接-->
-                        <img src="images/face.jpg" class="layui-circle" width="35" height="35">
-                        <!--从数据库 读取-->
-                        <cite>请叫我马哥</cite>
+                        <img th:src="'/AnalyzeFood/info/'+${session.admin.headImg}" class="layui-circle" width="35" height="35">
+                        <cite th:text="${session.admin.author}"></cite>
                     </a>
                     <dl class="layui-nav-child">
 
@@ -62,7 +65,7 @@
                         <dd><a href="javascript:;" data-url="page/user/userInfo.html"><i class="iconfont icon-zhanghu" data-icon="icon-zhanghu"></i><cite>个人资料</cite></a></dd>
                         <dd><a href="javascript:;" data-url="page/user/changePwd.html"><i class="iconfont icon-shezhi1" data-icon="icon-shezhi1"></i><cite>修改密码</cite></a></dd>
                         <dd><a href="javascript:;" class="changeSkin"><i class="iconfont icon-huanfu"></i><cite>更换皮肤</cite></a></dd>
-                        <dd><a href="page/login/login.html" class="signOut"><i class="iconfont icon-loginout"></i><cite>退出</cite></a></dd>
+                        <dd><a th:href="@{/user/logout}" class="signOut"><i class="iconfont icon-loginout"></i><cite>退出</cite></a></dd>
                     </dl>
                 </li>
             </ul>
@@ -71,10 +74,8 @@
     <!-- 左侧导航 -->
     <div class="layui-side layui-bg-black">
         <div class="user-photo">
-            <!--img 链接-->
-            <a class="img" title="我的头像" ><img src="images/face.jpg"></a>
-            <!--从数据库 读取-->
-            <p>你好！<span class="userName">请叫我马哥</span>, 欢迎登录</p>
+            <a class="img" title="我的头像" ><img th:src="'/AnalyzeFood/info/'+${session.admin.headImg}"></a>
+            <p>你好！管理员:<span class="userName" th:text="${session.admin.author}"></span></p>
         </div>
         <div class="navBar layui-side-scroll"></div>
     </div>
@@ -96,8 +97,7 @@
             </ul>
             <div class="layui-tab-content clildFrame">
                 <div class="layui-tab-item layui-show">
-                    <!--th  模板-->
-                    <iframe src="page/main.html"></iframe>
+                    <iframe th:src="@{/to/CMSMain}"></iframe>
                 </div>
             </div>
         </div>

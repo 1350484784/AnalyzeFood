@@ -11,7 +11,7 @@ public interface UserService {
 
     User findUserByPhoneAndPwd(String phone,String password);
 
-    boolean updateUserOnlineFlag(int roleId);
+    boolean updateUserOnlineFlag(int roleId,byte onlineFlag);
 
     boolean updateUserPwd(String phone,String password);
 }

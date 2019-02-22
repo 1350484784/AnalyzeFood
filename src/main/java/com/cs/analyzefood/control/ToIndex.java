@@ -26,4 +26,9 @@ public class ToIndex {
     public String toAdminIndex(){
         return "/html/manage/index";
     }
+
+    @RequestMapping("/CMSMain")
+    public String toAdminMain(){
+        return "/html/manage/main";
+    }
 }

@@ -8,7 +8,7 @@
 
 
     <update id="updateUserOnlineFlag">
-        update user_info set n_onlineFlag = 1 where n_roleId = #{param1}
+        update user_info set n_onlineFlag = #{param2} where n_roleId = #{param1}
     </update>
 
     <update id="updateUserPwd">

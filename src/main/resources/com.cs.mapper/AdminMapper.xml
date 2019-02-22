@@ -3,6 +3,7 @@
 <mapper namespace="com.cs.analyzefood.mapper.AdminMapper">
 
     <select id="findAdminByPhonePwd" resultType="com.cs.analyzefood.pojo.Admin">
-        select n_adminId adminId,s_adminAccount adminAccount,s_password password from admin where s_adminAccount = #{param1} and s_password = #{param2}
+        select n_adminId adminId,s_adminAccount adminAccount,s_password password,s_author author,s_projectName projectName ,s_version version, s_description description,s_headImg headImg
+        from admin where s_adminAccount = #{param1} and s_password = #{param2}
     </select>
 </mapper>

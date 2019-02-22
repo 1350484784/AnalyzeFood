@@ -13,14 +13,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Base64;
 
 
 @Controller
 @RequestMapping("/user")
-@SessionAttributes({"userId","user"})
+@SessionAttributes({"userId","user","admin"})
 public class UserControl {
 
     @Autowired
@@ -39,15 +41,16 @@ public class UserControl {
             /**
              * 待完善
              */
+            model.addAttribute("admin",admin);
             //后台首页
-            return "/html/index";
+            return "/html/manage/index";
         }
         String base64Pwd = Base64.getEncoder().encodeToString((pwd).getBytes());
 
         User user = userService.findUserByPhoneAndPwd(phone, base64Pwd);
         if(user != null){
             //修改 在线标记
-            userService.updateUserOnlineFlag(user.getRoleId());
+            userService.updateUserOnlineFlag(user.getRoleId(), (byte) 1);
 
             /**
              * 用户首页
@@ -113,4 +116,13 @@ public class UserControl {
 
     //如果是登出
     //从session 删除, 修改 onlineflag
+    @RequestMapping("/logout")
+    public String logout(SessionStatus sessionStatus, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if(user != null){
+            userService.updateUserOnlineFlag(user.getRoleId(), (byte) 0);
+            sessionStatus.setComplete();//将session移除
+        }
+        return "/html/login";
+    }
 }

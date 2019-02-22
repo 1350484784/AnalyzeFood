@@ -54,8 +54,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUserOnlineFlag(int roleId) {
-        return userMapper.updateUserOnlineFlag(roleId);
+    public boolean updateUserOnlineFlag(int roleId,byte onlineFlag) {
+        return userMapper.updateUserOnlineFlag(roleId,onlineFlag);
     }
 
     @Override
