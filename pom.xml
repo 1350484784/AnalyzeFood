@@ -131,6 +131,11 @@
             <version>1.10</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+
         <!--逆向工厂-->
         <!--<dependency>-->
             <!--<groupId>org.mybatis.generator</groupId>-->

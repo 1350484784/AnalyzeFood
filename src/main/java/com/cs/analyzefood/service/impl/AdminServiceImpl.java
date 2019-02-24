@@ -1,7 +1,7 @@
 package com.cs.analyzefood.service.impl;
 
 import com.cs.analyzefood.mapper.AdminMapper;
-import com.cs.analyzefood.pojo.Admin;
+import com.cs.analyzefood.entity.Admin;
 import com.cs.analyzefood.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

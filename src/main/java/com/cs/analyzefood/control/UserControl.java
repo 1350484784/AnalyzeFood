@@ -1,7 +1,7 @@
 package com.cs.analyzefood.control;
 
-import com.cs.analyzefood.pojo.Admin;
-import com.cs.analyzefood.pojo.User;
+import com.cs.analyzefood.entity.Admin;
+import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.service.AdminService;
 import com.cs.analyzefood.service.UserService;
 import com.cs.analyzefood.util.SendMessageUtil;
@@ -95,11 +95,9 @@ public class UserControl {
     @RequestMapping("/getCheckWord")
     @ResponseBody
     public String getCheckWord(HttpServletRequest request, String phoneNum){
-//        SendMessageUtil sendMessageUtil = new SendMessageUtil();
         String checkWord = String.valueOf(Math.random()).substring(2, 8);
         SendMessageUtil.execute(checkWord,phoneNum);
         logger.debug(phoneNum + " get verification code is " + checkWord);
-//         request.getSession().setAttribute("checkWord",checkWord);
         return checkWord;
     }
 
@@ -114,8 +112,6 @@ public class UserControl {
         return "/html/LostPwd";
     }
 
-    //如果是登出
-    //从session 删除, 修改 onlineflag
     @RequestMapping("/logout")
     public String logout(SessionStatus sessionStatus, HttpSession session){
         User user = (User) session.getAttribute("user");

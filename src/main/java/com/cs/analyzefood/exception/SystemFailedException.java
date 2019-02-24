@@ -1,6 +1,6 @@
 package com.cs.analyzefood.exception;
 
-public class SystemFailedException extends Exception {
+public class SystemFailedException extends RuntimeException {
     public SystemFailedException() {
         super();
     }

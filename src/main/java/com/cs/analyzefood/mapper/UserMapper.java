@@ -1,6 +1,6 @@
 package com.cs.analyzefood.mapper;
 
-import com.cs.analyzefood.pojo.User;
+import com.cs.analyzefood.entity.User;
 
 public interface UserMapper {
     User selectUserByPhone(String phone);

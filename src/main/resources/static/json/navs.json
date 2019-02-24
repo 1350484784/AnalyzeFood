@@ -7,13 +7,13 @@
   },
   {
     "title": "用户信息",
-    "icon": "icon-computer",
+    "icon": "&#xe66f;",
     "href": "page/user.html",
     "spread": false
   },
   {
     "title": "膳食信息",
-    "icon": "icon-computer",
+    "icon": "&#xe66a;",
     "href": "page/food.html",
     "spread": false
   },

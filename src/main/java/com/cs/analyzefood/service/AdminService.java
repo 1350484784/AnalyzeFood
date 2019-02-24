@@ -1,6 +1,6 @@
 package com.cs.analyzefood.service;
 
-import com.cs.analyzefood.pojo.Admin;
+import com.cs.analyzefood.entity.Admin;
 
 public interface AdminService {
 

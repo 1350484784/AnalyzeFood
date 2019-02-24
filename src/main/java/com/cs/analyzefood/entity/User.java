@@ -1,4 +1,4 @@
-package com.cs.analyzefood.pojo;
+package com.cs.analyzefood.entity;
 
 import java.util.Date;
 

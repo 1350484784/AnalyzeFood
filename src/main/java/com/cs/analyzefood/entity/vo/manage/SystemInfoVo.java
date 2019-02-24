@@ -1,41 +1,31 @@
-package com.cs.analyzefood.pojo;
+package com.cs.analyzefood.entity.vo.manage;
 
-public class Admin {
-    private int adminId;
-    private String adminAccount;
-    private String password;
+public class SystemInfoVo {
+    private String account;
     private String author;
-    private String headImg;
     private String projectName;
     private String version;
     private String description;
+    private String homePage;
 
-
-    public Admin() {
+    public SystemInfoVo() {
     }
 
-    public int getAdminId() {
-        return adminId;
+    public SystemInfoVo(String account, String author, String projectName, String version, String description, String homePage) {
+        this.account = account;
+        this.author = author;
+        this.projectName = projectName;
+        this.version = version;
+        this.description = description;
+        this.homePage = homePage;
     }
 
-    public void setAdminId(int adminId) {
-        this.adminId = adminId;
+    public String getAccount() {
+        return account;
     }
 
-    public String getAdminAccount() {
-        return adminAccount;
-    }
-
-    public void setAdminAccount(String adminAccount) {
-        this.adminAccount = adminAccount;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     public String getAuthor() {
@@ -70,11 +60,11 @@ public class Admin {
         this.description = description;
     }
 
-    public String getHeadImg() {
-        return headImg;
+    public String getHomePage() {
+        return homePage;
     }
 
-    public void setHeadImg(String headImg) {
-        this.headImg = headImg;
+    public void setHomePage(String homePage) {
+        this.homePage = homePage;
     }
 }

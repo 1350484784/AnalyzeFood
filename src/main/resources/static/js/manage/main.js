@@ -41,6 +41,8 @@ layui.config({
 		}
 	)
 
+    // 后台获取
+
 	//图片总数
 	$.get("../json/images.json",
 		function(data){
@@ -48,12 +50,16 @@ layui.config({
 		}
 	)
 
+    // 后台获取
+
 	//用户数
 	$.get("../json/usersList.json",
 		function(data){
 			$(".userAll span").text(data.length);
 		}
 	)
+
+    // 后台获取
 
 	//新消息
 	$.get("../json/message.json",
@@ -68,20 +74,16 @@ layui.config({
 		$(this).html($(this).text()>9999 ? ($(this).text()/10000).toFixed(2) + "<em>万</em>" : $(this).text());	
 	})
 
-	//系统基本参数
-	if(window.sessionStorage.getItem("systemParameter")){
-		var systemParameter = JSON.parse(window.sessionStorage.getItem("systemParameter"));
-		fillParameter(systemParameter);
-	}else{
-		$.ajax({
-			url : "../json/systemParameter.json",
-			type : "get",
-			dataType : "json",
-			success : function(data){
-				fillParameter(data);
-			}
-		})
-	}
+
+    //系统基本参数
+    $.ajax({
+        url : "/"+projectName+"/manage/systemInfo",
+        type: "POST",
+        success : function(data){
+            fillParameter(data);
+        }
+    })
+
 
 	//填充数据方法
  	function fillParameter(data){
@@ -93,13 +95,12 @@ layui.config({
  				return data;
  			}
  		}
- 		$(".version").text(nullData(data.version));      //当前版本
-		$(".author").text(nullData(data.author));        //开发作者
-		$(".homePage").text(nullData(data.homePage));    //网站首页
-		$(".server").text(nullData(data.server));        //服务器环境
-		$(".dataBase").text(nullData(data.dataBase));    //数据库版本
-		$(".maxUpload").text(nullData(data.maxUpload));    //最大上传限制
-		$(".userRights").text(nullData(data.userRights));//当前用户权限
+ 		$(".version").text(nullData(data.version));
+		$(".author").text(nullData(data.author));
+		$(".account").text(nullData(data.account));
+		$(".homePage").text(nullData(data.homePage));
+		$(".projectName").text(nullData(data.projectName));
+		$(".description").text(nullData(data.description));
  	}
 
 })

@@ -1,6 +1,6 @@
 package com.cs.analyzefood.service;
 
-import com.cs.analyzefood.pojo.User;
+import com.cs.analyzefood.entity.User;
 
 public interface UserService {
     User findUserByPhone(String phone);

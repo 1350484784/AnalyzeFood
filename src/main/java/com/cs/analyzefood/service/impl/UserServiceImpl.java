@@ -1,7 +1,7 @@
 package com.cs.analyzefood.service.impl;
 
 import com.cs.analyzefood.mapper.UserMapper;
-import com.cs.analyzefood.pojo.User;
+import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.service.UserService;
 import com.cs.analyzefood.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
