@@ -2,19 +2,19 @@
   {
     "title": "后台首页",
     "icon": "icon-computer",
-    "href": "page/main.html",
+    "href": "/to/CMSMain",
     "spread": false
   },
   {
     "title": "用户信息",
     "icon": "&#xe66f;",
-    "href": "page/user.html",
+    "href": "/to/CMSAllUsers",
     "spread": false
   },
   {
     "title": "膳食信息",
     "icon": "&#xe66a;",
-    "href": "page/food.html",
+    "href": "/to/CMSAllFood",
     "spread": false
   },
 

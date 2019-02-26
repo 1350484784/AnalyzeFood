@@ -1,3 +1,6 @@
+var pathName=window.document.location.pathname;
+var projectName=pathName.substring(1,pathName.substr(1).indexOf('/')+1);
+
 function navBar(strData){
 	var data;
 	if(typeof(strData) == "string"){
@@ -27,9 +30,9 @@ function navBar(strData){
 			ulHtml += '<dl class="layui-nav-child">';
 			for(var j=0;j<data[i].children.length;j++){
 				if(data[i].children[j].target == "_blank"){
-					ulHtml += '<dd><a href="javascript:;" data-url="'+data[i].children[j].href+'" target="'+data[i].children[j].target+'">';
+					ulHtml += '<dd><a href="javascript:;" data-url="'+"/"+projectName+data[i].children[j].href+'" target="'+data[i].children[j].target+'">';
 				}else{
-					ulHtml += '<dd><a href="javascript:;" data-url="'+data[i].children[j].href+'">';
+					ulHtml += '<dd><a href="javascript:;" data-url="'+"/"+projectName+data[i].children[j].href+'">';
 				}
 				if(data[i].children[j].icon != undefined && data[i].children[j].icon != ''){
 					if(data[i].children[j].icon.indexOf("icon-") != -1){
@@ -43,9 +46,9 @@ function navBar(strData){
 			ulHtml += "</dl>";
 		}else{
 			if(data[i].target == "_blank"){
-				ulHtml += '<a href="javascript:;" data-url="'+data[i].href+'" target="'+data[i].target+'">';
+				ulHtml += '<a href="javascript:;" data-url="'+"/"+projectName+data[i].href+'" target="'+data[i].target+'">';
 			}else{
-				ulHtml += '<a href="javascript:;" data-url="'+data[i].href+'">';
+				ulHtml += '<a href="javascript:;" data-url="'+"/"+projectName+data[i].href+'">';
 			}
 			if(data[i].icon != undefined && data[i].icon != ''){
 				if(data[i].icon.indexOf("icon-") != -1){

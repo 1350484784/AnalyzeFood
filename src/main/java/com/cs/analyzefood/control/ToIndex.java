@@ -31,4 +31,14 @@ public class ToIndex {
     public String toAdminMain(){
         return "/html/manage/main";
     }
+
+    @RequestMapping("/CMSAllUsers")
+    public String toAllUsers(){
+        return "/html/manage/allUsers";
+    }
+
+    @RequestMapping("/CMSAllFood")
+    public String toAllFood(){
+        return "";
+    }
 }
