@@ -41,4 +41,9 @@ public class ToIndex {
     public String toAllFood(){
         return "/html/manage/allFood";
     }
+
+    @RequestMapping("/CMSAddFood")
+    public String toAddFood(){
+        return "/html/manage/addFood";
+    }
 }

@@ -18,6 +18,15 @@
 
         }
         #page{ text-align:right; }
+
+        /*子页面样式*/
+        .childrenBody{ margin:10px 10px 0; }
+        .layui-table td, .layui-table th{ word-break:break-all; }
+        /*文字选中背景色*/
+        ::selection{background:#ff5722; color:#fff;}
+        /*表格中的操作按钮样式问题*/
+        .layui-table .layui-btn, .layui-table .layui-btn+.layui-btn{ margin:2px 5px; }
+        .layui-inline{ margin:5px 5px 5px 0; }
     </style>
     <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
     <script type="text/javascript" th:src="@{/js/manage/allFood.js}"></script>
@@ -47,12 +56,15 @@
             <col width="1%">
             <col width="8%">
             <col width="4%">
+            <col width="5%">
             <col width="4%">
             <col width="4%">
             <col width="4%">
             <col width="4%">
+            <col width="5%">
+            <col width="5%">
             <col width="4%">
-            <col width="4%">
+            <col width="5%">
             <col width="5%">
             <col width="4%">
             <col width="4%">
@@ -61,14 +73,11 @@
             <col width="4%">
             <col width="4%">
             <col width="4%">
-            <col width="4%">
-            <col width="4%">
-            <col width="4%">
-            <col width="12%">
+            <col width="14%">
         </colgroup>
         <thead>
         <tr>
-            <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose" style="zoom:50%;"></th>
+            <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose" ></th>
             <th>名称</th>
             <th>类型</th>
             <th>可食部分</th>

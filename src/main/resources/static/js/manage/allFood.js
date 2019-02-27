@@ -93,12 +93,12 @@ layui.config({
     //添加食材
     $(".usersAdd_btn").click(function(){
     	var index = layui.layer.open({
-    		title : "添加会员",
-    		type : 2,
-    		content : "addUser.html",
+    		title : "添加食物",
+            type : 2,
+    		content : "/"+projectName+"/to/CMSAddFood",
     		success : function(layero, index){
     			setTimeout(function(){
-    				layui.layer.tips('点击此处返回会员列表', '.layui-layer-setwin .layui-layer-close', {
+    				layui.layer.tips('点击此处返回食物列表', '.layui-layer-setwin .layui-layer-close', {
     					tips: 3
     				});
     			},500)
@@ -194,7 +194,7 @@ layui.config({
             if(currData.length != 0){
                 for(var i=0;i<currData.length;i++){
                     dataHtml += '<tr>'
-                        +  '<td><input type="checkbox" name="checked" lay-skin="primary" lay-filter="choose" style="zoom:50%;"></td>'
+                        +  '<td><input type="checkbox" name="checked" lay-skin="primary" lay-filter="choose" ></td>'
                         +  '<td>'+currData[i].foodName+'</td>'
                         +  '<td>'+currData[i].typeId+'</td>'
                         +  '<td>'+currData[i].eat_part+'</td>'
@@ -215,8 +215,8 @@ layui.config({
                         +  '<td>'+currData[i].vc+'</td>'
                         +  '<td>'+currData[i].cholesterol+'</td>'
                         +  '<td>'
-                        +    '<a class="layui-btn layui-btn-mini "><i class="iconfont icon-edit"></i> 编辑</a>'
-                        +    '<a class="layui-btn layui-btn-danger layui-btn-mini " data-id="'+data[i].foodId+'"><i class="layui-icon" >&#xe640;</i> 删除</a>'
+                        +    '<a class="layui-btn layui-btn-mini" style="padding: 0 6px;"><i class="iconfont icon-edit"></i>编辑</a>'
+                        +    '<a class="layui-btn layui-btn-danger layui-btn-mini" style="padding: 0 5px;" data-id="'+data[i].foodId+'"><i class="layui-icon" >&#xe640;</i>删除</a>'
                         +  '</td>'
                         +'</tr>';
                 }
