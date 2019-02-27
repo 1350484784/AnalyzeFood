@@ -12,7 +12,11 @@
     <link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all" />
 
     <style>
-        .layui-table,.layui-table th{ text-align:center; }
+        .layui-table,.layui-table th{
+            text-align:center;
+            font-size: 14px;
+
+        }
         #page{ text-align:right; }
     </style>
     <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
@@ -32,32 +36,62 @@
     <div class="layui-inline">
         <a class="layui-btn layui-btn-danger batchDel">批量删除</a>
     </div>
+
+    <div>
+        <!--上传文件-->
+    </div>
 </blockquote>
-<div class="layui-form users_list">
+<div class="layui-form food_list">
     <table class="layui-table">
         <colgroup>
-            <col width="50">
-            <col>
-            <col width="18%">
+            <col width="1%">
             <col width="8%">
+            <col width="4%">
+            <col width="4%">
+            <col width="4%">
+            <col width="4%">
+            <col width="4%">
+            <col width="4%">
+            <col width="4%">
+            <col width="5%">
+            <col width="4%">
+            <col width="4%">
+            <col width="4%">
+            <col width="4%">
+            <col width="4%">
+            <col width="4%">
+            <col width="4%">
+            <col width="4%">
+            <col width="4%">
+            <col width="4%">
             <col width="12%">
-            <col width="12%">
-            <col width="18%">
-            <col width="15%">
         </colgroup>
         <thead>
         <tr>
-            <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
-            <th>登录名</th>
-            <th>邮箱</th>
-            <th>性别</th>
-            <th>会员等级</th>
-            <th>会员状态</th>
-            <th>最后登录时间</th>
+            <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose" style="zoom:50%;"></th>
+            <th>名称</th>
+            <th>类型</th>
+            <th>可食部分</th>
+            <th>能量</th>
+            <th>水分</th>
+            <th>蛋白质</th>
+            <th>脂肪</th>
+            <th>膳食纤维</th>
+            <th>碳水化合物</th>
+            <th>维生素A</th>
+            <th>维生素B1</th>
+            <th>维生素B2</th>
+            <th>烟酸</th>
+            <th>维生素E</th>
+            <th>钠</th>
+            <th>钙</th>
+            <th>铁</th>
+            <th>维生素C</th>
+            <th>胆固醇</th>
             <th>操作</th>
         </tr>
         </thead>
-        <tbody class="users_content"></tbody>
+        <tbody class="food_content"></tbody>
     </table>
 </div>
 <div id="page"></div>

@@ -1,5 +1,8 @@
+var pathName=window.document.location.pathname;
+var projectName=pathName.substring(1,pathName.substr(1).indexOf('/')+1);
+
 layui.config({
-	base : "js/"
+	base : "/"+projectName+"/js/manage/"
 }).use(['form','layer','jquery','laypage'],function(){
 	var form = layui.form,
 		layer = parent.layer === undefined ? layui.layer : parent.layer,
@@ -206,7 +209,7 @@ layui.config({
 
 		//分页
 		var nums = 12; //每页出现的数据量
-		laypage({
+		laypage.render({
 			cont : "page",
 			pages : Math.ceil(usersData.length/nums),
 			jump : function(obj){

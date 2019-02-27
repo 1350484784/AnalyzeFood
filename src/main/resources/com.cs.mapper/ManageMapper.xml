@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cs.analyzefood.mapper.ManageMapper">
+    <select id="selectFood" resultType="com.cs.analyzefood.entity.Food">
+        select n_foodId foodId, s_foodName foodName,n_typeId typeId,n_eat_part eat_part,n_energy energy,n_moisture moisture,
+        n_protein protein,n_fat fat,n_fiber fiber,n_carbohydrate carbohydrate,n_va va,n_vb1 vb1,n_vb2 vb2,n_niacin niacin,
+        n_ve ve,n_Na na,n_Ca ca,n_Fe fe,n_vc vc,n_cholesterol cholesterol
+        from food_info
+    </select>
 </mapper>

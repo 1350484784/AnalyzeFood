@@ -39,6 +39,6 @@ public class ToIndex {
 
     @RequestMapping("/CMSAllFood")
     public String toAllFood(){
-        return "";
+        return "/html/manage/allFood";
     }
 }
