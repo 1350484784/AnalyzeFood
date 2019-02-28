@@ -171,16 +171,33 @@ layui.config({
     })
 
     //后台
-    $("body").on("click",".users_del",function(){  //删除
+    $("body").on("click",".food_del",function(){  //删除
         var _this = $(this);
         layer.confirm('确定删除此用户？',{icon:3, title:'提示信息'},function(index){
-            //_this.parents("tr").remove();
-            for(var i=0;i<foodData.length;i++){
-                if(foodData[i].usersId == _this.attr("data-id")){
-                    foodData.splice(i,1);
-                    foodList(foodData);
+            var id = _this.parents("tr").find(".food_id").val();
+            console.log("index",id);
+            $.ajax({
+                url:"/" + projectName+"/manage/delOneFood",
+                type:"post",
+                data:{foodId:id},
+                success:function(data){
+                    if(data){
+                        foodList();
+                    }else {
+                        layer.open({
+                            type: 1,
+                            icon: 5,
+                            content: '<div style="padding: 20px 100px;">'+ "删除失败" +'</div>',
+                            btn: '关闭',
+                            btnAlign: 'c', //按钮居中
+                            shade: 0, //不显示遮罩
+                            yes: function(){
+                                layer.closeAll();
+                            }
+                        });
+                    }
                 }
-            }
+            });
             layer.close(index);
         });
     })
@@ -214,8 +231,9 @@ layui.config({
                         +  '<td>'+currData[i].vc+'</td>'
                         +  '<td>'+currData[i].cholesterol+'</td>'
                         +  '<td>'
+                        +    '<input type="hidden" class="food_id" name="food_id" value="'+currData[i].foodId+'" >'
                         +    '<a class="layui-btn layui-btn-mini" style="padding: 0 6px;"><i class="iconfont icon-edit"></i>编辑</a>'
-                        +    '<a class="layui-btn layui-btn-danger layui-btn-mini" style="padding: 0 5px;" data-id="'+data[i].foodId+'"><i class="layui-icon" >&#xe640;</i>删除</a>'
+                        +    '<a class="layui-btn layui-btn-danger layui-btn-mini food_del" style="padding: 0 5px;" data-id="'+data[i].foodId+'"><i class="layui-icon" >&#xe640;</i>删除</a>'
                         +  '</td>'
                         +'</tr>';
                 }
