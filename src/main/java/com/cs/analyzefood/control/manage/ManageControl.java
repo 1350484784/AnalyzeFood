@@ -37,9 +37,22 @@ public class ManageControl {
     }
 
     @RequestMapping("/allFood")
+    @ResponseBody
     public ResponseEntity allFood(){
         List<Food> foods = manageService.getAllFood();
         System.out.println(JsonUtil.toJson(foods));
         return new ResponseEntity(foods, HttpStatus.OK);
+    }
+
+    @RequestMapping("/addFood")
+    @ResponseBody
+    public ResponseEntity addFood(Food food){
+        System.out.println("add food...");
+        System.out.println(JsonUtil.toJson(food));
+        int result = manageService.addNewFood(food);
+        if(result <= 0){
+            return new ResponseEntity(false, HttpStatus.OK);
+        }
+        return new ResponseEntity(true, HttpStatus.OK);
     }
 }

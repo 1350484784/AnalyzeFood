@@ -5,9 +5,9 @@ var projectName=pathName.substring(1,pathName.substr(1).indexOf('/')+1);
 layui.config({
 	base : "/"+projectName+"/js/manage/"
 }).use(['form','element','layer','jquery'],function(){
-	var form = layui.form,
+	var form = layui.form(),
 		layer = parent.layer === undefined ? layui.layer : parent.layer,
-		element = layui.element,
+		element = layui.element(),
 		$ = layui.jquery;
 
 	$(".panel a").on("click",function(){

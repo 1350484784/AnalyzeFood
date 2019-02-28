@@ -7,4 +7,6 @@ import java.util.List;
 public interface ManageMapper {
 
     List<Food> selectFood();
+
+    int insertFood(Food food);
 }

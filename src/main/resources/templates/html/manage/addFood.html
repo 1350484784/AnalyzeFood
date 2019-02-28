@@ -16,72 +16,154 @@
         @media(max-width:1240px){
             .layui-form-item .layui-inline{ width:100%; float:none; }
         }
-        /*子页面样式*/
-        .childrenBody{ margin:10px 10px 0; }
-        .layui-table td, .layui-table th{ word-break:break-all; }
-        /*文字选中背景色*/
-        ::selection{background:#ff5722; color:#fff;}
-        /*表格中的操作按钮样式问题*/
-        .layui-table .layui-btn, .layui-table .layui-btn+.layui-btn{ margin:2px 5px; }
-        .layui-inline{ margin:5px 5px 5px 0; }
     </style>
-    <script th:src="@{/js/jquery-3.2.1.js}"></script>
-    <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
 
+    <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+    <script type="text/javascript" th:src="@{/js/manage/addFood.js}"></script>
 </head>
 <body class="childrenBody">
-<form class="layui-form" style="width:80%;">
+<form class="layui-form" style="width:80%;" id="addFoodForm">
     <div class="layui-form-item">
-        <label class="layui-form-label">登录名</label>
+        <label class="layui-form-label">食物名称:</label>
         <div class="layui-input-block">
-            <input type="text" class="layui-input userName" lay-verify="required" placeholder="请输入登录名">
+            <input type="text" name="foodName" class="layui-input" lay-verify="required" placeholder="请输入食物名称">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">邮箱</label>
+        <label class="layui-form-label">食物类型:</label>
         <div class="layui-input-block">
-            <input type="text" class="layui-input userEmail" lay-verify="email" placeholder="请输入邮箱">
+            <select name="typeId" class="typeId" lay-filter="typeId">
+                <option value="11" selected>谷类</option>
+                <option value="21">豆类</option>
+                <option value="31">蔬类</option>
+                <option value="41">果类</option>
+                <option value="51">肉类</option>
+                <option value="53">乳类</option>
+                <option value="54">蛋类</option>
+                <option value="61">鱼类</option>
+                <option value="81">油类</option>
+                <option value="82">另类</option>
+            </select>
         </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">性别</label>
-            <div class="layui-input-block userSex">
-                <input type="radio" name="sex" value="男" title="男" checked>
-                <input type="radio" name="sex" value="女" title="女">
-                <input type="radio" name="sex" value="保密" title="保密">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">会员等级</label>
+            <label class="layui-form-label">可食部分</label>
             <div class="layui-input-block">
-                <select name="userGrade" class="userGrade" lay-filter="userGrade">
-                    <option value="0">注册会员</option>
-                    <option value="1">中级会员</option>
-                    <option value="2">高级会员</option>
-                    <option value="3">超级会员</option>
-                </select>
+                <input type="text" name="eat_part" class="layui-input" lay-verify="required" value="0">
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">会员状态</label>
+            <label class="layui-form-label">能量</label>
             <div class="layui-input-block">
-                <select name="userStatus" class="userStatus" lay-filter="userStatus">
-                    <option value="0">正常使用</option>
-                    <option value="1">限制用户</option>
-                </select>
+                <input type="text" name="energy" class="layui-input" lay-verify="required" value="0">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">水分</label>
+            <div class="layui-input-block">
+                <input type="text" name="moisture" class="layui-input" lay-verify="required" value="0">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">蛋白质</label>
+            <div class="layui-input-block">
+                <input type="text" name="protein" class="layui-input" lay-verify="required" value="0">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">脂肪</label>
+            <div class="layui-input-block">
+                <input type="text" name="fat" class="layui-input" lay-verify="required" value="0">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">膳食纤维</label>
+            <div class="layui-input-block">
+                <input type="text" name="fiber" class="layui-input" lay-verify="required" value="0">
             </div>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">站点描述</label>
-        <div class="layui-input-block">
-            <textarea placeholder="请输入站点描述" class="layui-textarea linksDesc"></textarea>
+        <div class="layui-inline">
+            <label class="layui-form-label">碳水化合物</label>
+            <div class="layui-input-block">
+                <input type="text" name="carbohydrate" class="layui-input" lay-verify="required" value="0">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">维生素A</label>
+            <div class="layui-input-block">
+                <input type="text" name="va" class="layui-input" lay-verify="required" value="0">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">维生素B1</label>
+            <div class="layui-input-block">
+                <input type="text" name="vb1" class="layui-input" lay-verify="required" value="0">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">维生素B2</label>
+            <div class="layui-input-block">
+                <input type="text" name="vb2" class="layui-input" lay-verify="required" value="0">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">烟酸</label>
+            <div class="layui-input-block">
+                <input type="text" name="niacin" class="layui-input" lay-verify="required" value="0">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">维生素E</label>
+            <div class="layui-input-block">
+                <input type="text" name="ve" class="layui-input" lay-verify="required" value="0">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">钠</label>
+            <div class="layui-input-block">
+                <input type="text" name="na" class="layui-input" lay-verify="required" value="0">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">钙</label>
+            <div class="layui-input-block">
+                <input type="text" name="ca" class="layui-input" lay-verify="required" value="0">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">铁</label>
+            <div class="layui-input-block">
+                <input type="text" name="fe" class="layui-input" lay-verify="required" value="0">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">维生素C</label>
+            <div class="layui-input-block">
+                <input type="text" name="vc" class="layui-input" lay-verify="required" value="0">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">胆固醇</label>
+            <div class="layui-input-block">
+                <input type="text" name="cholesterol" class="layui-input" lay-verify="required" value="0">
+            </div>
         </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="addUser">立即提交</button>
+            <button class="layui-btn" lay-submit="" lay-filter="addFood" id="addFoodSub">立即提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>

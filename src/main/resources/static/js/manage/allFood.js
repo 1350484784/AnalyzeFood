@@ -4,7 +4,7 @@ var projectName=pathName.substring(1,pathName.substr(1).indexOf('/')+1);
 layui.config({
     base : "/"+projectName+"/js/manage/"
 }).use(['form','layer','jquery','laypage'],function(){
-    var form = layui.form,
+    var form = layui.form(),
         layer = parent.layer === undefined ? layui.layer : parent.layer,
         laypage = layui.laypage,
         $ = layui.jquery;
@@ -13,10 +13,10 @@ layui.config({
     var foodData = '';
     $.get("/"+projectName+"/manage/allFood", function(data){
         foodData = data;
-        if(window.sessionStorage.getItem("addFood")){
-            var addFood = window.sessionStorage.getItem("addFood");
-            foodData = JSON.parse(addFood).concat(foodData);
-        }
+        // if(window.sessionStorage.getItem("addFood")){
+        //     var addFood = window.sessionStorage.getItem("addFood");
+        //     foodData = JSON.parse(addFood).concat(foodData);
+        // }
         //执行加载数据的方法
         foodList();
     })
@@ -34,12 +34,12 @@ layui.config({
                     type : "get",
                     dataType : "json",
                     success : function(data){
-                        if(window.sessionStorage.getItem("addFood")){
-                            var addFood = window.sessionStorage.getItem("addFood");
-                            foodData = JSON.parse(addFood).concat(data);
-                        }else{
+                        // if(window.sessionStorage.getItem("addFood")){
+                        //     var addFood = window.sessionStorage.getItem("addFood");
+                        //     foodData = JSON.parse(addFood).concat(data);
+                        // }else{
                             foodData = data;
-                        }
+                        // }
                         for(var i=0;i<foodData.length;i++){
                             var usersStr = foodData[i];
                             var selectStr = $(".search_input").val();
@@ -89,7 +89,6 @@ layui.config({
         }
     })
 
-    //后台
     //添加食材
     $(".usersAdd_btn").click(function(){
     	var index = layui.layer.open({
@@ -228,7 +227,7 @@ layui.config({
 
         //分页
         var nums = 10; //每页出现的数据量
-        laypage.render({
+        laypage({
             cont : "page",
             pages : Math.ceil(foodData.length/nums),
             jump : function(obj){
