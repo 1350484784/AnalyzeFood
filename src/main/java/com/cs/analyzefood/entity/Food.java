@@ -21,6 +21,7 @@ public class Food {
     private double fe;
     private double vc;
     private double cholesterol; //胆固醇
+    private byte felFlag;
 
     public Food() {
     }
@@ -183,5 +184,13 @@ public class Food {
 
     public void setCholesterol(double cholesterol) {
         this.cholesterol = cholesterol;
+    }
+
+    public byte getFelFlag() {
+        return felFlag;
+    }
+
+    public void setFelFlag(byte felFlag) {
+        this.felFlag = felFlag;
     }
 }

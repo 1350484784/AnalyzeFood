@@ -19,16 +19,16 @@
         .layui-table td{
             font-size: 12px;
         }
-        .layui-table td, .layui-table th{
-            padding:9px 10px;
-        }
-        .layui-form-checkbox[lay-skin=primary] i {
-            width: 12px;
-            height: 12px;
-            line-height: 12px;
-        }
-        .
-        #page{ text-align:right; }
+        /*.layui-table td, .layui-table th{*/
+            /*padding:9px 10px;*/
+        /*}*/
+        /*.layui-form-checkbox[lay-skin=primary] i {*/
+            /*width: 12px;*/
+            /*height: 12px;*/
+            /*line-height: 12px;*/
+        /*}*/
+
+        /*#page{ text-align:right; }*/
     </style>
     <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
     <script type="text/javascript" th:src="@{/js/manage/allFood.js}"></script>
@@ -42,10 +42,10 @@
         <a class="layui-btn search_btn">查询</a>
     </div>
     <div class="layui-inline">
-        <a class="layui-btn layui-btn-normal usersAdd_btn">添加食物</a>
+        <a class="layui-btn layui-btn-warm usersAdd_btn">添加食物</a>
     </div>
-    <div class="layui-inline">
-        <a class="layui-btn layui-btn-danger batchDel">批量删除</a>
+    <div class="layui-inline batchDel">
+        <button class="layui-btn layui-btn-danger " data-type="getCheckData">批量删除</button>
     </div>
 
     <div>
@@ -53,59 +53,92 @@
     </div>
 </blockquote>
 <div class="layui-form food_list">
-    <table class="layui-table">
-        <colgroup>
-            <col >
-            <col width="8%">
-            <col width="4%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-            <col width="8%">
-        </colgroup>
-        <thead>
-        <tr>
-            <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose" ></th>
-            <th>名称</th>
-            <th>类型</th>
-            <th>可食部分</th>
-            <th>能量</th>
-            <th>水分</th>
-            <th>蛋白质</th>
-            <th>脂肪</th>
-            <th>膳食纤维</th>
-            <th>碳水化合物</th>
-            <th>维A</th>
-            <th>维B1</th>
-            <th>维B2</th>
-            <th>烟酸</th>
-            <th>维E</th>
-            <th>钠</th>
-            <th>钙</th>
-            <th>铁</th>
-            <th>维C</th>
-            <th>胆固醇</th>
-            <th>操作</th>
-        </tr>
-        </thead>
-        <tbody class="food_content"></tbody>
+    <table class="layui-table" id="food_table_id" lay-filter="food_table" lay-data="{id:'food_table_id'}">
+        <!--<thead>-->
+        <!--<tr>-->
+            <!--<th lay-data="{type:'checkbox', fixed: 'left'}"></th>-->
+            <!--<th lay-data="{field:'foodId', width:50, fixed: true,hide:true}">ID</th>-->
+            <!--<th lay-data="{field:'foodName', width:100}">名称</th>-->
+            <!--<th lay-data="{field:'typeId', width:50, sort: true}">类型</th>-->
+            <!--<th lay-data="{field:'eat_part', width:50}">可食部分</th>-->
+            <!--<th lay-data="{field:'energy', width:50}">能量</th>-->
+            <!--<th lay-data="{field:'moisture', width:50}">水分</th>-->
+            <!--<th lay-data="{field:'protein', width:50}">蛋白质</th>-->
+            <!--<th lay-data="{field:'fat', width:50}">脂肪</th>-->
+            <!--<th lay-data="{field:'fiber', width:50}">膳食纤维</th>-->
+            <!--<th lay-data="{field:'carbohydrate', width:50}">碳水化合物</th>-->
+            <!--<th lay-data="{field:'va', width:50}">维A</th>-->
+            <!--<th lay-data="{field:'vb1', width:50}">维B1</th>-->
+            <!--<th lay-data="{field:'vb2', width:50}">维B2</th>-->
+            <!--<th lay-data="{field:'niacin', width:50}">烟酸</th>-->
+            <!--<th lay-data="{field:'ve', width:50}">维E</th>-->
+            <!--<th lay-data="{field:'na', width:50}">钠</th>-->
+            <!--<th lay-data="{field:'ca', width:50}">钙</th>-->
+            <!--<th lay-data="{field:'fe', width:50}">铁</th>-->
+            <!--<th lay-data="{field:'vc', width:50}">维C</th>-->
+            <!--<th lay-data="{field:'cholesterol', width:50}">胆固醇</th>-->
+            <!--<th lay-data="{fixed: 'right', width:100,  toolbar: '#bar'}"></th>-->
+        <!--</tr>-->
+        <!--</thead>-->
     </table>
+    <script type="text/html" id="bar">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">查看</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs food_del" lay-event="del">删除</a>
+    </script>
+    <!--<table class="layui-table">-->
+        <!--<colgroup>-->
+            <!--<col >-->
+            <!--<col width="8%">-->
+            <!--<col width="4%">-->
+            <!--<col width="5%">-->
+            <!--<col width="5%">-->
+            <!--<col width="5%">-->
+            <!--<col width="5%">-->
+            <!--<col width="5%">-->
+            <!--<col width="5%">-->
+            <!--<col width="5%">-->
+            <!--<col width="5%">-->
+            <!--<col width="5%">-->
+            <!--<col width="5%">-->
+            <!--<col width="5%">-->
+            <!--<col width="5%">-->
+            <!--<col width="5%">-->
+            <!--<col width="5%">-->
+            <!--<col width="5%">-->
+            <!--<col width="5%">-->
+            <!--<col width="5%">-->
+            <!--<col width="8%">-->
+        <!--</colgroup>-->
+        <!--<thead>-->
+        <!--<tr>-->
+            <!--<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose" ></th>-->
+            <!--<th>名称</th>-->
+            <!--<th>类型</th>-->
+            <!--<th>可食部分</th>-->
+            <!--<th>能量</th>-->
+            <!--<th>水分</th>-->
+            <!--<th>蛋白质</th>-->
+            <!--<th>脂肪</th>-->
+            <!--<th>膳食纤维</th>-->
+            <!--<th>碳水化合物</th>-->
+            <!--<th>维A</th>-->
+            <!--<th>维B1</th>-->
+            <!--<th>维B2</th>-->
+            <!--<th>烟酸</th>-->
+            <!--<th>维E</th>-->
+            <!--<th>钠</th>-->
+            <!--<th>钙</th>-->
+            <!--<th>铁</th>-->
+            <!--<th>维C</th>-->
+            <!--<th>胆固醇</th>-->
+            <!--<th>操作</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody class="food_content"></tbody>-->
+    <!--</table>-->
 </div>
-<div id="page"></div>
+<!--<div id="page"></div>-->
 
 </body>
 </html>

@@ -24,6 +24,12 @@ public class ManageServiceImpl implements ManageService {
     }
 
     @Override
+    public List<Food> getPageFood(int page, int pageSize) {
+        int start = (page - 1) * pageSize;
+        return  manageMapper.selectPageFood(start,pageSize);
+    }
+
+    @Override
     public int addNewFood(Food food) {
 
         int result = 0;
@@ -36,6 +42,11 @@ public class ManageServiceImpl implements ManageService {
             return food.getFoodId();
         }
         return -1;
+    }
+
+    @Override
+    public boolean delOneFood(int foodId) {
+        return manageMapper.updateFoodFlag(foodId);
     }
 
 
