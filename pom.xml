@@ -136,6 +136,12 @@
             <artifactId>httpclient</artifactId>
         </dependency>
 
+        <!--excel-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
         <!--逆向工厂-->
         <!--<dependency>-->
             <!--<groupId>org.mybatis.generator</groupId>-->

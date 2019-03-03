@@ -10,135 +10,140 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet"  th:href="@{/layui/css/layui.css}" media="all" />
     <link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all" />
+    <link rel="stylesheet" th:href="@{/css/fileinput.min.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}">
 
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
+        /*]]>*/
+    </script>
     <style>
         .layui-table,.layui-table th{
             text-align:center;
             font-size: 14px;
         }
-        .layui-table td{
-            font-size: 12px;
-        }
-        /*.layui-table td, .layui-table th{*/
-            /*padding:9px 10px;*/
-        /*}*/
-        /*.layui-form-checkbox[lay-skin=primary] i {*/
-            /*width: 12px;*/
-            /*height: 12px;*/
-            /*line-height: 12px;*/
-        /*}*/
-
-        /*#page{ text-align:right; }*/
+        /*子页面样式*/
+        .childrenBody{ margin:10px 10px 0; }
+        .layui-table td, .layui-table th{ word-break:break-all; }
+        /*文字选中背景色*/
+        ::selection{background:#ff5722; color:#fff;}
+        /*表格中的操作按钮样式问题*/
+        .layui-table .layui-btn, .layui-table .layui-btn+.layui-btn{ margin:2px 5px; }
+        .layui-inline{ margin:5px 5px 5px 0; }
     </style>
+    <script type="text/javascript" th:src="@{/bootstrap/js/jquery-3.3.1.js}"></script>
+    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    <script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script>
     <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
     <script type="text/javascript" th:src="@{/js/manage/allFood.js}"></script>
+
+    <script th:inline="javascript">
+        var layer;
+        layui.use(['layer','jquery'], function(){
+            layer = layui.layer;
+        });
+
+        //文件导入导出响应
+        function impEXCEL() {
+            //上传文件
+            $("#impFile").fileinput("upload");
+            //上传失败处理
+            $("#impFile").on("fileerror",
+                function (event, data, msg) {
+                    layer.open({
+                        type: 1,
+                        icon: 5,
+                        content: '<div style="padding: 20px 100px;">' + "上传失败" + '</div>',
+                        btn: '关闭',
+                        btnAlign: 'c', //按钮居中
+                        shade: 0, //不显示遮罩
+                        yes: function () {
+                            layer.closeAll();
+                        }
+                    });
+                });
+            //上传成功处理
+            $("#impFile").on("fileuploaded", function (event, data, previewId, index) {
+                top.layer.msg("上传成功！");
+                $("#impFile").fileinput("clear");
+
+                //重新刷新页面
+
+
+            });
+        }
+
+        $(function () {
+            // 表格提交
+            $("#impFile").fileinput({
+                // language: 'zh',//控件语言选择，此处为zh:汉化
+                showPreview: false,//文件预览显示，默认为true:显示
+                showUpload: false,//文件上传按钮显示，默认为true:显示
+                elErrorContainer: '#imp-file-errors',//错误提示
+                allowedFileExtensions: ["xls", "xlsx"],//允许选择文件格式
+                showCancel:false,
+                enctype: 'multipart/form-data',
+                uploadUrl: contextPath + '/manage/exportInFile' //Control层后台响应函数
+            });
+        })
+
+    </script>
+
 </head>
 <body class="childrenBody">
 <blockquote class="layui-elem-quote news_search">
     <div class="layui-inline">
         <div class="layui-input-inline">
-            <input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">
+            <input type="text" value="" placeholder="请输入关键字" class="layui-input search_input" style="font-size: 14px">
         </div>
         <a class="layui-btn search_btn">查询</a>
     </div>
     <div class="layui-inline">
-        <a class="layui-btn layui-btn-warm usersAdd_btn">添加食物</a>
+        <a class="layui-btn layui-btn-warm foodAdd_btn">添加食物</a>
     </div>
     <div class="layui-inline batchDel">
         <button class="layui-btn layui-btn-danger " data-type="getCheckData">批量删除</button>
     </div>
 
-    <div>
+    <div class="layui-inline" style="float: right">　
         <!--上传文件-->
+        <button id="importexcel" type="button" class="btn btn-primary" data-toggle="modal" data-target="#ImpModal">导入数据
+        </button>
+        <!-- 文件导入模式框-->
+        <div class="modal fade" id="ImpModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ImpModalLabel">选择文件</h5></div>
+                    <div class="modal-body">
+                        <div class="file-loading">
+                            <input id="impFile" name="impFile" type="file" data-msg-placeholder="请选择文件……"></div>
+                        <div id="imp-file-errors"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" title="上传选择文件" onclick="impEXCEL();">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-inline" style="float: right">
+        <button class="layui-btn layui-btn-primary exportOut">导出数据</button>
     </div>
 </blockquote>
 <div class="layui-form food_list">
     <table class="layui-table" id="food_table_id" lay-filter="food_table" lay-data="{id:'food_table_id'}">
-        <!--<thead>-->
-        <!--<tr>-->
-            <!--<th lay-data="{type:'checkbox', fixed: 'left'}"></th>-->
-            <!--<th lay-data="{field:'foodId', width:50, fixed: true,hide:true}">ID</th>-->
-            <!--<th lay-data="{field:'foodName', width:100}">名称</th>-->
-            <!--<th lay-data="{field:'typeId', width:50, sort: true}">类型</th>-->
-            <!--<th lay-data="{field:'eat_part', width:50}">可食部分</th>-->
-            <!--<th lay-data="{field:'energy', width:50}">能量</th>-->
-            <!--<th lay-data="{field:'moisture', width:50}">水分</th>-->
-            <!--<th lay-data="{field:'protein', width:50}">蛋白质</th>-->
-            <!--<th lay-data="{field:'fat', width:50}">脂肪</th>-->
-            <!--<th lay-data="{field:'fiber', width:50}">膳食纤维</th>-->
-            <!--<th lay-data="{field:'carbohydrate', width:50}">碳水化合物</th>-->
-            <!--<th lay-data="{field:'va', width:50}">维A</th>-->
-            <!--<th lay-data="{field:'vb1', width:50}">维B1</th>-->
-            <!--<th lay-data="{field:'vb2', width:50}">维B2</th>-->
-            <!--<th lay-data="{field:'niacin', width:50}">烟酸</th>-->
-            <!--<th lay-data="{field:'ve', width:50}">维E</th>-->
-            <!--<th lay-data="{field:'na', width:50}">钠</th>-->
-            <!--<th lay-data="{field:'ca', width:50}">钙</th>-->
-            <!--<th lay-data="{field:'fe', width:50}">铁</th>-->
-            <!--<th lay-data="{field:'vc', width:50}">维C</th>-->
-            <!--<th lay-data="{field:'cholesterol', width:50}">胆固醇</th>-->
-            <!--<th lay-data="{fixed: 'right', width:100,  toolbar: '#bar'}"></th>-->
-        <!--</tr>-->
-        <!--</thead>-->
+
     </table>
     <script type="text/html" id="bar">
         <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">查看</a>
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs food_del" lay-event="del">删除</a>
     </script>
-    <!--<table class="layui-table">-->
-        <!--<colgroup>-->
-            <!--<col >-->
-            <!--<col width="8%">-->
-            <!--<col width="4%">-->
-            <!--<col width="5%">-->
-            <!--<col width="5%">-->
-            <!--<col width="5%">-->
-            <!--<col width="5%">-->
-            <!--<col width="5%">-->
-            <!--<col width="5%">-->
-            <!--<col width="5%">-->
-            <!--<col width="5%">-->
-            <!--<col width="5%">-->
-            <!--<col width="5%">-->
-            <!--<col width="5%">-->
-            <!--<col width="5%">-->
-            <!--<col width="5%">-->
-            <!--<col width="5%">-->
-            <!--<col width="5%">-->
-            <!--<col width="5%">-->
-            <!--<col width="5%">-->
-            <!--<col width="8%">-->
-        <!--</colgroup>-->
-        <!--<thead>-->
-        <!--<tr>-->
-            <!--<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose" ></th>-->
-            <!--<th>名称</th>-->
-            <!--<th>类型</th>-->
-            <!--<th>可食部分</th>-->
-            <!--<th>能量</th>-->
-            <!--<th>水分</th>-->
-            <!--<th>蛋白质</th>-->
-            <!--<th>脂肪</th>-->
-            <!--<th>膳食纤维</th>-->
-            <!--<th>碳水化合物</th>-->
-            <!--<th>维A</th>-->
-            <!--<th>维B1</th>-->
-            <!--<th>维B2</th>-->
-            <!--<th>烟酸</th>-->
-            <!--<th>维E</th>-->
-            <!--<th>钠</th>-->
-            <!--<th>钙</th>-->
-            <!--<th>铁</th>-->
-            <!--<th>维C</th>-->
-            <!--<th>胆固醇</th>-->
-            <!--<th>操作</th>-->
-        <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody class="food_content"></tbody>-->
-    <!--</table>-->
+
 </div>
-<!--<div id="page"></div>-->
 
 </body>
 </html>

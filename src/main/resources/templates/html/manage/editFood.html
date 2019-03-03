@@ -27,30 +27,36 @@
     </style>
 
     <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
-    <script type="text/javascript" th:src="@{/js/manage/addFood.js}"></script>
+    <script type="text/javascript" th:src="@{/js/manage/editFood.js}"></script>
 </head>
 <body class="childrenBody">
-<form class="layui-form" style="width:80%;" id="addFoodForm">
+<form class="layui-form" style="width:80%;" id="editFoodForm">
+    <input type="hidden" name="foodId" th:value="${food.foodId}">
+
     <div class="layui-form-item">
         <label class="layui-form-label">食物名称:</label>
         <div class="layui-input-block">
-            <input type="text" name="foodName" class="layui-input" lay-verify="required" placeholder="请输入食物名称">
+            <input type="text" name="foodName" class="layui-input" th:value="${food.foodName}" lay-verify="required" placeholder="请输入食物名称">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">食物类型:</label>
         <div class="layui-input-block">
             <select name="typeId" class="typeId" lay-filter="typeId">
-                <option value="11" selected>谷类</option>
-                <option value="21">豆类</option>
-                <option value="31">蔬类</option>
-                <option value="41">果类</option>
-                <option value="51">肉类</option>
-                <option value="53">乳类</option>
-                <option value="54">蛋类</option>
-                <option value="61">鱼类</option>
-                <option value="81">油类</option>
-                <option value="82">另类</option>
+
+                <option th:each="category : ${categoryMap}" th:selected="${category.key eq food.typeId}" th:value="${category.key}" th:text="${category.value}"></option>
+
+                <!--<option value="11" selected>谷类</option>-->
+                <!--<option value="21">豆类</option>-->
+                <!--<option value="31">蔬类</option>-->
+                <!--<option value="41">果类</option>-->
+                <!--<option value="51">肉类</option>-->
+                <!--<option value="53">乳类</option>-->
+                <!--<option value="54">蛋类</option>-->
+                <!--<option value="61">鱼类</option>-->
+                <!--<option value="81">油类</option>-->
+                <!--<option value="82">另类</option>-->
+
             </select>
         </div>
     </div>
@@ -58,19 +64,19 @@
         <div class="layui-inline">
             <label class="layui-form-label">可食部分</label>
             <div class="layui-input-block">
-                <input type="text" name="eat_part" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="eat_part" class="layui-input" lay-verify="required" th:value="${food.eat_part}">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">能量</label>
             <div class="layui-input-block">
-                <input type="text" name="energy" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="energy" class="layui-input" lay-verify="required" th:value="${food.energy}">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">水分</label>
             <div class="layui-input-block">
-                <input type="text" name="moisture" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="moisture" class="layui-input" lay-verify="required" th:value="${food.moisture}">
             </div>
         </div>
     </div>
@@ -79,19 +85,19 @@
         <div class="layui-inline">
             <label class="layui-form-label">蛋白质</label>
             <div class="layui-input-block">
-                <input type="text" name="protein" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="protein" class="layui-input" lay-verify="required" th:value="${food.protein}">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">脂肪</label>
             <div class="layui-input-block">
-                <input type="text" name="fat" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="fat" class="layui-input" lay-verify="required" th:value="${food.fat}">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">膳食纤维</label>
             <div class="layui-input-block">
-                <input type="text" name="fiber" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="fiber" class="layui-input" lay-verify="required" th:value="${food.fiber}">
             </div>
         </div>
     </div>
@@ -99,19 +105,19 @@
         <div class="layui-inline">
             <label class="layui-form-label">碳水化合物</label>
             <div class="layui-input-block">
-                <input type="text" name="carbohydrate" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="carbohydrate" class="layui-input" lay-verify="required" th:value="${food.carbohydrate}">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">维生素A</label>
             <div class="layui-input-block">
-                <input type="text" name="va" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="va" class="layui-input" lay-verify="required" th:value="${food.va}">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">维生素B1</label>
             <div class="layui-input-block">
-                <input type="text" name="vb1" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="vb1" class="layui-input" lay-verify="required" th:value="${food.vb1}">
             </div>
         </div>
     </div>
@@ -119,19 +125,19 @@
         <div class="layui-inline">
             <label class="layui-form-label">维生素B2</label>
             <div class="layui-input-block">
-                <input type="text" name="vb2" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="vb2" class="layui-input" lay-verify="required" th:value="${food.vb2}">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">烟酸</label>
             <div class="layui-input-block">
-                <input type="text" name="niacin" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="niacin" class="layui-input" lay-verify="required" th:value="${food.niacin}">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">维生素E</label>
             <div class="layui-input-block">
-                <input type="text" name="ve" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="ve" class="layui-input" lay-verify="required" th:value="${food.va}">
             </div>
         </div>
     </div>
@@ -139,19 +145,19 @@
         <div class="layui-inline">
             <label class="layui-form-label">钠</label>
             <div class="layui-input-block">
-                <input type="text" name="na" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="na" class="layui-input" lay-verify="required" th:value="${food.na}">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">钙</label>
             <div class="layui-input-block">
-                <input type="text" name="ca" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="ca" class="layui-input" lay-verify="required" th:value="${food.ca}">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">铁</label>
             <div class="layui-input-block">
-                <input type="text" name="fe" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="fe" class="layui-input" lay-verify="required" th:value="${food.fe}">
             </div>
         </div>
     </div>
@@ -159,20 +165,19 @@
         <div class="layui-inline">
             <label class="layui-form-label">维生素C</label>
             <div class="layui-input-block">
-                <input type="text" name="vc" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="vc" class="layui-input" lay-verify="required" th:value="${food.vc}">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">胆固醇</label>
             <div class="layui-input-block">
-                <input type="text" name="cholesterol" class="layui-input" lay-verify="required" value="0">
+                <input type="text" name="cholesterol" class="layui-input" lay-verify="required" th:value="${food.cholesterol}">
             </div>
         </div>
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="addFood" id="addFoodSub">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn" lay-submit="" lay-filter="editFood" id="editFoodSub">立即提交</button>
         </div>
     </div>
 </form>

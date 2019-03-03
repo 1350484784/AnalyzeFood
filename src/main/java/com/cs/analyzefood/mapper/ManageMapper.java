@@ -1,6 +1,7 @@
 package com.cs.analyzefood.mapper;
 
 import com.cs.analyzefood.entity.Food;
+import com.cs.analyzefood.entity.FoodType;
 
 import java.util.List;
 
@@ -13,4 +14,12 @@ public interface ManageMapper {
     boolean updateFoodFlag(int foodId);
 
     List<Food> selectPageFood(int start, int pageSize);
+
+    List<FoodType> selectFoodType();
+
+    Food selectFoodByFoodId(int foodId);
+
+    boolean updateFoodById(Food food);
+
+    List<Food> selectFoodForSearch(String searchData);
 }
