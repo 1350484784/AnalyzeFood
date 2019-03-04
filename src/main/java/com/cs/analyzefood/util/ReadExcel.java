@@ -96,7 +96,6 @@ public class ReadExcel {
      * @return
      */
     private List<Map<String, Object>> readExcelValue(Workbook wb) {
-        DecimalFormat df = new DecimalFormat("0.00");
         // 得到第一个shell
         Sheet sheet = wb.getSheetAt(0);
         // 得到Excel的行数
@@ -131,7 +130,6 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("eat_part",value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-//                            map.put("eat_part",df.format(Double.valueOf(cell.getStringCellValue())));// 可食部分
                             map.put("eat_part",cell.getStringCellValue());// 可食部分
                         }
                     }
@@ -140,8 +138,7 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("energy", value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-                            map.put("energy", df.format(Double.parseDouble(cell.getStringCellValue())));// 能量
-//                            map.put("energy", cell.getStringCellValue());// 能量
+                            map.put("energy", cell.getStringCellValue());// 能量
                         }
                     }
                     if (c == 3) {
@@ -149,8 +146,7 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("moisture", value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-                            map.put("moisture", df.format(Double.parseDouble(cell.getStringCellValue())));// 水分
-//                            map.put("moisture", cell.getStringCellValue());// 水分
+                            map.put("moisture", cell.getStringCellValue());// 水分
                         }
                     }
                     if (c == 4) {
@@ -158,8 +154,7 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("protein",value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-                            map.put("protein",df.format(Double.parseDouble(cell.getStringCellValue())));// 蛋白质
-//                            map.put("protein",cell.getStringCellValue());// 蛋白质
+                            map.put("protein",cell.getStringCellValue());// 蛋白质
                         }
                     }
                     if (c == 5) {
@@ -167,8 +162,7 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("fat", value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-                            map.put("fat", df.format(Double.parseDouble(cell.getStringCellValue())));// 脂肪
-//                            map.put("fat", cell.getStringCellValue());// 脂肪
+                            map.put("fat", cell.getStringCellValue());// 脂肪
                         }
                     }
                     if (c == 6) {
@@ -176,8 +170,7 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("fiber", value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-                            map.put("fiber", df.format(Double.parseDouble(cell.getStringCellValue())));// 纤维
-//                            map.put("fiber", cell.getStringCellValue());// 纤维
+                            map.put("fiber", cell.getStringCellValue());// 纤维
                         }
                     }
                     if (c == 7) {
@@ -185,8 +178,7 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("carbohydrate",value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-                            map.put("carbohydrate",df.format(Double.parseDouble(cell.getStringCellValue())));// 碳水化合物
-//                            map.put("carbohydrate",cell.getStringCellValue());// 碳水化合物
+                            map.put("carbohydrate",cell.getStringCellValue());// 碳水化合物
                         }
                     }
                     if (c == 8) {
@@ -194,8 +186,7 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("va", value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-                            map.put("va", df.format(Double.parseDouble(cell.getStringCellValue())));
-//                            map.put("va", cell.getStringCellValue());
+                            map.put("va", cell.getStringCellValue());
                         }
                     }
                     if (c == 9) {
@@ -203,8 +194,7 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("vb1", value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-                            map.put("vb1", df.format(Double.valueOf(cell.getStringCellValue())));
-//                            map.put("vb1", cell.getStringCellValue());
+                            map.put("vb1", cell.getStringCellValue());
                         }
                     }
                     if (c == 10) {
@@ -212,8 +202,7 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("vb2",value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-                            map.put("vb2",df.format(Double.parseDouble(cell.getStringCellValue())));
-//                            map.put("vb2",cell.getStringCellValue());
+                            map.put("vb2",cell.getStringCellValue());
                         }
                     }
                     if (c == 11) {
@@ -221,8 +210,7 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("niacin", value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-                            map.put("niacin", df.format(Double.parseDouble(cell.getStringCellValue())));// 烟酸
-//                            map.put("niacin", cell.getStringCellValue());// 烟酸
+                            map.put("niacin", cell.getStringCellValue());// 烟酸
                         }
                     }
                     if (c == 12) {
@@ -230,8 +218,7 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("ve", value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-                            map.put("ve", df.format(Double.parseDouble(cell.getStringCellValue())));
-//                            map.put("ve", cell.getStringCellValue());
+                            map.put("ve", cell.getStringCellValue());
                         }
                     }
                     if (c == 13) {
@@ -239,8 +226,7 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("na",value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-                            map.put("na",df.format(Double.parseDouble(cell.getStringCellValue())));
-//                            map.put("na",cell.getStringCellValue());
+                            map.put("na",cell.getStringCellValue());
                         }
                     }
                     if (c == 14) {
@@ -248,8 +234,7 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("ca", value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-                            map.put("ca", df.format(Double.parseDouble(cell.getStringCellValue())));
-//                            map.put("ca", cell.getStringCellValue());
+                            map.put("ca", cell.getStringCellValue());
                         }
                     }
                     if (c == 15) {
@@ -257,8 +242,7 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("fe", value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-                            map.put("fe", df.format(Double.parseDouble(cell.getStringCellValue())));
-//                            map.put("fe", cell.getStringCellValue());
+                            map.put("fe", cell.getStringCellValue());
                         }
                     }
                     if (c == 16) {
@@ -266,7 +250,6 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("typeId",value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-//                            map.put("typeId",df.format(Double.parseDouble(cell.getStringCellValue())));
                             map.put("typeId",cell.getStringCellValue());
                         }
                     }
@@ -275,8 +258,7 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("vc", value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-                            map.put("vc", df.format(Double.parseDouble(cell.getStringCellValue())));
-//                            map.put("vc", cell.getStringCellValue());
+                            map.put("vc", cell.getStringCellValue());
                         }
                     }
                     if (c == 18) {
@@ -284,8 +266,7 @@ public class ReadExcel {
                             String value = String.valueOf(cell.getNumericCellValue());
                             map.put("cholesterol", value.substring(0, value.length() - 2 > 0 ? value.length() - 2 : 1));
                         } else {
-                            map.put("cholesterol", df.format(Double.parseDouble(cell.getStringCellValue())));// 胆固醇
-//                            map.put("cholesterol", cell.getStringCellValue());// 胆固醇
+                            map.put("cholesterol", cell.getStringCellValue());// 胆固醇
                         }
                     }
                 }

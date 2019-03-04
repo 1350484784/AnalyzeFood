@@ -23,5 +23,5 @@ public interface ManageService {
 
     List<Food> searchFood(String searchData);
 
-    String readExcelFile(MultipartFile file);
+    boolean readExcelFile(MultipartFile file);
 }

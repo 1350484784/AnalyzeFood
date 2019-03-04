@@ -104,10 +104,7 @@ public class ManageControl {
     @ResponseBody
     public ResponseEntity editFoodById(Food food){
         boolean flag = manageService.updateFoodById(food);
-        if(!flag){
-            return new ResponseEntity(false, HttpStatus.OK);
-        }
-        return new ResponseEntity(true, HttpStatus.OK);
+        return new ResponseEntity(flag, HttpStatus.OK);
     }
 
     @RequestMapping("/delOneFood")
@@ -117,10 +114,7 @@ public class ManageControl {
             return new ResponseEntity(false, HttpStatus.OK);
         }
         boolean flag = manageService.delOneFood(foodId);
-        if (!flag) {
-            return new ResponseEntity(false, HttpStatus.OK);
-        }
-        return new ResponseEntity(true, HttpStatus.OK);
+        return new ResponseEntity(flag, HttpStatus.OK);
     }
 
 
@@ -150,10 +144,8 @@ public class ManageControl {
     @RequestMapping("/exportInFile")
     @ResponseBody
     public ResponseEntity exportInFile(MultipartFile impFile) {
-        System.out.println(impFile.getOriginalFilename());
-        String res = manageService.readExcelFile(impFile);
-        System.out.println(res);
-        return new ResponseEntity(true, HttpStatus.OK);
+        boolean flag = manageService.readExcelFile(impFile);
+        return new ResponseEntity(flag, HttpStatus.OK);
     }
 
 

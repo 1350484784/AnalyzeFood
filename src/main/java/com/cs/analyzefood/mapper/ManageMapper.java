@@ -22,4 +22,6 @@ public interface ManageMapper {
     boolean updateFoodById(Food food);
 
     List<Food> selectFoodForSearch(String searchData);
+
+    Food selectFoodByName(String foodName);
 }

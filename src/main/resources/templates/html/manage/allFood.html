@@ -40,9 +40,10 @@
 
     <script th:inline="javascript">
         var layer;
-        layui.use(['layer','jquery'], function(){
+        layui.use(['layer','jquery','table'], function(){
             layer = layui.layer;
         });
+
 
         //文件导入导出响应
         function impEXCEL() {
@@ -69,6 +70,9 @@
                 $("#impFile").fileinput("clear");
 
                 //重新刷新页面
+                setTimeout(function(){
+                    location.reload();
+                },1000);
 
 
             });
