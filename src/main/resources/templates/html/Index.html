@@ -1,10 +1,1622 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>用户首页</title>
+    <title>INDEX</title>
+
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}" />
+    <link rel="stylesheet" th:href="@{/css/index/Home.css}">
+    <link rel="stylesheet" th:href="@{/css/index/iconfont.css}">
+    <link rel="stylesheet" th:href="@{/css/index/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/index/local.css}">
+    <link rel="stylesheet" th:href="@{/css/index/pager.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+    <style>
+        .indexBody {
+            overflow: hidden scroll;
+            margin-right: 0px;
+        }
+
+        .nav_top{
+            margin-bottom: 0px;
+            background: linear-gradient(rgb(255, 255, 255), rgb(250, 250, 250));
+        }
+        .nav_a_style{
+            padding:10px 20px;
+            font-size: 1.5em
+        }
+
+    </style>
+
 </head>
-<body>
-首页
+<body class="indexBody">
+<div>
+    <div id="body" style="">
+        <!-- topNav-->
+        <nav class="navbar navbar-default nav_top">
+            <div class="container">
+                <div>
+                    <ul class="nav nav-pills ">
+                        <!--<li>-->
+                        <!--<img src="src/images/logo-nav.png" alt="" height="50px">-->
+                        <!--</li>-->
+                        <li>
+                            <span class="navbar-brand" style="color:#00ad3d">
+                                碳蛋知
+                            </span>
+                        </li>
+
+
+                        <!--url-->
+                        <li class="now">
+                            <a class="nav_a_style" href="https://www.tandanzhi.com/index.html#!/Home/0&amp;&amp;&amp;&amp;">
+                                我的主页
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav_a_style" href="https://www.tandanzhi.com/index.html#!/DietList/1&amp;&amp;&amp;&amp;">
+                                食谱库
+                            </a>
+                        </li>
+                        <li>
+                            <a class="nav_a_style" href="https://www.tandanzhi.com/index.html#!/FoodList/1&amp;&amp;&amp;&amp;">
+                                食物成分表
+                            </a>
+                        </li>
+                        <li class="pull-right">
+                        </li>
+                        <li class="pull-right">
+                            <a style="font-size: 14px;line-height: 30px;display: inline-block">
+                                <i class="icon icon-cog">&nbsp;&nbsp;</i>测试2</a>
+                            <ul class="dropdown-menu" style="display: none;">
+                                <li><a href="https://www.tandanzhi.com/index.html#!/PWDEdit/27">修改密码</a></li>
+                            </ul>
+
+                            <a style="padding:10px ;font-size: 14px;line-height: 30px;cursor: pointer;display: inline-block">登出</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div id="content" style="height: auto; opacity: 1;">
+            <div style=" position: relative;">
+                <!--背景图-->
+                <div class="home-bg" style="background-image: url(&quot;http://tdz.ufile.ucloud.com.cn/27/2017-03-22/58d1ff2794a63.jpg&quot;);"></div>
+                <div class="container" style="height: 130px;text-align: center;padding-top: 40px">
+                    <button class="btn-edit-bg" style="">
+                        <i class="icon iconfont icon-xiangji"></i>
+                        &nbsp;&nbsp;编辑背景图片
+                    </button>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!--资料卡-->
+                            <div class="hr-panel" slot="dom">
+                                <div class="hr-panel-body"
+                                     style="padding: 0px;background-color: rgba(255,255,255,0.85);">
+
+                                    <button class="btn btn-primary"
+                                            style="position: absolute; top: -10px; right: 30px; z-index: 1;">编辑
+                                    </button>
+                                    <div class="row">
+                                        <div class="col-sm-2" style="overflow: hidden;height: 166px;">
+                                            <!--头像-->
+                                            <div class="coach-head"
+                                                 style="background-image: url(&quot;http://tdz.ufile.ucloud.com.cn/27/2017-01-14/587984b27e2df.png&quot;);">
+                                                <button class="btn-edit-head"
+                                                        style="width: 100%; position: absolute; bottom: 0px;">
+                                                    编辑头像
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <h3 style="margin-top: 10px">
+                                                用户名
+                                                <small>教练</small>
+                                            </h3>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div style="line-height: 1.1">
+                                                        所属俱乐部：碳蛋知<br>
+                                                        现居住地：绵阳市青龙大道59号<br>
+                                                        任教时间：2016-06-25<br>
+                                                        注册时间：2016-06-26<br>
+
+                                                        <br>
+                                                        <span>
+                                                联系电话：18780567107<br>
+                                            </span>
+                                                        电子邮箱：1948994619@qq.com<br>
+                                                    </div>
+                                                </div>
+                                                <!--<div class="col-sm-6">-->
+                                                <!--介绍：dsddf-->
+                                                <!--<br>-->
+
+                                                <!--<div>-->
+                                                <!--碳蛋知证书：-->
+                                                <!--<a class="btn btn-link"-->
+                                                <!--href="https://www.tandanzhi.com/index.html#!/Certificate/27&amp;&amp;0">-->
+                                                <!--更多证书-->
+                                                <!--<i class="icon-angle-right"></i>-->
+                                                <!--</a>-->
+                                                <!--<div class="box-row">-->
+                                                <!--&lt;!&ndash;repeat4471073743254:start&ndash;&gt;<a class="home-cf"-->
+                                                <!--href="https://www.tandanzhi.com/index.html#!/Certificate/27&amp;&amp;1">-->
+                                                <!--<i class="iconfont cf-logo-1"></i>-->
+                                                <!--健身营养配餐原理&amp;实操-->
+                                                <!--</a>&lt;!&ndash;repeat4471073743254&ndash;&gt;&lt;!&ndash;repeat4471073743254:end&ndash;&gt;-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                                <!--</div>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="hr-panel-footer coach-card-footer">
+                                    <div class="row">
+                                        <!--<div class="col-sm-4">-->
+                                        <!--<i class="icon iconfont icon-qianzaixueyuan"></i>-->
+                                        <!--累计会员 <strong>18</strong> 位-->
+                                        <!--</div>-->
+                                        <div class="col-sm-4">
+                                            <i class="icon iconfont icon-shipu"></i>
+                                            创建食谱 <strong>27</strong> 份
+                                        </div>
+                                        <!--<div class="col-sm-4">-->
+                                        <!--<i class="icon iconfont icon-temai"></i>-->
+                                        <!--累积售出 <strong>3</strong> 份-->
+                                        <!--</div>-->
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--url-->
+                    <div class="home-tab-nav">
+                        <!--<a href="https://www.tandanzhi.com/index.html#!/Home/27&amp;&amp;member&amp;&amp;1&amp;&amp;&amp;&amp;0_1"-->
+                        <!--class="" style="">我的会员</a>-->
+                        <a href="https://www.tandanzhi.com/index.html#!/Home/27&amp;&amp;myDiet&amp;&amp;1&amp;&amp;&amp;&amp;"
+                           class="nowTab">我的食谱</a>
+                        <!--ms-if-->
+                        <a href="https://www.tandanzhi.com/index.html#!/Home/27&amp;&amp;buyedDiet&amp;&amp;1&amp;&amp;&amp;&amp;"
+                           style="">膳食分析</a>
+                    </div>
+
+
+                    <!--分页内容-会员-->
+                    <!--<div style="display: none;">-->
+                    <!--<div>-->
+                    <!--&lt;!&ndash; 头部&ndash;&gt;-->
+                    <!--<div class="row">-->
+                    <!--&lt;!&ndash;<div class="col-md-4">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<h2 >&ndash;&gt;-->
+                    <!--&lt;!&ndash;会员列表&ndash;&gt;-->
+                    <!--&lt;!&ndash;<button class="btn btn-xs btn-success" ms-click="addMember()">添加会员</button>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</h2>&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                    <!--<div class="col-sm-2 ">-->
+                    <!--<br>-->
+                    <!--<button class="btn  btn-success btn-block">-->
+                    <!--<i class=" icon-plus">&nbsp;</i>-->
+                    <!--添加会员-->
+                    <!--</button>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-2 col-sm-offset-5">-->
+                    <!--<br>-->
+                    <!--<ul class="status-btn pull-right" style="color:#dedede;line-height: 34px">-->
+                    <!--<li style="display: inline;"><a>全部</a></li>-->
+                    <!--<li style="display: inline;padding-left: 20px"><a>上课中</a></li>-->
+                    <!--<li style="display: inline;padding-left: 20px"><a>已停课</a></li>-->
+                    <!--</ul>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-3">-->
+                    <!--<br>-->
+
+                    <!--<input id="ml_ipt" type="text" class="form-control" placeholder="输入关键词查找"-->
+                    <!--aria-describedby="key-search">-->
+
+
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<hr>-->
+                    <!--&lt;!&ndash; 会员列表的渲染&ndash;&gt;-->
+                    <!--<br>-->
+                    <!--<div class="row">-->
+                    <!--&lt;!&ndash;repeat337064659484:start&ndash;&gt;&lt;!&ndash;repeat337064659484:end&ndash;&gt;-->
+                    <!--</div>-->
+                    <!--<div style="margin:20px 0">-->
+                    <!--<span>-->
+                    <!--<tsy:pager config="$paper">-->
+                    <!--<div class="tsy-pager">-->
+                    <!--<div class="tsy-pager-pre" style="display: none;">-->
+                    <!--上一页-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash;repeat221292074344:start&ndash;&gt;&lt;!&ndash;repeat221292074344:end&ndash;&gt;-->
+
+                    <!--<div class="tsy-pager-pre" style="display: none;">-->
+                    <!--下一页-->
+                    <!--</div>-->
+                    <!--<div class="tsy-pager-t">-->
+                    <!--共0条数据,共0页-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div style="clear: both"></div>-->
+                    <!--</tsy:pager>-->
+                    <!--</span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--分页内容-食谱-->
+                    <div style="">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <br>
+                                <a href="https://www.tandanzhi.com/index.html#!/EditDiet/0"
+                                   class="btn btn-success btn-block">创建食谱</a>
+                            </div>
+                            <div class="col-md-6">
+                                <br>
+                                <input type="text" class="form-control" placeholder="输入关键词或能量总和"
+                                       aria-describedby="basic-addon2">
+                            </div>
+                            <div class="col-md-4">
+                                <br>
+                                <div class="pull-right" style="padding-top:8px">
+                                    <tsy:select config="$selectDL">
+                                        <div class="btn-group btn-group-xs" role="group">
+                                            <button type="button" class="btn btn-default">
+                                                <span>全选</span>
+                                                <span style="display: none;">反选</span>
+                                            </button>
+                                            <!--repeat041133142836:start-->
+                                            <button class="btn btn-default">
+                                                减脂
+                                            </button><!--repeat041133142836-->
+                                            <button class="btn btn-default">
+                                                增肌
+                                            </button><!--repeat041133142836-->
+                                            <button class="btn btn-default">
+                                                塑型
+                                            </button><!--repeat041133142836--><!--repeat041133142836:end-->
+                                        </div>
+                                    </tsy:select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <!--repeat492404121484:start-->
+                        <div class="hr-panel" style="margin-bottom: 20px">
+                            <div class="hr-panel-body" style="padding:10px">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="hr-block">
+                                            <div class="hr-panel-title">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <strong>减脂食谱&nbsp;</strong>
+
+
+                                                        <span style="color:#e14045;font-size: 18px">3</span>
+                                                        售出
+                                                    </div>
+                                                    <div class="col-sm-4 text-center">
+                                                        作者：
+                                                        <a href="https://www.tandanzhi.com/index.html#!/Home/27">
+                                                            测试2
+                                                        </a>
+                                                        <small>（我自己）</small>
+
+
+                                                    </div>
+                                                    <div class="col-sm-4 text-right">
+                                                        2016-09-01
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="hr-panel-body"
+                                                 style="padding:10px;;height: 80px;overflow: auto;">
+                                                <strong>食谱名称显</strong><br>
+                                                22dddddddddddddddddd
+                                                <!--ms-if-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="hr-block">
+                                            <div class="hr-panel-title">
+                                                能量统计(单位：kcal)
+                                            </div>
+                                            <div class="hr-panel-body" style="padding:10px">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        目标能量：2000.00<br>
+                                                        实际能量：480.00<br>
+                                                        差距：1520.00<br>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        早餐：92.00<br>
+                                                        午餐：388.00<br>
+                                                        晚餐：0.00<br>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="hr-block">
+                                            <div class="hr-panel-title">
+                                                早餐
+                                            </div>
+                                            <div class="hr-panel-body diet-list-meal">
+                                                <!--repeat255449213369:start-->
+                                                <div>
+                                                    <div style="clear: both">
+                                                        <div class="food-type food-type-2"></div>
+                                                        豆奶
+                                                        <span class="pull-right">
+                                        ×
+                                    <strong style="font-size: 18px">30</strong>
+                                    g 正餐 &nbsp;&nbsp;&nbsp;
+                                    </span>
+
+                                                    </div>
+
+                                                </div><!--repeat255449213369-->
+                                                <div>
+                                                    <div style="clear: both">
+                                                        <div class="food-type food-type-3"></div>
+                                                        茄子
+                                                        <span class="pull-right">
+                                        ×
+                                    <strong style="font-size: 18px">50</strong>
+                                    g 正餐 &nbsp;&nbsp;&nbsp;
+                                    </span>
+
+                                                    </div>
+
+                                                </div><!--repeat255449213369-->
+                                                <div>
+                                                    <div style="clear: both">
+                                                        <div class="food-type food-type-1"></div>
+                                                        煮面条
+                                                        <span class="pull-right">
+                                        ×
+                                    <strong style="font-size: 18px">50</strong>
+                                    g 正餐 &nbsp;&nbsp;&nbsp;
+                                    </span>
+
+                                                    </div>
+
+                                                </div><!--repeat255449213369-->
+                                                <div>
+                                                    <div style="clear: both">
+                                                        <div class="food-type food-type-7"></div>
+                                                        鸡蛋白
+                                                        <span class="pull-right">
+                                        ×
+                                    <strong style="font-size: 18px">30</strong>
+                                    g 正餐 &nbsp;&nbsp;&nbsp;
+                                    </span>
+
+                                                    </div>
+
+                                                </div><!--repeat255449213369-->
+                                                <div>
+                                                    <!--ms-if-->
+
+                                                </div><!--repeat255449213369-->
+                                                <div>
+                                                    <!--ms-if-->
+
+                                                </div><!--repeat255449213369-->
+                                                <div>
+                                                    <!--ms-if-->
+
+                                                </div><!--repeat255449213369--><!--repeat255449213369:end-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="hr-block">
+                                            <div class="hr-panel-title">
+                                                午餐
+                                            </div>
+                                            <div class="hr-panel-body diet-list-meal">
+                                                <!--repeat76111041851:start-->
+                                                <div>
+                                                    <!--ms-if-->
+
+                                                </div><!--repeat76111041851-->
+                                                <div>
+                                                    <!--ms-if-->
+
+                                                </div><!--repeat76111041851-->
+                                                <div>
+                                                    <!--ms-if-->
+
+                                                </div><!--repeat76111041851-->
+                                                <div>
+                                                    <!--ms-if-->
+
+                                                </div><!--repeat76111041851-->
+                                                <div>
+                                                    <div style="clear: both">
+                                                        <div class="food-type food-type-1"></div>
+                                                        蒸籼米饭
+                                                        <span class="pull-right">
+                                        ×
+                                    <strong style="font-size: 18px">150</strong>
+                                    g 正餐 &nbsp;&nbsp;&nbsp;
+                                    </span>
+
+                                                    </div>
+
+                                                </div><!--repeat76111041851-->
+                                                <div>
+                                                    <div style="clear: both">
+                                                        <div class="food-type food-type-5"></div>
+                                                        猪肉香肠
+                                                        <span class="pull-right">
+                                        ×
+                                    <strong style="font-size: 18px">50</strong>
+                                    g 正餐 &nbsp;&nbsp;&nbsp;
+                                    </span>
+
+                                                    </div>
+
+                                                </div><!--repeat76111041851-->
+                                                <div>
+                                                    <div style="clear: both">
+                                                        <div class="food-type food-type-3"></div>
+                                                        菠菜
+                                                        <span class="pull-right">
+                                        ×
+                                    <strong style="font-size: 18px">300</strong>
+                                    g 正餐 &nbsp;&nbsp;&nbsp;
+                                    </span>
+
+                                                    </div>
+
+                                                </div><!--repeat76111041851--><!--repeat76111041851:end-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="hr-block">
+                                            <div class="hr-panel-title">
+                                                晚餐
+                                            </div>
+                                            <div class="hr-panel-body diet-list-meal">
+                                                <!--repeat99463939297:start-->
+                                                <div>
+                                                    <!--ms-if-->
+
+                                                </div><!--repeat99463939297-->
+                                                <div>
+                                                    <!--ms-if-->
+
+                                                </div><!--repeat99463939297-->
+                                                <div>
+                                                    <!--ms-if-->
+
+                                                </div><!--repeat99463939297-->
+                                                <div>
+                                                    <!--ms-if-->
+
+                                                </div><!--repeat99463939297-->
+                                                <div>
+                                                    <!--ms-if-->
+
+                                                </div><!--repeat99463939297-->
+                                                <div>
+                                                    <!--ms-if-->
+
+                                                </div><!--repeat99463939297-->
+                                                <div>
+                                                    <!--ms-if-->
+
+                                                </div><!--repeat99463939297--><!--repeat99463939297:end-->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <!--操作按钮-->
+                                <div>
+
+                                    <!--ms-if-->
+                                    <!--ms-if-->
+                                    <a class="btn btn-info " style="width: 120px"
+                                       href="https://www.tandanzhi.com/index.html#!/EditDiet/1&amp;&amp;46">
+                                        编辑
+                                    </a>
+                                    <a class="btn btn-default " style="width: 120px"
+                                       href="https://www.tandanzhi.com/index.html#!/EditDiet/2&amp;&amp;46">
+                                        复制
+                                    </a>
+                                    <a class="btn btn-default  pull-right" style="width: 120px"
+                                       href="https://www.tandanzhi.com/index.html#!/DietDetails/46">
+                                        详情
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div><!--repeat492404121484-->
+                        <!--<div class="hr-panel" style="margin-bottom: 20px">-->
+                        <!--<div class="hr-panel-body" style="padding:10px">-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-8">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<strong>减脂食谱&nbsp;</strong>-->
+
+
+                        <!--<span style="color:#e14045;font-size: 18px">0</span>-->
+                        <!--售出-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4 text-center">-->
+                        <!--作者：-->
+                        <!--<a href="https://www.tandanzhi.com/index.html#!/Home/27">-->
+                        <!--测试2-->
+                        <!--</a>-->
+                        <!--<small>（我自己）</small>-->
+
+
+                        <!--</div>-->
+                        <!--<div class="col-sm-4 text-right">-->
+                        <!--2016-11-25-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body"-->
+                        <!--style="padding:10px;;height: 80px;overflow: auto;">-->
+                        <!--<strong></strong><br>-->
+
+                        <!--<span style="color:#dddddd">暂时没有介绍……</span>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--能量统计(单位：kcal)-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body" style="padding:10px">-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-6">-->
+                        <!--目标能量：150.00<br>-->
+                        <!--实际能量：62.40<br>-->
+                        <!--差距：87.60<br>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-6">-->
+                        <!--早餐：62.40<br>-->
+                        <!--午餐：0.00<br>-->
+                        <!--晚餐：0.00<br>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+                        <!--</div>-->
+                        <!--<br>-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--早餐-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body diet-list-meal">-->
+                        <!--&lt;!&ndash;repeat744361662518:start&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-5"></div>-->
+                        <!--10水鸭（熟）-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">20</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat744361662518&ndash;&gt;&lt;!&ndash;repeat744361662518:end&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--午餐-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body diet-list-meal">-->
+                        <!--&lt;!&ndash;repeat66336238974:start&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat66336238974&ndash;&gt;&lt;!&ndash;repeat66336238974:end&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--晚餐-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body diet-list-meal">-->
+                        <!--&lt;!&ndash;repeat31175165122:start&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat31175165122&ndash;&gt;&lt;!&ndash;repeat31175165122:end&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+                        <!--</div>-->
+                        <!--<br>-->
+                        <!--&lt;!&ndash;操作按钮&ndash;&gt;-->
+                        <!--<div>-->
+
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+                        <!--<a class="btn btn-info " style="width: 120px"-->
+                        <!--href="https://www.tandanzhi.com/index.html#!/EditDiet/1&amp;&amp;501">-->
+                        <!--编辑-->
+                        <!--</a>-->
+                        <!--<a class="btn btn-default " style="width: 120px"-->
+                        <!--href="https://www.tandanzhi.com/index.html#!/EditDiet/2&amp;&amp;501">-->
+                        <!--复制-->
+                        <!--</a>-->
+                        <!--<a class="btn btn-default  pull-right" style="width: 120px"-->
+                        <!--href="https://www.tandanzhi.com/index.html#!/DietDetails/501">-->
+                        <!--详情-->
+                        <!--</a>-->
+                        <!--</div>-->
+
+                        <!--</div>-->
+                        <!--</div>&lt;!&ndash;repeat492404121484&ndash;&gt;-->
+                        <!--<div class="hr-panel" style="margin-bottom: 20px">-->
+                        <!--<div class="hr-panel-body" style="padding:10px">-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-8">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<strong>减脂食谱&nbsp;</strong>-->
+
+
+                        <!--<span style="color:#e14045;font-size: 18px">0</span>-->
+                        <!--售出-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4 text-center">-->
+                        <!--作者：-->
+                        <!--<a href="https://www.tandanzhi.com/index.html#!/Home/27">-->
+                        <!--测试2-->
+                        <!--</a>-->
+                        <!--<small>（我自己）</small>-->
+
+
+                        <!--</div>-->
+                        <!--<div class="col-sm-4 text-right">-->
+                        <!--2016-12-13-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body"-->
+                        <!--style="padding:10px;;height: 80px;overflow: auto;">-->
+                        <!--<strong>张老师课程练习-Cindy</strong><br>-->
+
+                        <!--<span style="color:#dddddd">暂时没有介绍……</span>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--能量统计(单位：kcal)-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body" style="padding:10px">-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-6">-->
+                        <!--目标能量：1500.00<br>-->
+                        <!--实际能量：1781.88<br>-->
+                        <!--差距：-281.88<br>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-6">-->
+                        <!--早餐：487.17<br>-->
+                        <!--午餐：845.72<br>-->
+                        <!--晚餐：449.00<br>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+                        <!--</div>-->
+                        <!--<br>-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--早餐-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body diet-list-meal">-->
+                        <!--&lt;!&ndash;repeat633067872505:start&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-3"></div>-->
+                        <!--山药（薯蓣）-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">333.33</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-4"></div>-->
+                        <!--苹果-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">192.31</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-6"></div>-->
+                        <!--酸奶（脱脂酸奶）-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">150</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-7"></div>-->
+                        <!--鸡蛋（白皮）-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">50</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-1"></div>-->
+                        <!--小米粥-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">100</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat633067872505&ndash;&gt;&lt;!&ndash;repeat633067872505:end&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--午餐-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body diet-list-meal">-->
+                        <!--&lt;!&ndash;repeat29971765135:start&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-1"></div>-->
+                        <!--薏米-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">100</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-2"></div>-->
+                        <!--黄豆-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">27.86</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-3"></div>-->
+                        <!--南瓜-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">100</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-5"></div>-->
+                        <!--牛肉（瘦）-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">50</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-8"></div>-->
+                        <!--鳕鱼-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">50</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-9"></div>-->
+                        <!--花生油-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">30</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-10"></div>-->
+                        <!--10-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">3</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat29971765135&ndash;&gt;&lt;!&ndash;repeat29971765135:end&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--晚餐-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body diet-list-meal">-->
+                        <!--&lt;!&ndash;repeat034979698367:start&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-1"></div>-->
+                        <!--粉丝-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">100</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-3"></div>-->
+                        <!--生菜-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">100</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-8"></div>-->
+                        <!--河虾-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">50</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-10"></div>-->
+                        <!--10-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">3</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-6"></div>-->
+                        <!--牛奶（美国牛）-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">100</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat034979698367&ndash;&gt;&lt;!&ndash;repeat034979698367:end&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+                        <!--</div>-->
+                        <!--<br>-->
+                        <!--&lt;!&ndash;操作按钮&ndash;&gt;-->
+                        <!--<div>-->
+
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+                        <!--<a class="btn btn-info " style="width: 120px"-->
+                        <!--href="https://www.tandanzhi.com/index.html#!/EditDiet/1&amp;&amp;695">-->
+                        <!--编辑-->
+                        <!--</a>-->
+                        <!--<a class="btn btn-default " style="width: 120px"-->
+                        <!--href="https://www.tandanzhi.com/index.html#!/EditDiet/2&amp;&amp;695">-->
+                        <!--复制-->
+                        <!--</a>-->
+                        <!--<a class="btn btn-default  pull-right" style="width: 120px"-->
+                        <!--href="https://www.tandanzhi.com/index.html#!/DietDetails/695">-->
+                        <!--详情-->
+                        <!--</a>-->
+                        <!--</div>-->
+
+                        <!--</div>-->
+                        <!--</div>&lt;!&ndash;repeat492404121484&ndash;&gt;-->
+                        <!--<div class="hr-panel" style="margin-bottom: 20px">-->
+                        <!--<div class="hr-panel-body" style="padding:10px">-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-8">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<strong>减脂食谱&nbsp;</strong>-->
+
+
+                        <!--<span style="color:#e14045;font-size: 18px">0</span>-->
+                        <!--售出-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4 text-center">-->
+                        <!--作者：-->
+                        <!--<a href="https://www.tandanzhi.com/index.html#!/Home/27">-->
+                        <!--测试2-->
+                        <!--</a>-->
+                        <!--<small>（我自己）</small>-->
+
+
+                        <!--</div>-->
+                        <!--<div class="col-sm-4 text-right">-->
+                        <!--2017-01-17-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body"-->
+                        <!--style="padding:10px;;height: 80px;overflow: auto;">-->
+                        <!--<strong>castle</strong><br>-->
+
+                        <!--<span style="color:#dddddd">暂时没有介绍……</span>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--能量统计(单位：kcal)-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body" style="padding:10px">-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-6">-->
+                        <!--目标能量：1500.00<br>-->
+                        <!--实际能量：1105.00<br>-->
+                        <!--差距：395.00<br>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-6">-->
+                        <!--早餐：627.00<br>-->
+                        <!--午餐：367.00<br>-->
+                        <!--晚餐：111.00<br>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+                        <!--</div>-->
+                        <!--<br>-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--早餐-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body diet-list-meal">-->
+                        <!--&lt;!&ndash;repeat791661240807:start&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-2"></div>-->
+                        <!--干核桃-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">100</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat791661240807&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat791661240807&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat791661240807&ndash;&gt;&lt;!&ndash;repeat791661240807:end&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--午餐-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body diet-list-meal">-->
+                        <!--&lt;!&ndash;repeat013706662698:start&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat013706662698&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-1"></div>-->
+                        <!--燕麦片-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">100</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat013706662698&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat013706662698&ndash;&gt;&lt;!&ndash;repeat013706662698:end&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--晚餐-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body diet-list-meal">-->
+                        <!--&lt;!&ndash;repeat097344005616:start&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat097344005616&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat097344005616&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-1"></div>-->
+                        <!--糙米（熟）-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">100</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat097344005616&ndash;&gt;&lt;!&ndash;repeat097344005616:end&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+                        <!--</div>-->
+                        <!--<br>-->
+                        <!--&lt;!&ndash;操作按钮&ndash;&gt;-->
+                        <!--<div>-->
+
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+                        <!--<a class="btn btn-info " style="width: 120px"-->
+                        <!--href="https://www.tandanzhi.com/index.html#!/EditDiet/1&amp;&amp;813">-->
+                        <!--编辑-->
+                        <!--</a>-->
+                        <!--<a class="btn btn-default " style="width: 120px"-->
+                        <!--href="https://www.tandanzhi.com/index.html#!/EditDiet/2&amp;&amp;813">-->
+                        <!--复制-->
+                        <!--</a>-->
+                        <!--<a class="btn btn-default  pull-right" style="width: 120px"-->
+                        <!--href="https://www.tandanzhi.com/index.html#!/DietDetails/813">-->
+                        <!--详情-->
+                        <!--</a>-->
+                        <!--</div>-->
+
+                        <!--</div>-->
+                        <!--</div>&lt;!&ndash;repeat492404121484&ndash;&gt;-->
+                        <!--<div class="hr-panel" style="margin-bottom: 20px">-->
+                        <!--<div class="hr-panel-body" style="padding:10px">-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-8">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<strong>减脂食谱&nbsp;</strong>-->
+
+
+                        <!--<span style="color:#e14045;font-size: 18px">0</span>-->
+                        <!--售出-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4 text-center">-->
+                        <!--作者：-->
+                        <!--<a href="https://www.tandanzhi.com/index.html#!/Home/27">-->
+                        <!--测试2-->
+                        <!--</a>-->
+                        <!--<small>（我自己）</small>-->
+
+
+                        <!--</div>-->
+                        <!--<div class="col-sm-4 text-right">-->
+                        <!--2019-01-18-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body"-->
+                        <!--style="padding:10px;;height: 80px;overflow: auto;">-->
+                        <!--<strong>123456</strong><br>-->
+
+                        <!--<span style="color:#dddddd">暂时没有介绍……</span>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--能量统计(单位：kcal)-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body" style="padding:10px">-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-6">-->
+                        <!--目标能量：93.00<br>-->
+                        <!--实际能量：825.00<br>-->
+                        <!--差距：-732.00<br>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-6">-->
+                        <!--早餐：825.00<br>-->
+                        <!--午餐：0.00<br>-->
+                        <!--晚餐：0.00<br>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+                        <!--</div>-->
+                        <!--<br>-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--早餐-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body diet-list-meal">-->
+                        <!--&lt;!&ndash;repeat040919588491:start&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-1"></div>-->
+                        <!--全麦面包-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">100</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat040919588491&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-1"></div>-->
+                        <!--全麦面包-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">100</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat040919588491&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-5"></div>-->
+                        <!--牛肉（肥瘦）-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">120</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat040919588491&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-3"></div>-->
+                        <!--西兰花-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">100</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat040919588491&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--<div style="clear: both">-->
+                        <!--<div class="food-type food-type-6"></div>-->
+                        <!--酸奶-->
+                        <!--<span class="pull-right">-->
+                        <!--×-->
+                        <!--<strong style="font-size: 18px">100</strong>-->
+                        <!--g 正餐 &nbsp;&nbsp;&nbsp;-->
+                        <!--</span>-->
+
+                        <!--</div>-->
+
+                        <!--</div>&lt;!&ndash;repeat040919588491&ndash;&gt;&lt;!&ndash;repeat040919588491:end&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--午餐-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body diet-list-meal">-->
+                        <!--&lt;!&ndash;repeat361443038871:start&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat361443038871&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat361443038871&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat361443038871&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat361443038871&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat361443038871&ndash;&gt;&lt;!&ndash;repeat361443038871:end&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-4">-->
+                        <!--<div class="hr-block">-->
+                        <!--<div class="hr-panel-title">-->
+                        <!--晚餐-->
+                        <!--</div>-->
+                        <!--<div class="hr-panel-body diet-list-meal">-->
+                        <!--&lt;!&ndash;repeat8906370642:start&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat8906370642&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat8906370642&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat8906370642&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat8906370642&ndash;&gt;-->
+                        <!--<div>-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+
+                        <!--</div>&lt;!&ndash;repeat8906370642&ndash;&gt;&lt;!&ndash;repeat8906370642:end&ndash;&gt;-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+                        <!--</div>-->
+                        <!--<br>-->
+                        <!--&lt;!&ndash;操作按钮&ndash;&gt;-->
+                        <!--<div>-->
+
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+                        <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+                        <!--<a class="btn btn-info " style="width: 120px"-->
+                        <!--href="https://www.tandanzhi.com/index.html#!/EditDiet/1&amp;&amp;3507">-->
+                        <!--编辑-->
+                        <!--</a>-->
+                        <!--<a class="btn btn-default " style="width: 120px"-->
+                        <!--href="https://www.tandanzhi.com/index.html#!/EditDiet/2&amp;&amp;3507">-->
+                        <!--复制-->
+                        <!--</a>-->
+                        <!--<a class="btn btn-default  pull-right" style="width: 120px"-->
+                        <!--href="https://www.tandanzhi.com/index.html#!/DietDetails/3507">-->
+                        <!--详情-->
+                        <!--</a>-->
+                        <!--</div>-->
+
+                        <!--</div>-->
+                        <!--</div>&lt;!&ndash;repeat492404121484&ndash;&gt;&lt;!&ndash;repeat492404121484:end&ndash;&gt;-->
+
+
+                        <!--分页-->
+                        <tsy:pager config="$DPager">
+                            <div class="tsy-pager">
+                                <div class="tsy-pager-pre" style="display: none;">
+                                    上一页
+                                </div>
+
+                                <!--repeat85113288884:start-->
+                                <div class="tsy-pager-list tsy-pager-now">
+                                    1
+                                </div><!--repeat85113288884-->
+                                <div class="tsy-pager-list">
+                                    2
+                                </div><!--repeat85113288884-->
+                                <div class="tsy-pager-list">
+                                    3
+                                </div><!--repeat85113288884-->
+                                <div class="tsy-pager-list">
+                                    4
+                                </div><!--repeat85113288884-->
+                                <div class="tsy-pager-list">
+                                    5
+                                </div><!--repeat85113288884-->
+                                <div class="tsy-pager-list">
+                                    6
+                                </div><!--repeat85113288884--><!--repeat85113288884:end-->
+
+                                <div class="tsy-pager-pre" style="">
+                                    下一页
+                                </div>
+                                <div class="tsy-pager-t">
+                                    共27条数据,共6页
+                                </div>
+                            </div>
+                            <div style="clear: both"></div>
+                        </tsy:pager>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!--<div class="footer">-->
+        <!--<div class="container text-center" style="color:#8b8b8b ;padding:10px;margin-top:50px">-->
+        <!--©碳蛋知&#45;&#45;让营养食谱成为健身计划的标配-->
+        <!--<hr>-->
+        <!--</div>-->
+        <!--</div>-->
+    </div>
+</div>
 </body>
 </html>
