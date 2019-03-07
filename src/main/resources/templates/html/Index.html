@@ -97,6 +97,8 @@
                 <div class="home-bg"
                      style="background-image: url(&quot;http://tdz.ufile.ucloud.com.cn/27/2017-03-22/58d1ff2794a63.jpg&quot;);"></div>
                 <div class="container" style="height: 130px;text-align: center;padding-top: 40px">
+
+                    <!--模态框-->
                     <button class="btn-edit-bg" style="">
                         <i class="icon iconfont icon-xiangji"></i>
                         &nbsp;&nbsp;编辑背景图片
@@ -110,6 +112,7 @@
                                 <div class="hr-panel-body"
                                      style="padding: 0px;background-color: rgba(255,255,255,0.85);">
 
+                                    <!--模态框-->
                                     <button type="button" class="btn btn-primary"
                                             style="position: absolute; top: -10px; right: 30px; z-index: 1;"
                                             data-toggle="modal" data-target="#myModal_edit">
@@ -118,8 +121,9 @@
                                     <div class="row">
                                         <div class="col-sm-2" style="overflow: hidden;height: 166px;">
                                             <!--头像-->
-                                            <div class="coach-head"
-                                                 style="background-image: url(&quot;http://tdz.ufile.ucloud.com.cn/27/2017-01-14/587984b27e2df.png&quot;);">
+                                            <div class="coach-head">
+                                                <img th:src="'/AnalyzeFood'+${session.user.headImg}" style="width: 100%; height: 100%;object-fit:cover;">
+                                                <!--模态框-->
                                                 <button class="btn-edit-head"
                                                         style="width: 100%; position: absolute; bottom: 0px;">
                                                     编辑头像
@@ -128,22 +132,19 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <h3 style="margin-top: 10px">
-                                                用户名
-                                                <small>教练</small>
+                                                <span th:if="${session.user.name!=null}" th:text="${session.user.name}"></span>
+                                                <span th:unless="${session.user.name!=null}" th:text="小吃瓜群众"></span>
                                             </h3>
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <div style="line-height: 1.1">
-                                                        所属俱乐部：碳蛋知<br>
-                                                        现居住地：绵阳市青龙大道59号<br>
-                                                        任教时间：2016-06-25<br>
-                                                        注册时间：2016-06-26<br>
+                                                        <!--<span></span><br>-->
+                                                        <!--现居住地：绵阳市青龙大道59号<br>-->
+                                                        <!--任教时间：2016-06-25<br>-->
+                                                        注册时间：<span th:text="${#dates.format(session.user.createTime,'yyyy-MM-dd')}"></span><br>
 
-                                                        <br>
-                                                        <span>
-                                                联系电话：18780567107<br>
-                                            </span>
-                                                        电子邮箱：1948994619@qq.com<br>
+                                                        <!--<br>-->
+                                                        联系电话：<span th:text="${user.phone}"></span>
                                                     </div>
                                                 </div>
                                                 <!--<div class="col-sm-6">-->
@@ -568,16 +569,16 @@
                             <!--昵称-->
                             <div class="col-md-4">
                                 昵称
-                                <input type="text" class="form-control" >
+                                <input type="text" class="form-control" name="roleAccount" th:value="${session.user.roleAccount}">
                                 <br>
                             </div>
                             <div class="col-md-1"></div>
                             <!--性别-->
                             <div class="col-md-4">
                                 性别
-                                <select type="text" class="form-control" style="width: 196px">
-                                    <option value="男">男</option>
-                                    <option value="女">女</option>
+                                <select type="text" class="form-control" name="sex" style="width: 200px">
+                                    <option value="男" th:selected="${session.user.sex eq '男'}">男</option>
+                                    <option value="女" th:selected="${session.user.sex eq '女'}">女</option>
                                 </select>
                                 <br>
                             </div>
@@ -586,14 +587,14 @@
                             <!--真实姓名-->
                             <div class="col-md-4">
                                 真实姓名
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" name="name" th:value="${session.user.name}">
                                 <br>
                             </div>
                             <div class="col-md-1"></div>
                             <!--年龄-->
                             <div class="col-md-4">
                                 年龄
-                                <input type="text" class="form-control" >
+                                <input type="text" class="form-control" name="age" th:value="${session.user.age}">
                                 <br>
                             </div>
 
@@ -602,14 +603,14 @@
                             <!--联系电话-->
                             <div class="col-md-4">
                                 联系电话
-                                <input type="tel" class="form-control" disabled>
+                                <input type="tel" class="form-control" name="phone" th:value="${session.user.phone}" disabled>
                                 <br>
                             </div>
                             <div class="col-md-1"></div>
                             <!--体重-->
                             <div class="col-md-4">
                                 体重
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" name="weight" th:value="${session.user.weight}">
                                 <br>
                             </div>
                         </div>
@@ -618,15 +619,15 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="dz_a">保存</button>
+                <button type="button" class="btn btn-success" id="edit_user_btn">保存</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
+        </div>
+    </div>
 </div>
 
 
-
+<!--背景图-->
 <div class="modal fade" id="uploadbackground" tabindex="-1" role="dialog" aria-labelledby="uploadLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -639,7 +640,7 @@
             <form  id="uploadBackgroundForm" enctype="multipart/form-data" name="form1" method="post">
                 <div class="modal-body">
                     <div class="" >
-                        <img id="newImg" th:src="${myUser.backgroundImg}"  width="764px" />
+                        <!--<img id="newImg" th:src="${user.headImg}"  width="764px" />-->
                     </div>
                     <div class=" mt-2">
                         <input type="file" class="myFileUpload mt-3" name="file" id="backfile" value="" style="display:none;" >
@@ -664,7 +665,7 @@
 </div>
 
 
-
+<!--头像-->
 <div class="modal fade" id="uploadHeadImg" tabindex="-2" role="dialog" aria-labelledby="uploadhead" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -677,7 +678,7 @@
             <form action="" enctype="multipart/form-data" id="uploadHeadImgForm" name="form2" method="post">
                 <div class="modal-body">
                     <div class="offset-2" >
-                        <img class="rounded-circle" id="newHeadImg" th:src="${myUser.headImg}" width="300px" height="300px" />
+                        <!--<img class="rounded-circle" id="newHeadImg" th:src="${user.headImg}" width="300px" height="300px" />-->
                     </div>
                     <div class=" mt-2 ">
                         <input type="file" class="myFileUpload mt-3" name="file" id="headfile" value="" style="display:none;" >

@@ -56,7 +56,7 @@
             <ul class="layui-nav top_menu">
                 <li class="layui-nav-item" >
                     <a href="javascript:;">
-                        <img th:src="'/AnalyzeFood/info/'+${session.admin.headImg}" class="layui-circle" width="35" height="35">
+                        <img th:src="'/AnalyzeFood/admin/'+${session.admin.headImg}" class="layui-circle" width="35" height="35">
                         <cite th:text="${session.admin.author}"></cite>
                     </a>
                     <dl class="layui-nav-child">
@@ -76,7 +76,7 @@
     <!-- 左侧导航 -->
     <div class="layui-side layui-bg-black">
         <div class="user-photo">
-            <a class="img" title="我的头像" ><img th:src="'/AnalyzeFood/info/'+${session.admin.headImg}"></a>
+            <a class="img" title="我的头像" ><img th:src="'/AnalyzeFood/admin/'+${session.admin.headImg}"></a>
             <p>你好！管理员:<span class="userName" th:text="${session.admin.author}"></span></p>
         </div>
         <div class="navBar layui-side-scroll"></div>
