@@ -1,4 +1,4 @@
-package com.cs.analyzefood.control;
+package com.cs.analyzefood.control.user;
 
 import com.cs.analyzefood.entity.Admin;
 import com.cs.analyzefood.entity.User;

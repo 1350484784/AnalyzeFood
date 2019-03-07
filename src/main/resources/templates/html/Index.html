@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <title>INDEX</title>
 
+
     <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}"/>
-    <link rel="stylesheet" th:href="@{/css/index/Home.css}">
-    <link rel="stylesheet" th:href="@{/css/index/iconfont.css}">
-    <link rel="stylesheet" th:href="@{/css/index/layout.css}">
-    <link rel="stylesheet" th:href="@{/css/index/local.css}">
-    <link rel="stylesheet" th:href="@{/css/index/pager.css}">
-    <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/user/Home.css}">
+    <link rel="stylesheet" th:href="@{/css/user/iconfont.css}">
+    <link rel="stylesheet" th:href="@{/css/user/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/user/local.css}">
+    <link rel="stylesheet" th:href="@{/css/user/pager.css}">
 
 
     <script th:src="@{/bootstrap/js/jquery-3.3.1.js}"></script>
@@ -33,6 +34,7 @@
         }
 
     </style>
+
 
 
 </head>
@@ -76,7 +78,8 @@
                         </li>
                         <li class="pull-right">
                             <a style="font-size: 14px;line-height: 30px;display: inline-block">
-                                <i class="icon icon-cog">&nbsp;&nbsp;</i>测试2</a>
+                                <i class="icon icon-cog">&nbsp;&nbsp;</i><span th:text="${session.user.roleAccount}"></span></a>
+                            <!--url-->
                             <ul class="dropdown-menu" style="display: none;">
                                 <li><a href="https://www.tandanzhi.com/index.html#!/PWDEdit/27">修改密码</a></li>
                             </ul>
@@ -560,57 +563,56 @@
             </div>
             <div class="modal-body">
                 <form method="post" class="form-inline">
-                    <div>
+                    <div style="width: 650px">
                         <div class="row">
-                            <!--姓名-->
-                            <div class="col-sm-4">
-                                姓名
-                                <input type="text" class="form-control" ms-duplex="data.Name">
+                            <!--昵称-->
+                            <div class="col-md-4">
+                                昵称
+                                <input type="text" class="form-control" >
                                 <br>
                             </div>
+                            <div class="col-md-1"></div>
                             <!--性别-->
-                            <div class="col-sm-4">
+                            <div class="col-md-4">
                                 性别
-                                <select type="text" class="form-control"  ms-duplex="data.Sex">
-                                    <option value="1">男</option>
-                                    <option value="0">女</option>
+                                <select type="text" class="form-control" style="width: 196px">
+                                    <option value="男">男</option>
+                                    <option value="女">女</option>
                                 </select>
                                 <br>
                             </div>
+                        </div>
+                        <div class="row">
+                            <!--真实姓名-->
+                            <div class="col-md-4">
+                                真实姓名
+                                <input type="text" class="form-control">
+                                <br>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <!--年龄-->
+                            <div class="col-md-4">
+                                年龄
+                                <input type="text" class="form-control" >
+                                <br>
+                            </div>
 
-                            <!--地址-->
-                            <div class="col-sm-4">
-                                地址
-                                <input type="text" class="form-control"  ms-duplex="data.Address">
-                                <br>
-                            </div>
-                            <!--任教时间-->
-                            <div class="col-sm-4">
-                                任教时间
-                                <input type="date" class="form-control"  ms-duplex="data.StartTime">
-                                <br>
-                            </div>
+                        </div>
+                        <div class="row">
                             <!--联系电话-->
-                            <div class="col-sm-4">
+                            <div class="col-md-4">
                                 联系电话
-                                <input type="tel" class="form-control"  ms-duplex="data.Tel" disabled>
+                                <input type="tel" class="form-control" disabled>
                                 <br>
                             </div>
-                            <!--电子邮箱-->
-
-                            <div class="col-sm-4">
-                                电子邮箱
-                                <input type="email" class="form-control"  ms-duplex="data.Email" >
-                                <br>
-                            </div>
-                            <!--介绍-->
-                            <div class="col-sm-12">
-                                介绍
-                                <textarea type="text" class="form-control"  ms-duplex="data.Introduce"></textarea>
+                            <div class="col-md-1"></div>
+                            <!--体重-->
+                            <div class="col-md-4">
+                                体重
+                                <input type="text" class="form-control">
                                 <br>
                             </div>
                         </div>
-                        <!--<button class="btn btn-success " ms-click="save">保存修改</button>-->
                         <div class="clearfix"></div>
                     </div>
                 </form>
@@ -621,6 +623,82 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
+</div>
+
+
+
+<div class="modal fade" id="uploadbackground" tabindex="-1" role="dialog" aria-labelledby="uploadLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadLabel">上传背景图片</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form  id="uploadBackgroundForm" enctype="multipart/form-data" name="form1" method="post">
+                <div class="modal-body">
+                    <div class="" >
+                        <img id="newImg" th:src="${myUser.backgroundImg}"  width="764px" />
+                    </div>
+                    <div class=" mt-2">
+                        <input type="file" class="myFileUpload mt-3" name="file" id="backfile" value="" style="display:none;" >
+                        <input class="btn btn-success" type="button" value="选择图片" onclick="document.form1.file.click()">
+                        <div class="showUploadName d-inline"> &nbsp;&nbsp;请上传文件</div>
+                    </div>
+                    <div class="mt-2 offset-5 hide" id="uploadingBackImg">
+                        <span class="fa fa-spinner fa-pulse " style="font-size: 17px"></span> 图片上传中...
+                    </div>
+                    <div class="mt-2 offset-5 text-danger hide " id="uploadBackImgErr">
+                        <span class="fa fa-exclamation-circle text-danger hide " style="font-size: 17px"></span> 请先上传文件
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="closeUploadBackImg" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="uploadbackImg($(this))">确认更改</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="uploadHeadImg" tabindex="-2" role="dialog" aria-labelledby="uploadhead" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadhead">上传头像</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" enctype="multipart/form-data" id="uploadHeadImgForm" name="form2" method="post">
+                <div class="modal-body">
+                    <div class="offset-2" >
+                        <img class="rounded-circle" id="newHeadImg" th:src="${myUser.headImg}" width="300px" height="300px" />
+                    </div>
+                    <div class=" mt-2 ">
+                        <input type="file" class="myFileUpload mt-3" name="file" id="headfile" value="" style="display:none;" >
+                        <input class="btn btn-success" type="button" value="选择图片" onclick="document.form2.file.click()">
+                        <div class="showUploadName d-inline"> &nbsp;&nbsp;请上传文件</div>
+                    </div>
+                    <div class="mt-2 offset-4 hide" id="uploadingHeadImg">
+                        <span class="fa fa-spinner fa-pulse" style="font-size: 17px"></span> 头像上传中...
+                    </div>
+                    <div class="mt-2 offset-4 text-danger hide" id="uploadHeadImgErr">
+                        <span class="fa fa-exclamation-circle text-danger " style="font-size: 17px"></span> 请先上传文件
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="closeUploadHead" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="uploadHeadImg($(this))">确认更改</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>

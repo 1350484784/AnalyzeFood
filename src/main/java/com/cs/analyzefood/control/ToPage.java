@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/to")
-public class ToIndex {
+public class ToPage {
     @RequestMapping("/login")
     public String login(){
         return "/html/login";
