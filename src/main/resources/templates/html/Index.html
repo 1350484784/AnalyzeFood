@@ -32,10 +32,73 @@
             padding: 10px 20px;
             font-size: 1.5em
         }
+        #centerContent{
+            position:fixed;
+            *position:absolute;
+            width:220px;
+            height:55px;
+            top:50%;
+            left:50%;
+            margin:-55px 0 0 -110px;
+            background-color:black;
+            color: white;
+            opacity: 0.65;
+            font-size: 19px;
+            border-radius: 5px;
+            text-align: center;
+            padding-top: 12px;
+            box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.15);
+            filter: glow(grey,1);
+            z-index: 11111111;
+        }
 
     </style>
 
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
+        /*]]>*/
+    </script>
 
+    <script th:inline="javascript">
+        $(function () {
+            $('#edit_user_btn').click(function () {
+                var age = $("input[name='age']").val();
+                var weight = $("input[name='weight']").val();
+
+                if(age < 0 || age > 200){
+                    centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;为了数据正确，请填写详实信息',101);
+                    return false;
+                }
+                if(weight < 0 || weight > 1000){
+                    centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;为了数据正确，请填写详实信息',101);
+                    return false;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: contextPath+"/user/editUser",
+                    data: $('#edit_user_form').serialize(),
+                    success: function (result) {
+
+                    }
+                });
+
+
+            });
+
+
+
+            function centerContent(str, delay){
+
+                $("#centerContent").html(str).delay(delay).fadeIn({duration:200}).delay(1000).fadeOut({duration:200});
+
+            }
+        });
+
+
+    </script>
 
 </head>
 <body class="indexBody">
@@ -550,6 +613,8 @@
     </div>
 </div>
 
+<div id="centerContent" class="hide">操作成功！</div>
+
 <!-- 模态框 (编辑按钮) -->
 <div class="modal fade" id="myModal_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -563,9 +628,11 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <form method="post" class="form-inline">
+                <form method="post" class="form-inline" id="edit_user_form">
                     <div style="width: 650px">
                         <div class="row">
+                            <input type="hidden" name="roleId" th:value="${session.user.roleId}"/>
+
                             <!--昵称-->
                             <div class="col-md-4">
                                 昵称
@@ -609,7 +676,7 @@
                             <div class="col-md-1"></div>
                             <!--体重-->
                             <div class="col-md-4">
-                                体重
+                                体重(斤)
                                 <input type="text" class="form-control" name="weight" th:value="${session.user.weight}">
                                 <br>
                             </div>
