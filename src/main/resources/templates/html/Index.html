@@ -61,17 +61,21 @@
     </script>
 
     <script th:inline="javascript">
+        function centerContent(str, delay){
+
+            $("#centerContent").html(str).delay(delay).fadeIn({duration:200}).delay(1000).fadeOut({duration:200});
+        }
+
         $(function () {
             $('#edit_user_btn').click(function () {
                 var age = $("input[name='age']").val();
                 var weight = $("input[name='weight']").val();
-
                 if(age < 0 || age > 200){
-                    centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;为了数据正确，请填写详实信息',101);
+                    centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;请填写详实信息!',101);
                     return false;
                 }
                 if(weight < 0 || weight > 1000){
-                    centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;为了数据正确，请填写详实信息',101);
+                    centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;请填写详实信息!',101);
                     return false;
                 }
 
@@ -80,8 +84,13 @@
                     dataType: "json",
                     url: contextPath+"/user/editUser",
                     data: $('#edit_user_form').serialize(),
-                    success: function (result) {
+                    success: function (data) {
 
+
+                        $('#myModal_edit').modal('hide');
+                        $(".modal-backdrop").remove();
+                        $("body").removeClass('modal-open');
+                        centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;信息更改成功!',301);
                     }
                 });
 
@@ -90,11 +99,7 @@
 
 
 
-            function centerContent(str, delay){
 
-                $("#centerContent").html(str).delay(delay).fadeIn({duration:200}).delay(1000).fadeOut({duration:200});
-
-            }
         });
 
 
@@ -613,7 +618,7 @@
     </div>
 </div>
 
-<div id="centerContent" class="hide">操作成功！</div>
+<div id="centerContent" style="display:none">操作成功！</div>
 
 <!-- 模态框 (编辑按钮) -->
 <div class="modal fade" id="myModal_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
