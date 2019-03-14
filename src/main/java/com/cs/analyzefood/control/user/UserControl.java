@@ -128,7 +128,7 @@ public class UserControl {
     @RequestMapping("/editUser")
     @ResponseBody
     public ResponseEntity editUser(User user) {
-        System.out.println(JsonUtil.toJson(user));
-        return new ResponseEntity(true, HttpStatus.OK);
+        boolean flag = userService.updateUserSelf(user);
+        return new ResponseEntity(flag, HttpStatus.OK);
     }
 }

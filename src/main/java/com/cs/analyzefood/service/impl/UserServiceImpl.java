@@ -64,5 +64,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.updateUserPwd(phone, base64Pwd);
     }
 
+    @Override
+    public boolean updateUserSelf(User user) {
+        return userMapper.updateUserById(user);
+    }
+
 
 }

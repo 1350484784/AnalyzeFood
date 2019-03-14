@@ -66,6 +66,8 @@
             $("#centerContent").html(str).delay(delay).fadeIn({duration:200}).delay(1000).fadeOut({duration:200});
         }
 
+
+
         $(function () {
             $('#edit_user_btn').click(function () {
                 var age = $("input[name='age']").val();
@@ -85,19 +87,40 @@
                     url: contextPath+"/user/editUser",
                     data: $('#edit_user_form').serialize(),
                     success: function (data) {
+                        if(data){
+                            $('#myModal_edit').modal('hide');
+                            $(".modal-backdrop").remove();
+                            $("body").removeClass('modal-open');
+                            centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;信息更改成功!',101);
+                            setTimeout(function () {
+                                window.location.reload();
+                            },1000);
 
-
-                        $('#myModal_edit').modal('hide');
-                        $(".modal-backdrop").remove();
-                        $("body").removeClass('modal-open');
-                        centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;信息更改成功!',301);
+                        }else {
+                            centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;信息更改失败!',101);
+                        }
                     }
                 });
-
-
             });
 
 
+            $("#headfile").change(function () {
+
+                $("#uploadHeadImgErr").addClass("hide");
+
+                var path = $(this).val();
+                if(path==null ||path.length==0){return;}
+                var extStart = path.lastIndexOf('.'),
+                    ext = path.substring(extStart, path.length).toUpperCase();
+                if (ext !== '.PNG' && ext !== '.JPG' && ext !== '.JPEG' && ext !== '.GIF') {
+                    $("#uploadHeadImgErr").removeClass("hide").html('<span class="fa fa-exclamation-circle text-danger " style="font-size: 17px"></span> 请上传正确的文件格式')
+                    return false;
+                }
+                var str=document.getElementById("headfile").files[0];//图片的地址,安全加密
+                //获得原始的二进制图片地址
+                var imgUlr=window.URL.createObjectURL(str);//解密
+                $("#newHeadImg").attr("src",imgUlr);
+            })
 
 
         });
@@ -166,8 +189,8 @@
                      style="background-image: url(&quot;http://tdz.ufile.ucloud.com.cn/27/2017-03-22/58d1ff2794a63.jpg&quot;);"></div>
                 <div class="container" style="height: 130px;text-align: center;padding-top: 40px">
 
-                    <!--模态框-->
-                    <button class="btn-edit-bg" style="">
+                    <!--模态框 uploadbackground-->
+                    <button class="btn-edit-bg" data-toggle="modal" data-target="#uploadbackground">
                         <i class="icon iconfont icon-xiangji"></i>
                         &nbsp;&nbsp;编辑背景图片
                     </button>
@@ -180,7 +203,7 @@
                                 <div class="hr-panel-body"
                                      style="padding: 0px;background-color: rgba(255,255,255,0.85);">
 
-                                    <!--模态框-->
+                                    <!--模态框 myModal_edit-->
                                     <button type="button" class="btn btn-primary"
                                             style="position: absolute; top: -10px; right: 30px; z-index: 1;"
                                             data-toggle="modal" data-target="#myModal_edit">
@@ -191,9 +214,8 @@
                                             <!--头像-->
                                             <div class="coach-head">
                                                 <img th:src="'/AnalyzeFood'+${session.user.headImg}" style="width: 100%; height: 100%;object-fit:cover;">
-                                                <!--模态框-->
-                                                <button class="btn-edit-head"
-                                                        style="width: 100%; position: absolute; bottom: 0px;">
+                                                <!--模态框 uploadHeadImg-->
+                                                <button class="btn-edit-head" style="width: 100%; position: absolute; bottom: 0px;" data-toggle="modal" data-target="#uploadHeadImg">
                                                     编辑头像
                                                 </button>
                                             </div>
@@ -750,7 +772,7 @@
             <form action="" enctype="multipart/form-data" id="uploadHeadImgForm" name="form2" method="post">
                 <div class="modal-body">
                     <div class="offset-2" >
-                        <!--<img class="rounded-circle" id="newHeadImg" th:src="${user.headImg}" width="300px" height="300px" />-->
+                        <img class="rounded-circle" id="newHeadImg" th:src="'/AnalyzeFood'+${user.headImg}" width="300px" height="300px" />
                     </div>
                     <div class=" mt-2 ">
                         <input type="file" class="myFileUpload mt-3" name="file" id="headfile" value="" style="display:none;" >

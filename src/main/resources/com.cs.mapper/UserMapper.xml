@@ -15,6 +15,10 @@
         update user_info set s_password = #{param2} where s_phone = #{param1}
     </update>
 
+    <update id="updateUserById">
+        update user_info set s_roleAccount = #{roleAccount}, s_name = #{name}, n_age = #{age},n_weight = #{weight}, s_sex = #{sex} where n_roleId = #{roleId}
+    </update>
+
     <select id="selectUserByPhone" resultType="com.cs.analyzefood.entity.User">
         select n_roleId roleId from user_info where s_phone = #{param1}
     </select>

@@ -14,4 +14,6 @@ public interface UserMapper {
     boolean updateUserOnlineFlag(int roleId,byte onlineFlag);
 
     boolean updateUserPwd(String phone, String password);
+
+    boolean updateUserById(User user);
 }
