@@ -1,22 +1,9 @@
-/*
-个人中心 外在肌肤，水嫩丝滑
-生成时间：Tue Nov 08 2016   破门狂人R2-D2为您服务！
-*/
-.Home {
-
-}
 
 .home-bg {
     position: absolute;
     width: 100%;
     height: 340px;
-    background-color: #fff;
     z-index: -1;
-    /*background-image: url(../../src/images/HomeBG.jpg);*/
-    background-size:  100% auto;
-    background-position: top;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
 }
 .coach-head{
     /*background-image: url(../../src/images/head.png);*/

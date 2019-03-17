@@ -15,7 +15,6 @@ layui.config({
     var foodTypeObj = [];
     if(window.sessionStorage.getItem("foodType")){
         foodTypeObj = JSON.parse(window.sessionStorage.getItem("foodType"));
-        console.log("1",foodTypeObj)
     }else{
         $.ajax({
             url: "/" + projectName + "/manage/getFoodType",
@@ -24,7 +23,6 @@ layui.config({
                 if(!data){
                     top.layer.msg("没有数据！");
                 }else{
-                    console.log("2",JSON.stringify(data))
                     window.sessionStorage.setItem("foodType",JSON.stringify(data));
                 }
             }

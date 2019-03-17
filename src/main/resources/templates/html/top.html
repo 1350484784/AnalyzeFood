@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/css/user/Home.css}">
+    <link rel="stylesheet" th:href="@{/css/user/iconfont.css}">
+    <link rel="stylesheet" th:href="@{/css/user/layout.css}">
+    <link rel="stylesheet" th:href="@{/css/user/local.css}">
+    <link rel="stylesheet" th:href="@{/css/user/pager.css}">
+    <link rel="stylesheet" th:href="@{/css/user/userIndex.css}">
+
+    <script th:src="@{/js/user/top.js}"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-default nav_top">
+    <div class="container">
+        <div>
+            <ul class="nav nav-pills ">
+                <!--<li>-->
+                <!--<img src="src/images/logo-nav.png" alt="" height="50px">-->
+                <!--</li>-->
+                <li>
+                    <span class="navbar-brand" style="color:#00ad3d">碳蛋知</span>
+                </li>
+
+                <!--url-->
+                <li class="now">
+                    <a class="nav_a_style" th:href="@{/to/userIndex}">
+                        我的主页
+                    </a>
+                </li>
+                <li>
+                    <a class="nav_a_style"
+                       href="https://www.tandanzhi.com/index.html#!/DietList/1&amp;&amp;&amp;&amp;">
+                        食谱库
+                    </a>
+                </li>
+                <li>
+                    <a class="nav_a_style"
+                       href="https://www.tandanzhi.com/index.html#!/FoodList/1&amp;&amp;&amp;&amp;">
+                        食物成分表
+                    </a>
+                </li>
+
+                <li class="pull-right">
+                    <a th:href="@{/user/logout}" style="padding:10px ;font-size: 14px;line-height: 30px;cursor: pointer;display: inline-block">登出</a>
+                </li>
+                <li class="pull-right" onmouseover="touch_on()" onmouseout="touch_out()">
+                    <a style="font-size: 14px;line-height: 30px;display: inline-block">
+                        <i class="icon icon-cog">&nbsp;&nbsp;</i><span th:text="${session.user.roleAccount}"></span>
+                    </a>
+                    <!--url-->
+                    <ul class="dropdown-menu" style="text-align: center;">
+                        <li ><a th:href="@{/to/userUpdatePwd}">修改密码</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

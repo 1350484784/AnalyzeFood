@@ -1,0 +1,33 @@
+.indexBody {
+    overflow: hidden scroll;
+    margin-right: 0px;
+}
+
+.nav_top {
+    margin-bottom: 0px;
+    background: linear-gradient(rgb(255, 255, 255), rgb(250, 250, 250));
+}
+
+.nav_a_style {
+    padding: 10px 20px;
+    font-size: 1.5em
+}
+#centerContent{
+    position:fixed;
+    *position:absolute;
+    width:220px;
+    height:55px;
+    top:50%;
+    left:50%;
+    margin:-55px 0 0 -110px;
+    background-color:black;
+    color: white;
+    opacity: 0.65;
+    font-size: 19px;
+    border-radius: 5px;
+    text-align: center;
+    padding-top: 12px;
+    box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.15);
+    filter: glow(grey,1);
+    z-index: 11111111;
+}

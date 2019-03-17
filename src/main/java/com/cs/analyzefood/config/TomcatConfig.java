@@ -40,6 +40,11 @@ public class TomcatConfig {
     @Value("${spring.server.MaxRequestSize}")
     private String MaxRequestSize;
 
+    //虚拟路径
+    @Value("${web.upload-path}")
+    private String path;
+
+
     @Bean
     public ServletWebServerFactory servletContainer() {
         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
@@ -51,6 +56,8 @@ public class TomcatConfig {
     @Bean
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
+
+        factory.setLocation(path);
         //  单个数据大小
         factory.setMaxFileSize(MaxFileSize); // KB,MB
         /// 总上传数据大小

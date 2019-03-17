@@ -16,4 +16,6 @@ public interface UserMapper {
     boolean updateUserPwd(String phone, String password);
 
     boolean updateUserById(User user);
+
+    boolean updateUserHeadImgById(String imgName, int roleId);
 }

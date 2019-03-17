@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cs.analyzefood.mapper.UserZoneMapper">
+    <insert id="insertUserZone">
+        insert into user_zone (n_roleId,s_backgroundImg) values (#{param1},#{param2})
+    </insert>
+
+    <update id="updateUserZoneBgImgById">
+         update user_zone set s_backgroundImg = #{param1} where n_roleId = #{param2}
+    </update>
+
+    <select id="selectZone" resultType="com.cs.analyzefood.entity.UserZone">
+        select n_id id, n_roleId roleId, s_backgroundImg backgroundImg from user_zone where n_roleId = #{param1}
+    </select>
+</mapper>

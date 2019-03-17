@@ -12,6 +12,11 @@ public class ToPage {
         return "/html/login";
     }
 
+    @RequestMapping("/userIndex")
+    public String index(){
+        return "/html/index";
+    }
+
     @RequestMapping("/register")
     public String register(){
         return "/html/register";
@@ -46,4 +51,11 @@ public class ToPage {
     public String toAddFood(){
         return "/html/manage/addFood";
     }
+
+    @RequestMapping("/userUpdatePwd")
+    public String toUserUpdatePwd(){
+        return "/html/user/userUpdatePwd";
+    }
+
+
 }

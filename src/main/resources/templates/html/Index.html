@@ -4,55 +4,10 @@
     <meta charset="UTF-8">
     <title>INDEX</title>
 
-
-    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}"/>
-    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
-    <link rel="stylesheet" th:href="@{/css/user/Home.css}">
-    <link rel="stylesheet" th:href="@{/css/user/iconfont.css}">
-    <link rel="stylesheet" th:href="@{/css/user/layout.css}">
-    <link rel="stylesheet" th:href="@{/css/user/local.css}">
-    <link rel="stylesheet" th:href="@{/css/user/pager.css}">
-
-
     <script th:src="@{/bootstrap/js/jquery-3.3.1.js}"></script>
     <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    <script th:src="@{/js/user/userIndex.js}"></script>
 
-    <style>
-        .indexBody {
-            overflow: hidden scroll;
-            margin-right: 0px;
-        }
-
-        .nav_top {
-            margin-bottom: 0px;
-            background: linear-gradient(rgb(255, 255, 255), rgb(250, 250, 250));
-        }
-
-        .nav_a_style {
-            padding: 10px 20px;
-            font-size: 1.5em
-        }
-        #centerContent{
-            position:fixed;
-            *position:absolute;
-            width:220px;
-            height:55px;
-            top:50%;
-            left:50%;
-            margin:-55px 0 0 -110px;
-            background-color:black;
-            color: white;
-            opacity: 0.65;
-            font-size: 19px;
-            border-radius: 5px;
-            text-align: center;
-            padding-top: 12px;
-            box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.15);
-            filter: glow(grey,1);
-            z-index: 11111111;
-        }
-
-    </style>
 
     <script th:inline="javascript">
         /*<![CDATA[*/
@@ -61,12 +16,6 @@
     </script>
 
     <script th:inline="javascript">
-        function centerContent(str, delay){
-
-            $("#centerContent").html(str).delay(delay).fadeIn({duration:200}).delay(1000).fadeOut({duration:200});
-        }
-
-
 
         $(function () {
             $('#edit_user_btn').click(function () {
@@ -104,89 +53,97 @@
             });
 
 
-            $("#headfile").change(function () {
+        });
 
-                $("#uploadHeadImgErr").addClass("hide");
-
-                var path = $(this).val();
-                if(path==null ||path.length==0){return;}
+        function uploadHeadImg(obj){
+            var path = $("#headfile").val();
+            if (path.length == 0) {
+                $("#uploadHeadImgErr").removeClass("hide").html('<span class="fa fa-exclamation-circle text-danger " style="font-size: 17px"></span> 请先上传文件')
+                return false;
+            } else {
                 var extStart = path.lastIndexOf('.'),
                     ext = path.substring(extStart, path.length).toUpperCase();
                 if (ext !== '.PNG' && ext !== '.JPG' && ext !== '.JPEG' && ext !== '.GIF') {
                     $("#uploadHeadImgErr").removeClass("hide").html('<span class="fa fa-exclamation-circle text-danger " style="font-size: 17px"></span> 请上传正确的文件格式')
                     return false;
                 }
-                var str=document.getElementById("headfile").files[0];//图片的地址,安全加密
-                //获得原始的二进制图片地址
-                var imgUlr=window.URL.createObjectURL(str);//解密
-                $("#newHeadImg").attr("src",imgUlr);
-            })
+            }
+
+            $('#uploadingHeadImg').removeClass("hide")
+
+            $.ajax({
+                type:"post",
+                url:contextPath+"/user/uploadHeadImg",
+                cache: false,
+                data: new FormData($("#uploadHeadImgForm")[0]),
+                processData: false,
+                contentType: false,
+                success:function (resultData) {
+                    $('#uploadingHeadImg').addClass("hide")
+                    $("#closeUploadHead").trigger("click")
+                    centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;头像更改成功!',301);
+                    var url = resultData;
+                    $("#headImg").attr("src",contextPath+url);
+                },
+                error:function () {
+                    alert("服务器请求失败");
+                }
+            });
+        }
 
 
-        });
+        function uploadbackImg(obj){
 
+            var path = $("#backfile").val();
+            if (path.length == 0) {
+                $("#uploadBackImgErr").removeClass("hide").html('<span class="fa fa-exclamation-circle text-danger " style="font-size: 17px"></span> 请先上传文件')
+                return false;
+            } else {
+                var extStart = path.lastIndexOf('.'),
+                    ext = path.substring(extStart, path.length).toUpperCase();
+                if (ext !== '.PNG' && ext !== '.JPG' && ext !== '.JPEG' && ext !== '.GIF') {
+                    $("#uploadBackImgErr").removeClass("hide").html('<span class="fa fa-exclamation-circle text-danger " style="font-size: 17px"></span> 请上传正确的文件格式')
+                    return false;
+                }
+            }
+
+            $('#uploadingBackImg').removeClass("hide")
+
+            $.ajax({
+                type:"post",
+                url:contextPath+"/user/uploadBgImg",
+                cache: false,
+                data: new FormData($("#uploadBackgroundForm")[0]),
+                processData: false,
+                contentType: false,
+                success:function (resultData) {
+                    $('#uploadingBackImg').addClass("hide")
+                    $("#closeUploadBackImg").trigger("click")
+                    centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;背景更改成功!',301);
+                    var url = resultData;
+                    $(".headback").css("background","linear-gradient(to top, rgba(0,0,0,0.5), rgba(255,255,255,0)),url('"+contextPath+url+"') repeat-y").css("background-size","100%")
+                },
+                error:function () {
+                    alert("服务器请求失败");
+                }
+            });
+        }
 
     </script>
 
+
+
 </head>
 <body class="indexBody">
-<div>
-    <div id="body" style="">
-        <!-- topNav-->
-        <nav class="navbar navbar-default nav_top">
-            <div class="container">
-                <div>
-                    <ul class="nav nav-pills ">
-                        <!--<li>-->
-                        <!--<img src="src/images/logo-nav.png" alt="" height="50px">-->
-                        <!--</li>-->
-                        <li>
-                            <span class="navbar-brand" style="color:#00ad3d">
-                                碳蛋知
-                            </span>
-                        </li>
-
-                        <!--url-->
-                        <li class="now">
-                            <a class="nav_a_style"
-                               href="https://www.tandanzhi.com/index.html#!/Home/0&amp;&amp;&amp;&amp;">
-                                我的主页
-                            </a>
-                        </li>
-                        <li>
-                            <a class="nav_a_style"
-                               href="https://www.tandanzhi.com/index.html#!/DietList/1&amp;&amp;&amp;&amp;">
-                                食谱库
-                            </a>
-                        </li>
-                        <li>
-                            <a class="nav_a_style"
-                               href="https://www.tandanzhi.com/index.html#!/FoodList/1&amp;&amp;&amp;&amp;">
-                                食物成分表
-                            </a>
-                        </li>
-                        <li class="pull-right">
-                        </li>
-                        <li class="pull-right">
-                            <a style="font-size: 14px;line-height: 30px;display: inline-block">
-                                <i class="icon icon-cog">&nbsp;&nbsp;</i><span th:text="${session.user.roleAccount}"></span></a>
-                            <!--url-->
-                            <ul class="dropdown-menu" style="display: none;">
-                                <li><a href="https://www.tandanzhi.com/index.html#!/PWDEdit/27">修改密码</a></li>
-                            </ul>
-
-                            <a style="padding:10px ;font-size: 14px;line-height: 30px;cursor: pointer;display: inline-block">登出</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    <div id="body">
+        <!--nav-->
+        <div th:replace="/html/top :: html"></div>
 
         <div id="content" style="height: auto; opacity: 1;">
             <div style=" position: relative;">
                 <!--背景图-->
-                <div class="home-bg"
-                     style="background-image: url(&quot;http://tdz.ufile.ucloud.com.cn/27/2017-03-22/58d1ff2794a63.jpg&quot;);"></div>
+                <div class="home-bg headback" th:style="'background:'+ 'linear-gradient(to top, rgba(0,0,0,0.5), rgba(255,255,255,0)),url(/AnalyzeFood'+${session.userZone.backgroundImg}+') repeat-y;'+'background-size:'+'100%'"></div>
+
                 <div class="container" style="height: 130px;text-align: center;padding-top: 40px">
 
                     <!--模态框 uploadbackground-->
@@ -213,7 +170,7 @@
                                         <div class="col-sm-2" style="overflow: hidden;height: 166px;">
                                             <!--头像-->
                                             <div class="coach-head">
-                                                <img th:src="'/AnalyzeFood'+${session.user.headImg}" style="width: 100%; height: 100%;object-fit:cover;">
+                                                <img id="headImg" th:src="'/AnalyzeFood'+${session.user.headImg}" style="width: 100%; height: 100%;object-fit:cover;">
                                                 <!--模态框 uploadHeadImg-->
                                                 <button class="btn-edit-head" style="width: 100%; position: absolute; bottom: 0px;" data-toggle="modal" data-target="#uploadHeadImg">
                                                     编辑头像
@@ -234,29 +191,9 @@
                                                         注册时间：<span th:text="${#dates.format(session.user.createTime,'yyyy-MM-dd')}"></span><br>
 
                                                         <!--<br>-->
-                                                        联系电话：<span th:text="${user.phone}"></span>
+                                                        联系电话：<span th:text="${session.user.phone}"></span>
                                                     </div>
                                                 </div>
-                                                <!--<div class="col-sm-6">-->
-                                                <!--介绍：dsddf-->
-                                                <!--<br>-->
-
-                                                <!--<div>-->
-                                                <!--碳蛋知证书：-->
-                                                <!--<a class="btn btn-link"-->
-                                                <!--href="https://www.tandanzhi.com/index.html#!/Certificate/27&amp;&amp;0">-->
-                                                <!--更多证书-->
-                                                <!--<i class="icon-angle-right"></i>-->
-                                                <!--</a>-->
-                                                <!--<div class="box-row">-->
-                                                <!--&lt;!&ndash;repeat4471073743254:start&ndash;&gt;<a class="home-cf"-->
-                                                <!--href="https://www.tandanzhi.com/index.html#!/Certificate/27&amp;&amp;1">-->
-                                                <!--<i class="iconfont cf-logo-1"></i>-->
-                                                <!--健身营养配餐原理&amp;实操-->
-                                                <!--</a>&lt;!&ndash;repeat4471073743254&ndash;&gt;&lt;!&ndash;repeat4471073743254:end&ndash;&gt;-->
-                                                <!--</div>-->
-                                                <!--</div>-->
-                                                <!--</div>-->
                                             </div>
                                         </div>
                                     </div>
@@ -285,8 +222,6 @@
 
                     <!--url-->
                     <div class="home-tab-nav">
-                        <!--<a href="https://www.tandanzhi.com/index.html#!/Home/27&amp;&amp;member&amp;&amp;1&amp;&amp;&amp;&amp;0_1"-->
-                        <!--class="" style="">我的会员</a>-->
                         <a href="https://www.tandanzhi.com/index.html#!/Home/27&amp;&amp;myDiet&amp;&amp;1&amp;&amp;&amp;&amp;"
                            class="nowTab">我的食谱</a>
                         <!--ms-if-->
@@ -300,36 +235,9 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <br>
-                                <a href="https://www.tandanzhi.com/index.html#!/EditDiet/0"
+                                <!--url-->
+                                <a th:href="@{/user/userAddMeal}"
                                    class="btn btn-success btn-block">创建食谱</a>
-                            </div>
-                            <div class="col-md-6">
-                                <br>
-                                <input type="text" class="form-control" placeholder="输入关键词或能量总和"
-                                       aria-describedby="basic-addon2">
-                            </div>
-                            <div class="col-md-4">
-                                <br>
-                                <div class="pull-right" style="padding-top:8px">
-                                    <tsy:select config="$selectDL">
-                                        <div class="btn-group btn-group-xs" role="group">
-                                            <button type="button" class="btn btn-default">
-                                                <span>全选</span>
-                                                <span style="display: none;">反选</span>
-                                            </button>
-                                            <!--repeat041133142836:start-->
-                                            <button class="btn btn-default">
-                                                减脂
-                                            </button><!--repeat041133142836-->
-                                            <button class="btn btn-default">
-                                                增肌
-                                            </button><!--repeat041133142836-->
-                                            <button class="btn btn-default">
-                                                塑型
-                                            </button><!--repeat041133142836--><!--repeat041133142836:end-->
-                                        </div>
-                                    </tsy:select>
-                                </div>
                             </div>
                         </div>
                         <br>
@@ -638,7 +546,7 @@
         <!--</div>-->
         <!--</div>-->
     </div>
-</div>
+
 
 <div id="centerContent" style="display:none">操作成功！</div>
 
@@ -732,14 +640,13 @@
                 </button>
             </div>
             <form  id="uploadBackgroundForm" enctype="multipart/form-data" name="form1" method="post">
-                <div class="modal-body">
+                <div class="modal-body" style="text-align: center; ">
                     <div class="" >
-                        <!--<img id="newImg" th:src="${user.headImg}"  width="764px" />-->
+                        <img id="newImg" th:src="'/AnalyzeFood'+${session.userZone.backgroundImg}"  width="764px" />
                     </div>
                     <div class=" mt-2">
                         <input type="file" class="myFileUpload mt-3" name="file" id="backfile" value="" style="display:none;" >
                         <input class="btn btn-success" type="button" value="选择图片" onclick="document.form1.file.click()">
-                        <div class="showUploadName d-inline"> &nbsp;&nbsp;请上传文件</div>
                     </div>
                     <div class="mt-2 offset-5 hide" id="uploadingBackImg">
                         <span class="fa fa-spinner fa-pulse " style="font-size: 17px"></span> 图片上传中...
@@ -770,14 +677,13 @@
                 </button>
             </div>
             <form action="" enctype="multipart/form-data" id="uploadHeadImgForm" name="form2" method="post">
-                <div class="modal-body">
+                <div class="modal-body" style="text-align: center; ">
                     <div class="offset-2" >
-                        <img class="rounded-circle" id="newHeadImg" th:src="'/AnalyzeFood'+${user.headImg}" width="300px" height="300px" />
+                        <img class="rounded-circle" id="newHeadImg" th:src="'/AnalyzeFood'+${session.user.headImg}" width="300px" height="300px" />
                     </div>
-                    <div class=" mt-2 ">
+                    <div class="mt-2" style="margin-top: 20px">
                         <input type="file" class="myFileUpload mt-3" name="file" id="headfile" value="" style="display:none;" >
                         <input class="btn btn-success" type="button" value="选择图片" onclick="document.form2.file.click()">
-                        <div class="showUploadName d-inline"> &nbsp;&nbsp;请上传文件</div>
                     </div>
                     <div class="mt-2 offset-4 hide" id="uploadingHeadImg">
                         <span class="fa fa-spinner fa-pulse" style="font-size: 17px"></span> 头像上传中...

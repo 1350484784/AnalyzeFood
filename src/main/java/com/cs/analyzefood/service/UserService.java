@@ -16,4 +16,6 @@ public interface UserService {
     boolean updateUserPwd(String phone,String password);
 
     boolean updateUserSelf(User user);
+
+    String uploadUserHeadImg(int roleId, String imgName);
 }

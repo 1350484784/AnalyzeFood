@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>INDEX</title>
+    <script th:src="@{/bootstrap/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+
+    <style>
+        .spanpass {
+            height: 25px;
+        }
+        .red_size{
+            color:red;
+            display:block;
+        }
+    </style>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
+        /*]]>*/
+    </script>
+
+    <script th:inline="javascript">
+        // 验证密码
+        function isPwdNo(pwd) {
+            var pattern = /^[\x21-\x7E]{6,20}$/;
+            return pattern.test(pwd);
+        }
+        function userPwd(inputid, spanid) {
+            $(inputid).blur(function () {
+                if ($.trim($(inputid).val()).length == 0) {
+                    $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 密码没有输入");
+                    $(spanid).addClass('red_size');
+                } else {
+                    if (isPwdNo($.trim($(inputid).val())) == false) {
+                        $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 请输入六位以的密码组合");
+                        $(spanid).addClass('red_size');
+
+                    }
+                }
+                $(inputid).focus(function () {
+                    $(spanid).html("");
+                });
+            });
+        };
+
+        function inputIsNull(inputid, spanid){
+            if($(inputid).val() == ''){
+                $(spanid).html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 密码没有输入");
+                $(spanid).addClass('red_size');
+                return true;
+            }
+        }
+
+        function pwdIsNotSame(pwd,confirmPwd){
+            if($(pwd).val() != $(confirmPwd).val()){
+                $('#pwd_ps3').html("&nbsp;&nbsp;&nbsp;<span class='fa fa-exclamation-circle' style = 'color:red'>&nbsp;</span> 密码没有输入");
+                $('#pwd_ps3').addClass('red_size');
+                return true;
+            }
+        }
+
+        $(function () {
+            userPwd('#pwd1', "#pwd_ps1");
+            userPwd('#pwd2', "#pwd_ps2");
+            userPwd('#pwd3', "#pwd_ps3");
+
+            $('#conformPwd').click(function () {
+                if(inputIsNull('#pwd1', "#pwd_ps1")){
+                    return ;
+                }
+                if(inputIsNull('#pwd2', "#pwd_ps2")){
+                    return ;
+                }
+                if(inputIsNull('#pwd3', "#pwd_ps3")){
+                    return ;
+                }
+
+                if(pwdIsNotSame('#pwd2','#pwd3')){
+                    return ;
+                }
+
+                var oldPwd = $('#pwd1').val();
+                var newPwd = $('#pwd2').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: contextPath+"/user/updatePwd",
+                    data: {oldPwd:oldPwd,newPwd:newPwd},
+                    success: function (resultData) {
+                        if(resultData){
+                            centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;密码更改成功!',101);
+                            $('#pwd1').val("");
+                            $('#pwd2').val("");
+                            $('#pwd3').val("");
+                        }else{
+                            centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;原始密码错误!',101);
+                        }
+                    },
+                    error: function (){
+                        alert("服务器错误 ...")
+                    }
+                })
+            });
+        });
+    </script>
+</head>
+<body class="indexBody">
+<div id="body">
+    <!--nav-->
+    <div th:replace="/html/top :: html"></div>
+
+    <div id="content" style="height: auto; opacity: 1;">
+        <div class="row">
+            <br>
+            <br>
+            <div class="col-sm-4 col-sm-offset-4">
+                <h2>
+                    修改密码
+                </h2>
+                <h2>
+                    <small>
+                        输入原来的密码
+                    </small>
+                </h2>
+
+                <input type="password" id="pwd1" name="oldPwd" class="form-control" placeholder="输入原来的密码（验证账户安全）">
+                <div class="spanpass"><span id="pwd_ps1" style="text-align: left!important;"></span></div>
+                <br>
+                <h2>
+                    <small>
+                        输入新密码
+                    </small>
+                </h2>
+                <input type="password" id="pwd2" name="newPwd" class="form-control" placeholder="输入新的密码（一定要记住）">
+                <div class="spanpass"><span id="pwd_ps2" style="text-align: left!important;"></span></div>
+                <br>
+                <input type="password" id="pwd3" name="confirmPwd" class="form-control" placeholder="再输入一次新的密码（以免输错）">
+                <div class="spanpass"><span id="pwd_ps3" style="text-align: left!important;"></span></div>
+                <br>
+                <div class="row">
+                    <br>
+                    <div class="col-sm-6">
+                        <button id="conformPwd" class="btn btn-success btn-block">确认修改</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button class="btn btn-default btn-block" onclick="history.go(-1)">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="centerContent" style="display:none">操作成功！</div>
+</body>
+</html>
