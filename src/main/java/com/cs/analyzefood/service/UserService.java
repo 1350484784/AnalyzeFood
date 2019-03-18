@@ -1,6 +1,8 @@
 package com.cs.analyzefood.service;
 
+import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.entity.User;
+import com.github.pagehelper.PageInfo;
 
 public interface UserService {
     User findUserByPhone(String phone);
@@ -18,4 +20,6 @@ public interface UserService {
     boolean updateUserSelf(User user);
 
     String uploadUserHeadImg(int roleId, String imgName);
+
+    PageInfo<Food> getAllfood(int currentPage);
 }

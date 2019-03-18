@@ -1,6 +1,9 @@
 package com.cs.analyzefood.mapper;
 
+import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.entity.User;
+
+import java.util.List;
 
 public interface UserMapper {
     User selectUserByPhone(String phone);
@@ -18,4 +21,8 @@ public interface UserMapper {
     boolean updateUserById(User user);
 
     boolean updateUserHeadImgById(String imgName, int roleId);
+
+    List<Food> selectAllFoods();
+
+    int selectFoodNum();
 }

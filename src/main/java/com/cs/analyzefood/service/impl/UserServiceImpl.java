@@ -1,10 +1,13 @@
 package com.cs.analyzefood.service.impl;
 
+import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.mapper.UserMapper;
 import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.mapper.UserZoneMapper;
 import com.cs.analyzefood.service.UserService;
 import com.cs.analyzefood.util.DateUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -88,6 +92,22 @@ public class UserServiceImpl implements UserService {
     public String uploadUserHeadImg(int roleId, String imgName) {
         userMapper.updateUserHeadImgById(headImg_path+imgName,roleId);
         return headImg_path+imgName;
+    }
+
+    @Override
+    public PageInfo<Food> getAllfood(int currentPage) {
+        int count = userMapper.selectFoodNum();
+        PageHelper.startPage(currentPage,8);
+        List<Food> foods = userMapper.selectAllFoods();
+        PageInfo<Food> pageInfo = new PageInfo<>(foods);
+        //当前页
+        pageInfo.setPageNum(currentPage);
+        System.out.println(pageInfo.getPageNum());
+        //每页显示的条数
+        pageInfo.setPageSize(8);
+        //总条数
+        pageInfo.setTotal(count);
+        return pageInfo;
     }
 
 

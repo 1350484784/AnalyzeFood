@@ -1,6 +1,7 @@
 package com.cs.analyzefood.control.user;
 
 import com.cs.analyzefood.entity.Admin;
+import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.entity.UserZone;
 import com.cs.analyzefood.exception.SystemFailedException;
@@ -9,6 +10,8 @@ import com.cs.analyzefood.service.UserService;
 import com.cs.analyzefood.service.UserZoneService;
 import com.cs.analyzefood.util.JsonUtil;
 import com.cs.analyzefood.util.SendMessageUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -219,8 +223,10 @@ public class UserControl {
 
 
     @RequestMapping("/userAddMeal")
-    public String userAddMeal(){
-
+    public String userAddMeal(@RequestParam(name = "currentPage",defaultValue = "1") int currentPage, Model model){
+        PageInfo<Food> pageInfo = userService.getAllfood(currentPage);
+        model.addAttribute("foods",pageInfo);
+        System.out.println(JsonUtil.toJson(pageInfo));
         return "/html/user/addDietDetail";
     }
 }

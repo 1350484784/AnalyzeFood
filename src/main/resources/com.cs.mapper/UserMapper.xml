@@ -35,4 +35,15 @@
         select n_roleId roleId,s_roleAccount roleAccount,s_name name,s_password password,n_age age,n_weight weight, s_sex sex,s_phone phone,d_createTime createTime,s_headImg headImg, n_onlineFlag onlineFlag
         from user_info where s_phone = #{param1} and s_password = #{param2}
     </select>
+
+    <select id="selectAllFoods" resultType="com.cs.analyzefood.entity.Food">
+        select n_foodId foodId, s_foodName foodName,n_typeId typeId,n_eat_part eat_part,n_energy energy,n_moisture moisture,
+        n_protein protein,n_fat fat,n_fiber fiber,n_carbohydrate carbohydrate,n_va va,n_vb1 vb1,n_vb2 vb2,n_niacin niacin,
+        n_ve ve,n_Na na,n_Ca ca,n_Fe fe,n_vc vc,n_cholesterol cholesterol
+        from food_info where n_delFlag = 1
+    </select>
+
+    <select id="selectFoodNum" resultType="java.lang.Integer">
+        select count(*) from food_info where n_delFlag = 1
+    </select>
 </mapper>
