@@ -57,5 +57,8 @@ public class ToPage {
         return "/html/user/userUpdatePwd";
     }
 
-
+    @RequestMapping("/userAddMeal")
+    public String userAddMeal(){
+        return "/html/user/addDietDetail";
+    }
 }

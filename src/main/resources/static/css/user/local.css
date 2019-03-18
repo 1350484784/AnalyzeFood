@@ -121,7 +121,7 @@ input {
     display: inline-block;
     width: 20px;
     height: 20px;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 20px;
     text-align: center;
     /*color: #ffffff;*/
@@ -210,7 +210,7 @@ input {
 }
 
 .food-type-6:after {
-    content: "奶"
+    content: "乳"
 }
 
 .food-type-7 {
@@ -246,7 +246,7 @@ input {
 }
 
 .food-type-10:after {
-    content: "盐"
+    content: "另"
 }
 
 .food-type-11 {

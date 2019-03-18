@@ -95,20 +95,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageInfo<Food> getAllfood(int currentPage) {
-        int count = userMapper.selectFoodNum();
-        PageHelper.startPage(currentPage,8);
-        List<Food> foods = userMapper.selectAllFoods();
-        PageInfo<Food> pageInfo = new PageInfo<>(foods);
-        //当前页
-        pageInfo.setPageNum(currentPage);
-        System.out.println(pageInfo.getPageNum());
-        //每页显示的条数
-        pageInfo.setPageSize(8);
-        //总条数
-        pageInfo.setTotal(count);
-        return pageInfo;
+    public int getFoodsCount() {
+        return userMapper.selectFoodNum();
     }
+
+    @Override
+    public List<Food> getPageFood(int begin, int count) {
+        return userMapper.selectFoodPage(begin, count);
+    }
+
+//    @Override
+//    public PageInfo<Food> getAllfood(int currentPage) {
+//        int count = userMapper.selectFoodNum();
+//        PageHelper.startPage(currentPage,8);
+//        List<Food> foods = userMapper.selectAllFoods();
+//        PageInfo<Food> pageInfo = new PageInfo<>(foods);
+//        //当前页
+//        pageInfo.setPageNum(currentPage);
+//        System.out.println(pageInfo.getPageNum());
+//        //每页显示的条数
+//        pageInfo.setPageSize(8);
+//        //总条数
+//        pageInfo.setTotal(count);
+//        return pageInfo;
+//    }
+
+
 
 
 }

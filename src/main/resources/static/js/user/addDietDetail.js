@@ -1,3 +1,6 @@
+var pathName = window.document.location.pathname;
+var projectName = pathName.substring(1, pathName.substr(1).indexOf('/') + 1);
+
 //获取食物类型
 function getFoodType() {
     //json  food_type
@@ -8,12 +11,13 @@ function getFoodType() {
         $.ajax({
             url: "/" + projectName + "/manage/getFoodType",
             type: "post",
+            async:false,
             success: function (data) {
                 if(!data){
-                    top.layer.msg("没有数据！");
+                    alert("没有数据！");
                 }else{
+                    foodTypeObj = data;
                     window.sessionStorage.setItem("foodType",JSON.stringify(data));
-                    foodTypeObj = JSON.parse(window.sessionStorage.getItem("foodType"));
                 }
             }
         });

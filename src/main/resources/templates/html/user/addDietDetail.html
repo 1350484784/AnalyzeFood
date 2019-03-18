@@ -9,6 +9,12 @@
     <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
     <script th:src="@{/js/user/addDietDetail.js}"></script>
 
+    <style>
+        .style_foodName{
+            font-size: 13px;
+        }
+    </style>
+
     <script th:inline="javascript">
         /*<![CDATA[*/
         var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
@@ -16,8 +22,87 @@
     </script>
 
     <script th:inline="javascript">
+
+        function focusFood(t){
+            // alert($(t).html())
+            alert($(t).children('.selectPre').html())
+        }
+
+        <!-- 分页 -->
+        function page_food(currentPage){
+            $.ajax({
+                type:"post",
+                url:contextPath+"/user/foodPage",
+                data: {currentPage: currentPage},
+                success:function (resultData) {
+                    console.log("foods",resultData)
+                    console.log("1",getFoodType());
+                    var foodType = getFoodType();
+
+                    var foodClass = ['谷','豆','蔬','果','肉',' 乳','蛋','鱼','油','另'];
+                    var str = '';
+                    for(var i = 0; i < resultData.foods.length; i++){
+                        var typeName = '另';
+                        var thisFoodClass = 'food-type-';
+                        for(var j = 0; j < foodType.length; j++) {
+                            if(resultData.foods[i].typeId === foodType[j].number){
+                                typeName = foodType[j].typeName;
+                                break;
+                            }
+                        }
+                        for(var j = 0; j < foodClass.length; j++){
+                            if(typeName === foodClass[j]){
+                                thisFoodClass = thisFoodClass + (j+1);
+                            }
+                        }
+
+                        str+='<div class="food-search-item">\n' +
+                            '                            <div onclick="focusFood(this)" draggable="true">\n' +
+                            '                                <span class="pull-right selectPre"><strong>'+resultData.foods[i].energy.toFixed(2)+'</strong> Kcal/100g</span>\n' +
+                            '                                <div class="pull-right selectNext" style="display: none">\n' +
+                                                                '<span class="pull-left" style="color:#919191">选入：</span>\n' +
+                                                                '<button class="btn-add-food-0" >早</button>\n' +
+                                                                '<button class="btn-add-food-1" >午</button>\n' +
+                                                                '<button class="btn-add-food-2" >晚</button>\n' +
+                                                             '</div>'+
+                            '                                <div class="food-type '+thisFoodClass+'"></div>\n' +
+                            '                                <span class="style_foodName">'+resultData.foods[i].foodName+'</span>\n' +
+                            '                            </div>\n' +
+                            '                        </div>';
+                    }
+                    $('#div_foodList').html(str);
+                    if(resultData.curPage <= 1){
+                        $('#prePage').css('display','none');
+                    }else{
+                        $('#prePage').css('display','block');
+                    }
+                    if(resultData.curPage >= totalPage){
+                        $('#nextPage').css('display','none');
+                    }else{
+                        $('#nextPage').css('display','block');
+                    }
+                    $('#currentPage').html(resultData.curPage);
+                    $('#totalPage').html(resultData.totalPage);
+                },
+                error:function () {
+                    alert("服务器请求失败");
+                }
+            });
+        }
+
         $(function () {
             // console.log("1",getFoodType());
+
+            page_food(1);
+
+            $('#prePage').click(function () {
+                page_food($('#currentPage').text() - 1);
+            });
+
+            $('#nextPage').click(function () {
+                var curPage = $('#currentPage').text();
+                page_food(parseInt(curPage) + 1);
+            });
 
         });
 
@@ -31,20 +116,6 @@
             $('#foodToolMT').css('marginTop',h);
         });
 
-        // function formclick(page) {
-        //     document.getElementById("currentPage").value=page;//即将展示页面的数存在隐藏域里
-        //     $.ajax({
-        //         type:"post",
-        //         url:contextPath+"/user/userAddMeal",
-        //         data: {currentPage: page},
-        //         success:function (resultData) {
-        //
-        //         },
-        //         error:function () {
-        //             alert("服务器请求失败");
-        //         }
-        //     });
-        // }
 
     </script>
 
@@ -57,7 +128,7 @@
 
     <div class="EditDiet container">
 
-        <input type="hidden" name="currentPage" id="currentPage" th:value="${foods.pageNum}">
+        <!--<input type="hidden" name="currentPage" id="currentPage" th:value="${foods.pageNum}">-->
 
         <h2>
             添加食谱
@@ -228,8 +299,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="hr-panel-body" style="padding:10px 0;min-height: 260px;position: relative">
-
+                    <div id="div_foodList" class="hr-panel-body" style="padding:10px 0;min-height: 260px;position: relative">
                         <!--食物 后台所有食物数据-->
                         <!--<div ms-repeat="foodList" class="food-search-item"-->
                              <!--ms-class="focusing-food:$index===focusingFood">-->
@@ -246,104 +316,17 @@
                                 <!--<span>{{el.Name}}</span>-->
                             <!--</div>-->
                         <!--</div>-->
-                        <div class="food-search-item" th:each="food,iterStat:${foods.list}">
-                            <div draggable="true">
-                                <span class="pull-right"><strong><span th:text="${#numbers.formatDecimal(food.energy,1,2)}"></span></strong> Kcal/100g</span>
-                                <!--ms-if-->
-                                <div class="food-type food-type-1"></div>
-                                <span th:text="${food.foodName}"></span>
-                            </div>
-                        </div>
-                        <!--<div class="food-search-item">-->
+                        <!--<div class="food-search-item" th:each="food,iterStat:${foods.list}">-->
                             <!--<div draggable="true">-->
-                                <!--<span class="pull-right"><strong>246</strong> Kcal/100g</span>-->
-                                <!--&lt;!&ndash;ms-if&ndash;&gt;-->
+                                <!--<span class="pull-right"><strong><span th:text="${#numbers.formatDecimal(food.energy,1,2)}"></span></strong> Kcal/100g</span>-->
                                 <!--<div class="food-type food-type-1"></div>-->
-                                <!--<span>全麦面包</span>-->
+                                <!--<span th:text="${food.foodName}"></span>-->
                             <!--</div>-->
                         <!--</div>-->
+
                         <!--<div class="food-search-item">-->
                             <!--<div draggable="true">-->
                                 <!--<span class="pull-right"><strong>246</strong> Kcal/100g</span>-->
-                                <!--&lt;!&ndash;ms-if&ndash;&gt;-->
-                                <!--<div class="food-type food-type-1"></div>-->
-                                <!--<span>全麦面包</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="food-search-item">-->
-                            <!--<div draggable="true">-->
-                                <!--<span class="pull-right"><strong>246</strong> Kcal/100g</span>-->
-                                <!--&lt;!&ndash;ms-if&ndash;&gt;-->
-                                <!--<div class="food-type food-type-1"></div>-->
-                                <!--<span>全麦面包</span>-->
-                            <!--</div>-->
-                        <!--</div><div class="food-search-item">-->
-                            <!--<div draggable="true">-->
-                                <!--<span class="pull-right"><strong>246</strong> Kcal/100g</span>-->
-                                <!--&lt;!&ndash;ms-if&ndash;&gt;-->
-                                <!--<div class="food-type food-type-1"></div>-->
-                                <!--<span>全麦面包</span>-->
-                            <!--</div>-->
-                        <!--</div><div class="food-search-item">-->
-                            <!--<div draggable="true">-->
-                                <!--<span class="pull-right"><strong>246</strong> Kcal/100g</span>-->
-                                <!--&lt;!&ndash;ms-if&ndash;&gt;-->
-                                <!--<div class="food-type food-type-1"></div>-->
-                                <!--<span>全麦面包</span>-->
-                            <!--</div>-->
-                        <!--</div><div class="food-search-item">-->
-                            <!--<div draggable="true">-->
-                                <!--<span class="pull-right"><strong>246</strong> Kcal/100g</span>-->
-                                <!--&lt;!&ndash;ms-if&ndash;&gt;-->
-                                <!--<div class="food-type food-type-1"></div>-->
-                                <!--<span>全麦面包</span>-->
-                            <!--</div>-->
-                        <!--</div><div class="food-search-item">-->
-                            <!--<div draggable="true">-->
-                                <!--<span class="pull-right"><strong>246</strong> Kcal/100g</span>-->
-                                <!--&lt;!&ndash;ms-if&ndash;&gt;-->
-                                <!--<div class="food-type food-type-1"></div>-->
-                                <!--<span>全麦面包</span>-->
-                            <!--</div>-->
-                        <!--</div><div class="food-search-item">-->
-                            <!--<div draggable="true">-->
-                                <!--<span class="pull-right"><strong>246</strong> Kcal/100g</span>-->
-                                <!--&lt;!&ndash;ms-if&ndash;&gt;-->
-                                <!--<div class="food-type food-type-1"></div>-->
-                                <!--<span>全麦面包</span>-->
-                            <!--</div>-->
-                        <!--</div><div class="food-search-item">-->
-                            <!--<div draggable="true">-->
-                                <!--<span class="pull-right"><strong>246</strong> Kcal/100g</span>-->
-                                <!--&lt;!&ndash;ms-if&ndash;&gt;-->
-                                <!--<div class="food-type food-type-1"></div>-->
-                                <!--<span>全麦面包</span>-->
-                            <!--</div>-->
-                        <!--</div><div class="food-search-item">-->
-                            <!--<div draggable="true">-->
-                                <!--<span class="pull-right"><strong>246</strong> Kcal/100g</span>-->
-                                <!--&lt;!&ndash;ms-if&ndash;&gt;-->
-                                <!--<div class="food-type food-type-1"></div>-->
-                                <!--<span>全麦面包</span>-->
-                            <!--</div>-->
-                        <!--</div><div class="food-search-item">-->
-                            <!--<div draggable="true">-->
-                                <!--<span class="pull-right"><strong>246</strong> Kcal/100g</span>-->
-                                <!--&lt;!&ndash;ms-if&ndash;&gt;-->
-                                <!--<div class="food-type food-type-1"></div>-->
-                                <!--<span>全麦面包</span>-->
-                            <!--</div>-->
-                        <!--</div><div class="food-search-item">-->
-                            <!--<div draggable="true">-->
-                                <!--<span class="pull-right"><strong>246</strong> Kcal/100g</span>-->
-                                <!--&lt;!&ndash;ms-if&ndash;&gt;-->
-                                <!--<div class="food-type food-type-1"></div>-->
-                                <!--<span>全麦面包</span>-->
-                            <!--</div>-->
-                        <!--</div><div class="food-search-item">-->
-                            <!--<div draggable="true">-->
-                                <!--<span class="pull-right"><strong>246</strong> Kcal/100g</span>-->
-                                <!--&lt;!&ndash;ms-if&ndash;&gt;-->
                                 <!--<div class="food-type food-type-1"></div>-->
                                 <!--<span>全麦面包</span>-->
                             <!--</div>-->
@@ -355,15 +338,13 @@
                         <!--分页 -->
                         <div class="row">
                             <div class="col-sm-3">
-                                <a th:if="${!foods.isFirstPage}" class="icon iconfont icon-shangyiye" style="font-size: 20px"  th:href="@{/user/userAddMeal?currentPage=}+${foods.prePage}" ></a>
-                                <!--<a th:if="${foods.isFirstPage}" class="icon iconfont icon-shangyiye" href="javascript:void(0);"></a>-->
+                                <i id="prePage" class="icon iconfont icon-shangyiye"></i>
                             </div>
                             <div class="col-sm-6">
-                                第<span th:text="${foods.pageNum}"></span>/<span th:text="${foods.pages}"></span>页
+                                第<span id="currentPage"></span>/<span id="totalPage"></span>页
                             </div>
                             <div class="col-sm-3">
-                                <a th:if="${!foods.isLastPage}" class="icon iconfont icon-shangyiye1-copy" style="font-size: 20px" th:href="@{/user/userAddMeal?currentPage=}+${foods.nextPage}" ></a>
-                                <!--<a th:if="${foods.isLastPage}" class="icon iconfont icon-shangyiye1-copy" href="javascript:void(0);"></a>-->
+                                <i id="nextPage" class="icon iconfont icon-shangyiye1-copy"></i>
                             </div>
                         </div>
 

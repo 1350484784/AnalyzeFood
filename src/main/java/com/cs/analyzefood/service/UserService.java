@@ -4,6 +4,8 @@ import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.entity.User;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
+
 public interface UserService {
     User findUserByPhone(String phone);
 
@@ -21,5 +23,9 @@ public interface UserService {
 
     String uploadUserHeadImg(int roleId, String imgName);
 
-    PageInfo<Food> getAllfood(int currentPage);
+//    PageInfo<Food> getAllfood(int currentPage);
+
+    int getFoodsCount();
+
+    List<Food> getPageFood(int begin,int count);
 }

@@ -4,6 +4,7 @@ import com.cs.analyzefood.entity.Admin;
 import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.entity.UserZone;
+import com.cs.analyzefood.entity.vo.page.PageFoodVo;
 import com.cs.analyzefood.exception.SystemFailedException;
 import com.cs.analyzefood.service.AdminService;
 import com.cs.analyzefood.service.UserService;
@@ -40,7 +41,7 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/user")
-@SessionAttributes({"user","admin","userZone"})
+@SessionAttributes({"user", "admin", "userZone"})
 public class UserControl {
 
     @Autowired
@@ -68,14 +69,14 @@ public class UserControl {
             /**
              * 待完善
              */
-            model.addAttribute("admin",admin);
+            model.addAttribute("admin", admin);
             //后台首页
             return "/html/manage/index";
         }
         String base64Pwd = Base64.getEncoder().encodeToString((pwd).getBytes());
 
         User user = userService.findUserByPhoneAndPwd(phone, base64Pwd);
-        if(user != null){
+        if (user != null) {
             //修改 在线标记
             userService.updateUserOnlineFlag(user.getRoleId(), (byte) 1);
             UserZone userZone = userZoneService.selectUserZone(user.getRoleId());
@@ -93,11 +94,11 @@ public class UserControl {
 
 
     @RequestMapping("/register")
-    public String register(String phone, String pwd,Model model) {
+    public String register(String phone, String pwd, Model model) {
         int roleId = userService.addNewUser(phone, pwd);
         if (roleId > 0) {
             User currentUser = userService.findUserById(roleId);
-            if(currentUser!= null){
+            if (currentUser != null) {
                 model.addAttribute("userId", roleId);
                 model.addAttribute("user", currentUser);
                 logger.debug(phone + " register success");
@@ -121,28 +122,28 @@ public class UserControl {
 
     @RequestMapping("/getCheckWord")
     @ResponseBody
-    public String getCheckWord(HttpServletRequest request, String phoneNum){
+    public String getCheckWord(HttpServletRequest request, String phoneNum) {
         String checkWord = String.valueOf(Math.random()).substring(2, 8);
-        SendMessageUtil.execute(checkWord,phoneNum);
+        SendMessageUtil.execute(checkWord, phoneNum);
         logger.debug(phoneNum + " get verification code is " + checkWord);
         return checkWord;
     }
 
     @RequestMapping("/lostPwd")
-    public String updatePwdForLost(Model model,String phone,String pwd){
+    public String updatePwdForLost(Model model, String phone, String pwd) {
         boolean flag = userService.updateUserPwd(phone, pwd);
-        if(flag){
+        if (flag) {
             return "/html/login";
         }
         logger.debug(phone + " password change failed");
-        model.addAttribute("error","error");
+        model.addAttribute("error", "error");
         return "/html/LostPwd";
     }
 
     @RequestMapping("/logout")
-    public String logout(SessionStatus sessionStatus, HttpSession session){
+    public String logout(SessionStatus sessionStatus, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        if(user != null){
+        if (user != null) {
             userService.updateUserOnlineFlag(user.getRoleId(), (byte) 0);
             sessionStatus.setComplete();//将session移除
         }
@@ -158,17 +159,17 @@ public class UserControl {
 
     @RequestMapping("/uploadHeadImg")
     @ResponseBody
-    public ResponseEntity uploadHeadImg(@RequestParam("file") MultipartFile file, HttpSession session){
-        String filename=file.getOriginalFilename();
-        String imgName= UUID.randomUUID().toString().replace("-","")+"_"+filename;
+    public ResponseEntity uploadHeadImg(@RequestParam("file") MultipartFile file, HttpSession session) {
+        String filename = file.getOriginalFilename();
+        String imgName = UUID.randomUUID().toString().replace("-", "") + "_" + filename;
 
         User user = (User) session.getAttribute("user");
-        if(user == null){
+        if (user == null) {
             throw new SystemFailedException("user do not login");
         }
 
         File newFile = new File(headImg_path + imgName);
-        if(!newFile.exists()){
+        if (!newFile.exists()) {
             try {
                 file.transferTo(newFile);
             } catch (IOException e) {
@@ -181,17 +182,17 @@ public class UserControl {
 
     @RequestMapping("/uploadBgImg")
     @ResponseBody
-    public ResponseEntity uploadBgImg(@RequestParam("file") MultipartFile file, HttpSession session){
-        String filename=file.getOriginalFilename();
-        String bgImgName= UUID.randomUUID().toString().replace("-","")+"_"+filename;
+    public ResponseEntity uploadBgImg(@RequestParam("file") MultipartFile file, HttpSession session) {
+        String filename = file.getOriginalFilename();
+        String bgImgName = UUID.randomUUID().toString().replace("-", "") + "_" + filename;
 
         User user = (User) session.getAttribute("user");
-        if(user == null){
+        if (user == null) {
             throw new SystemFailedException("user do not login");
         }
 
         File newFile = new File(bgImg_path + bgImgName);
-        if(!newFile.exists()){
+        if (!newFile.exists()) {
             try {
                 file.transferTo(newFile);
             } catch (IOException e) {
@@ -204,13 +205,13 @@ public class UserControl {
 
     @RequestMapping("/updatePwd")
     @ResponseBody
-    public ResponseEntity updatePwd(HttpSession session,String oldPwd,String newPwd){
+    public ResponseEntity updatePwd(HttpSession session, String oldPwd, String newPwd) {
         User user = (User) session.getAttribute("user");
-        if(user == null){
+        if (user == null) {
             throw new SystemFailedException("user do not login");
         }
         try {
-            if(!new String(Base64.getDecoder().decode(user.getPassword()),"utf-8").equals(oldPwd)){
+            if (!new String(Base64.getDecoder().decode(user.getPassword()), "utf-8").equals(oldPwd)) {
                 return new ResponseEntity(false, HttpStatus.OK);
             }
         } catch (UnsupportedEncodingException e) {
@@ -222,11 +223,24 @@ public class UserControl {
     }
 
 
-    @RequestMapping("/userAddMeal")
-    public String userAddMeal(@RequestParam(name = "currentPage",defaultValue = "1") int currentPage, Model model){
-        PageInfo<Food> pageInfo = userService.getAllfood(currentPage);
-        model.addAttribute("foods",pageInfo);
-        System.out.println(JsonUtil.toJson(pageInfo));
-        return "/html/user/addDietDetail";
+//    @RequestMapping("/userAddMeal")
+//    public String userAddMeal(@RequestParam(name = "currentPage",defaultValue = "1") int currentPage, Model model){
+//        PageInfo<Food> pageInfo = userService.getAllfood(currentPage);
+//        model.addAttribute("foods",pageInfo);
+//        System.out.println(JsonUtil.toJson(pageInfo));
+//        return "/html/user/addDietDetail";
+//    }
+
+
+    @RequestMapping("/foodPage")
+    public ResponseEntity userAddMeal(@RequestParam(name = "currentPage", defaultValue = "1") int currentPage, Model model) {
+        int pageSize = 8;
+        int totalCount = userService.getFoodsCount();
+
+        List<Food> foods = userService.getPageFood((currentPage - 1) * pageSize, pageSize);
+        PageFoodVo foodVo = new PageFoodVo(foods, currentPage, totalCount, pageSize);
+
+        return new ResponseEntity(foodVo, HttpStatus.OK);
     }
+
 }
