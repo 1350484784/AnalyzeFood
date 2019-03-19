@@ -25,6 +25,28 @@ function getFoodType() {
     return foodTypeObj
 }
 
+//得到 食物类型 class
+function getFoodClass(typeId) {
+    var foodType = getFoodType();
+    var foodClass = ['谷','豆','蔬','果','肉',' 乳','蛋','鱼','油','另'];
+
+    var typeName = '另';
+    var thisFoodClass = 'food-type-';
+    for(var j = 0; j < foodType.length; j++) {
+        if(typeId === foodType[j].number){
+            typeName = foodType[j].typeName;
+            break;
+        }
+    }
+    for(var j = 0; j < foodClass.length; j++){
+        if(typeName === foodClass[j]){
+            thisFoodClass = thisFoodClass + (j+1);
+            break;
+        }
+    }
+    return thisFoodClass;
+}
+
 //获取滚动高度、屏幕高度、可滚动文本总高度
 function getScrollInfo() {
     var scrollTop = 0;

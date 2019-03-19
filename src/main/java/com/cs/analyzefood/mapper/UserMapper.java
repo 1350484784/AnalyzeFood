@@ -27,4 +27,6 @@ public interface UserMapper {
     int selectFoodNum();
 
     List<Food> selectFoodPage(int begin, int count);
+
+    Food selectFoodById(int foodId);
 }

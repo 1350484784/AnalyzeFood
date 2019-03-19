@@ -28,4 +28,6 @@ public interface UserService {
     int getFoodsCount();
 
     List<Food> getPageFood(int begin,int count);
+
+    Food findFoodById(int foodId);
 }

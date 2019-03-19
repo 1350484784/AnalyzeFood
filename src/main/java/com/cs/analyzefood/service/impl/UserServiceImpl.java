@@ -47,15 +47,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public int addNewUser(String phone, String password) {
         Date date = new Date();
-        UUID id=UUID.randomUUID();
-        String[] uuid=id.toString().split("-");
+        UUID id = UUID.randomUUID();
+        String[] uuid = id.toString().split("-");
         String userAccount = uuid[0] + DateUtil.getSDate(date, "yyyyMMddhhmmss");
 
         String base64Pwd = Base64.getEncoder().encodeToString((password).getBytes());
 
-        User newUser = new User(userAccount,base64Pwd,phone,headImg,date);
+        User newUser = new User(userAccount, base64Pwd, phone, headImg, date);
         int result = userMapper.insertUser(newUser);
-        if(result > 0){
+        if (result > 0) {
             userZoneMapper.insertUserZone(newUser.getRoleId(), bgImg);
             return newUser.getRoleId();
         }
@@ -73,8 +73,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUserOnlineFlag(int roleId,byte onlineFlag) {
-        return userMapper.updateUserOnlineFlag(roleId,onlineFlag);
+    public boolean updateUserOnlineFlag(int roleId, byte onlineFlag) {
+        return userMapper.updateUserOnlineFlag(roleId, onlineFlag);
     }
 
     @Override
@@ -90,8 +90,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String uploadUserHeadImg(int roleId, String imgName) {
-        userMapper.updateUserHeadImgById(headImg_path+imgName,roleId);
-        return headImg_path+imgName;
+        userMapper.updateUserHeadImgById(headImg_path + imgName, roleId);
+        return headImg_path + imgName;
     }
 
     @Override
@@ -104,7 +104,8 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectFoodPage(begin, count);
     }
 
-//    @Override
+
+    //    @Override
 //    public PageInfo<Food> getAllfood(int currentPage) {
 //        int count = userMapper.selectFoodNum();
 //        PageHelper.startPage(currentPage,8);
@@ -121,6 +122,10 @@ public class UserServiceImpl implements UserService {
 //    }
 
 
+    @Override
+    public Food findFoodById(int foodId) {
+        return userMapper.selectFoodById(foodId);
+    }
 
 
 }

@@ -13,6 +13,17 @@
         .style_foodName{
             font-size: 13px;
         }
+
+        .table-input-center{
+            text-align: center;
+            display: inline-block;
+            width: 100%;
+            max-width: 130px;
+            height: 100%;
+            border: none;
+            outline: none;
+        }
+
     </style>
 
     <script th:inline="javascript">
@@ -23,6 +34,111 @@
 
     <script th:inline="javascript">
 
+        //计算 总和
+        function sum() {
+            var energyTotal = 0;
+            var Carbohydrate = 0;
+            var Protein = 0;
+            var Fat = 0;
+            $("input[name='foodId0']").each(function (index) {
+                energyTotal += ($("input[name='foodEnergy0']").eq(index).val() /100 * $("input[name='foodNum0']").eq(index).val())
+            });
+            $("input[name='foodId1']").each(function (index) {
+
+            });
+            $("input[name='foodId2']").each(function (index) {
+
+            });
+            $('#dayEnergy').val(energyTotal);
+            $('#dayCHO').val(Carbohydrate);
+            $('#dayProtein').val(Protein);
+            $('#dayFat').val(Fat);
+
+
+        }
+
+        // 删除food
+        function delete_tr(t) {
+            $(t).parent().parent().remove();
+        }
+
+        function getInputName(name, index) {
+            return index == 0 ? (name+0) : (index == 1 ? (name+1) : (name+2))
+        }
+        
+        //加入food
+        function pushFood(index, t) {
+            var foodId =$(t).parent().parent().find('.span_foodId').text();
+            $.ajax({
+                type:"post",
+                url:contextPath+"/user/getFoodForPushFood",
+                data: {foodId: foodId},
+                success:function (data) {
+                    console.log("data",data);
+                    var foodClass = getFoodClass(data.typeId);
+                    var tbody = '<tr><td><button onclick="delete_tr(this)" class="btn btn-xs btn-default">删</button>\n' +
+                        '</td>\n' +
+                        '<td>\n' +
+                        '<input name="'+getInputName('foodId',index)+'" value="'+data.foodId+'" type="hidden"/> '+
+                        '<div class="food-type  '+foodClass+'"></div>\n' +
+                        ''+data.foodName+'\n' +
+                        '</td>\n' +
+                        '<td>\n' +
+                        '<input name="'+getInputName('foodNum',index)+'" type="number" class="table-input"\n' +
+                        '   placeholder="输入重量"\n' +
+                        '       value= "100"'+
+                        '   style="max-width: 70px"\n' +
+                        '  min="0" onkeyup="minNumber(this)"/>\n' +
+                        '</td>\n' +
+                        '<td>\n' +
+                        '<input name="'+getInputName('foodEnergy',index)+'" type="text"\n' +
+                        '   class="table-input-center"\n' +
+                        '   placeholder=""\n' +
+                        '       value="'+data.energy+'"  readonly="readonly"'+
+                        '   style="max-width: 70px"\n' +
+                        '   min="0" onkeyup="minNumber(this)"/>\n' +
+                        '\n' +
+                        '</td>\n' +
+                        '<td>\n' +
+                        '<input name="'+getInputName('foodCarbohydrate',index)+'" type="text"\n' +
+                        '   class=" table-input-center"\n' +
+                        '   placeholder=""\n' +
+                        '       value="'+data.carbohydrate+'"  readonly="readonly"'+
+                        '   style="max-width: 70px"\n' +
+                        '   min="0" onkeyup="minNumber(this)"/>\n' +
+                        '</td>\n' +
+                        '<td>\n' +
+                        '<input name="'+getInputName('foodProtein',index)+'" type="text"\n' +
+                        '   class="table-input-center"\n' +
+                        '   placeholder=""\n' +
+                        '       value="'+data.protein+'"  readonly="readonly"'+
+                        '   style="max-width: 70px"\n' +
+                        '   min="0" onkeyup="minNumber(this)"/>\n' +
+                        '</td>\n' +
+                        '<td>\n' +
+                        '<input name="'+getInputName('foodFat',index)+'" type="text"\n' +
+                        '   class="table-input-center"\n' +
+                        '   placeholder=""\n' +
+                        '       value="'+data.fat+'"  readonly="readonly"'+
+                        '   style="max-width: 70px"\n' +
+                        '   min="0" onkeyup="minNumber(this)"/>\n' +
+                        '</td></tr>';
+                    if(index == 0){
+                        $('#table0>tbody').append(tbody);
+                    }
+                    if(index == 1){
+                        $('#table1>tbody').append(tbody);
+                    }
+                    if(index == 2){
+                        $('#table2>tbody').append(tbody);
+                    }
+                    sum();
+                }
+            });
+
+        }
+
+        //点击效果
         function focusFood(t){
             // alert($(t).html())
             var s =  $(t).find('.selectNext').attr("style");
@@ -51,6 +167,8 @@
             }
         }
 
+
+        
         <!-- 分页 -->
         function page_food(currentPage){
             $.ajax({
@@ -58,35 +176,38 @@
                 url:contextPath+"/user/foodPage",
                 data: {currentPage: currentPage},
                 success:function (resultData) {
-                    console.log("foods",resultData)
-                    console.log("1",getFoodType());
-                    var foodType = getFoodType();
+                    // console.log("foods",resultData)
+                    // console.log("1",getFoodType());
 
-                    var foodClass = ['谷','豆','蔬','果','肉',' 乳','蛋','鱼','油','另'];
+                    // var foodType = getFoodType();
+                    // var foodClass = ['谷','豆','蔬','果','肉',' 乳','蛋','鱼','油','另'];
                     var str = '';
                     for(var i = 0; i < resultData.foods.length; i++){
-                        var typeName = '另';
-                        var thisFoodClass = 'food-type-';
-                        for(var j = 0; j < foodType.length; j++) {
-                            if(resultData.foods[i].typeId === foodType[j].number){
-                                typeName = foodType[j].typeName;
-                                break;
-                            }
-                        }
-                        for(var j = 0; j < foodClass.length; j++){
-                            if(typeName === foodClass[j]){
-                                thisFoodClass = thisFoodClass + (j+1);
-                            }
-                        }
+                        // var typeName = '另';
+                        // var thisFoodClass = 'food-type-';
+                        // for(var j = 0; j < foodType.length; j++) {
+                        //     if(resultData.foods[i].typeId === foodType[j].number){
+                        //         typeName = foodType[j].typeName;
+                        //         break;
+                        //     }
+                        // }
+                        // for(var j = 0; j < foodClass.length; j++){
+                        //     if(typeName === foodClass[j]){
+                        //         thisFoodClass = thisFoodClass + (j+1);
+                        //         break;
+                        //     }
+                        // }
+                        var thisFoodClass = getFoodClass(resultData.foods[i].typeId);
 
                         str+='<div class="food-search-item">\n' +
                             '                            <div onclick="focusFood(this)" draggable="true">\n' +
+                            '                                <span class="span_foodId" style="display: none;">'+resultData.foods[i].foodId+'</span>'+
                             '                                <span class="pull-right selectPre" style="display: block"><strong>'+resultData.foods[i].energy.toFixed(2)+'</strong> Kcal/100g</span>\n' +
                             '                                <div class="pull-right selectNext" style="display: none">\n' +
                                                                 '<span class="pull-left" style="color:#919191">选入：</span>\n' +
-                                                                '<button class="btn-add-food-0" >早</button>\n' +
-                                                                '<button class="btn-add-food-1" >午</button>\n' +
-                                                                '<button class="btn-add-food-2" >晚</button>\n' +
+                                                                '<button class="btn-add-food-0" onclick="pushFood(0,this)">早</button>\n' +
+                                                                '<button class="btn-add-food-1" onclick="pushFood(1,this)">午</button>\n' +
+                                                                '<button class="btn-add-food-2" onclick="pushFood(2,this)">晚</button>\n' +
                                                              '</div>'+
                             '                                <div class="food-type '+thisFoodClass+'"></div>\n' +
                             '                                <span class="style_foodName">'+resultData.foods[i].foodName+'</span>\n' +
@@ -377,43 +498,15 @@
 
             <div class="col-lg-9 col-md-8 col-sm-8">
                 <!--食谱食材列表-->
-                <div class="hr-panel" ms-repeat="foods"
-                     ms-class="panel-success:$index==0"
-                     ms-class-2="panel-danger:$index==1"
-                     ms-class-3="panel-info:$index==2"
-                     style="margin-bottom: 20px">
+                <!--早餐-->
+                <div class="hr-panel" style="margin-bottom: 20px">
                     <div class="hr-panel-title ">
-                        <span ms-if="$index==0" class="text-success pull-left">早餐</span>
-                        <span ms-if="$index==1" class="text-danger pull-left">午餐</span>
-                        <span ms-if="$index==2" class="text-info pull-left">晚餐</span>
-
-                        <!--<div class="box-row pull-left" style="width: 500px;margin-left: 20px">-->
-                            <!--<div class="food-type select-food-type" style="display: block"-->
-                                 <!--ms-class="food-type-{{el.TypeID}}:el.mealTotal[$outer.$index]>0"-->
-                                 <!--ms-repeat="foodTypes"-->
-                                 <!--ms-click="wantFoodType(el.TypeID,$outer.$index,this)">-->
-                                <!--<span ms-if="el.mealTotal[$outer.$index]==0">-->
-                                     <!--{{el.icon}}-->
-                                <!--</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
-
-                        <!--<div class="pull-right" >-->
-                            <!--<div class="food-type food-type-1"></div>-->
-                            <!--已包含；-->
-                            <!--<div class="food-type want-food-type">谷</div>-->
-                            <!--已计划；-->
-                            <!--<div class="food-type select-food-type">谷</div>-->
-                            <!--未计划；-->
-                        <!--</div>-->
-
+                        <span class="text-success pull-left">早餐</span>
                         <div class="clearfix"></div>
-
-
                     </div>
                     <div class="hr-panel-body" style="padding:10px">
 
-                        <table class="table table-responsive table-bordered">
+                        <table class="table table-responsive table-bordered " id="table0">
                             <thead>
                             <tr>
                                 <td></td>
@@ -423,120 +516,68 @@
                                 <td>碳水化合物(g)</td>
                                 <td>蛋白质(g)</td>
                                 <td>脂肪(g)</td>
-                                <!--<td>备注</td>-->
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>
-                                    <!--点击事件-->
-                                    <button class="btn btn-xs btn-default" ms-click="delFoodInput(el,$index,$outer.$index)">
-                                        删
-                                    </button>
-                                </td>
-                                <td>
-                                    <div class="food-type"></div>
-                                    {{al.Name}}
-                                </td>
-                                <td>
-                                    <input type="number"
-                                           ms-attr-id="foodWeightInput_{{$outer.$index}}_{{$index}}_eal"
-                                           class="table-input "
-                                           placeholder="输入重量"
-                                           style="max-width: 70px"
-                                           ms-on-keyup="sum($outer.$index,$index)"
-                                           ms-on-change="sum($outer.$index,$index)"
-                                           ms-duplex="al.Weight"
-                                           min="0" onkeyup="minNumber(this)"/>
-                                </td>
-                                <td>
-                                    <input type="number"
-                                           ms-attr-id="foodWeightInput_{{$outer.$index}}_{{$index}}_eal"
-                                           class="table-input "
-                                           placeholder=""
-                                           style="max-width: 70px"
-                                           ms-on-keyup="sum($outer.$index,$index,'Energy')"
-                                           ms-on-change="sum($outer.$index,$index,'Energy')"
-                                           ms-duplex="al.totalEnergy"
-                                           min="0" onkeyup="minNumber(this)"/>
-
-                                </td>
-                                <td>
-                                    <input type="number"
-                                           ms-attr-id="foodWeightInput_{{$outer.$index}}_{{$index}}_eal"
-                                           class="table-input "
-                                           placeholder=""
-                                           style="max-width: 70px"
-                                           ms-on-keyup="sum($outer.$index,$index,'CHO')"
-                                           ms-on-change="sum($outer.$index,$index,'CHO')"
-                                           ms-duplex="al.totalCHO"
-                                           min="0" onkeyup="minNumber(this)"/>
-                                </td>
-                                <td>
-                                    <input type="number"
-                                           ms-attr-id="foodWeightInput_{{$outer.$index}}_{{$index}}_eal"
-                                           class="table-input "
-                                           placeholder=""
-                                           style="max-width: 70px"
-                                           ms-on-keyup="sum($outer.$index,$index,'Protein')"
-                                           ms-on-change="sum($outer.$index,$index,'Protein')"
-                                           ms-duplex="al.totalProtein"
-                                           min="0" onkeyup="minNumber(this)"/>
-                                </td>
-                                <td>
-                                    <input type="number"
-                                           ms-attr-id="foodWeightInput_{{$outer.$index}}_{{$index}}_eal"
-                                           class="table-input "
-                                           placeholder=""
-                                           style="max-width: 70px"
-                                           ms-on-keyup="sum($outer.$index,$index,'Fat')"
-                                           ms-on-change="sum($outer.$index,$index,'Fat')"
-                                           ms-duplex="al.totalFat"
-                                           min="0" onkeyup="minNumber(this)"/>
-                                </td>
-                                <!--<td>-->
-                                    <!--<select name="" class="" ms-duplex="al.MealSign">-->
-                                        <!--<option value="1">正餐</option>-->
-                                        <!--<option value="2">加餐</option>-->
-                                        <!--<option value="3">训练前</option>-->
-                                        <!--<option value="4">训练中</option>-->
-                                        <!--<option value="5">训练后</option>-->
-                                    <!--</select>-->
-                                <!--</td>-->
-                            </tr>
                             </tbody>
-                            <tfoot>
-                            <tr>
-                                <td>
-                                    小计
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <!--<tr>-->
-                                <!--<td>-->
-                                    <!--推荐值-->
-                                <!--</td>-->
-                                <!--<td></td>-->
-                                <!--<td></td>-->
-                                <!--<td>{{info.mealtotal[$index].goodEnergy}}</td>-->
-                                <!--<td>{{info.mealtotal[$index].goodCHO}}</td>-->
-                                <!--<td>{{info.mealtotal[$index].goodProtein}}</td>-->
-                                <!--<td>{{info.mealtotal[$index].goodFat}}</td>-->
-                                <!--<td></td>-->
-                            <!--</tr>-->
-                            </tfoot>
                         </table>
+                    </div>
+                </div>
 
+                <!--午餐-->
+                <div class="hr-panel" style="margin-bottom: 20px">
+                    <div class="hr-panel-title ">
+                        <span class="text-danger pull-left">午餐</span>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="hr-panel-body" style="padding:10px">
 
+                        <table class="table table-responsive table-bordered" id="table1">
+                            <thead>
+                            <tr>
+                                <td></td>
+                                <td>食物</td>
+                                <td>数量(g)</td>
+                                <td>能量(kcal)</td>
+                                <td>碳水化合物(g)</td>
+                                <td>蛋白质(g)</td>
+                                <td>脂肪(g)</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!--晚餐-->
+                <div class="hr-panel" style="margin-bottom: 20px">
+                    <div class="hr-panel-title ">
+                        <span class="text-info pull-left">晚餐</span>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="hr-panel-body" style="padding:10px">
+
+                        <table class="table table-responsive table-bordered" id="table2">
+                            <thead>
+                            <tr>
+                                <td></td>
+                                <td>食物</td>
+                                <td>数量(g)</td>
+                                <td>能量(kcal)</td>
+                                <td>碳水化合物(g)</td>
+                                <td>蛋白质(g)</td>
+                                <td>脂肪(g)</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
 
+
                 </div>
+
                 <!--食谱统计-->
                 <div class="hr-panel" style="margin-bottom: 20px">
                     <div class="hr-panel-title">
@@ -556,83 +597,14 @@
                             <tbody>
                             <tr>
                                 <td>小计</td>
-                                <td>{{dayTotal.dayEnergy}}</td>
-                                <td>{{dayTotal.dayCHO}}</td>
-                                <td>{{dayTotal.dayProtein}}</td>
-                                <td>{{dayTotal.dayFat}}</td>
+                                <td><input id="dayEnergy" type="text" class="table-input-center" value="0.00" readonly="readonly" ></td>
+                                <td><input id="dayCHO" type="text" class="table-input-center" value="0.00" readonly="readonly" ></td>
+                                <td><input id="dayProtein" type="text" class="table-input-center" value="0.00" readonly="readonly" ></td>
+                                <td><input id="dayFat" type="text" class="table-input-center" value="0.00" readonly="readonly" ></td>
                             </tr>
-                            <!--<tr>-->
-                                <!--<td>推荐</td>-->
-                                <!--<td>{{dayTotal.dayGoodEnergy}}</td>-->
-                                <!--<td>{{dayTotal.dayGoodCHO}}</td>-->
-                                <!--<td>{{dayTotal.dayGoodProtein}}</td>-->
-                                <!--<td>{{dayTotal.dayGoodFat}}</td>-->
-                            <!--</tr>-->
                             </tbody>
                         </table>
                         <br>
-                        <div class="row">
-                            <div class="col-sm-7">
-                                <table class="table table-responsive table-bordered ">
-                                    <thead>
-                                    <tr>
-                                        <td>食物类别</td>
-                                        <td>实际摄入量</td>
-                                        <td>推荐摄入量</td>
-
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr ms-repeat="foodTypes">
-                                        <td>
-                                            <div class="food-type select-food-type pull-left" style="display: block"
-                                                 ms-class="food-type-{{el.TypeID}}:el.foodTotal>0"
-                                                 ms-class-2="now-food:foodType===el.TypeID"
-                                                 ms-class-3="want-food-type:el.wanting"
-                                                 ms-click="setFoodType(el.TypeID)">
-                                            <span ms-if="el.foodTotal==0">
-                                                 {{el.icon}}
-                                            </span>
-
-                                            </div>
-                                            &nbsp;
-                                            {{el.Name}}
-                                        </td>
-                                        <td ms-class="attention:(el.TargetWeightMin-el.foodTotal)>el.foodTotal/10||(el.foodTotal-el.TargetWeightMax)>el.foodTotal/10">
-                                            {{el.foodTotal}}
-                                            <span class="text-danger pull-right"
-                                                  ms-if="(el.TargetWeightMin-el.foodTotal)>el.foodTotal/10">缺乏</span>
-                                            <span class="text-danger pull-right"
-                                                  ms-if="(el.foodTotal-el.TargetWeightMax)>el.foodTotal/10">过量</span>
-                                        </td>
-                                        <td>{{el.TargetWeightMin}}-{{el.TargetWeightMax}}g</td>
-
-                                    </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-sm-5">
-                                <table class="table table-responsive table-bordered ">
-                                    <thead>
-                                    <tr>
-                                        <td>微量元素</td>
-                                        <td>实际摄入量</td>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr ms-repeat="TE">
-                                        <td>
-                                            {{$val.name}}
-                                        </td>
-                                        <td>
-                                            {{$val.sum}}
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
                         <br/>
                     </div>
                 </div>

@@ -53,4 +53,11 @@
         n_ve ve,n_Na na,n_Ca ca,n_Fe fe,n_vc vc,n_cholesterol cholesterol
         from food_info where n_delFlag = 1 limit #{param1},#{param2}
     </select>
+
+    <select id="selectFoodById" resultType="com.cs.analyzefood.entity.Food">
+        select n_foodId foodId, s_foodName foodName,n_typeId typeId,n_eat_part eat_part,n_energy energy,n_moisture moisture,
+        n_protein protein,n_fat fat,n_fiber fiber,n_carbohydrate carbohydrate,n_va va,n_vb1 vb1,n_vb2 vb2,n_niacin niacin,
+        n_ve ve,n_Na na,n_Ca ca,n_Fe fe,n_vc vc,n_cholesterol cholesterol
+        from food_info where n_delFlag = 1 and n_foodId = #{param1}
+    </select>
 </mapper>

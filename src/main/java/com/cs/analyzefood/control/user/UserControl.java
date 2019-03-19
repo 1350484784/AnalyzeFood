@@ -243,4 +243,10 @@ public class UserControl {
         return new ResponseEntity(foodVo, HttpStatus.OK);
     }
 
+
+    @RequestMapping("/getFoodForPushFood")
+    public ResponseEntity getFoodForPushFood(int foodId) {
+        Food food = userService.findFoodById(foodId);
+        return new ResponseEntity(food, HttpStatus.OK);
+    }
 }
