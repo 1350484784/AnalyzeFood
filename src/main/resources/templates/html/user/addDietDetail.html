@@ -25,7 +25,30 @@
 
         function focusFood(t){
             // alert($(t).html())
-            alert($(t).children('.selectPre').html())
+            var s =  $(t).find('.selectNext').attr("style");
+            var w = $(t).find('.selectPre').attr("style")
+            // alert(s.indexOf("display"))
+            if(s.indexOf("none") > 0){
+                $('.food-search-item').each(function () {
+                    $(this).removeClass('focusing-food');
+                })
+                $('.selectPre').each(function () {
+                    $(this).css("display", "block");
+                })
+                $('.selectNext').each(function () {
+                    $(this).css("display", "none");
+                })
+
+                $(t).parent().addClass('focusing-food')
+                $(t).children('.selectNext').css("display", "block");
+                $(t).children('.selectPre').css("display", "none");
+            }
+            if(w.indexOf("none") > 0){
+                $(t).parent().removeClass('focusing-food')
+                $(t).children('.selectPre').css("display", "block");
+                $(t).children('.selectNext').css("display", "none");
+
+            }
         }
 
         <!-- 分页 -->
@@ -58,7 +81,7 @@
 
                         str+='<div class="food-search-item">\n' +
                             '                            <div onclick="focusFood(this)" draggable="true">\n' +
-                            '                                <span class="pull-right selectPre"><strong>'+resultData.foods[i].energy.toFixed(2)+'</strong> Kcal/100g</span>\n' +
+                            '                                <span class="pull-right selectPre" style="display: block"><strong>'+resultData.foods[i].energy.toFixed(2)+'</strong> Kcal/100g</span>\n' +
                             '                                <div class="pull-right selectNext" style="display: none">\n' +
                                                                 '<span class="pull-left" style="color:#919191">选入：</span>\n' +
                                                                 '<button class="btn-add-food-0" >早</button>\n' +
