@@ -249,4 +249,10 @@ public class UserControl {
         Food food = userService.findFoodById(foodId);
         return new ResponseEntity(food, HttpStatus.OK);
     }
+
+    @RequestMapping("/addDiet")
+    public ResponseEntity addDiet(){
+
+        return new ResponseEntity(true, HttpStatus.OK);
+    }
 }
