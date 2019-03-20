@@ -4,6 +4,7 @@ import com.cs.analyzefood.entity.Admin;
 import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.entity.UserZone;
+import com.cs.analyzefood.entity.vo.diet.DietVo;
 import com.cs.analyzefood.entity.vo.page.PageFoodVo;
 import com.cs.analyzefood.exception.SystemFailedException;
 import com.cs.analyzefood.service.AdminService;
@@ -21,10 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -251,8 +249,8 @@ public class UserControl {
     }
 
     @RequestMapping("/addDiet")
-    public ResponseEntity addDiet(){
-
+    public ResponseEntity addDiet(@RequestBody DietVo dietVo){
+        System.out.println(JsonUtil.toJson(dietVo));
         return new ResponseEntity(true, HttpStatus.OK);
     }
 }

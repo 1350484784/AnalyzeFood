@@ -7,7 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/user/local.css}">
     <script th:src="@{/bootstrap/js/jquery-3.3.1.js}"></script>
     <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
-    <script th:src="@{/js/user/addDietDetail.js}"></script>
+    <script th:src="@{/js/user/dietDetail.js}"></script>
 
     <style>
         .style_foodName{
@@ -36,10 +36,10 @@
 
         //计算 总和
         function sum() {
-            let energyTotal = 0;
-            let Carbohydrate = 0;
-            let Protein = 0;
-            let Fat = 0;
+            var energyTotal = 0;
+            var Carbohydrate = 0;
+            var Protein = 0;
+            var Fat = 0;
             $("input[name='foodId0']").each(function (index) {
                 energyTotal = parseFloat((parseFloat($("input[name='foodEnergy0']").eq(index).val()) /100 * parseFloat($("input[name='foodNum0']").eq(index).val()) + energyTotal).toFixed(2))
                 Carbohydrate = parseFloat((parseFloat($("input[name='foodCarbohydrate0']").eq(index).val()) /100 * parseFloat($("input[name='foodNum0']").eq(index).val()) + Carbohydrate).toFixed(2))
@@ -259,14 +259,89 @@
                 page_food(parseInt(curPage) + 1);
             });
 
+
+
             $('#btn_addDiet').click(function () {
+
+                if($('#dietTitle').val() == ''){
+                    centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;请填写食谱名称!',101);
+                    return false;
+                }
+                if($('#targetEnergy').val() == ''){
+                    centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;请填写目标能量!',101);
+                    return false;
+                }
+
+                if($('#dayEnergy').val() == 0){
+                    centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;请填写膳食信息!',101);
+                    return false;
+                }
+
+                var dietVo = {
+                    dietTitle:'',
+                    targetEnergy:'',
+                    per_carbohydrate: '',
+                    per_protein:'',
+                    per_fat:'',
+                    per_zao:'',
+                    per_zhong:'',
+                    per_wan:'',
+                    dayEnergy:'',
+                    dayCHO:'',
+                    dayProtein:'',
+                    dayFat:'',
+                    foodId0:[],
+                    foodNum0:[],
+                    foodId1:[],
+                    foodNum1:[],
+                    foodId2:[],
+                    foodNum2:[],
+                    introduce:''
+                };
+
+                dietVo.dietTitle = $('#dietTitle').val();
+                dietVo.targetEnergy = $('#targetEnergy').val();
+                dietVo.per_carbohydrate = $('#per_carbohydrate').val();
+                dietVo.per_protein = $('#per_protein').val();
+                dietVo.per_fat = $('#per_fat').val();
+                dietVo.per_zao = $('#per_zao').val();
+                dietVo.per_zao = $('#per_zhong').val();
+                dietVo.per_wan = $('#per_wan').val();
+                dietVo.dayEnergy = $('#dayEnergy').val();
+                dietVo.dayCHO = $('#dayCHO').val();
+                dietVo.dayProtein = $('#dayProtein').val();
+                dietVo.dayFat = $('#dayFat').val();
+                dietVo.introduce = $('#introduce').val();
+
+                $('input[name="foodId0"]').each(function (index){
+                    dietVo.foodId0.push($('input[name="foodId0"]').eq(index).val())
+                });
+                $('input[name="foodId1"]').each(function (index){
+                    dietVo.foodId1.push($('input[name="foodId1"]').eq(index).val())
+                });
+                $('input[name="foodId2"]').each(function (index){
+                    dietVo.foodId2.push($('input[name="foodId2"]').eq(index).val())
+                });
+                $('input[name="foodNum0"]').each(function (index){
+                    dietVo.foodNum0.push($('input[name="foodNum0"]').eq(index).val())
+                });
+                $('input[name="foodNum1"]').each(function (index){
+                    dietVo.foodNum1.push($('input[name="foodNum1"]').eq(index).val())
+                });
+                $('input[name="foodNum2"]').each(function (index){
+                    dietVo.foodNum2.push($('input[name="foodNum2"]').eq(index).val())
+                });
 
                 $.ajax({
                     type:"post",
                     url:contextPath+"/user/addDiet",
-                    data: $('#form_addDiet').serialize(),
+                    // data: {dietVo:JSON.stringify(dietVo)},
+                    // data:{dietVo:dietVo},
+                    dataType:"json",
+                    // data:"dietVo="+dietVo,
+                    data: {dietVo:JSON.stringify(dietVo)},
                     success:function (data) {
-                        
+
                     }
                 });
             });
@@ -293,7 +368,6 @@
     <div th:replace="/html/top :: html"></div>
 
     <div class="EditDiet container">
-        <form id="form_addDiet" action="#">
 
         <!--<input type="hidden" name="currentPage" id="currentPage" th:value="${foods.pageNum}">-->
 
@@ -360,9 +434,9 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td> <input name="per_carbohydrate" type="number" class="form-control input-sm" value="50"/></td>
-                                        <td> <input name="per_protein" type="number" class="form-control input-sm" value="25"/></td>
-                                        <td> <input name="per_fat" type="number" class="form-control input-sm" value="25"/></td>
+                                        <td> <input id="per_carbohydrate" name="per_carbohydrate" type="number" class="form-control input-sm" value="50"/></td>
+                                        <td> <input id="per_protein" name="per_protein" type="number" class="form-control input-sm" value="25"/></td>
+                                        <td> <input id="per_fat" name="per_fat" type="number" class="form-control input-sm" value="25"/></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -389,9 +463,9 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td> <input name="per_zao" type="number" class="form-control input-sm" value="3"/></td>
-                                        <td> <input name="per_zhong" type="number" class="form-control input-sm" value="4"/></td>
-                                        <td> <input name="per_wan" type="number" class="form-control input-sm" value="3"/></td>
+                                        <td> <input id="per_zao" name="per_zao" type="number" class="form-control input-sm" value="3"/></td>
+                                        <td> <input id="per_zhong" name="per_zhong" type="number" class="form-control input-sm" value="4"/></td>
+                                        <td> <input id="per_wan" name="per_wan" type="number" class="form-control input-sm" value="3"/></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -502,9 +576,9 @@
                         <!--</div>-->
 
                     </div>
-                    <div class="hr-panel-footer food-search-pager">
 
-                        <!--分页 -->
+                    <!--分页 -->
+                    <div class="hr-panel-footer food-search-pager">
                         <div class="row">
                             <div class="col-sm-3">
                                 <i id="prePage" class="icon iconfont icon-shangyiye"></i>
@@ -521,8 +595,8 @@
                 </div>
             </div>
 
+            <!--食谱食材列表-->
             <div class="col-lg-9 col-md-8 col-sm-8">
-                <!--食谱食材列表-->
                 <!--早餐-->
                 <div class="hr-panel" style="margin-bottom: 20px">
                     <div class="hr-panel-title ">
@@ -640,25 +714,33 @@
                         食谱介绍
                     </div>
                     <div class="hr-panel-body" style="padding: 10px">
-                    <textarea rows="5" name="introduce" class="form-control" placeholder="填写食谱介绍"></textarea>
+                    <textarea id="introduce" rows="5" name="introduce" class="form-control" placeholder="填写食谱介绍"></textarea>
                     </div>
                 </div>
             </div>
 
         </div>
         <div class="row">
-            <div class="col-sm-6 pull-right" >
-                <!--点击事件-->
-                <button class="btn btn-success btn-block">
-                    保存
-                </button>
+            <div class="col-sm-8 pull-right">
+                <div class="col-sm-4"  >
+                    <!--点击事件-->
+                    <button  class="btn btn-danger btn-block" onclick="history.go(-1)">
+                        返回
+                    </button>
+                </div>
+                <div class="col-sm-2"></div>
+                <div class="col-sm-4" >
+                    <!--点击事件-->
+                    <button id="btn_addDiet" class="btn btn-success btn-block">
+                        保存
+                    </button>
+                </div>
             </div>
         </div>
-        </form>
     </div>
 </div>
+<div id="centerContent" style="display:none">操作成功！</div>
 <div style="width: 100%;height: 100px">
-
 </div>
 </body>
 </html>
