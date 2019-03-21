@@ -60,4 +60,14 @@
         n_ve ve,n_Na na,n_Ca ca,n_Fe fe,n_vc vc,n_cholesterol cholesterol
         from food_info where n_delFlag = 1 and n_foodId = #{param1}
     </select>
+
+    <select id="selectFoodNumByFoodIds" resultType="java.lang.Integer">
+        select count(*) from food_info where n_delFlag = 1 and n_foodId in (
+        <foreach collection="foodIds" item="foodId" index="index" separator="," >
+            #{foodId,jdbcType=INTEGER}
+        </foreach>
+        )
+    </select>
+
+
 </mapper>

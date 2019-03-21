@@ -1,6 +1,7 @@
 package com.cs.analyzefood.service.impl;
 
 import com.cs.analyzefood.entity.Food;
+import com.cs.analyzefood.entity.vo.page.PageCondition;
 import com.cs.analyzefood.mapper.UserMapper;
 import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.mapper.UserZoneMapper;
@@ -95,12 +96,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int getFoodsCount() {
-        return userMapper.selectFoodNum();
+    public int getFoodsCount(PageCondition pageCondition) {
+
+        return userMapper.selectFoodNum(pageCondition.getFoodType(),pageCondition.getFoodName(),pageCondition.getMin(),pageCondition.getMax());
     }
 
     @Override
-    public List<Food> getPageFood(int begin, int count) {
+    public List<Food> getPageFood(PageCondition pageCondition) {
+//        (currentPage - 1) * pageSize, pageSize
         return userMapper.selectFoodPage(begin, count);
     }
 
@@ -126,6 +129,5 @@ public class UserServiceImpl implements UserService {
     public Food findFoodById(int foodId) {
         return userMapper.selectFoodById(foodId);
     }
-
 
 }

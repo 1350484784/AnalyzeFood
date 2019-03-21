@@ -2,6 +2,7 @@ package com.cs.analyzefood.service;
 
 import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.entity.User;
+import com.cs.analyzefood.entity.vo.page.PageCondition;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -25,9 +26,13 @@ public interface UserService {
 
 //    PageInfo<Food> getAllfood(int currentPage);
 
-    int getFoodsCount();
+    int getFoodsCount(PageCondition pageCondition);
 
-    List<Food> getPageFood(int begin,int count);
+//    List<Food> getPageFood(int begin,int count);
+    List<Food> getPageFood(PageCondition pageCondition);
+
 
     Food findFoodById(int foodId);
+
+
 }

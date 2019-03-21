@@ -25,6 +25,20 @@ function getFoodType() {
     return foodTypeObj
 }
 
+
+//根据食物类型 获取 食物类型ID
+function getFoodTypeId(typeName) {
+    var foodTypeIds = [];
+    var foodType = getFoodType();
+    for(var i=0; i < foodType.length; i++){
+        if(foodType[i].typeName === typeName){
+            foodTypeIds.push(foodType[i].number);
+        }
+    }
+    return foodTypeIds;
+}
+
+
 //得到 食物类型 class
 function getFoodClass(typeId) {
     var foodType = getFoodType();

@@ -5,6 +5,7 @@ import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.entity.UserZone;
 import com.cs.analyzefood.entity.vo.diet.DietVo;
+import com.cs.analyzefood.entity.vo.page.PageCondition;
 import com.cs.analyzefood.entity.vo.page.PageFoodVo;
 import com.cs.analyzefood.exception.SystemFailedException;
 import com.cs.analyzefood.service.AdminService;
@@ -231,12 +232,18 @@ public class UserControl {
 
 
     @RequestMapping("/foodPage")
-    public ResponseEntity userAddMeal(@RequestParam(name = "currentPage", defaultValue = "1") int currentPage, Model model) {
-        int pageSize = 8;
-        int totalCount = userService.getFoodsCount();
+    public ResponseEntity userAddMeal(PageCondition pageCondition, Model model) {
+        if(pageCondition == null){
+            pageCondition = new PageCondition(1);
+        }
 
-        List<Food> foods = userService.getPageFood((currentPage - 1) * pageSize, pageSize);
-        PageFoodVo foodVo = new PageFoodVo(foods, currentPage, totalCount, pageSize);
+        int pageSize = 8;
+        int totalCount = userService.getFoodsCount(pageCondition);
+
+//        List<Food> foods = userService.getPageFood((currentPage - 1) * pageSize, pageSize);
+        List<Food> foods = userService.getPageFood(pageCondition);
+
+        PageFoodVo foodVo = new PageFoodVo(foods, pageCondition.getCurrentPage(), totalCount, pageSize);
 
         return new ResponseEntity(foodVo, HttpStatus.OK);
     }
@@ -253,4 +260,5 @@ public class UserControl {
         System.out.println(JsonUtil.toJson(dietVo));
         return new ResponseEntity(true, HttpStatus.OK);
     }
+
 }

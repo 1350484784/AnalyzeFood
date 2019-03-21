@@ -34,6 +34,20 @@
 
     <script th:inline="javascript">
 
+        //根据 食物类型 分页
+        function pageByType(typeName){
+            // var foodIds = getFoodTypeId(typeName);
+            // console.log("foodIds",foodIds);
+            // $.ajax({
+            //     type:"post",
+            //     url:contextPath+"/user/pageFoodByType",
+            //     data: {foodIds: foodIds},
+            //     success:function () {
+            //
+            //     }
+            // });
+        }
+
         //计算 总和
         function sum() {
             var energyTotal = 0;
@@ -181,11 +195,21 @@
 
         
         <!-- 分页 -->
-        function page_food(currentPage){
+        function page_food(currentPage, foodType, foodName, min, max){
+            var pageCondition = {
+                currentPage:currentPage,
+                foodType:foodType,
+                foodName:foodName,
+                min:min,
+                max:max
+            }
+
             $.ajax({
                 type:"post",
                 url:contextPath+"/user/foodPage",
-                data: {currentPage: currentPage},
+                dataType:"json",
+                contentType : "application/json",
+                data: JSON.stringify(pageCondition),
                 success:function (resultData) {
                     // console.log("foods",resultData)
                     // console.log("1",getFoodType());
@@ -335,11 +359,13 @@
                 $.ajax({
                     type:"post",
                     url:contextPath+"/user/addDiet",
+                    dataType:"json",
+                    contentType : "application/json",
                     // data: {dietVo:JSON.stringify(dietVo)},
                     // data:{dietVo:dietVo},
-                    dataType:"json",
                     // data:"dietVo="+dietVo,
-                    data: {dietVo:JSON.stringify(dietVo)},
+                    // data: {dietVo:JSON.stringify(dietVo)},
+                    data : JSON.stringify(dietVo),
                     success:function (data) {
 
                     }
@@ -507,34 +533,34 @@
                             <div class="col-sm-12 box-row hor-ends" style="margin-top: 10px">
 
                                 <!--后台 食物类型 数据 点击事件-->
-                                <div class="food-type select-food-type">
+                                <div class="food-type select-food-type" onclick="pageByType('谷')">
                                     <span>谷</span>
                                 </div>
-                                <div class="food-type select-food-type">
+                                <div class="food-type select-food-type" onclick="pageByType('豆')">
                                     <span>豆</span>
                                 </div>
-                                <div class="food-type select-food-type">
+                                <div class="food-type select-food-type" onclick="pageByType('蔬')">
                                     <span>蔬</span>
                                 </div>
-                                <div class="food-type select-food-type">
+                                <div class="food-type select-food-type" onclick="pageByType('果')">
                                     <span>果</span>
                                 </div>
-                                <div class="food-type select-food-type">
+                                <div class="food-type select-food-type" onclick="pageByType('肉')">
                                     <span>肉</span>
                                 </div>
-                                <div class="food-type select-food-type">
+                                <div class="food-type select-food-type" onclick="pageByType('乳')">
                                     <span>乳</span>
                                 </div>
-                                <div class="food-type select-food-type">
+                                <div class="food-type select-food-type" onclick="pageByType('蛋')">
                                     <span>蛋</span>
                                 </div>
-                                <div class="food-type select-food-type">
+                                <div class="food-type select-food-type" onclick="pageByType('鱼')">
                                     <span>鱼</span>
                                 </div>
-                                <div class="food-type select-food-type">
+                                <div class="food-type select-food-type" onclick="pageByType('油')">
                                     <span>油</span>
                                 </div>
-                                <div class="food-type select-food-type">
+                                <div class="food-type select-food-type" onclick="pageByType('另')">
                                     <span>另</span>
                                 </div>
                             </div>
