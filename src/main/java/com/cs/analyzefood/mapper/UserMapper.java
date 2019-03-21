@@ -24,11 +24,11 @@ public interface UserMapper {
 
     List<Food> selectAllFoods();
 
-    int selectFoodNum();
+    int selectFoodNum(int[] foodIds, String foodName,Double min, Double max);
 
-    List<Food> selectFoodPage(int begin, int count);
+    List<Food> selectFoodPage(int begin, int count, int[] foodIds, String foodName,Double min, Double max);
 
     Food selectFoodById(int foodId);
 
-    int selectFoodNumByFoodIds(int[] foodIds);
+//    int selectFoodNumByFoodIds(int[] foodIds);
 }

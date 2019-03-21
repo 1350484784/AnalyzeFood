@@ -29,7 +29,7 @@ public interface UserService {
     int getFoodsCount(PageCondition pageCondition);
 
 //    List<Food> getPageFood(int begin,int count);
-    List<Food> getPageFood(PageCondition pageCondition);
+    List<Food> getPageFood(int begin,int count,PageCondition pageCondition);
 
 
     Food findFoodById(int foodId);

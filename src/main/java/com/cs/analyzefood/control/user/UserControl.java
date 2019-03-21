@@ -232,16 +232,18 @@ public class UserControl {
 
 
     @RequestMapping("/foodPage")
-    public ResponseEntity userAddMeal(PageCondition pageCondition, Model model) {
+    public ResponseEntity userAddMeal(@RequestBody PageCondition pageCondition) {
         if(pageCondition == null){
             pageCondition = new PageCondition(1);
+        }
+        if(pageCondition.getFoodType() != null && pageCondition.getFoodType().length == 0){
+            pageCondition.setFoodType(null);
         }
 
         int pageSize = 8;
         int totalCount = userService.getFoodsCount(pageCondition);
 
-//        List<Food> foods = userService.getPageFood((currentPage - 1) * pageSize, pageSize);
-        List<Food> foods = userService.getPageFood(pageCondition);
+        List<Food> foods = userService.getPageFood((pageCondition.getCurrentPage() - 1) * pageSize, pageSize, pageCondition);
 
         PageFoodVo foodVo = new PageFoodVo(foods, pageCondition.getCurrentPage(), totalCount, pageSize);
 

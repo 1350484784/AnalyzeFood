@@ -35,17 +35,31 @@
     <script th:inline="javascript">
 
         //根据 食物类型 分页
-        function pageByType(typeName){
-            // var foodIds = getFoodTypeId(typeName);
-            // console.log("foodIds",foodIds);
-            // $.ajax({
-            //     type:"post",
-            //     url:contextPath+"/user/pageFoodByType",
-            //     data: {foodIds: foodIds},
-            //     success:function () {
-            //
-            //     }
-            // });
+        function pageByType(t){
+            if($(t).hasClass('now-food')){
+                $(t).removeClass('now-food');
+            }else{
+                $(".select-food-type").each(function () {
+                    $(this).removeClass('now-food')
+                });
+                $(t).addClass('now-food');
+            }
+
+            var typeName = '';
+            var foodIds = [];
+            $(".select-food-type").each(function () {
+                if($(this).hasClass('now-food')){
+                    typeName = $(this).children().html();
+                }
+            });
+            if(typeName != ''){
+                foodIds = getFoodTypeId(typeName);
+            }
+
+            var search_foodName = $('#search_foodName').val();
+            var minVal = $('#minInput').val();
+            var maxVal = $('#maxInput').val();
+            page_food(1,foodIds,search_foodName,minVal,maxVal)
         }
 
         //计算 总和
@@ -165,10 +179,8 @@
 
         //点击效果
         function focusFood(t){
-            // alert($(t).html())
             var s =  $(t).find('.selectNext').attr("style");
-            var w = $(t).find('.selectPre').attr("style")
-            // alert(s.indexOf("display"))
+            var w = $(t).find('.selectPre').attr("style");
             if(s.indexOf("none") > 0){
                 $('.food-search-item').each(function () {
                     $(this).removeClass('focusing-food');
@@ -195,13 +207,13 @@
 
         
         <!-- 分页 -->
-        function page_food(currentPage, foodType, foodName, min, max){
+        function page_food(currentPage1, foodType1, foodName1, min1, max1){
             var pageCondition = {
-                currentPage:currentPage,
-                foodType:foodType,
-                foodName:foodName,
-                min:min,
-                max:max
+                currentPage:currentPage1,
+                foodType:foodType1,
+                foodName:foodName1,
+                min:min1,
+                max:max1
             }
 
             $.ajax({
@@ -217,38 +229,41 @@
                     // var foodType = getFoodType();
                     // var foodClass = ['谷','豆','蔬','果','肉',' 乳','蛋','鱼','油','另'];
                     var str = '';
-                    for(var i = 0; i < resultData.foods.length; i++){
-                        // var typeName = '另';
-                        // var thisFoodClass = 'food-type-';
-                        // for(var j = 0; j < foodType.length; j++) {
-                        //     if(resultData.foods[i].typeId === foodType[j].number){
-                        //         typeName = foodType[j].typeName;
-                        //         break;
-                        //     }
-                        // }
-                        // for(var j = 0; j < foodClass.length; j++){
-                        //     if(typeName === foodClass[j]){
-                        //         thisFoodClass = thisFoodClass + (j+1);
-                        //         break;
-                        //     }
-                        // }
-                        var thisFoodClass = getFoodClass(resultData.foods[i].typeId);
+                    if(resultData.foods){
+                        for(var i = 0; i < resultData.foods.length; i++){
+                            // var typeName = '另';
+                            // var thisFoodClass = 'food-type-';
+                            // for(var j = 0; j < foodType.length; j++) {
+                            //     if(resultData.foods[i].typeId === foodType[j].number){
+                            //         typeName = foodType[j].typeName;
+                            //         break;
+                            //     }
+                            // }
+                            // for(var j = 0; j < foodClass.length; j++){
+                            //     if(typeName === foodClass[j]){
+                            //         thisFoodClass = thisFoodClass + (j+1);
+                            //         break;
+                            //     }
+                            // }
+                            var thisFoodClass = getFoodClass(resultData.foods[i].typeId);
 
-                        str+='<div class="food-search-item">\n' +
-                            '                            <div onclick="focusFood(this)" draggable="true">\n' +
-                            '                                <span class="span_foodId" style="display: none;">'+resultData.foods[i].foodId+'</span>'+
-                            '                                <span class="pull-right selectPre" style="display: block"><strong>'+resultData.foods[i].energy.toFixed(2)+'</strong> Kcal/100g</span>\n' +
-                            '                                <div class="pull-right selectNext" style="display: none">\n' +
-                                                                '<span class="pull-left" style="color:#919191">选入：</span>\n' +
-                                                                '<button class="btn-add-food-0" onclick="pushFood(0,this)">早</button>\n' +
-                                                                '<button class="btn-add-food-1" onclick="pushFood(1,this)">午</button>\n' +
-                                                                '<button class="btn-add-food-2" onclick="pushFood(2,this)">晚</button>\n' +
-                                                             '</div>'+
-                            '                                <div class="food-type '+thisFoodClass+'"></div>\n' +
-                            '                                <span class="style_foodName">'+resultData.foods[i].foodName+'</span>\n' +
-                            '                            </div>\n' +
-                            '                        </div>';
+                            str+='<div class="food-search-item">\n' +
+                                '                            <div onclick="focusFood(this)" draggable="true">\n' +
+                                '                                <span class="span_foodId" style="display: none;">'+resultData.foods[i].foodId+'</span>'+
+                                '                                <span class="pull-right selectPre" style="display: block"><strong>'+resultData.foods[i].energy.toFixed(2)+'</strong> Kcal/100g</span>\n' +
+                                '                                <div class="pull-right selectNext" style="display: none">\n' +
+                                '<span class="pull-left" style="color:#919191">选入：</span>\n' +
+                                '<button class="btn-add-food-0" onclick="pushFood(0,this)">早</button>\n' +
+                                '<button class="btn-add-food-1" onclick="pushFood(1,this)">午</button>\n' +
+                                '<button class="btn-add-food-2" onclick="pushFood(2,this)">晚</button>\n' +
+                                '</div>'+
+                                '                                <div class="food-type '+thisFoodClass+'"></div>\n' +
+                                '                                <span class="style_foodName">'+resultData.foods[i].foodName+'</span>\n' +
+                                '                            </div>\n' +
+                                '                        </div>';
+                        }
                     }
+
                     $('#div_foodList').html(str);
                     if(resultData.curPage <= 1){
                         $('#prePage').css('display','none');
@@ -270,20 +285,147 @@
         }
 
         $(function () {
+            $.fn.watch = function (callback) {
+                return this.each(function () {
+                    //缓存以前的值
+                    $.data(this, 'originVal', $(this).val());
+
+                    //event
+                    $(this).on('keyup paste', function () {
+                        var originVal = $.data(this, 'originVal');
+                        var currentVal = $(this).val();
+
+                        if (originVal !== currentVal) {
+                            $.data(this, 'originVal', $(this).val());
+                            callback(currentVal);
+                        }
+                    });
+                });
+            }
             // console.log("1",getFoodType());
 
-            page_food(1);
+            page_food(1,[],'',0,0);
 
+            //currentPage1, foodType1, foodName1, min1, max1
             $('#prePage').click(function () {
-                page_food($('#currentPage').text() - 1);
+                var typeName = '';
+                var foodIds = [];
+                $(".select-food-type").each(function () {
+                    if($(this).hasClass('now-food')){
+                        typeName = $(this).children().html();
+                    }
+                });
+                if(typeName != ''){
+                    foodIds = getFoodTypeId(typeName);
+                }
+
+                var search_foodName = $('#search_foodName').val();
+                var minVal = $('#minInput').val();
+                var maxVal = $('#maxInput').val();
+
+                page_food($('#currentPage').text() - 1,foodIds,search_foodName,minVal,maxVal);
             });
 
             $('#nextPage').click(function () {
+                var typeName = '';
+                var foodIds = [];
+                $(".select-food-type").each(function () {
+                    if($(this).hasClass('now-food')){
+                        typeName = $(this).children().html();
+                    }
+                });
+                if(typeName != ''){
+                    foodIds = getFoodTypeId(typeName);
+                }
+
+                var search_foodName = $('#search_foodName').val();
+                var minVal = $('#minInput').val();
+                var maxVal = $('#maxInput').val();
                 var curPage = $('#currentPage').text();
-                page_food(parseInt(curPage) + 1);
+                page_food(parseInt(curPage) + 1,foodIds,search_foodName,minVal,maxVal);
             });
 
 
+            $('#search_foodName').watch(function () {
+                setTimeout(function () {
+                    var search_foodName = $('#search_foodName').val();
+                    var typeName = '';
+                    var foodIds = [];
+                    $(".select-food-type").each(function () {
+                        if($(this).hasClass('now-food')){
+                            typeName = $(this).children().html();
+                        }
+                    });
+                    if(typeName != ''){
+                        foodIds = getFoodTypeId(typeName);
+                    }
+                    var minVal = $('#minInput').val();
+                    var maxVal = $('#maxInput').val();
+                    page_food(1,foodIds,search_foodName,minVal,maxVal);
+                },2000);
+            });
+
+            $('#minInput').watch(function () {
+                setTimeout(function () {
+                    var minInput = $('#minInput').val();
+                    var maxVal = $('#maxInput').val();
+                    if(isNaN(Number(minInput))){
+                        centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;输入的不是数字!',101);
+                        return false;
+                    }
+                    if(Number(minInput) > Number(maxVal) && maxVal != ''){
+                        centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;输入的范围不正确!',101);
+                        return false;
+                    }
+                    var typeName = '';
+                    var foodIds = [];
+                    $(".select-food-type").each(function () {
+                        if($(this).hasClass('now-food')){
+                            typeName = $(this).children().html();
+                        }
+                    });
+                    if(typeName != ''){
+                        foodIds = getFoodTypeId(typeName);
+                    }
+                    var search_foodName = $('#search_foodName').val();
+                    page_food(1,foodIds,search_foodName,minInput,maxVal);
+                },2000);
+            });
+
+            $('#maxInput').watch(function () {
+                setTimeout(function () {
+                    var minInput = $('#minInput').val();
+                    var maxVal = $('#maxInput').val();
+                    if(isNaN(Number(maxVal))){
+                        centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;输入的不是数字!',101);
+                        return false;
+                    }
+                    if(Number(minInput) > Number(maxVal) && minInput != ''){
+                        centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;输入的范围不正确!',101);
+                        return false;
+                    }
+                    var typeName = '';
+                    var foodIds = [];
+                    $(".select-food-type").each(function () {
+                        if($(this).hasClass('now-food')){
+                            typeName = $(this).children().html();
+                        }
+                    });
+                    if(typeName != ''){
+                        foodIds = getFoodTypeId(typeName);
+                    }
+                    var search_foodName = $('#search_foodName').val();
+                    page_food(1,foodIds,search_foodName,minInput,maxVal);
+                },2000);
+            });
+
+            // $('#search_foodName').bind("input propertychange",function () {
+            //     alert($('#search_foodName').val())
+            // });
+
+            // $('#search_foodName').on("input",function () {
+            //     alert($('#search_foodName').val())
+            // });
 
             $('#btn_addDiet').click(function () {
 
@@ -371,6 +513,8 @@
                     }
                 });
             });
+
+
         });
 
         window.addEventListener("scroll",function(e){
@@ -516,7 +660,7 @@
                                 </strong>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control input-sm" placeholder="名称关键字">
+                                <input id="search_foodName" type="text" class="form-control input-sm" placeholder="名称关键字">
                             </div>
                             <div class="col-md-4" style="margin-top: 10px">
                                 <strong style="line-height: 30px;text-align: right">
@@ -526,41 +670,41 @@
                             <div class="col-md-8" style="margin-top: 10px">
 
                                 <!--function 鼠标离开事件-->
-                                <input type="text" placeholder="最小" class="form-control input-sm pull-left" style="max-width: 70px">
+                                <input id="minInput" type="text" placeholder="最小" class="form-control input-sm pull-left" style="max-width: 70px">
 
-                                <input type="text" placeholder="最大" class="form-control input-sm pull-right" style="max-width: 70px">
+                                <input id="maxInput" type="text" placeholder="最大" class="form-control input-sm pull-right" style="max-width: 70px">
                             </div>
                             <div class="col-sm-12 box-row hor-ends" style="margin-top: 10px">
 
                                 <!--后台 食物类型 数据 点击事件-->
-                                <div class="food-type select-food-type" onclick="pageByType('谷')">
+                                <div class="food-type select-food-type" onclick="pageByType(this)">
                                     <span>谷</span>
                                 </div>
-                                <div class="food-type select-food-type" onclick="pageByType('豆')">
+                                <div class="food-type select-food-type" onclick="pageByType(this)">
                                     <span>豆</span>
                                 </div>
-                                <div class="food-type select-food-type" onclick="pageByType('蔬')">
+                                <div class="food-type select-food-type" onclick="pageByType(this)">
                                     <span>蔬</span>
                                 </div>
-                                <div class="food-type select-food-type" onclick="pageByType('果')">
+                                <div class="food-type select-food-type" onclick="pageByType(this)">
                                     <span>果</span>
                                 </div>
-                                <div class="food-type select-food-type" onclick="pageByType('肉')">
+                                <div class="food-type select-food-type" onclick="pageByType(this)">
                                     <span>肉</span>
                                 </div>
-                                <div class="food-type select-food-type" onclick="pageByType('乳')">
+                                <div class="food-type select-food-type" onclick="pageByType(this)">
                                     <span>乳</span>
                                 </div>
-                                <div class="food-type select-food-type" onclick="pageByType('蛋')">
+                                <div class="food-type select-food-type" onclick="pageByType(this)">
                                     <span>蛋</span>
                                 </div>
-                                <div class="food-type select-food-type" onclick="pageByType('鱼')">
+                                <div class="food-type select-food-type" onclick="pageByType(this)">
                                     <span>鱼</span>
                                 </div>
-                                <div class="food-type select-food-type" onclick="pageByType('油')">
+                                <div class="food-type select-food-type" onclick="pageByType(this)">
                                     <span>油</span>
                                 </div>
-                                <div class="food-type select-food-type" onclick="pageByType('另')">
+                                <div class="food-type select-food-type" onclick="pageByType(this)">
                                     <span>另</span>
                                 </div>
                             </div>

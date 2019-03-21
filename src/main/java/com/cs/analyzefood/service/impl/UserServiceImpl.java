@@ -97,14 +97,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int getFoodsCount(PageCondition pageCondition) {
-
         return userMapper.selectFoodNum(pageCondition.getFoodType(),pageCondition.getFoodName(),pageCondition.getMin(),pageCondition.getMax());
     }
 
     @Override
-    public List<Food> getPageFood(PageCondition pageCondition) {
-//        (currentPage - 1) * pageSize, pageSize
-        return userMapper.selectFoodPage(begin, count);
+    public List<Food> getPageFood(int begin,int count,PageCondition pageCondition) {
+        return userMapper.selectFoodPage(begin, count, pageCondition.getFoodType(), pageCondition.getFoodName(), pageCondition.getMin(), pageCondition.getMax());
     }
 
 

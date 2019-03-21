@@ -42,7 +42,7 @@ function getFoodTypeId(typeName) {
 //得到 食物类型 class
 function getFoodClass(typeId) {
     var foodType = getFoodType();
-    var foodClass = ['谷','豆','蔬','果','肉',' 乳','蛋','鱼','油','另'];
+    var foodClass = ['谷','豆','蔬','果','肉','乳','蛋','鱼','油','另'];
 
     var typeName = '另';
     var thisFoodClass = 'food-type-';
