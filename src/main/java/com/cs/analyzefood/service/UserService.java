@@ -1,6 +1,8 @@
 package com.cs.analyzefood.service;
 
 import com.cs.analyzefood.entity.Food;
+import com.cs.analyzefood.entity.Meal;
+import com.cs.analyzefood.entity.MealMade;
 import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.entity.vo.page.PageCondition;
 import com.github.pagehelper.PageInfo;
@@ -34,5 +36,7 @@ public interface UserService {
 
     Food findFoodById(int foodId);
 
+    int addNewMeal(Meal meal);
 
+    void addMealMade(List<MealMade> mealMades);
 }

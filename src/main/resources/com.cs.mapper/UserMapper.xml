@@ -6,6 +6,16 @@
         values (#{roleAccount},#{password},#{phone},#{createTime},#{headImg},1)
     </insert>
 
+    <insert id="insertMeal" useGeneratedKeys="true" keyProperty="mealId" parameterType="com.cs.analyzefood.entity.Meal">
+        insert into meal_info(n_roleId,s_mealName,n_targetEnergy,s_describe,d_createTime,n_per_carbohydrate,n_per_protein,n_per_fat,n_per_zao,n_per_zhong,n_per_wan,n_dayEnergy,n_dayCHO,n_dayProtein,n_dayFat)
+        values(#{roleId},#{mealName},#{targetEnergy},#{describe},#{createTime},#{per_carbohydrate},#{per_protein},#{per_fat},#{per_zao},#{per_zhong},#{per_wan},#{dayEnergy},#{dayCHO},#{dayProtein},#{dayFat})
+    </insert>
+
+    <insert id="insertMealMade" parameterType="com.cs.analyzefood.entity.MealMade">
+        insert into meal_made(n_mealId,n_foodId,n_num,n_mealType)
+        values (#{mealId},#{foodId},#{num},#{mealType})
+    </insert>
+
 
     <update id="updateUserOnlineFlag">
         update user_info set n_onlineFlag = #{param2} where n_roleId = #{param1}
@@ -43,45 +53,47 @@
         from food_info where n_delFlag = 1
     </select>
 
+    <!--foodName, min, max, foodIds-->
     <select id="selectFoodNum" resultType="java.lang.Integer" >
         select count(*) from food_info where n_delFlag = 1
-        <if test="arg0 != null">
+        <if test="foodIds != null">
             and n_typeId in (
-            <foreach collection="arg0" item="foodId" separator="," >
+            <foreach collection="foodIds" item="foodId" separator="," >
                 #{foodId}
             </foreach>
             )
         </if>
-        <if test="arg1 != null and arg1 != ''">
+        <if test="foodName != null and foodName != ''">
           and instr(s_foodName, #{param2})>0
         </if>
-        <if test="arg2 != null and arg2 != 0">
+        <if test="min != null and min != 0">
           and n_energy &gt;= #{param3}
         </if>
-        <if test="arg3 != null and arg3 != 0">
+        <if test="max != null and max != 0">
           and n_energy &lt;= #{param4}
         </if>
     </select>
 
+    <!--foodName, param5, min, param6, max, count, foodIds, param3, begin, param4, param1, param2-->
     <select id="selectFoodPage" resultType="com.cs.analyzefood.entity.Food">
         select n_foodId foodId, s_foodName foodName,n_typeId typeId,n_eat_part eat_part,n_energy energy,n_moisture moisture,
         n_protein protein,n_fat fat,n_fiber fiber,n_carbohydrate carbohydrate,n_va va,n_vb1 vb1,n_vb2 vb2,n_niacin niacin,
         n_ve ve,n_Na na,n_Ca ca,n_Fe fe,n_vc vc,n_cholesterol cholesterol
         from food_info where n_delFlag = 1
-        <if test="arg2 != null">
+        <if test="foodIds != null">
             and n_typeId in (
-            <foreach collection="arg2" item="foodId" separator="," >
+            <foreach collection="foodIds" item="foodId" separator="," >
                 #{foodId}
             </foreach>
             )
         </if>
-        <if test="arg3 != null and arg3 != ''">
+        <if test="foodName != null and foodName != ''">
             and instr(s_foodName, #{param4})>0
         </if>
-        <if test="arg4 != null and arg4 != 0">
+        <if test="min != null and min != 0">
             and n_energy &gt;= #{param5}
         </if>
-        <if test="arg5 != null and arg5 != 0">
+        <if test="max != null and max != 0">
             and n_energy &lt;= #{param6}
         </if>
         limit #{param1},#{param2}

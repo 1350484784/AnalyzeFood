@@ -509,7 +509,10 @@
                     // data: {dietVo:JSON.stringify(dietVo)},
                     data : JSON.stringify(dietVo),
                     success:function (data) {
-
+                        centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;增加成功!',101);
+                        setTimeout(function () {
+                            window.location.href=contextPath+"/to/userIndex";
+                        },1500);
                     }
                 });
             });

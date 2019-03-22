@@ -1,6 +1,8 @@
 package com.cs.analyzefood.mapper;
 
 import com.cs.analyzefood.entity.Food;
+import com.cs.analyzefood.entity.Meal;
+import com.cs.analyzefood.entity.MealMade;
 import com.cs.analyzefood.entity.User;
 
 import java.util.List;
@@ -29,6 +31,10 @@ public interface UserMapper {
     List<Food> selectFoodPage(int begin, int count, int[] foodIds, String foodName,Double min, Double max);
 
     Food selectFoodById(int foodId);
+
+    int insertMeal(Meal meal);
+
+    void insertMealMade(MealMade mealMade);
 
 //    int selectFoodNumByFoodIds(int[] foodIds);
 }

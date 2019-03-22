@@ -1,6 +1,8 @@
 package com.cs.analyzefood.service.impl;
 
 import com.cs.analyzefood.entity.Food;
+import com.cs.analyzefood.entity.Meal;
+import com.cs.analyzefood.entity.MealMade;
 import com.cs.analyzefood.entity.vo.page.PageCondition;
 import com.cs.analyzefood.mapper.UserMapper;
 import com.cs.analyzefood.entity.User;
@@ -12,6 +14,9 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.util.Base64;
@@ -126,6 +131,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public Food findFoodById(int foodId) {
         return userMapper.selectFoodById(foodId);
+    }
+
+    @Override
+    public int addNewMeal(Meal meal) {
+        int mealId = userMapper.insertMeal(meal);
+        if(mealId > 0){
+            return mealId;
+        }
+        return -1;
+    }
+
+    @Override
+    @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
+    public void addMealMade(List<MealMade> mealMades) {
+        for (MealMade mealMade : mealMades){
+            userMapper.insertMealMade(mealMade);
+        }
     }
 
 }

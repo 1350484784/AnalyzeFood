@@ -1,9 +1,6 @@
 package com.cs.analyzefood.control.user;
 
-import com.cs.analyzefood.entity.Admin;
-import com.cs.analyzefood.entity.Food;
-import com.cs.analyzefood.entity.User;
-import com.cs.analyzefood.entity.UserZone;
+import com.cs.analyzefood.entity.*;
 import com.cs.analyzefood.entity.vo.diet.DietVo;
 import com.cs.analyzefood.entity.vo.page.PageCondition;
 import com.cs.analyzefood.entity.vo.page.PageFoodVo;
@@ -13,8 +10,6 @@ import com.cs.analyzefood.service.UserService;
 import com.cs.analyzefood.service.UserZoneService;
 import com.cs.analyzefood.util.JsonUtil;
 import com.cs.analyzefood.util.SendMessageUtil;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +25,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Base64;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 @Controller
@@ -84,7 +76,9 @@ public class UserControl {
              */
             model.addAttribute("userZone", userZone);
             model.addAttribute("user", user);
-            return "/html/index";
+
+            //转发
+            return "forward:/to/userIndex";
         }
         logger.debug(phone + " login failed");
         model.addAttribute("error", "error");
@@ -98,11 +92,17 @@ public class UserControl {
         if (roleId > 0) {
             User currentUser = userService.findUserById(roleId);
             if (currentUser != null) {
-                model.addAttribute("userId", roleId);
-                model.addAttribute("user", currentUser);
                 logger.debug(phone + " register success");
-                //首页
-                return "/html/index";
+//                model.addAttribute("userId", roleId);
+                UserZone userZone = userZoneService.selectUserZone(currentUser.getRoleId());
+                /**
+                 * 用户首页
+                 */
+                model.addAttribute("user", currentUser);
+                model.addAttribute("userZone", userZone);
+
+                //转发
+                return "forward:/to/userIndex";
             }
         }
         logger.debug(phone + " register failed");
@@ -232,6 +232,7 @@ public class UserControl {
 
 
     @RequestMapping("/foodPage")
+    @ResponseBody
     public ResponseEntity userAddMeal(@RequestBody PageCondition pageCondition) {
         if(pageCondition == null){
             pageCondition = new PageCondition(1);
@@ -252,14 +253,51 @@ public class UserControl {
 
 
     @RequestMapping("/getFoodForPushFood")
+    @ResponseBody
     public ResponseEntity getFoodForPushFood(int foodId) {
         Food food = userService.findFoodById(foodId);
         return new ResponseEntity(food, HttpStatus.OK);
     }
 
     @RequestMapping("/addDiet")
-    public ResponseEntity addDiet(@RequestBody DietVo dietVo){
+    @ResponseBody
+    public ResponseEntity addDiet(@RequestBody DietVo dietVo,HttpSession session){
         System.out.println(JsonUtil.toJson(dietVo));
+//        User user = (User) session.getAttribute("user");
+//        if (user == null) {
+//            throw new SystemFailedException("user do not login");
+//        }
+//
+//        Meal meal = new Meal(user.getRoleId(),dietVo.getDietTitle(),dietVo.getTargetEnergy(),dietVo.getIntroduce(),new Date(),dietVo.getPer_carbohydrate(),dietVo.getPer_protein(),dietVo.getPer_fat(),dietVo.getPer_zao(),dietVo.getPer_zhong(),dietVo.getPer_wan(),dietVo.getDayEnergy(),dietVo.getDayCHO(),dietVo.getDayProtein(),dietVo.getDayFat());
+//        int mealId = userService.addNewMeal(meal);
+//        if(mealId <= 0){
+//            throw new SystemFailedException("add meal failed");
+//        }
+//        List<MealMade> mealMades = new ArrayList<>();
+//        if(dietVo.getFoodId0() != null && dietVo.getFoodId0().length != 0){
+//            for(int i = 0; i < dietVo.getFoodId0().length; i++){
+//                MealMade mealMade = new MealMade(mealId,dietVo.getFoodId0()[i],dietVo.getFoodNum0()[i],0);
+//                mealMades.add(mealMade);
+//            }
+//        }
+//        if(dietVo.getFoodId1() != null && dietVo.getFoodId1().length != 0){
+//            for(int i = 0; i < dietVo.getFoodId1().length; i++){
+//                MealMade mealMade = new MealMade(mealId,dietVo.getFoodId1()[i],dietVo.getFoodNum1()[i],1);
+//                mealMades.add(mealMade);
+//            }
+//        }
+//        if(dietVo.getFoodId2() != null && dietVo.getFoodId2().length != 0){
+//            for(int i = 0; i < dietVo.getFoodId2().length; i++){
+//                MealMade mealMade = new MealMade(mealId,dietVo.getFoodId2()[i],dietVo.getFoodNum2()[i],2);
+//                mealMades.add(mealMade);
+//            }
+//        }
+//        if(mealMades.size() == 0){
+//            throw new SystemFailedException("add meal failed");
+//        }
+//        userService.addMealMade(mealMades);
+
+
         return new ResponseEntity(true, HttpStatus.OK);
     }
 

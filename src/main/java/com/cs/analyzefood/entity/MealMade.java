@@ -1,11 +1,21 @@
 package com.cs.analyzefood.entity;
 
-public class MealType {
+public class MealMade {
     private int id;
     private int mealId;
     private int foodId;
     private double num;
     private int mealType;
+
+    public MealMade() {
+    }
+
+    public MealMade(int mealId, int foodId, double num, int mealType) {
+        this.mealId = mealId;
+        this.foodId = foodId;
+        this.num = num;
+        this.mealType = mealType;
+    }
 
     public int getId() {
         return id;
