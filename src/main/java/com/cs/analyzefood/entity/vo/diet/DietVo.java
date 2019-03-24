@@ -1,6 +1,7 @@
 package com.cs.analyzefood.entity.vo.diet;
 
 public class DietVo {
+    private int mealId;
     private String dietTitle;
     private double targetEnergy;
     private double per_carbohydrate;
@@ -20,6 +21,14 @@ public class DietVo {
     private double[] foodNum1;
     private double[] foodNum2;
     private String introduce;
+
+    public int getMealId() {
+        return mealId;
+    }
+
+    public void setMealId(int mealId) {
+        this.mealId = mealId;
+    }
 
     public String getDietTitle() {
         return dietTitle;

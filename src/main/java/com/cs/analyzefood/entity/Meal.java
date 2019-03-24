@@ -1,13 +1,14 @@
 package com.cs.analyzefood.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class Meal {
     private int mealId;
     private int roleId;
     private String mealName;
     private double targetEnergy;
-    private String describe;
+    private String description;
     private Date createTime;
     private double per_carbohydrate;
     private double per_protein;
@@ -20,14 +21,35 @@ public class Meal {
     private double dayProtein;
     private double dayFat;
 
+    private List<MealMade> mealMades;
+
     public Meal() {
     }
 
-    public Meal(int roleId, String mealName, double targetEnergy, String describe, Date createTime, double per_carbohydrate, double per_protein, double per_fat, double per_zao, double per_zhong, double per_wan, double dayEnergy, double dayCHO, double dayProtein, double dayFat) {
+    public Meal(int roleId, String mealName, double targetEnergy, String description, Date createTime, double per_carbohydrate, double per_protein, double per_fat, double per_zao, double per_zhong, double per_wan, double dayEnergy, double dayCHO, double dayProtein, double dayFat) {
         this.roleId = roleId;
         this.mealName = mealName;
         this.targetEnergy = targetEnergy;
-        this.describe = describe;
+        this.description = description;
+        this.createTime = createTime;
+        this.per_carbohydrate = per_carbohydrate;
+        this.per_protein = per_protein;
+        this.per_fat = per_fat;
+        this.per_zao = per_zao;
+        this.per_zhong = per_zhong;
+        this.per_wan = per_wan;
+        this.dayEnergy = dayEnergy;
+        this.dayCHO = dayCHO;
+        this.dayProtein = dayProtein;
+        this.dayFat = dayFat;
+    }
+
+    public Meal(int mealId, int roleId, String mealName, double targetEnergy, String description, Date createTime, double per_carbohydrate, double per_protein, double per_fat, double per_zao, double per_zhong, double per_wan, double dayEnergy, double dayCHO, double dayProtein, double dayFat) {
+        this.mealId = mealId;
+        this.roleId = roleId;
+        this.mealName = mealName;
+        this.targetEnergy = targetEnergy;
+        this.description = description;
         this.createTime = createTime;
         this.per_carbohydrate = per_carbohydrate;
         this.per_protein = per_protein;
@@ -73,12 +95,12 @@ public class Meal {
         this.targetEnergy = targetEnergy;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getCreateTime() {
@@ -167,5 +189,13 @@ public class Meal {
 
     public void setDayFat(double dayFat) {
         this.dayFat = dayFat;
+    }
+
+    public List<MealMade> getMealMades() {
+        return mealMades;
+    }
+
+    public void setMealMades(List<MealMade> mealMades) {
+        this.mealMades = mealMades;
     }
 }

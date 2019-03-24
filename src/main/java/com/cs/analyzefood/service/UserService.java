@@ -4,6 +4,7 @@ import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.entity.Meal;
 import com.cs.analyzefood.entity.MealMade;
 import com.cs.analyzefood.entity.User;
+import com.cs.analyzefood.entity.vo.diet.DietVo;
 import com.cs.analyzefood.entity.vo.page.PageCondition;
 import com.github.pagehelper.PageInfo;
 
@@ -39,4 +40,19 @@ public interface UserService {
     int addNewMeal(Meal meal);
 
     void addMealMade(List<MealMade> mealMades);
+
+    PageInfo<Meal> getPageMeal(int roleId, int currentPage);
+
+    int getMealSum(int roleId);
+
+    Meal findTodayDiet(int roleId);
+
+    Meal findMealById(int mealId);
+
+    void updateMealById(Meal meal);
+
+    MealMade findMealMade(int mealId, int foodId, int mealType);
+
+    void updateMeal(DietVo dietVo,int roleId);
+
 }

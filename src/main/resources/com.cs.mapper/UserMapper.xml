@@ -8,7 +8,7 @@
 
     <insert id="insertMeal" useGeneratedKeys="true" keyProperty="mealId" parameterType="com.cs.analyzefood.entity.Meal">
         insert into meal_info(n_roleId,s_mealName,n_targetEnergy,s_describe,d_createTime,n_per_carbohydrate,n_per_protein,n_per_fat,n_per_zao,n_per_zhong,n_per_wan,n_dayEnergy,n_dayCHO,n_dayProtein,n_dayFat)
-        values(#{roleId},#{mealName},#{targetEnergy},#{describe},#{createTime},#{per_carbohydrate},#{per_protein},#{per_fat},#{per_zao},#{per_zhong},#{per_wan},#{dayEnergy},#{dayCHO},#{dayProtein},#{dayFat})
+        values(#{roleId},#{mealName},#{targetEnergy},#{description},#{createTime},#{per_carbohydrate},#{per_protein},#{per_fat},#{per_zao},#{per_zhong},#{per_wan},#{dayEnergy},#{dayCHO},#{dayProtein},#{dayFat})
     </insert>
 
     <insert id="insertMealMade" parameterType="com.cs.analyzefood.entity.MealMade">
@@ -33,6 +33,19 @@
         update user_info set s_headImg = #{param1} where n_roleId = #{param2}
     </update>
 
+    <update id="updateMealById" parameterType="com.cs.analyzefood.entity.Meal">
+        update meal_info set s_mealName=#{mealName}, n_targetEnergy=#{targetEnergy}, s_describe=#{description}, n_per_carbohydrate=#{per_carbohydrate}, n_per_protein=#{per_protein}, n_per_fat=#{per_fat}, n_per_zao=#{per_zao},n_per_zhong=#{per_zhong}, n_per_wan=#{per_wan}, n_dayEnergy=#{dayEnergy}, n_dayCHO=#{dayCHO},n_dayProtein=#{dayProtein},n_dayFat=#{dayFat}
+        where n_mealId = #{mealId}
+    </update>
+
+    <update id="updateMealMade" parameterType="com.cs.analyzefood.entity.MealMade">
+        update meal_made set n_num = #{num} where n_mealId = #{mealId} and n_foodId = #{foodId} and n_mealType = #{mealType}
+    </update>
+
+    <delete id="deleteMealMade">
+      delete from meal_made where n_id = #{param1}
+    </delete>
+
     <select id="selectUserByPhone" resultType="com.cs.analyzefood.entity.User">
         select n_roleId roleId from user_info where s_phone = #{param1}
     </select>
@@ -53,51 +66,98 @@
         from food_info where n_delFlag = 1
     </select>
 
-    <!--foodName, min, max, foodIds-->
     <select id="selectFoodNum" resultType="java.lang.Integer" >
         select count(*) from food_info where n_delFlag = 1
-        <if test="foodIds != null">
+        <if test="arg0 != null">
             and n_typeId in (
-            <foreach collection="foodIds" item="foodId" separator="," >
+            <foreach collection="arg0" item="foodId" separator="," >
                 #{foodId}
             </foreach>
             )
         </if>
-        <if test="foodName != null and foodName != ''">
+        <if test="arg1 != null and arg1 != ''">
           and instr(s_foodName, #{param2})>0
         </if>
-        <if test="min != null and min != 0">
+        <if test="arg2 != null and arg2 != 0">
           and n_energy &gt;= #{param3}
         </if>
-        <if test="max != null and max != 0">
+        <if test="arg3 != null and arg3 != 0">
           and n_energy &lt;= #{param4}
         </if>
     </select>
 
-    <!--foodName, param5, min, param6, max, count, foodIds, param3, begin, param4, param1, param2-->
     <select id="selectFoodPage" resultType="com.cs.analyzefood.entity.Food">
         select n_foodId foodId, s_foodName foodName,n_typeId typeId,n_eat_part eat_part,n_energy energy,n_moisture moisture,
         n_protein protein,n_fat fat,n_fiber fiber,n_carbohydrate carbohydrate,n_va va,n_vb1 vb1,n_vb2 vb2,n_niacin niacin,
         n_ve ve,n_Na na,n_Ca ca,n_Fe fe,n_vc vc,n_cholesterol cholesterol
         from food_info where n_delFlag = 1
-        <if test="foodIds != null">
+        <if test="arg2 != null">
             and n_typeId in (
-            <foreach collection="foodIds" item="foodId" separator="," >
+            <foreach collection="arg2" item="foodId" separator="," >
                 #{foodId}
             </foreach>
             )
         </if>
-        <if test="foodName != null and foodName != ''">
+        <if test="arg3 != null and arg3 != ''">
             and instr(s_foodName, #{param4})>0
         </if>
-        <if test="min != null and min != 0">
+        <if test="arg4 != null and arg4 != 0">
             and n_energy &gt;= #{param5}
         </if>
-        <if test="max != null and max != 0">
+        <if test="arg5 != null and arg5 != 0">
             and n_energy &lt;= #{param6}
         </if>
         limit #{param1},#{param2}
     </select>
+
+
+
+    <!--&lt;!&ndash;foodName, min, max, foodIds&ndash;&gt;-->
+    <!--<select id="selectFoodNum" resultType="java.lang.Integer" >-->
+        <!--select count(*) from food_info where n_delFlag = 1-->
+        <!--<if test="foodIds != null">-->
+            <!--and n_typeId in (-->
+            <!--<foreach collection="foodIds" item="foodId" separator="," >-->
+                <!--#{foodId}-->
+            <!--</foreach>-->
+            <!--)-->
+        <!--</if>-->
+        <!--<if test="foodName != null and foodName != ''">-->
+            <!--and instr(s_foodName, #{param2})>0-->
+        <!--</if>-->
+        <!--<if test="min != null and min != 0">-->
+            <!--and n_energy &gt;= #{param3}-->
+        <!--</if>-->
+        <!--<if test="max != null and max != 0">-->
+            <!--and n_energy &lt;= #{param4}-->
+        <!--</if>-->
+    <!--</select>-->
+
+    <!--&lt;!&ndash;foodName, param5, min, param6, max, count, foodIds, param3, begin, param4, param1, param2&ndash;&gt;-->
+    <!--<select id="selectFoodPage" resultType="com.cs.analyzefood.entity.Food">-->
+        <!--select n_foodId foodId, s_foodName foodName,n_typeId typeId,n_eat_part eat_part,n_energy energy,n_moisture moisture,-->
+        <!--n_protein protein,n_fat fat,n_fiber fiber,n_carbohydrate carbohydrate,n_va va,n_vb1 vb1,n_vb2 vb2,n_niacin niacin,-->
+        <!--n_ve ve,n_Na na,n_Ca ca,n_Fe fe,n_vc vc,n_cholesterol cholesterol-->
+        <!--from food_info where n_delFlag = 1-->
+        <!--<if test="foodIds != null">-->
+            <!--and n_typeId in (-->
+            <!--<foreach collection="foodIds" item="foodId" separator="," >-->
+                <!--#{foodId}-->
+            <!--</foreach>-->
+            <!--)-->
+        <!--</if>-->
+        <!--<if test="foodName != null and foodName != ''">-->
+            <!--and instr(s_foodName, #{param4})>0-->
+        <!--</if>-->
+        <!--<if test="min != null and min != 0">-->
+            <!--and n_energy &gt;= #{param5}-->
+        <!--</if>-->
+        <!--<if test="max != null and max != 0">-->
+            <!--and n_energy &lt;= #{param6}-->
+        <!--</if>-->
+        <!--limit #{param1},#{param2}-->
+    <!--</select>-->
+
 
     <select id="selectFoodById" resultType="com.cs.analyzefood.entity.Food">
         select n_foodId foodId, s_foodName foodName,n_typeId typeId,n_eat_part eat_part,n_energy energy,n_moisture moisture,
@@ -106,6 +166,74 @@
         from food_info where n_delFlag = 1 and n_foodId = #{param1}
     </select>
 
+    <select id="selectMealNumByUser" resultType="java.lang.Integer">
+        select count(*) from meal_info where n_roleId = #{param1}
+    </select>
+
+
+    <!--<resultMap id="meal_made" type="com.cs.analyzefood.entity.Meal">-->
+        <!--<id column="n_mealId" property="mealId" />-->
+        <!--<result column="s_mealName" property="mealName"/>-->
+        <!--<result column="n_targetEnergy" property="targetEnergy"/>-->
+        <!--<result column="s_describe" property="description"/>-->
+        <!--<result column="n_per_carbohydrate" property="per_carbohydrate"/>-->
+        <!--<result column="n_per_protein" property="per_protein"/>-->
+        <!--<result column="n_per_fat" property="per_fat"/>-->
+        <!--<result column="n_per_zao" property="per_zao"/>-->
+        <!--<result column="n_per_zhong" property="per_zhong"/>-->
+        <!--<result column="n_per_wan" property="per_wan"/>-->
+        <!--<result column="n_dayEnergy" property="dayEnergy"/>-->
+        <!--<result column="n_dayCHO" property="dayCHO"/>-->
+        <!--<result column="n_dayProtein" property="dayProtein"/>-->
+        <!--<result column="n_dayFat" property="dayFat"/>-->
+        <!--<result column="d_createTime" property="createTime"/>-->
+        <!--<collection property="mealMades" ofType="com.cs.analyzefood.entity.MealMade">-->
+            <!--<id column="n_id" property="id"/>-->
+            <!--<result column="n_foodId" property="foodId"/>-->
+            <!--<result column="n_num" property="num"/>-->
+            <!--<result column="n_mealType" property="mealType"/>-->
+            <!--<association property="food" javaType="com.cs.analyzefood.entity.Food">-->
+                <!--<id column="foodId" property="foodId"/>-->
+                <!--<result column="s_foodName" property="foodName"/>-->
+                <!--<result column="n_typeId" property="typeId"/>-->
+            <!--</association>-->
+        <!--</collection>-->
+    <!--</resultMap>-->
+    <!--<select id="selectPageMeal" resultMap="meal_made">-->
+      <!--select  mi.*, mm.*,f.n_foodId foodId,f.s_foodName, f.n_typeId from meal_info mi, meal_made mm, food_info f-->
+      <!--where  mi.n_roleId = #{param1} and mi.n_mealId = mm.n_mealId and mm.n_foodId = f.n_foodId order by mi.d_createTime desc-->
+    <!--</select>-->
+
+    <select id="selectPageMeal" resultType="com.cs.analyzefood.entity.Meal">
+      select n_mealId mealId,s_mealName mealName, n_targetEnergy targetEnergy, s_describe description,n_per_carbohydrate per_carbohydrate, n_per_protein per_protein, n_per_fat per_fat,n_per_zao per_zao,n_per_zhong per_zhong, n_per_wan per_wan, n_dayEnergy dayEnergy, n_dayCHO dayCHO,n_dayProtein dayProtein,n_dayFat dayFat,d_createTime createTime from meal_info
+      where n_roleId = #{param1} order by d_createTime desc
+    </select>
+
+    <select id="selectMealMadeByMealId" resultType="com.cs.analyzefood.entity.MealMade">
+      select n_foodId foodId, n_mealId mealId,n_foodId foodId,n_num num,n_mealType mealType from meal_made where n_mealId = #{param1}
+    </select>
+
+    <!--<select id="selectFoodByMeal" resultType="com.cs.analyzefood.entity.Food">-->
+      <!--select s_foodName foodName, n_typeId typeId from food_info where n_foodId = #{param1}-->
+    <!--</select>-->
+
+    <select id="selectMealIsToday" resultType="com.cs.analyzefood.entity.Meal">
+        select n_mealId mealId from meal_info where n_roleId = #{param1} and DATE_FORMAT( d_createTime,'%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d') order by d_createTime desc limit 0,1
+    </select>
+
+    <select id="selectMealById" resultType="com.cs.analyzefood.entity.Meal">
+        select n_mealId mealId,s_mealName mealName, n_targetEnergy targetEnergy, s_describe description,n_per_carbohydrate per_carbohydrate, n_per_protein per_protein, n_per_fat per_fat,n_per_zao per_zao,n_per_zhong per_zhong, n_per_wan per_wan, n_dayEnergy dayEnergy, n_dayCHO dayCHO,n_dayProtein dayProtein,n_dayFat dayFat,d_createTime createTime from meal_info
+        where n_mealId = #{param1}
+    </select>
+
+    <select id="selectMealMadeByMealIdAndFoodId" resultType="com.cs.analyzefood.entity.MealMade">
+        select n_id id, n_mealId mealId, n_foodId foodId, n_num num, n_mealType n_mealType from meal_made
+        where n_mealId = #{param1} and n_foodId = #{param2} and n_mealType = #{param3}
+    </select>
+
+    <select id="selectOldMealMade" resultType="com.cs.analyzefood.entity.MealMade">
+        select n_id id, n_foodId foodId from meal_made where n_mealId = #{param1} and n_mealType = #{param2}
+    </select>
 
 
 </mapper>

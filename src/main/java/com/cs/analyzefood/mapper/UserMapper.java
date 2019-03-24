@@ -36,5 +36,28 @@ public interface UserMapper {
 
     void insertMealMade(MealMade mealMade);
 
+    int selectMealNumByUser(int roleId);
+
+    List<Meal> selectPageMeal(int roleId);
+
+    List<MealMade> selectMealMadeByMealId(int mealId);
+
+//    Food selectFoodByMeal(int foodId);
+
+    Meal selectMealIsToday(int roleId);
+
+    Meal selectMealById(int mealId);
+
+    void updateMealById(Meal meal);
+
+    MealMade selectMealMadeByMealIdAndFoodId(int mealId, int foodId, int mealType);
+
+    void updateMealMade(MealMade mealMade);
+
+    List<MealMade> selectOldMealMade(int mealId, int mealType);
+
+    void deleteMealMade(int id);
+
+
 //    int selectFoodNumByFoodIds(int[] foodIds);
 }

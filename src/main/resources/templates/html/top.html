@@ -14,6 +14,15 @@
     <link rel="stylesheet" th:href="@{/css/user/userIndex.css}">
 
     <script th:src="@{/js/user/top.js}"></script>
+    <!--<script th:src="@{/js/user/love.js}"></script>-->
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
+        /*]]>*/
+    </script>
+
+
 
 </head>
 <body>
@@ -21,28 +30,24 @@
     <div class="container">
         <div>
             <ul class="nav nav-pills ">
-                <!--<li>-->
-                <!--<img src="src/images/logo-nav.png" alt="" height="50px">-->
-                <!--</li>-->
                 <li>
-                    <span class="navbar-brand" style="color:#00ad3d">碳蛋知</span>
+                  <img src="http://127.0.0.1:8080/AnalyzeFood/image/icon.png"  height="50px">
                 </li>
+                <li style="width: 20px;height: 50px"></li>
 
                 <!--url-->
-                <li class="now">
+                <li class="top_li now">
                     <a class="nav_a_style" th:href="@{/to/userIndex}">
                         我的主页
                     </a>
                 </li>
-                <li>
-                    <a class="nav_a_style"
-                       href="https://www.tandanzhi.com/index.html#!/DietList/1&amp;&amp;&amp;&amp;">
+                <li class="top_li">
+                    <a class="nav_a_style" th:href="@{/to/test}">
                         食谱库
                     </a>
                 </li>
-                <li>
-                    <a class="nav_a_style"
-                       href="https://www.tandanzhi.com/index.html#!/FoodList/1&amp;&amp;&amp;&amp;">
+                <li class="top_li">
+                    <a class="nav_a_style" th:href="@{/to/test}">
                         食物成分表
                     </a>
                 </li>
@@ -63,5 +68,16 @@
         </div>
     </div>
 </nav>
+<script th:inline="javascript">
+    $(function () {
+        var topIndex = [[${topIndex}]];
+        if(!$('.top_li').eq(topIndex).hasClass("now")){
+            $(".top_li").each(function () {
+                $(this).removeClass("now");
+            });
+            $('.top_li').eq(topIndex).addClass("now");
+        }
+    });
+</script>
 </body>
 </html>

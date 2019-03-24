@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en"  xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>INDEX</title>
@@ -8,7 +8,6 @@
     <script th:src="@{/bootstrap/js/jquery-3.3.1.js}"></script>
     <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
     <script th:src="@{/js/user/dietDetail.js}"></script>
-
     <style>
         .style_foodName{
             font-size: 13px;
@@ -31,7 +30,6 @@
         var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
         /*]]>*/
     </script>
-
     <script th:inline="javascript">
 
         //根据 食物类型 分页
@@ -103,7 +101,7 @@
         function getInputName(name, index) {
             return index == 0 ? (name+0) : (index == 1 ? (name+1) : (name+2))
         }
-        
+
         //加入food
         function pushFood(index, t) {
             var foodId =$(t).parent().parent().find('.span_foodId').text();
@@ -205,7 +203,7 @@
         }
 
 
-        
+
         <!-- 分页 -->
         function page_food(currentPage1, foodType1, foodName1, min1, max1){
             var pageCondition = {
@@ -223,28 +221,9 @@
                 contentType : "application/json",
                 data: JSON.stringify(pageCondition),
                 success:function (resultData) {
-                    // console.log("foods",resultData)
-                    // console.log("1",getFoodType());
-
-                    // var foodType = getFoodType();
-                    // var foodClass = ['谷','豆','蔬','果','肉',' 乳','蛋','鱼','油','另'];
                     var str = '';
                     if(resultData.foods){
                         for(var i = 0; i < resultData.foods.length; i++){
-                            // var typeName = '另';
-                            // var thisFoodClass = 'food-type-';
-                            // for(var j = 0; j < foodType.length; j++) {
-                            //     if(resultData.foods[i].typeId === foodType[j].number){
-                            //         typeName = foodType[j].typeName;
-                            //         break;
-                            //     }
-                            // }
-                            // for(var j = 0; j < foodClass.length; j++){
-                            //     if(typeName === foodClass[j]){
-                            //         thisFoodClass = thisFoodClass + (j+1);
-                            //         break;
-                            //     }
-                            // }
                             var thisFoodClass = getFoodClass(resultData.foods[i].typeId);
 
                             str+='<div class="food-search-item">\n' +
@@ -309,9 +288,74 @@
                     });
                 });
             }
-            // console.log("1",getFoodType());
 
             page_food(1,[],'',0,0);
+
+            //init table
+            var mealMades =  [[${meal.mealMades}]];
+            for(var i = 0; i < mealMades.length; i++){
+                var food = mealMades[i].food;
+                var foodClass = getFoodClass(food.typeId);
+                var tbody = '<tr><td><button onclick="delete_tr(this)" class="btn btn-xs btn-default">删</button>\n' +
+                    '</td>\n' +
+                    '<td>\n' +
+                    '<input name="'+getInputName('foodId',mealMades[i].mealType)+'" value="'+food.foodId+'" type="hidden"/> '+
+                    '<div class="food-type  '+foodClass+'"></div>\n' +
+                    ''+food.foodName+'\n' +
+                    '</td>\n' +
+                    '<td>\n' +
+                    '<input name="'+getInputName('foodNum',mealMades[i].mealType)+'" type="number" class="table-input"\n' +
+                    '   placeholder="输入重量"\n' +
+                    '       value= "'+mealMades[i].num+'"'+
+                    '   style="max-width: 70px"\n' +
+                    '   onchange="sum()"'+
+                    '  min="0" onkeyup="minNumber(this),sum()"/>\n' +
+                    '</td>\n' +
+                    '<td>\n' +
+                    '<input name="'+getInputName('foodEnergy',mealMades[i].mealType)+'" type="text"\n' +
+                    '   class="table-input-center"\n' +
+                    '   placeholder=""\n' +
+                    '       value="'+food.energy+'"  readonly="readonly"'+
+                    '   style="max-width: 70px"\n' +
+                    '   min="0" onkeyup="minNumber(this)"/>\n' +
+                    '\n' +
+                    '</td>\n' +
+                    '<td>\n' +
+                    '<input name="'+getInputName('foodCarbohydrate',mealMades[i].mealType)+'" type="text"\n' +
+                    '   class=" table-input-center"\n' +
+                    '   placeholder=""\n' +
+                    '       value="'+food.carbohydrate+'"  readonly="readonly"'+
+                    '   style="max-width: 70px"\n' +
+                    '   min="0" onkeyup="minNumber(this)"/>\n' +
+                    '</td>\n' +
+                    '<td>\n' +
+                    '<input name="'+getInputName('foodProtein',mealMades[i].mealType)+'" type="text"\n' +
+                    '   class="table-input-center"\n' +
+                    '   placeholder=""\n' +
+                    '       value="'+food.protein+'"  readonly="readonly"'+
+                    '   style="max-width: 70px"\n' +
+                    '   min="0" onkeyup="minNumber(this)"/>\n' +
+                    '</td>\n' +
+                    '<td>\n' +
+                    '<input name="'+getInputName('foodFat',mealMades[i].mealType)+'" type="text"\n' +
+                    '   class="table-input-center"\n' +
+                    '   placeholder=""\n' +
+                    '       value="'+food.fat+'"  readonly="readonly"'+
+                    '   style="max-width: 70px"\n' +
+                    '   min="0" onkeyup="minNumber(this)"/>\n' +
+                    '</td></tr>';
+                if(mealMades[i].mealType == 0){
+                    $('#table0>tbody').append(tbody);
+                }
+                if(mealMades[i].mealType == 1){
+                    $('#table1>tbody').append(tbody);
+                }
+                if(mealMades[i].mealType == 2){
+                    $('#table2>tbody').append(tbody);
+                }
+            }
+
+
 
             //currentPage1, foodType1, foodName1, min1, max1
             $('#prePage').click(function () {
@@ -426,13 +470,6 @@
                 },2000);
             });
 
-            // $('#search_foodName').bind("input propertychange",function () {
-            //     alert($('#search_foodName').val())
-            // });
-
-            // $('#search_foodName').on("input",function () {
-            //     alert($('#search_foodName').val())
-            // });
 
             $('#btn_addDiet').click(function () {
 
@@ -451,6 +488,7 @@
                 }
 
                 var dietVo = {
+                    mealId:'',
                     dietTitle:'',
                     targetEnergy:'',
                     per_carbohydrate: '',
@@ -471,7 +509,7 @@
                     foodNum2:[],
                     introduce:''
                 };
-
+                dietVo.mealId = $('#input_mealId').val();
                 dietVo.dietTitle = $('#dietTitle').val();
                 dietVo.targetEnergy = $('#targetEnergy').val();
                 dietVo.per_carbohydrate = $('#per_carbohydrate').val();
@@ -507,7 +545,7 @@
 
                 $.ajax({
                     type:"post",
-                    url:contextPath+"/user/addDiet",
+                    url:contextPath+"/user/editDiet",
                     dataType:"json",
                     contentType : "application/json",
                     // data: {dietVo:JSON.stringify(dietVo)},
@@ -516,7 +554,7 @@
                     // data: {dietVo:JSON.stringify(dietVo)},
                     data : JSON.stringify(dietVo),
                     success:function (data) {
-                        centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;增加成功!',101);
+                        centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;修改成功!',101);
                         setTimeout(function () {
                             window.location.href=contextPath+"/to/userIndex";
                         },1500);
@@ -540,7 +578,6 @@
 
     </script>
 
-
 </head>
 <body class="indexBody">
 <div id="body">
@@ -548,13 +585,10 @@
     <div th:replace="/html/top :: html"></div>
 
     <div class="EditDiet container">
-
-        <!--<input type="hidden" name="currentPage" id="currentPage" th:value="${foods.pageNum}">-->
-
         <h2>
-            添加食谱
+            编辑食谱
             <span style="font-size: 18px">
-                New Diet Detail
+                <span th:text="${meal.mealName}"> </span>
             </span>
         </h2>
         <hr/>
@@ -573,14 +607,13 @@
                                 <label for="dietTitle">
                                     食谱名称
                                 </label>
-                                <input id="dietTitle" name="dietTitle" type="text" class="form-control" >
+                                <input id="dietTitle" name="dietTitle" th:value="${meal.mealName}" type="text" class="form-control" >
                             </div>
                             <div class="col-md-6 col-xs-6" style="margin-bottom: 10px">
                                 <label for="targetEnergy">
                                     目标能量 <span class="hidden-sm hidden-xs">(Kcal)</span>
                                 </label>
-                                <!--function -->
-                                <input id="targetEnergy" name="targetEnergy" type="number" class="form-control" onkeyup="minNumber(this)"/>
+                                <input id="targetEnergy" th:value="${meal.targetEnergy}" name="targetEnergy" type="number" class="form-control" onkeyup="minNumber(this)"/>
                             </div>
                         </div>
                     </div>
@@ -614,9 +647,9 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td> <input id="per_carbohydrate" name="per_carbohydrate" type="number" class="form-control input-sm" value="50"/></td>
-                                        <td> <input id="per_protein" name="per_protein" type="number" class="form-control input-sm" value="25"/></td>
-                                        <td> <input id="per_fat" name="per_fat" type="number" class="form-control input-sm" value="25"/></td>
+                                        <td> <input id="per_carbohydrate" th:value="${meal.per_carbohydrate}" name="per_carbohydrate" type="number" class="form-control input-sm" value="50"/></td>
+                                        <td> <input id="per_protein" th:value="${meal.per_protein}" name="per_protein" type="number" class="form-control input-sm" value="25"/></td>
+                                        <td> <input id="per_fat" th:value="${meal.per_fat}" name="per_fat" type="number" class="form-control input-sm" value="25"/></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -643,9 +676,9 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td> <input id="per_zao" name="per_zao" type="number" class="form-control input-sm" value="3"/></td>
-                                        <td> <input id="per_zhong" name="per_zhong" type="number" class="form-control input-sm" value="4"/></td>
-                                        <td> <input id="per_wan" name="per_wan" type="number" class="form-control input-sm" value="3"/></td>
+                                        <td> <input id="per_zao" th:value="${meal.per_zao}" name="per_zao" type="number" class="form-control input-sm" value="3"/></td>
+                                        <td> <input id="per_zhong" th:value="${meal.per_zhong}" name="per_zhong" type="number" class="form-control input-sm" value="4"/></td>
+                                        <td> <input id="per_wan" th:value="${meal.per_wan}" name="per_wan" type="number" class="form-control input-sm" value="3"/></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -679,7 +712,6 @@
                             </div>
                             <div class="col-md-8" style="margin-top: 10px">
 
-                                <!--function 鼠标离开事件-->
                                 <input id="minInput" type="text" placeholder="最小" class="form-control input-sm pull-left" style="max-width: 70px">
 
                                 <input id="maxInput" type="text" placeholder="最大" class="form-control input-sm pull-right" style="max-width: 70px">
@@ -723,37 +755,6 @@
 
                     <!--食物 后台所有食物数据-->
                     <div id="div_foodList" class="hr-panel-body" style="padding:10px 0;min-height: 260px;position: relative">
-                        <!--食物 后台所有食物数据-->
-                        <!--<div ms-repeat="foodList" class="food-search-item"-->
-                             <!--ms-class="focusing-food:$index===focusingFood">-->
-                            <!--<div ms-click="focusFood($index)" draggable="true">-->
-                                <!---->
-                                <!--<span class="pull-right" ms-if="$index!==focusingFood"><strong>{{Number(Number(el.Energy*100).toFixed(2))}}</strong> Kcal/100g</span>-->
-                                <!--<div class="pull-right" ms-if="$index===focusingFood">-->
-                                    <!--<span class="pull-left" style="color:#919191">选入：</span>-->
-                                    <!--<button class="btn-add-food-0" ms-click="pushFood(0,$index)">早</button>-->
-                                    <!--<button class="btn-add-food-1" ms-click="pushFood(1,$index)">午</button>-->
-                                    <!--<button class="btn-add-food-2" ms-click="pushFood(2,$index)">晚</button>-->
-                                <!--</div>-->
-                                <!--<div class="food-type" ms-class="food-type-{{el.TypeID}}"></div>-->
-                                <!--<span>{{el.Name}}</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="food-search-item" th:each="food,iterStat:${foods.list}">-->
-                            <!--<div draggable="true">-->
-                                <!--<span class="pull-right"><strong><span th:text="${#numbers.formatDecimal(food.energy,1,2)}"></span></strong> Kcal/100g</span>-->
-                                <!--<div class="food-type food-type-1"></div>-->
-                                <!--<span th:text="${food.foodName}"></span>-->
-                            <!--</div>-->
-                        <!--</div>-->
-
-                        <!--<div class="food-search-item">-->
-                            <!--<div draggable="true">-->
-                                <!--<span class="pull-right"><strong>246</strong> Kcal/100g</span>-->
-                                <!--<div class="food-type food-type-1"></div>-->
-                                <!--<span>全麦面包</span>-->
-                            <!--</div>-->
-                        <!--</div>-->
 
                     </div>
 
@@ -853,8 +854,6 @@
                             </tbody>
                         </table>
                     </div>
-
-
                 </div>
 
                 <!--食谱统计-->
@@ -876,10 +875,10 @@
                             <tbody>
                             <tr>
                                 <td>小计</td>
-                                <td><input name="dayEnergy" id="dayEnergy" type="text" class="table-input-center" value="0.00" readonly="readonly" ></td>
-                                <td><input name="dayCHO" id="dayCHO" type="text" class="table-input-center" value="0.00" readonly="readonly" ></td>
-                                <td><input name="dayProtein" id="dayProtein" type="text" class="table-input-center" value="0.00" readonly="readonly" ></td>
-                                <td><input name="dayFat" id="dayFat" type="text" class="table-input-center" value="0.00" readonly="readonly" ></td>
+                                <td><input name="dayEnergy" id="dayEnergy" th:value="${meal.dayEnergy}" type="text" class="table-input-center" value="0.00" readonly="readonly" ></td>
+                                <td><input name="dayCHO" id="dayCHO"  th:value="${meal.dayCHO}" type="text" class="table-input-center" value="0.00" readonly="readonly" ></td>
+                                <td><input name="dayProtein" id="dayProtein"  th:value="${meal.dayProtein}" type="text" class="table-input-center" value="0.00" readonly="readonly" ></td>
+                                <td><input name="dayFat" id="dayFat"  th:value="${meal.dayFat}" type="text" class="table-input-center" value="0.00" readonly="readonly" ></td>
                             </tr>
                             </tbody>
                         </table>
@@ -894,7 +893,7 @@
                         食谱介绍
                     </div>
                     <div class="hr-panel-body" style="padding: 10px">
-                    <textarea id="introduce" rows="5" name="introduce" class="form-control" placeholder="填写食谱介绍"></textarea>
+                        <textarea id="introduce" rows="5" th:text="${meal.description}" name="introduce" class="form-control" placeholder="填写食谱介绍"></textarea>
                     </div>
                 </div>
             </div>
@@ -902,13 +901,14 @@
         </div>
         <div class="row">
             <div class="col-sm-8 pull-right">
-                <div class="col-sm-4"  >
-                    <!--点击事件-->
+                <div class="col-sm-4" >
                     <button  class="btn btn-danger btn-block" onclick="toIndex()">
                         返回
                     </button>
                 </div>
-                <div class="col-sm-2"></div>
+                <div class="col-sm-2">
+                    <input type="hidden" id="input_mealId" th:value="${meal.mealId}">
+                </div>
                 <div class="col-sm-4" >
                     <!--点击事件-->
                     <button id="btn_addDiet" class="btn btn-success btn-block">

@@ -3,12 +3,14 @@ package com.cs.analyzefood.service.impl;
 import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.entity.Meal;
 import com.cs.analyzefood.entity.MealMade;
+import com.cs.analyzefood.entity.vo.diet.DietVo;
 import com.cs.analyzefood.entity.vo.page.PageCondition;
 import com.cs.analyzefood.mapper.UserMapper;
 import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.mapper.UserZoneMapper;
 import com.cs.analyzefood.service.UserService;
 import com.cs.analyzefood.util.DateUtil;
+import com.cs.analyzefood.util.JsonUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,9 +137,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int addNewMeal(Meal meal) {
-        int mealId = userMapper.insertMeal(meal);
-        if(mealId > 0){
-            return mealId;
+        int result = userMapper.insertMeal(meal);
+        if(result > 0){
+            return meal.getMealId();
         }
         return -1;
     }
@@ -149,5 +151,154 @@ public class UserServiceImpl implements UserService {
             userMapper.insertMealMade(mealMade);
         }
     }
+
+    @Override
+    public int getMealSum(int roleId) {
+        return userMapper.selectMealNumByUser(roleId);
+    }
+
+
+    @Override
+    public PageInfo<Meal> getPageMeal(int roleId, int currentPage) {
+        int count = userMapper.selectMealNumByUser(roleId);
+        PageHelper.startPage(currentPage,3);
+        List<Meal> meals = userMapper.selectPageMeal(roleId);
+        for(Meal meal : meals){
+            List<MealMade> mealMades = userMapper.selectMealMadeByMealId(meal.getMealId());
+            for (MealMade mealMade : mealMades) {
+                Food food = userMapper.selectFoodById(mealMade.getFoodId());
+                mealMade.setFood(food);
+            }
+            meal.setMealMades(mealMades);
+        }
+        PageInfo<Meal> pageInfo = new PageInfo<>(meals);
+        //当前页
+        pageInfo.setPageNum(currentPage);
+        //每页显示的条数
+        pageInfo.setPageSize(3);
+        //总条数
+        pageInfo.setTotal(count);
+        return pageInfo;
+    }
+
+
+    @Override
+    public Meal findTodayDiet(int roleId) {
+        return userMapper.selectMealIsToday(roleId);
+    }
+
+    @Override
+    public Meal findMealById(int mealId) {
+        Meal meal = userMapper.selectMealById(mealId);
+        List<MealMade> mealMades = userMapper.selectMealMadeByMealId(meal.getMealId());
+        for (MealMade mealMade : mealMades) {
+            Food food = userMapper.selectFoodById(mealMade.getFoodId());
+            mealMade.setFood(food);
+        }
+        meal.setMealMades(mealMades);
+        return meal;
+    }
+
+    @Override
+    public void updateMealById(Meal meal) {
+        userMapper.updateMealById(meal);
+    }
+
+    @Override
+    public MealMade findMealMade(int mealId, int foodId,int mealType) {
+        return userMapper.selectMealMadeByMealIdAndFoodId(mealId,foodId,mealType);
+    }
+
+
+    @Override
+    @Transactional(isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
+    public void updateMeal(DietVo dietVo,int roleId) {
+        Meal meal = new Meal(dietVo.getMealId(),roleId,dietVo.getDietTitle(),dietVo.getTargetEnergy(),dietVo.getIntroduce(),new Date(),dietVo.getPer_carbohydrate(),dietVo.getPer_protein(),dietVo.getPer_fat(),dietVo.getPer_zao(),dietVo.getPer_zhong(),dietVo.getPer_wan(),dietVo.getDayEnergy(),dietVo.getDayCHO(),dietVo.getDayProtein(),dietVo.getDayFat());
+        updateMealById(meal);
+        List<MealMade> zao = userMapper.selectOldMealMade(dietVo.getMealId(),0);
+        for(MealMade oldMealMade : zao){
+            boolean isdelete = false;
+            if(dietVo.getFoodId0() != null && dietVo.getFoodId0().length != 0){
+                for(int i = 0; i < dietVo.getFoodId0().length; i++){
+                    if(dietVo.getFoodId0()[i] == oldMealMade.getFoodId()){
+                        isdelete = true;
+                    }
+                }
+            }
+            if(!isdelete){
+                userMapper.deleteMealMade(oldMealMade.getId());
+            }
+        }
+        if(dietVo.getFoodId0() != null && dietVo.getFoodId0().length != 0){
+            for(int i = 0; i < dietVo.getFoodId0().length; i++){
+                MealMade mealMade = findMealMade(dietVo.getMealId(),dietVo.getFoodId0()[i],0);
+                if(mealMade == null){
+                    MealMade newMealMade = new MealMade(dietVo.getMealId(),dietVo.getFoodId0()[i],dietVo.getFoodNum0()[i],0);
+                    userMapper.insertMealMade(newMealMade);
+                }else{
+                    MealMade newMealMade = new MealMade(dietVo.getMealId(),dietVo.getFoodId0()[i],dietVo.getFoodNum0()[i],0);
+                    userMapper.updateMealMade(newMealMade);
+                }
+            }
+        }
+        System.out.println("-----------------------");
+        List<MealMade> zhong = userMapper.selectOldMealMade(dietVo.getMealId(),1);
+        for(MealMade oldMealMade : zhong){
+            boolean isdelete = false;
+            if(dietVo.getFoodId1() != null && dietVo.getFoodId1().length != 0){
+                for(int i = 0; i < dietVo.getFoodId1().length; i++){
+                    if(dietVo.getFoodId1()[i] == oldMealMade.getFoodId()){
+                        isdelete = true;
+                    }
+                }
+            }
+            if(!isdelete){
+                userMapper.deleteMealMade(oldMealMade.getId());
+            }
+        }
+        if(dietVo.getFoodId1() != null && dietVo.getFoodId1().length != 0){
+            for(int i = 0; i < dietVo.getFoodId1().length; i++){
+                MealMade mealMade = findMealMade(dietVo.getMealId(),dietVo.getFoodId1()[i],1);
+                if(mealMade == null){
+                    MealMade newMealMade = new MealMade(dietVo.getMealId(),dietVo.getFoodId1()[i],dietVo.getFoodNum1()[i],1);
+                    userMapper.insertMealMade(newMealMade);
+                }else{
+                    MealMade newMealMade = new MealMade(dietVo.getMealId(),dietVo.getFoodId1()[i],dietVo.getFoodNum1()[i],1);
+                    userMapper.updateMealMade(newMealMade);
+                }
+            }
+        }
+
+        System.out.println("-----------------------");
+        List<MealMade> wan = userMapper.selectOldMealMade(dietVo.getMealId(),2);
+        for(MealMade oldMealMade : wan){
+            boolean isdelete = false;
+            if(dietVo.getFoodId2() != null && dietVo.getFoodId2().length != 0){
+                for(int i = 0; i < dietVo.getFoodId2().length; i++){
+                    if(dietVo.getFoodId2()[i] == oldMealMade.getFoodId()){
+                        isdelete = true;
+                    }
+                }
+            }
+            if(!isdelete){
+                userMapper.deleteMealMade(oldMealMade.getId());
+            }
+        }
+        if(dietVo.getFoodId2() != null && dietVo.getFoodId2().length != 0){
+            for(int i = 0; i < dietVo.getFoodId2().length; i++){
+                MealMade mealMade = findMealMade(dietVo.getMealId(),dietVo.getFoodId2()[i],2);
+                if(mealMade == null){
+                    MealMade newMealMade = new MealMade(dietVo.getMealId(),dietVo.getFoodId2()[i],dietVo.getFoodNum2()[i],2);
+                    userMapper.insertMealMade(newMealMade);
+                }else{
+                    MealMade newMealMade = new MealMade(dietVo.getMealId(),dietVo.getFoodId2()[i],dietVo.getFoodNum2()[i],2);
+                    userMapper.updateMealMade(newMealMade);
+                }
+            }
+        }
+
+    }
+
+
 
 }

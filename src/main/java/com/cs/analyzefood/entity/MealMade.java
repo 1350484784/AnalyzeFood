@@ -7,6 +7,8 @@ public class MealMade {
     private double num;
     private int mealType;
 
+    private Food food;
+
     public MealMade() {
     }
 
@@ -55,5 +57,13 @@ public class MealMade {
 
     public void setMealType(int mealType) {
         this.mealType = mealType;
+    }
+
+    public Food getFood() {
+        return food;
+    }
+
+    public void setFood(Food food) {
+        this.food = food;
     }
 }

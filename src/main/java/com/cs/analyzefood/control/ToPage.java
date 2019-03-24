@@ -1,19 +1,46 @@
 package com.cs.analyzefood.control;
 
 
+import com.cs.analyzefood.entity.Meal;
+import com.cs.analyzefood.entity.MealMade;
+import com.cs.analyzefood.entity.User;
+import com.cs.analyzefood.exception.SystemFailedException;
+import com.cs.analyzefood.service.UserService;
+import com.cs.analyzefood.util.JsonUtil;
+import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/to")
 public class ToPage {
+
+    @Autowired
+    private UserService userService;
+
     @RequestMapping("/login")
     public String login(){
         return "/html/login";
     }
 
     @RequestMapping("/userIndex")
-    public String index(){
+    public String index(@RequestParam(name = "currentPage",defaultValue = "1") int currentPage, Model model, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            throw new SystemFailedException("user do not login");
+        }
+        int sum = userService.getMealSum(user.getRoleId());
+        PageInfo<Meal> pageInfo = userService.getPageMeal(user.getRoleId(),currentPage);
+        model.addAttribute("topIndex", 0);
+        model.addAttribute("meals", pageInfo);
+        model.addAttribute("sum", sum);
         return "/html/index";
     }
 
@@ -60,5 +87,12 @@ public class ToPage {
     @RequestMapping("/userAddMeal")
     public String userAddMeal(){
         return "/html/user/addDietDetail";
+    }
+
+    @RequestMapping("/test")
+    public String test(Model model){
+
+        model.addAttribute("topIndex", 1);
+        return "/html/user/test";
     }
 }

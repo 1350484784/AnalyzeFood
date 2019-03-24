@@ -262,43 +262,72 @@ public class UserControl {
     @RequestMapping("/addDiet")
     @ResponseBody
     public ResponseEntity addDiet(@RequestBody DietVo dietVo,HttpSession session){
-        System.out.println(JsonUtil.toJson(dietVo));
-//        User user = (User) session.getAttribute("user");
-//        if (user == null) {
-//            throw new SystemFailedException("user do not login");
-//        }
-//
-//        Meal meal = new Meal(user.getRoleId(),dietVo.getDietTitle(),dietVo.getTargetEnergy(),dietVo.getIntroduce(),new Date(),dietVo.getPer_carbohydrate(),dietVo.getPer_protein(),dietVo.getPer_fat(),dietVo.getPer_zao(),dietVo.getPer_zhong(),dietVo.getPer_wan(),dietVo.getDayEnergy(),dietVo.getDayCHO(),dietVo.getDayProtein(),dietVo.getDayFat());
-//        int mealId = userService.addNewMeal(meal);
-//        if(mealId <= 0){
-//            throw new SystemFailedException("add meal failed");
-//        }
-//        List<MealMade> mealMades = new ArrayList<>();
-//        if(dietVo.getFoodId0() != null && dietVo.getFoodId0().length != 0){
-//            for(int i = 0; i < dietVo.getFoodId0().length; i++){
-//                MealMade mealMade = new MealMade(mealId,dietVo.getFoodId0()[i],dietVo.getFoodNum0()[i],0);
-//                mealMades.add(mealMade);
-//            }
-//        }
-//        if(dietVo.getFoodId1() != null && dietVo.getFoodId1().length != 0){
-//            for(int i = 0; i < dietVo.getFoodId1().length; i++){
-//                MealMade mealMade = new MealMade(mealId,dietVo.getFoodId1()[i],dietVo.getFoodNum1()[i],1);
-//                mealMades.add(mealMade);
-//            }
-//        }
-//        if(dietVo.getFoodId2() != null && dietVo.getFoodId2().length != 0){
-//            for(int i = 0; i < dietVo.getFoodId2().length; i++){
-//                MealMade mealMade = new MealMade(mealId,dietVo.getFoodId2()[i],dietVo.getFoodNum2()[i],2);
-//                mealMades.add(mealMade);
-//            }
-//        }
-//        if(mealMades.size() == 0){
-//            throw new SystemFailedException("add meal failed");
-//        }
-//        userService.addMealMade(mealMades);
-
-
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            throw new SystemFailedException("user do not login");
+        }
+        Meal meal = new Meal(user.getRoleId(),dietVo.getDietTitle(),dietVo.getTargetEnergy(),dietVo.getIntroduce(),new Date(),dietVo.getPer_carbohydrate(),dietVo.getPer_protein(),dietVo.getPer_fat(),dietVo.getPer_zao(),dietVo.getPer_zhong(),dietVo.getPer_wan(),dietVo.getDayEnergy(),dietVo.getDayCHO(),dietVo.getDayProtein(),dietVo.getDayFat());
+        int mealId = userService.addNewMeal(meal);
+        if(mealId <= 0){
+            throw new SystemFailedException("add meal failed");
+        }
+        List<MealMade> mealMades = new ArrayList<>();
+        if(dietVo.getFoodId0() != null && dietVo.getFoodId0().length != 0){
+            for(int i = 0; i < dietVo.getFoodId0().length; i++){
+                MealMade mealMade = new MealMade(mealId,dietVo.getFoodId0()[i],dietVo.getFoodNum0()[i],0);
+                mealMades.add(mealMade);
+            }
+        }
+        if(dietVo.getFoodId1() != null && dietVo.getFoodId1().length != 0){
+            for(int i = 0; i < dietVo.getFoodId1().length; i++){
+                MealMade mealMade = new MealMade(mealId,dietVo.getFoodId1()[i],dietVo.getFoodNum1()[i],1);
+                mealMades.add(mealMade);
+            }
+        }
+        if(dietVo.getFoodId2() != null && dietVo.getFoodId2().length != 0){
+            for(int i = 0; i < dietVo.getFoodId2().length; i++){
+                MealMade mealMade = new MealMade(mealId,dietVo.getFoodId2()[i],dietVo.getFoodNum2()[i],2);
+                mealMades.add(mealMade);
+            }
+        }
+        if(mealMades.size() == 0){
+            throw new SystemFailedException("add meal failed");
+        }
+        userService.addMealMade(mealMades);
         return new ResponseEntity(true, HttpStatus.OK);
     }
 
+
+    @RequestMapping("/findTodayDiet")
+    @ResponseBody
+    public ResponseEntity findTodayDiet(HttpSession session){
+        User user = (User) session.getAttribute("user");
+        Meal meal = userService.findTodayDiet(user.getRoleId());
+        if(meal != null){
+            return new ResponseEntity(true, HttpStatus.OK);
+        }
+        return new ResponseEntity(false, HttpStatus.OK);
+    }
+
+    @RequestMapping("/toEditDiet")
+    public String toEditDiet(int mealId,Model model){
+        Meal meal = userService.findMealById(mealId);
+        model.addAttribute("meal", meal);
+        return "/html/user/editDietDetail";
+    }
+
+    @RequestMapping("/editDiet")
+    @ResponseBody
+    public ResponseEntity editDiet(@RequestBody DietVo dietVo,HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            throw new SystemFailedException("user do not login");
+        }
+        if(dietVo.getMealId() <= 0){
+            throw new SystemFailedException("meal do not exist");
+        }
+        userService.updateMeal(dietVo,user.getRoleId());
+
+        return new ResponseEntity(true, HttpStatus.OK);
+    }
 }

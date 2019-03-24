@@ -47,13 +47,13 @@ function getFoodClass(typeId) {
     var typeName = '另';
     var thisFoodClass = 'food-type-';
     for(var j = 0; j < foodType.length; j++) {
-        if(typeId === foodType[j].number){
+        if(typeId == foodType[j].number){
             typeName = foodType[j].typeName;
             break;
         }
     }
     for(var j = 0; j < foodClass.length; j++){
-        if(typeName === foodClass[j]){
+        if(typeName == foodClass[j]){
             thisFoodClass = thisFoodClass + (j+1);
             break;
         }

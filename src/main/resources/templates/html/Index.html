@@ -7,7 +7,7 @@
     <script th:src="@{/bootstrap/js/jquery-3.3.1.js}"></script>
     <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
     <script th:src="@{/js/user/userIndex.js}"></script>
-
+    <script th:src="@{/js/user/dietDetail.js}"></script>
 
     <script th:inline="javascript">
         /*<![CDATA[*/
@@ -16,6 +16,27 @@
     </script>
 
     <script th:inline="javascript">
+
+        // th:href="@{/to/userAddMeal}"
+        function userAddMeal(){
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: contextPath+"/user/findTodayDiet",
+                success:function (data) {
+                    if(data){
+                        centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;今日膳食信息已经存在啦，您可以更改相关信息',101);
+                    }else{
+                        window.location.href = contextPath + "/to/userAddMeal";
+                    }
+                }
+            });
+        }
+
+        function editDiet(t){
+            var mealId = $(t).prev().val();
+            window.location.href = contextPath+"/user/toEditDiet?mealId="+mealId;
+        }
 
         $(function () {
             $('#edit_user_btn').click(function () {
@@ -51,6 +72,8 @@
                     }
                 });
             });
+
+
 
 
         });
@@ -129,6 +152,26 @@
             });
         }
 
+        //mealClass nowTab
+        function toChangePage(index,t){
+            if(!$(t).hasClass("nowTab")){
+                $(".mealClass").each(function () {
+                    $(this).removeClass("nowTab");
+                });
+                $(t).addClass("nowTab");
+            }
+
+            if(index == 1){
+                window.location.href=contextPath+"/to/userIndex";
+                $('#myMeal').css('display','block');
+                $('#mealAnalyze').css('display','none');
+            }
+            if(index == 2){
+                $('#mealAnalyze').css('display','block');
+                $('#myMeal').css('display','none');
+            }
+
+        }
     </script>
 
 
@@ -207,7 +250,7 @@
                                         <!--</div>-->
                                         <div class="col-sm-4">
                                             <i class="icon iconfont icon-shipu"></i>
-                                            创建食谱 <strong>27</strong> 份
+                                            创建食谱 <strong><span th:text="${sum}"></span></strong> 份
                                         </div>
                                         <!--<div class="col-sm-4">-->
                                         <!--<i class="icon iconfont icon-temai"></i>-->
@@ -222,60 +265,43 @@
 
                     <!--url-->
                     <div class="home-tab-nav">
-                        <a href="https://www.tandanzhi.com/index.html#!/Home/27&amp;&amp;myDiet&amp;&amp;1&amp;&amp;&amp;&amp;"
-                           class="nowTab">我的食谱</a>
+                        <a href="javascript:void(0);" class="mealClass nowTab" onclick="toChangePage(1,this)">我的食谱</a>
                         <!--ms-if-->
-                        <a href="https://www.tandanzhi.com/index.html#!/Home/27&amp;&amp;buyedDiet&amp;&amp;1&amp;&amp;&amp;&amp;"
-                           style="">膳食分析</a>
+                        <a href="javascript:void(0);" class="mealClass" onclick="toChangePage(2,this)">膳食分析</a>
                     </div>
 
 
                     <!--分页内容-食谱-->
-                    <div style="">
+                    <div id="myMeal" style="">
                         <div class="row">
                             <div class="col-md-2">
                                 <br>
-                                <!--url-->
-                                <a th:href="@{/to/userAddMeal}"
+                                <a href="javascript:void(0)" onclick="userAddMeal()"
                                    class="btn btn-success btn-block">创建食谱</a>
                             </div>
                         </div>
                         <br>
 
-                        <!--repeat492404121484:start-->
-                        <div class="hr-panel" style="margin-bottom: 20px">
-                            <div class="hr-panel-body" style="padding:10px">
+                        <div class="hr-panel" style="margin-bottom: 20px" th:each="meal:${meals.list}">
+                            <div class="hr-panel-body" style="padding:10px" >
                                 <div class="row">
                                     <div class="col-sm-8">
                                         <div class="hr-block">
                                             <div class="hr-panel-title">
                                                 <div class="row">
                                                     <div class="col-sm-4">
-                                                        <strong>减脂食谱&nbsp;</strong>
-
-
-                                                        <span style="color:#e14045;font-size: 18px">3</span>
-                                                        售出
+                                                        <strong><span th:text="${meal.mealName}"></span></strong>
                                                     </div>
-                                                    <div class="col-sm-4 text-center">
-                                                        作者：
-                                                        <a href="https://www.tandanzhi.com/index.html#!/Home/27">
-                                                            测试2
-                                                        </a>
-                                                        <small>（我自己）</small>
-
-
-                                                    </div>
+                                                    <div class="col-sm-4"> </div>
                                                     <div class="col-sm-4 text-right">
-                                                        2016-09-01
+                                                        创建时间：<span th:text="${#dates.format(meal.createTime, 'yyyy-MM-dd')}"></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="hr-panel-body"
                                                  style="padding:10px;;height: 80px;overflow: auto;">
-                                                <strong>食谱名称显</strong><br>
-                                                22dddddddddddddddddd
-                                                <!--ms-if-->
+                                                <strong>食谱描述:</strong><br>
+                                                <span th:text="${meal.description}"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -287,14 +313,83 @@
                                             <div class="hr-panel-body" style="padding:10px">
                                                 <div class="row">
                                                     <div class="col-sm-6">
-                                                        目标能量：2000.00<br>
-                                                        实际能量：480.00<br>
-                                                        差距：1520.00<br>
+                                                        目标能量：<span th:text="${meal.targetEnergy}"></span><br>
+                                                        实际能量：<span th:text="${meal.dayEnergy}"></span><br>
+                                                        差距：<span th:text="${meal.targetEnergy-meal.dayEnergy}"></span><br>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        早餐：92.00<br>
-                                                        午餐：388.00<br>
-                                                        晚餐：0.00<br>
+                                                        碳水化合物：<span th:text="${meal.dayCHO}"></span><br>
+                                                        蛋白质：<span th:text="${meal.dayProtein}"></span><br>
+                                                        脂肪：<span th:text="${meal.dayFat}"></span><br>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-sm-4" >
+                                        <div class="hr-block" >
+                                            <div class="hr-panel-title">
+                                                早餐
+                                            </div>
+                                            <div class="hr-panel-body diet-list-meal" th:each="mealMade:${meal.mealMades}" th:if="${mealMade.mealType} eq 0 ">
+                                                <div >
+                                                    <div style="clear: both">
+                                                        <div class="food-type ">
+                                                            <p class="foodtype_hidden" style="display: none" th:text="${mealMade.food.typeId}"></p>
+                                                        </div>
+                                                        <span th:text="${mealMade.food.foodName}"></span>
+                                                        <span class="pull-right">
+                                                            ×
+                                                        <strong style="font-size: 18px"><span th:text="${mealMade.num}"></span></strong>
+                                                        g &nbsp;&nbsp;&nbsp;
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4" >
+                                        <div class="hr-block" >
+                                            <div class="hr-panel-title">
+                                                午餐
+                                            </div>
+                                            <div class="hr-panel-body diet-list-meal" th:each="mealMade:${meal.mealMades}" th:if="${mealMade.mealType} eq 1 ">
+                                                <div >
+                                                    <div style="clear: both">
+                                                        <div class="food-type">
+                                                            <p class="foodtype_hidden" style="display: none" th:text="${mealMade.food.typeId}"></p>
+                                                        </div>
+                                                        <span th:text="${mealMade.food.foodName}"></span>
+                                                        <span class="pull-right">
+                                                            ×
+                                                        <strong style="font-size: 18px"><span th:text="${mealMade.num}"></span></strong>
+                                                        g &nbsp;&nbsp;&nbsp;
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4" >
+                                        <div class="hr-block" >
+                                            <div class="hr-panel-title">
+                                                晚餐
+                                            </div>
+                                            <div class="hr-panel-body diet-list-meal " th:each="mealMade:${meal.mealMades}" th:if="${mealMade.mealType} eq 2 ">
+                                                <div >
+                                                    <div style="clear: both">
+                                                        <div class="food-type">
+                                                            <p class="foodtype_hidden" style="display: none" th:text="${mealMade.food.typeId}"></p>
+                                                        </div>
+                                                        <span th:text="${mealMade.food.foodName}"></span>
+                                                        <span class="pull-right">
+                                                            ×
+                                                        <strong style="font-size: 18px"><span th:text="${mealMade.num}"></span></strong>
+                                                        g &nbsp;&nbsp;&nbsp;
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -303,248 +398,58 @@
 
                                 </div>
                                 <br>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <div class="hr-block">
-                                            <div class="hr-panel-title">
-                                                早餐
-                                            </div>
-                                            <div class="hr-panel-body diet-list-meal">
-                                                <!--repeat255449213369:start-->
-                                                <div>
-                                                    <div style="clear: both">
-                                                        <div class="food-type food-type-2"></div>
-                                                        豆奶
-                                                        <span class="pull-right">
-                                        ×
-                                    <strong style="font-size: 18px">30</strong>
-                                    g 正餐 &nbsp;&nbsp;&nbsp;
-                                    </span>
-
-                                                    </div>
-
-                                                </div><!--repeat255449213369-->
-                                                <div>
-                                                    <div style="clear: both">
-                                                        <div class="food-type food-type-3"></div>
-                                                        茄子
-                                                        <span class="pull-right">
-                                        ×
-                                    <strong style="font-size: 18px">50</strong>
-                                    g 正餐 &nbsp;&nbsp;&nbsp;
-                                    </span>
-
-                                                    </div>
-
-                                                </div><!--repeat255449213369-->
-                                                <div>
-                                                    <div style="clear: both">
-                                                        <div class="food-type food-type-1"></div>
-                                                        煮面条
-                                                        <span class="pull-right">
-                                        ×
-                                    <strong style="font-size: 18px">50</strong>
-                                    g 正餐 &nbsp;&nbsp;&nbsp;
-                                    </span>
-
-                                                    </div>
-
-                                                </div><!--repeat255449213369-->
-                                                <div>
-                                                    <div style="clear: both">
-                                                        <div class="food-type food-type-7"></div>
-                                                        鸡蛋白
-                                                        <span class="pull-right">
-                                        ×
-                                    <strong style="font-size: 18px">30</strong>
-                                    g 正餐 &nbsp;&nbsp;&nbsp;
-                                    </span>
-
-                                                    </div>
-
-                                                </div><!--repeat255449213369-->
-                                                <div>
-                                                    <!--ms-if-->
-
-                                                </div><!--repeat255449213369-->
-                                                <div>
-                                                    <!--ms-if-->
-
-                                                </div><!--repeat255449213369-->
-                                                <div>
-                                                    <!--ms-if-->
-
-                                                </div><!--repeat255449213369--><!--repeat255449213369:end-->
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="hr-block">
-                                            <div class="hr-panel-title">
-                                                午餐
-                                            </div>
-                                            <div class="hr-panel-body diet-list-meal">
-                                                <!--repeat76111041851:start-->
-                                                <div>
-                                                    <!--ms-if-->
-
-                                                </div><!--repeat76111041851-->
-                                                <div>
-                                                    <!--ms-if-->
-
-                                                </div><!--repeat76111041851-->
-                                                <div>
-                                                    <!--ms-if-->
-
-                                                </div><!--repeat76111041851-->
-                                                <div>
-                                                    <!--ms-if-->
-
-                                                </div><!--repeat76111041851-->
-                                                <div>
-                                                    <div style="clear: both">
-                                                        <div class="food-type food-type-1"></div>
-                                                        蒸籼米饭
-                                                        <span class="pull-right">
-                                        ×
-                                    <strong style="font-size: 18px">150</strong>
-                                    g 正餐 &nbsp;&nbsp;&nbsp;
-                                    </span>
-
-                                                    </div>
-
-                                                </div><!--repeat76111041851-->
-                                                <div>
-                                                    <div style="clear: both">
-                                                        <div class="food-type food-type-5"></div>
-                                                        猪肉香肠
-                                                        <span class="pull-right">
-                                        ×
-                                    <strong style="font-size: 18px">50</strong>
-                                    g 正餐 &nbsp;&nbsp;&nbsp;
-                                    </span>
-
-                                                    </div>
-
-                                                </div><!--repeat76111041851-->
-                                                <div>
-                                                    <div style="clear: both">
-                                                        <div class="food-type food-type-3"></div>
-                                                        菠菜
-                                                        <span class="pull-right">
-                                        ×
-                                    <strong style="font-size: 18px">300</strong>
-                                    g 正餐 &nbsp;&nbsp;&nbsp;
-                                    </span>
-
-                                                    </div>
-
-                                                </div><!--repeat76111041851--><!--repeat76111041851:end-->
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="hr-block">
-                                            <div class="hr-panel-title">
-                                                晚餐
-                                            </div>
-                                            <div class="hr-panel-body diet-list-meal">
-                                                <!--repeat99463939297:start-->
-                                                <div>
-                                                    <!--ms-if-->
-                                                </div><!--repeat99463939297-->
-                                                <div>
-                                                    <!--ms-if-->
-                                                </div><!--repeat99463939297-->
-                                                <div>
-                                                    <!--ms-if-->
-                                                </div><!--repeat99463939297-->
-                                                <div>
-                                                    <!--ms-if-->
-                                                </div><!--repeat99463939297-->
-                                                <div>
-                                                    <!--ms-if-->
-                                                </div><!--repeat99463939297-->
-                                                <div>
-                                                    <!--ms-if-->
-                                                </div><!--repeat99463939297-->
-                                                <div>
-                                                    <!--ms-if-->
-                                                </div><!--repeat99463939297--><!--repeat99463939297:end-->
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <br>
                                 <!--操作按钮-->
                                 <div>
-                                    <button id="editUserBtn" class="btn btn-info " style="width: 120px">
+                                    <input type="hidden" class="input_mealId" th:value="${meal.mealId}">
+
+                                    <button onclick="editDiet(this)" class="btn btn-info " style="width: 120px">
                                         编辑
                                     </button>
-                                    <a class="btn btn-default " style="width: 120px"
-                                       href="https://www.tandanzhi.com/index.html#!/EditDiet/2&amp;&amp;46">
-                                        复制
-                                    </a>
                                     <a class="btn btn-default  pull-right" style="width: 120px"
                                        href="https://www.tandanzhi.com/index.html#!/DietDetails/46">
                                         详情
                                     </a>
+
                                 </div>
 
                             </div>
-                        </div><!--repeat492404121484-->
+                        </div>
 
                         <!--分页-->
-                        <tsy:pager config="$DPager">
+                        <div>
                             <div class="tsy-pager">
-                                <div class="tsy-pager-pre" style="display: none;">
-                                    上一页
+                                <div class="tsy-pager-pre" >
+                                    <a th:if="${!meals.isFirstPage}" th:href="@{/to/userIndex(currentPage=${meals.prePage})}">上一页</a>
                                 </div>
-
-                                <!--repeat85113288884:start-->
-                                <div class="tsy-pager-list tsy-pager-now">
-                                    1
-                                </div><!--repeat85113288884-->
-                                <div class="tsy-pager-list">
-                                    2
-                                </div><!--repeat85113288884-->
-                                <div class="tsy-pager-list">
-                                    3
-                                </div><!--repeat85113288884-->
-                                <div class="tsy-pager-list">
-                                    4
-                                </div><!--repeat85113288884-->
-                                <div class="tsy-pager-list">
-                                    5
-                                </div><!--repeat85113288884-->
-                                <div class="tsy-pager-list">
-                                    6
-                                </div><!--repeat85113288884--><!--repeat85113288884:end-->
-
-                                <div class="tsy-pager-pre" style="">
-                                    下一页
+                                <div class="tsy-pager-pre" >
+                                    <a th:if="${!meals.isLastPage}" th:href="@{/to/userIndex(currentPage=${meals.nextPage})}">下一页</a>
                                 </div>
                                 <div class="tsy-pager-t">
-                                    共27条数据,共6页
+                                     第 <span th:text="${meals.pageNum}"></span> 页;共 <span th:text="${meals.pages}"></span> 页
                                 </div>
                             </div>
                             <div style="clear: both"></div>
-                        </tsy:pager>
-
+                        </div>
                     </div>
+
+
+                    <div id="mealAnalyze" style="display: none">
+                        123
+                    </div>
+
+
                 </div>
 
             </div>
         </div>
 
 
-        <!--<div class="footer">-->
-        <!--<div class="container text-center" style="color:#8b8b8b ;padding:10px;margin-top:50px">-->
-        <!--©碳蛋知&#45;&#45;让营养食谱成为健身计划的标配-->
-        <!--<hr>-->
-        <!--</div>-->
-        <!--</div>-->
+        <div class="footer">
+            <div class="container text-center" style="color:#8b8b8b ;padding:10px;margin-top:50px">
+                Copyright © &nbsp;Carey 2019 &nbsp; &nbsp; &nbsp;每日膳食分析
+            <hr>
+            </div>
+        </div>
     </div>
 
 
@@ -702,4 +607,14 @@
     </div>
 </div>
 </body>
+
+<script th:inline="javascript">
+    $(function () {
+        $('.foodtype_hidden').each(function () {
+            var foodClass = getFoodClass($(this).text());
+            $(this).parent().addClass(foodClass);
+        });
+
+    });
+</script>
 </html>
