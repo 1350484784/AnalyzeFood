@@ -330,4 +330,28 @@ public class UserControl {
 
         return new ResponseEntity(true, HttpStatus.OK);
     }
+
+    @RequestMapping("/foodListPage")
+    public ResponseEntity foodListPage(@RequestBody PageCondition pageCondition){
+        if(pageCondition == null){
+            pageCondition = new PageCondition(1);
+        }
+        if(pageCondition.getFoodType() != null && pageCondition.getFoodType().length == 0){
+            pageCondition.setFoodType(null);
+        }
+        int pageSize = 20;
+        int totalCount = userService.getFoodsCount(pageCondition);
+
+        List<Food> foods = userService.getPageFood((pageCondition.getCurrentPage() - 1) * pageSize, pageSize, pageCondition);
+
+        PageFoodVo foodVo = new PageFoodVo(foods, pageCondition.getCurrentPage(), totalCount, pageSize);
+
+        return new ResponseEntity(foodVo, HttpStatus.OK);
+    }
+
+    @RequestMapping("/foodListGetFood")
+    public ResponseEntity foodListGetFood(int foodId){
+        Food food = userService.findFoodById(foodId);
+        return new ResponseEntity(food, HttpStatus.OK);
+    }
 }

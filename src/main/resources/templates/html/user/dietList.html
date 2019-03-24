@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>INDEX</title>
+    <link rel="stylesheet" th:href="@{/css/user/addDietDetail.css}">
+    <link rel="stylesheet" th:href="@{/css/user/FoodList.css}">
+    <link rel="stylesheet" th:href="@{/css/user/local.css}">
+    <script th:src="@{/bootstrap/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    <script th:src="@{/js/user/userIndex.js}"></script>
+    <script th:src="@{/js/user/dietDetail.js}"></script>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
+        /*]]>*/
+    </script>
+
+    <script th:inline="javascript">
+        //根据 食物类型 分页
+        function pageByType(t){
+            if($(t).hasClass('now-food')){
+                $(t).removeClass('now-food');
+            }else{
+                $(".select-food-type").each(function () {
+                    $(this).removeClass('now-food')
+                });
+                $(t).addClass('now-food');
+            }
+
+            var typeName = '';
+            var foodIds = [];
+            $(".select-food-type").each(function () {
+                if($(this).hasClass('now-food')){
+                    typeName = $(this).children().html();
+                }
+            });
+            if(typeName != ''){
+                foodIds = getFoodTypeId(typeName);
+            }
+
+            var search_foodName = $('#search_foodName').val();
+
+            page_food(1,foodIds,search_foodName)
+        }
+
+        function lookFood(t){
+            if(!$(t).hasClass('fl-tr-active')){
+                $('#table0>tbody').children().each(function () {
+                    $(this).removeClass('fl-tr-active');
+                });
+                $(t).addClass('fl-tr-active');
+            }
+            var foodId = $(t).children('input').val()
+            $.ajax({
+                type:"post",
+                url:contextPath+"/user/foodListGetFood",
+                data: {foodId:foodId},
+                success:function (data){
+                    console.log(data)
+                    var thisFoodClass = getFoodClass(data.typeId);
+                    $('#list_food_div').addClass(thisFoodClass);
+                    $('#list_food_name').html(data.foodName);
+                    var str = '<tr>' +
+                        '                                <td>膳食纤维含量</td>' +
+                        '                                <td>'+data.fiber.toFixed(2)+' <span class="pull-right">g/100g</span></td>' +
+                        '                            </tr>' +
+                        '                            <tr>' +
+                        '                                <td>维生素A</td>' +
+                        '                                <td>'+data.va.toFixed(2)+' <span class="pull-right">μgRAE/100g</span></td>' +
+                        '                            </tr>' +
+                        '                            <tr>' +
+                        '                                <td>维生素B1</td>' +
+                        '                                <td>'+data.vb1.toFixed(2)+' <span class="pull-right">mg/100g</span></td>' +
+                        '                            </tr>' +
+                        '                            <tr>' +
+                        '                                <td>维生素B2</td>' +
+                        '                                <td>'+data.vb2.toFixed(2)+' <span class="pull-right">mg/100g</span></td>' +
+                        '                            </tr>' +
+                        '                            <tr>' +
+                        '                                <td>尼克酸（烟酸）</td>' +
+                        '                                <td>'+data.niacin.toFixed(2)+'<span class="pull-right">mgNE/100g</span></td>' +
+                        '                            </tr>' +
+                        '                            <tr>' +
+                        '                                <td>维生素E</td>' +
+                        '                                <td>'+data.ve.toFixed(2)+' <span class="pull-right">mg/100g</span></td>' +
+                        '                            </tr>' +
+                        '                            <tr>' +
+                        '                                <td>钠</td>' +
+                        '                                <td>'+data.na.toFixed(2)+' <span class="pull-right">mg/100g</span></td>' +
+                        '                            </tr>' +
+                        '                            <tr>' +
+                        '                                <td>钙</td>' +
+                        '                                <td>'+data.ca.toFixed(2)+' <span class="pull-right">mg/100g</span></td>' +
+                        '                            </tr>' +
+                        '                            <tr>' +
+                        '                                <td>铁</td>' +
+                        '                                <td>'+data.fe.toFixed(2)+' <span class="pull-right">mg/100g</span></td>' +
+                        '                            </tr>' +
+                        '                            <tr>' +
+                        '                                <td>维生素C</td>' +
+                        '                                <td>'+data.vc.toFixed(2)+' <span class="pull-right">mg/100g</span></td>' +
+                        '                            </tr>' +
+                        '                            <tr>' +
+                        '                                <td>胆固醇</td>' +
+                        '                                <td>'+data.cholesterol.toFixed(2)+' <span class="pull-right">mg/100g</span></td>' +
+                        '                            </tr>';
+                    $('#table1>tbody').html(str);
+
+                }
+            });
+        }
+
+        $(function () {
+            $.fn.watch = function (callback) {
+                return this.each(function () {
+                    //缓存以前的值
+                    $.data(this, 'originVal', $(this).val());
+
+                    //event
+                    $(this).on('keyup paste', function () {
+                        var originVal = $.data(this, 'originVal');
+                        var currentVal = $(this).val();
+
+                        if (originVal !== currentVal) {
+                            $.data(this, 'originVal', $(this).val());
+                            callback(currentVal);
+                        }
+                    });
+                });
+            }
+
+
+            page_food(1,[],'');
+
+            $('#prePage').click(function () {
+                var typeName = '';
+                var foodIds = [];
+                $(".select-food-type").each(function () {
+                    if($(this).hasClass('now-food')){
+                        typeName = $(this).children().html();
+                    }
+                });
+                if(typeName != ''){
+                    foodIds = getFoodTypeId(typeName);
+                }
+                var search_foodName = $('#search_foodName').val();
+                page_food($('#currentPage').text() - 1,foodIds,search_foodName);
+            });
+
+            $('#nextPage').click(function () {
+                var typeName = '';
+                var foodIds = [];
+                $(".select-food-type").each(function () {
+                    if($(this).hasClass('now-food')){
+                        typeName = $(this).children().html();
+                    }
+                });
+                if(typeName != ''){
+                    foodIds = getFoodTypeId(typeName);
+                }
+
+                var search_foodName = $('#search_foodName').val();
+                var curPage = $('#currentPage').text();
+                page_food(parseInt(curPage) + 1,foodIds,search_foodName);
+            });
+
+
+            $('#search_foodName').watch(function () {
+                setTimeout(function () {
+                    var search_foodName = $('#search_foodName').val();
+                    var typeName = '';
+                    var foodIds = [];
+                    $(".select-food-type").each(function () {
+                        if($(this).hasClass('now-food')){
+                            typeName = $(this).children().html();
+                        }
+                    });
+                    if(typeName != ''){
+                        foodIds = getFoodTypeId(typeName);
+                    }
+
+                    page_food(1,foodIds,search_foodName);
+                },2000);
+            });
+
+        });
+
+        <!-- 分页 -->
+        function page_food(currentPage1, foodType1, foodName1){
+            var pageCondition = {
+                currentPage:currentPage1,
+                foodType:foodType1,
+                foodName:foodName1
+            }
+
+            $.ajax({
+                type:"post",
+                url:contextPath+"/user/foodListPage",
+                dataType:"json",
+                contentType : "application/json",
+                data: JSON.stringify(pageCondition),
+                success:function (resultData) {
+                    var str = '';
+                    if(resultData.foods){
+                        for(var i = 0; i < resultData.foods.length; i++){
+                            var thisFoodClass = getFoodClass(resultData.foods[i].typeId);
+
+                            str+='<tr class="fl-tr" onclick="lookFood(this)">' +
+                                '<input name="foodId" type="hidden" value="'+resultData.foods[i].foodId+'">'+
+                                '                        <td>\n' +
+                                '                            <div class="food-type '+thisFoodClass+'"></div>' +
+                                '                            '+resultData.foods[i].foodName+
+                                '                        </td>' +
+                                '                        <td>'+resultData.foods[i].eat_part.toFixed(2)+'</td>' +
+                                '                        <td>'+resultData.foods[i].energy.toFixed(2)+'</td>' +
+                                '                        <td>'+resultData.foods[i].moisture.toFixed(2)+'</td>' +
+                                '                        <td>'+resultData.foods[i].protein.toFixed(2)+'</td>' +
+                                '                        <td>'+resultData.foods[i].fat.toFixed(2)+'</td>' +
+                                '                        <td>'+resultData.foods[i].carbohydrate.toFixed(2)+'</td>' +
+                                '</tr>';
+                        }
+                    }
+
+                    $('#table0>tbody').html(str);
+                    if(resultData.curPage <= 1){
+                        $('#prePage').css('display','none');
+                    }else{
+                        $('#prePage').css('display','block');
+                    }
+                    if(resultData.curPage >= resultData.totalPage){
+                        $('#nextPage').css('display','none');
+                    }else{
+                        $('#nextPage').css('display','block');
+                    }
+                    $('#currentPage').html(resultData.curPage);
+                    if(resultData.totalPage == 0){
+                        resultData.totalPage = 1;
+                    }
+                    $('#totalPage').html(resultData.totalPage);
+                },
+                error:function () {
+                    alert("服务器请求失败");
+                }
+            });
+        }
+
+        window.addEventListener("scroll",function(e){
+            //变量t就是滚动条滚动时，到顶部的距离
+            // var t = document.documentElement.scrollTop||document.body.scrollTop;
+            var h = getScrollInfo().scrollTop - 135;
+            if (h < 0) {
+                h = 0
+            }
+            $('#div_dietDetail').css('marginTop',h);
+        });
+    </script>
+
+
+</head>
+<body class="indexBody">
+<div id="body">
+    <!--nav-->
+    <div th:replace="/html/top :: html"></div>
+
+    <div class="fl-container container">
+        <!-- 头部-->
+        <div class="row">
+            <div class="col-md-4">
+                <h2>食物成分表</h2>
+            </div>
+
+            <div class="col-md-4">
+                <br>
+                <input id="search_foodName" type="text" class="form-control" placeholder="名称关键字">
+            </div>
+            <div class="col-sm-3 col-md-offset-1 box-row hor-ends" style="margin-top: 26px">
+                <div class="food-type select-food-type" onclick="pageByType(this)">
+                    <span>谷</span>
+                </div>
+                <div class="food-type select-food-type" onclick="pageByType(this)">
+                    <span>豆</span>
+                </div>
+                <div class="food-type select-food-type" onclick="pageByType(this)">
+                    <span>蔬</span>
+                </div>
+                <div class="food-type select-food-type" onclick="pageByType(this)">
+                    <span>果</span>
+                </div>
+                <div class="food-type select-food-type" onclick="pageByType(this)">
+                    <span>肉</span>
+                </div>
+                <div class="food-type select-food-type" onclick="pageByType(this)">
+                    <span>乳</span>
+                </div>
+                <div class="food-type select-food-type" onclick="pageByType(this)">
+                    <span>蛋</span>
+                </div>
+                <div class="food-type select-food-type" onclick="pageByType(this)">
+                    <span>鱼</span>
+                </div>
+                <div class="food-type select-food-type" onclick="pageByType(this)">
+                    <span>油</span>
+                </div>
+                <div class="food-type select-food-type" onclick="pageByType(this)">
+                    <span>另</span>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-xs-8">
+                <!-- 列表部分-->
+                <table id="table0" class="table table-responsive table-bordered table-striped" style="text-align: center">
+                    <thead>
+                    <tr>
+                        <td style="min-width: 120px;">名称</td>
+                        <td>可食部分(g)</td>
+                        <td>单位能量(kcal/100g)</td>
+                        <td>单位水分</td>
+                        <td>蛋白质含量(g/100g)</td>
+                        <td>脂肪含量(g/100g)</td>
+                        <td>碳水化合物含量(g/100g)</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <div style="margin:20px 0">
+                    <!--分页 -->
+                    <div class="hr-panel-footer food-search-pager">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <i id="prePage" class="icon iconfont icon-shangyiye"></i>
+                            </div>
+                            <div class="col-sm-6">
+                                第<span id="currentPage"></span>/<span id="totalPage"></span>页
+                            </div>
+                            <div class="col-sm-3">
+                                <i id="nextPage" class="icon iconfont icon-shangyiye1-copy"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4" style="position: relative" >
+                <div id="div_dietDetail" class="hr-block" style="transition:margin-top 0.6s cubic-bezier(0, 1.12, 1, 1.06);">
+                    <div class="hr-panel-title">
+                        <div id="list_food_div" class="food-type" ms-class="food-type-{{list[nowFood].TypeID}}"></div>
+                        <span id="list_food_name"> </span>
+                        <span class="pull-right">其他营养素</span>
+                    </div>
+                    <div class="hr-panel-body">
+                        <table id="table1" class="table table-bordered table-responsive">
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

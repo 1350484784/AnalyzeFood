@@ -89,10 +89,18 @@ public class ToPage {
         return "/html/user/addDietDetail";
     }
 
+    @RequestMapping("/dietList")
+    public String toDietList(Model model){
+        model.addAttribute("topIndex", 2);
+        return "/html/user/dietList";
+    }
+
     @RequestMapping("/test")
     public String test(Model model){
 
         model.addAttribute("topIndex", 1);
         return "/html/user/test";
     }
+
+
 }
