@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>INDEX</title>
+
+    <link rel="stylesheet" th:href="@{/css/user/base.08fea82e.css}">
+    <link rel="stylesheet" th:href="@{/css/user/addArticle.css}">
+
+    <script th:src="@{/bootstrap/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
+        /*]]>*/
+    </script>
+
+
+
+</head>
+<body id="body">
+<!--nav-->
+<div th:replace="/html/top :: html"></div>
+
+<div class="bgcolor">
+    <div class="row">
+        <div style="padding-top: 35px;float: right;margin-right: 252px">
+            <a th:href="@{/to/addArticle}" class="plain-a btn btn-primary" >我要发表</a>
+        </div>
+    </div>
+
+
+
+    <form th:action="@{/raiders/index}" id="mainForm" method="post">
+        <!--<input type="hidden" name="currentPage" id="currentPage" th:value="${articles.pageNum}">-->
+        <!--<input type="hidden" name="typeid_cid" id="typeid_cid" th:value="${typeid_cid}">-->
+
+        <div class="container bg-white shadow" >
+            <div class="row pb-4">
+                <div class="row col-md-10 offset-1 mt-3 ">
+                    <div class="col-md-12 p-3 border-bottom">
+                        <!--<div class="row col-md-12 ml-2 mt-1 pl-4 ">-->
+                            <!--<div>-->
+                                <!--<a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/raiders/index(typeid_cid=1)}"> 装修风格 </a>-->
+                            <!--</div>-->
+                            <!--<div>-->
+                                <!--<a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/raiders/index(typeid_cid=2)}"> 家装户型 </a>-->
+                            <!--</div>-->
+                            <!--<div>-->
+                                <!--<a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/raiders/index(typeid_cid=3)}"> 装修流程 </a>-->
+                            <!--</div>-->
+                            <!--<div>-->
+                                <!--<a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/raiders/index(typeid_cid=4)}"> 装修预算 </a>-->
+                            <!--</div>-->
+                            <!--<div>-->
+                                <!--<a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/raiders/index(typeid_cid=5)}"> 家居电器 </a>-->
+                            <!--</div>-->
+                            <!--<div>-->
+                                <!--<a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/raiders/index(typeid_cid=6)}"> 装饰材料 </a>-->
+                            <!--</div>-->
+                            <!--<div>-->
+                                <!--<a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/raiders/index(typeid_cid=7)}"> 房产知识 </a>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    </div>
+
+
+                    <div class="row mt-3">
+                        <div class="card-columns" >
+
+                            <!--<div class="card hoverShadow " th:each="article,iterStat:${articles.list}" style="padding-top: 8px">-->
+                                <!--&lt;!&ndash;<input type="hidden" name="typeid_cid" th:value="${article.typeid}">&ndash;&gt;-->
+                                <!--<div class="cardImgHead" >-->
+                                    <!--<a th:href="@{/raiders/eg(id=${article.articleid})}" class="plain-a larger-img">-->
+                                        <!--<img class="card-img-top" width="100%" height="100%"  th:src="${article.surface}" alt="Card image cap">-->
+                                    <!--</a>-->
+                                <!--</div>-->
+                                <!--<div class="card-body border border-top-0 rounded-bottom">-->
+                                    <!--<div class="card-text overFlowOneRow">-->
+                                        <!--<a th:href="@{/raiders/eg(id=${article.articleid})}" class="plain-a" th:text="${article.title}"></a>-->
+                                    <!--</div>-->
+                                    <!--<div class="card-text">-->
+                                        <!--<small class="text-muted">-->
+                                            <!--<img class="cursor" style="margin-top: -2px" th:src="@{/image/xad_raiders/clock-icon.svg}" width="12px"/>&nbsp;&nbsp;-->
+                                            <!--<span th:text="${article.createtime}"></span>-->
+                                            <!--<div style="float: right" class="mr-1 mt-1 align-bottom">-->
+                                                <!--<img class="cursor" style="margin-top: -4px" th:src="@{/image/xad_raiders/eye.png}" width="15px"/>&nbsp;-->
+                                                <!--<span th:text="${article.view}"></span>&nbsp;&nbsp;&nbsp;-->
+                                                <!--<img class="cursor" style="margin-top: -2px" th:src="@{/image/xad_raiders/评论_灰.png}" width="14px"/>&nbsp;-->
+                                                <!--<span th:text="${article.countCommentArticle}"></span>-->
+
+                                            <!--</div>-->
+                                        <!--</small>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div class="proDirectory zbs" style="background-color: #f3f3f3;padding-top: 25px;padding-bottom: 25px">
+            <div class="pagination-wrapper" style="margin: 0px  auto;text-align: center">
+                <ul class="pagination">
+
+                    <!--<li><span class="separator borderRight">共<span th:text="${articles.total}"></span>条</span></li>-->
+                    <!--<li>-->
+                        <!--<a th:if="${!articles.isFirstPage}" class="pageNumber borderRight" href="javascript:void(0)" onclick="formclick(1)">首页</a>-->
+                        <!--<a th:if="${articles.isFirstPage}" href="javascript:void(0);">首页</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<a th:if="${!articles.isFirstPage}" class="pageNumber borderRight" href="javascript:void(0)" th:onclick="'javascript:formclick('+${articles.prePage}+')'">&lt;上一页</a>-->
+                        <!--<a th:if="${articles.isFirstPage}" href="javascript:void(0);">&lt;上一页</a>-->
+                    <!--</li>-->
+                    <!--<li><span class="separator borderRight">第<span th:text="${articles.pageNum}"></span>/<span th:text="${articles.pages}"></span>页</span></li>-->
+                    <!--<li>-->
+                        <!--<a th:if="${!articles.isLastPage}" class="pageNumber borderRight" href="javascript:void(0)" th:onclick="'javascript:formclick('+${articles.nextPage}+')'">下一页 &gt;</a>-->
+                        <!--<a th:if="${articles.isLastPage}" href="javascript:void(0);">下一页 &gt;</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<a th:if="${!articles.isLastPage}" class="pageNumber borderRight" href="javascript:void(0)" th:onclick="'javascript:formclick('+${articles.pages}+')'">尾页</a>-->
+                        <!--<a th:if="${articles.isLastPage}" href="javascript:void(0);">尾页</a>-->
+                    <!--</li>-->
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+                    <li>&nbsp;</li>
+
+                </ul>
+            </div>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

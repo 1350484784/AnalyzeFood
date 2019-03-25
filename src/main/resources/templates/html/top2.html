@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <title>Index</title>
 
-    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}"/>
+    <link rel="stylesheet" th:href="@{/css/user/bootstrap.css}">
     <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
     <link rel="stylesheet" th:href="@{/css/user/Home.css}">
     <link rel="stylesheet" th:href="@{/css/user/iconfont.css}">
-    <link rel="stylesheet" th:href="@{/css/user/layout.css}">
     <link rel="stylesheet" th:href="@{/css/user/local.css}">
     <link rel="stylesheet" th:href="@{/css/user/pager.css}">
     <link rel="stylesheet" th:href="@{/css/user/userIndex.css}">
-
+    <link rel="stylesheet" th:href="@{/css/user/top2.css}">
     <script th:src="@{/js/user/top.js}"></script>
     <!--<script th:src="@{/js/user/love.js}"></script>-->
+
 
     <script th:inline="javascript">
         /*<![CDATA[*/
@@ -30,7 +30,7 @@
     <div class="container">
         <div>
             <ul class="nav nav-pills ">
-                <li>
+                <li style="padding-left:12px ">
                   <img src="http://127.0.0.1:8080/AnalyzeFood/image/icon.png"  height="50px">
                 </li>
                 <li style="width: 20px;height: 50px"></li>
@@ -52,10 +52,8 @@
                     </a>
                 </li>
 
-                <li class="pull-right">
-                    <a th:href="@{/user/logout}" style="padding:10px ;font-size: 14px;line-height: 30px;cursor: pointer;display: inline-block">登出</a>
-                </li>
-                <li class="pull-right" onmouseover="touch_on()" onmouseout="touch_out()">
+
+                <li class="pull-right" style="margin-left: 560px" onmouseover="touch_on()" onmouseout="touch_out()">
                     <a style="font-size: 14px;line-height: 30px;display: inline-block">
                         <i class="icon icon-cog">&nbsp;&nbsp;</i><span th:text="${session.user.roleAccount}"></span>
                     </a>
@@ -63,6 +61,9 @@
                     <ul class="dropdown-menu" style="text-align: center;">
                         <li ><a th:href="@{/to/userUpdatePwd}">修改密码</a></li>
                     </ul>
+                </li>
+                <li class="pull-right">
+                    <a th:href="@{/user/logout}" style="padding:10px ;font-size: 14px;line-height: 30px;cursor: pointer;display: inline-block">登出</a>
                 </li>
             </ul>
         </div>

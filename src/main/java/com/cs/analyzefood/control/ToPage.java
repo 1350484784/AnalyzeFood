@@ -95,11 +95,17 @@ public class ToPage {
         return "/html/user/dietList";
     }
 
-    @RequestMapping("/test")
-    public String test(Model model){
+    @RequestMapping("/articleIndex")
+    public String articleIndex(Model model){
 
         model.addAttribute("topIndex", 1);
-        return "/html/user/test";
+        return "/html/user/articleIndex";
+    }
+
+    @RequestMapping("/addArticle")
+    public String addArticle(Model model){
+        model.addAttribute("topIndex", 1);
+        return "/html/user/addArticle";
     }
 
 
