@@ -9,7 +9,7 @@
 
     <script th:src="@{/bootstrap/js/jquery-3.3.1.js}"></script>
     <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
-
+    <script th:src="@{/js/user/bootstrap.bundle.js}"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
         var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
@@ -21,12 +21,12 @@
 </head>
 <body id="body">
 <!--nav-->
-<div th:replace="/html/top :: html"></div>
+<div th:replace="/html/top2 :: html"></div>
 
 <div class="bgcolor">
     <div class="row">
-        <div style="padding-top: 35px;float: right;margin-right: 252px">
-            <a th:href="@{/to/addArticle}" class="plain-a btn btn-primary" >我要发表</a>
+        <div style="padding-top: 35px;width: 85%">
+            <a th:href="@{/to/addArticle}" style="float: right;" class="plain-a btn btn-primary" >我要发表</a>
         </div>
     </div>
 
@@ -40,29 +40,24 @@
             <div class="row pb-4">
                 <div class="row col-md-10 offset-1 mt-3 ">
                     <div class="col-md-12 p-3 border-bottom">
-                        <!--<div class="row col-md-12 ml-2 mt-1 pl-4 ">-->
-                            <!--<div>-->
-                                <!--<a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/raiders/index(typeid_cid=1)}"> 装修风格 </a>-->
-                            <!--</div>-->
-                            <!--<div>-->
-                                <!--<a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/raiders/index(typeid_cid=2)}"> 家装户型 </a>-->
-                            <!--</div>-->
-                            <!--<div>-->
-                                <!--<a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/raiders/index(typeid_cid=3)}"> 装修流程 </a>-->
-                            <!--</div>-->
-                            <!--<div>-->
-                                <!--<a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/raiders/index(typeid_cid=4)}"> 装修预算 </a>-->
-                            <!--</div>-->
-                            <!--<div>-->
-                                <!--<a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/raiders/index(typeid_cid=5)}"> 家居电器 </a>-->
-                            <!--</div>-->
-                            <!--<div>-->
-                                <!--<a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/raiders/index(typeid_cid=6)}"> 装饰材料 </a>-->
-                            <!--</div>-->
-                            <!--<div>-->
-                                <!--<a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/raiders/index(typeid_cid=7)}"> 房产知识 </a>-->
-                            <!--</div>-->
-                        <!--</div>-->
+                        <div class="row col-md-12 ml-2 mt-1 pl-4 " >
+                            <div class="col-md-2"></div>
+                            <div>
+                                <a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/to/articleIndex(typeId=1)}"> 饮食常识 </a>
+                            </div>
+                            <div>
+                                <a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/to/articleIndex(typeId=2)}"> 食疗食补 </a>
+                            </div>
+                            <div>
+                                <a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/to/articleIndex(typeId=3)}"> 瘦身美容 </a>
+                            </div>
+                            <div>
+                                <a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/to/articleIndex(typeId=4)}"> 人气菜肴 </a>
+                            </div>
+                            <div>
+                                <a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/to/articleIndex(typeId=5)}"> 其他话题 </a>
+                            </div>
+                        </div>
                     </div>
 
 

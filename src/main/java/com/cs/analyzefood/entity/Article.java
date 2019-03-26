@@ -13,6 +13,17 @@ public class Article {
     private Date createTime;
     private byte status;
 
+    public Article() {
+    }
+
+    public Article(int roleId, String title, String content, int typeId, String pic_path) {
+        this.roleId = roleId;
+        this.title = title;
+        this.content = content;
+        this.typeId = typeId;
+        this.pic_path = pic_path;
+    }
+
     public int getArticleId() {
         return articleId;
     }

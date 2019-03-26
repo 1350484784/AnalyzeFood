@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cs.analyzefood.mapper.ArticleMapper">
+
+    <insert id="insertArticle" keyProperty="articleId" useGeneratedKeys="true" parameterType="com.cs.analyzefood.entity.Article">
+      insert into article_info(n_roleId,s_title,s_content,n_typeId,s_pic_path,n_view,d_createTime,n_status)
+      values (#{roleId},#{title},#{content},#{typeId},#{pic_path},#{view},#{createTime},#{status})
+    </insert>
+</mapper>

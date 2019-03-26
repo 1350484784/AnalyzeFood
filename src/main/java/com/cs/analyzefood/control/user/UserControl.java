@@ -6,6 +6,7 @@ import com.cs.analyzefood.entity.vo.page.PageCondition;
 import com.cs.analyzefood.entity.vo.page.PageFoodVo;
 import com.cs.analyzefood.exception.SystemFailedException;
 import com.cs.analyzefood.service.AdminService;
+import com.cs.analyzefood.service.ArticleService;
 import com.cs.analyzefood.service.UserService;
 import com.cs.analyzefood.service.UserZoneService;
 import com.cs.analyzefood.util.JsonUtil;
@@ -44,11 +45,20 @@ public class UserControl {
     @Autowired
     private UserZoneService userZoneService;
 
+    @Autowired
+    private ArticleService articleService;
+
     @Value("${user.headImg.path}")
     private String headImg_path;
 
     @Value("${user.bgImg.path}")
     private String bgImg_path;
+
+    @Value("${article.path}")
+    private String article_path;
+
+    @Value("${article.moren}")
+    private String article_moren;
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -332,6 +342,7 @@ public class UserControl {
     }
 
     @RequestMapping("/foodListPage")
+    @ResponseBody
     public ResponseEntity foodListPage(@RequestBody PageCondition pageCondition){
         if(pageCondition == null){
             pageCondition = new PageCondition(1);
@@ -350,8 +361,44 @@ public class UserControl {
     }
 
     @RequestMapping("/foodListGetFood")
+    @ResponseBody
     public ResponseEntity foodListGetFood(int foodId){
         Food food = userService.findFoodById(foodId);
         return new ResponseEntity(food, HttpStatus.OK);
+    }
+
+    @RequestMapping("/addArticleByUser")
+    public String addArticleByUser(@RequestParam("pic_file") MultipartFile file,Article article, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            throw new SystemFailedException("user do not login");
+        }
+
+        String picName;
+        if(file != null && file.getOriginalFilename().equals("")){
+            picName =  UUID.randomUUID().toString().replace("-", "") + "_" + article_moren;
+        }else{
+            String filename = file.getOriginalFilename();
+            picName = UUID.randomUUID().toString().replace("-", "") + "_" + filename;
+            File newFile = new File(article_path + picName);
+            if (!newFile.exists()) {
+                try {
+                    file.transferTo(newFile);
+                } catch (IOException e) {
+                    logger.debug(e.getMessage());
+                }
+            }
+        }
+
+        System.out.println(JsonUtil.toJson(article));
+        System.out.println("picName: " + picName);
+
+        Article newArticle = new Article(user.getRoleId(),article.getTitle(),article.getContent(),article.getTypeId(),picName);
+        int articleId = articleService.addNewArticle(newArticle);
+        if(articleId <= 0){
+            throw new SystemFailedException("add article failed");
+        }
+
+        return "forward:/to/articleIndex";
     }
 }

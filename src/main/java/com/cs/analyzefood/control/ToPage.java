@@ -96,7 +96,13 @@ public class ToPage {
     }
 
     @RequestMapping("/articleIndex")
-    public String articleIndex(Model model){
+    public String articleIndex(Model model, HttpSession session){
+        // 查询
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            throw new SystemFailedException("user do not login");
+        }
+
 
         model.addAttribute("topIndex", 1);
         return "/html/user/articleIndex";
