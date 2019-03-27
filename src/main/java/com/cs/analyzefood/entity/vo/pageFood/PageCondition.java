@@ -1,4 +1,4 @@
-package com.cs.analyzefood.entity.vo.page;
+package com.cs.analyzefood.entity.vo.pageFood;
 
 public class PageCondition {
     private int currentPage;

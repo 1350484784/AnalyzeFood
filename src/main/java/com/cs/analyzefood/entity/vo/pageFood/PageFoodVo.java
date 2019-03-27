@@ -1,4 +1,4 @@
-package com.cs.analyzefood.entity.vo.page;
+package com.cs.analyzefood.entity.vo.pageFood;
 
 import com.cs.analyzefood.entity.Food;
 

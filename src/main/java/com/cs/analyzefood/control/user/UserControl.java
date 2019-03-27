@@ -2,8 +2,9 @@ package com.cs.analyzefood.control.user;
 
 import com.cs.analyzefood.entity.*;
 import com.cs.analyzefood.entity.vo.diet.DietVo;
-import com.cs.analyzefood.entity.vo.page.PageCondition;
-import com.cs.analyzefood.entity.vo.page.PageFoodVo;
+import com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition;
+import com.cs.analyzefood.entity.vo.pageFood.PageCondition;
+import com.cs.analyzefood.entity.vo.pageFood.PageFoodVo;
 import com.cs.analyzefood.exception.SystemFailedException;
 import com.cs.analyzefood.service.AdminService;
 import com.cs.analyzefood.service.ArticleService;
@@ -11,6 +12,7 @@ import com.cs.analyzefood.service.UserService;
 import com.cs.analyzefood.service.UserZoneService;
 import com.cs.analyzefood.util.JsonUtil;
 import com.cs.analyzefood.util.SendMessageUtil;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -393,12 +395,24 @@ public class UserControl {
         System.out.println(JsonUtil.toJson(article));
         System.out.println("picName: " + picName);
 
-        Article newArticle = new Article(user.getRoleId(),article.getTitle(),article.getContent(),article.getTypeId(),picName);
+        Article newArticle = new Article(user.getRoleId(),article.getTitle(),article.getContent(),article.getTypeId(),article_path+picName);
         int articleId = articleService.addNewArticle(newArticle);
         if(articleId <= 0){
             throw new SystemFailedException("add article failed");
         }
 
         return "forward:/to/articleIndex";
+    }
+
+    @RequestMapping("/articlePage")
+    @ResponseBody
+    public ResponseEntity articlePage(@RequestBody PageArticleCondition pageArticleCondition){
+        if(pageArticleCondition == null){
+            pageArticleCondition = new PageArticleCondition(1);
+        }
+        System.out.println(JsonUtil.toJson(pageArticleCondition));
+        PageInfo<Article> pageInfo = articleService.getPageArticle(pageArticleCondition);
+        System.out.println(JsonUtil.toJson(pageInfo));
+        return new ResponseEntity(pageInfo, HttpStatus.OK);
     }
 }

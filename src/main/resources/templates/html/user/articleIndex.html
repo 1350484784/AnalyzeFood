@@ -10,13 +10,168 @@
     <script th:src="@{/bootstrap/js/jquery-3.3.1.js}"></script>
     <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
     <script th:src="@{/js/user/bootstrap.bundle.js}"></script>
+
     <script th:inline="javascript">
         /*<![CDATA[*/
         var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
         /*]]>*/
     </script>
 
+    <script th:inline="javascript">
+        $(function () {
+            page_article(1,0,0,0);
 
+            //加载更多
+            if ($('#isLastPage').val() == 1) {
+                $("#bottomMore").html('<div class="offset-5">没有更多图片了。。</div>').removeClass("hide");
+            } else {
+
+                var execute = false;
+
+                function addMore() {
+                    var currentPage = parseInt($("#currentPage").val()) + 1;
+                    var pageArticleCondition = {
+                        currentPage:currentPage,
+                        articleType:0,
+                        roleId:0,
+                        judgeTimeOrNumber:0
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: contextPath+"/user/articlePage",
+                        dataType:"json",
+                        contentType : "application/json",
+                        data: JSON.stringify(pageArticleCondition),
+                        success: function (data) {
+                            var articles = data.list;
+                            if (data.isLastPage) {
+                                $("#morePages").val(2);
+                            }
+                            for(var i = 0;i < articles.length; i++){
+                                var str = '<div class="card hoverShadow " style="padding-top: 8px;margin: 3px 1px;float: left">\n' +
+                                    '                                <div class="cardImgHead" >\n' +
+                                    '                                    <a th:href="@{/user/articleDetail(articleId='+articles[i].articleId+')}" class="plain-a larger-img">\n' +
+                                    '                                        <img class="card-img-top" width="100%" height="100%"  src="'+contextPath+articles[i].pic_path+'" >\n' +
+                                    '                                    </a>\n' +
+                                    '                                </div>\n' +
+                                    '                                <div class="card-body border border-top-0 rounded-bottom">\n' +
+                                    '                                    <div class="card-text overFlowOneRow">\n' +
+                                    '                                        <a th:href="@{/user/articleDetail(articleId=\'+articles[i].articleId+\')}" class="plain-a" >'+articles[i].title+'</a>\n' +
+                                    '                                    </div>\n' +
+                                    '                                    <div class="card-text">\n' +
+                                    '                                        <small class="text-muted">\n' +
+                                    '                                            <img class="cursor" style="margin-top: -2px" src="http://127.0.0.1:8080/AnalyzeFood/image/clock-icon.svg" width="12px"/>&nbsp;&nbsp;\n' +
+                                    '                                            <span>'+articles[i].createTime+'</span>\n' +
+                                    '                                            <div style="float: right" class="mr-1 mt-1 align-bottom">\n' +
+                                    '                                                <img class="cursor" style="margin-top: -4px" src="http://127.0.0.1:8080/AnalyzeFood/image/eye.png" width="15px"/>&nbsp;\n' +
+                                    '                                                <span>'+articles[i].view+'</span>&nbsp;&nbsp;&nbsp;\n' +
+                                    // '                                                <img class="cursor" style="margin-top: -2px" th:src="@{/image/xad_raiders/评论_灰.png}" width="14px"/>&nbsp;\n' +
+                                    // '                                                <span th:text="${article.countCommentArticle}"></span>\n' +
+                                    '\n' +
+                                    '                                            </div>\n' +
+                                    '                                        </small>\n' +
+                                    '                                    </div>\n' +
+                                    '                                </div>\n' +
+                                    '                            </div>';
+
+                                $('#article_page').html($('#article_page').html() + str);
+                            }
+                            $('#currentPage').val(data.pageNum);
+
+                            if(data.isLastPage){
+                                $('#isLastPage').val(1);
+                            }
+                            execute = false;
+                        },
+                        error: function () {
+                            alert("加载出错")
+                        }
+                    })
+                }
+
+
+                $(window).scroll(function () {
+                    if ($("#morePages").val() != 1) {
+                        $("#bottomMore").html('<div class="offset-5">没有更多图片了。。</div>').removeClass("hide");
+                    } else {
+
+                        if (!execute) {
+                            //当前滑动高度
+                            var scrollTop = $(this).scrollTop();
+                            //总高度
+                            var scrollHeight = $(document).height();
+                            //浏览器窗口高度
+                            var windowHeight = $(this).height();
+                            //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
+                            if (scrollTop + windowHeight + 320 >= scrollHeight) {
+                                execute = true;
+                                setTimeout(addMore, 500);
+                            }
+                        }
+                    }
+                });
+            }
+
+        });
+
+        //分页
+        function page_article(currentPage1,articleType1,roleId1,judgeTimeOrNumber1){
+            var pageArticleCondition = {
+                currentPage:currentPage1,
+                articleType:articleType1,
+                roleId:roleId1,
+                judgeTimeOrNumber:judgeTimeOrNumber1
+            }
+
+            $.ajax({
+                type:"post",
+                url:contextPath+"/user/articlePage",
+                dataType:"json",
+                contentType : "application/json",
+                data: JSON.stringify(pageArticleCondition),
+                success:function (data){
+                    console.log(data)
+                    var str = '';
+                    var articles = data.list;
+                    for(var i = 0;i < articles.length; i++){
+                        str +='<div class="card hoverShadow " style="padding-top: 8px;margin: 3px 1px;float: left">\n' +
+                            '                                <div class="cardImgHead" >\n' +
+                            '                                    <a th:href="@{/user/articleDetail(articleId='+articles[i].articleId+')}" class="plain-a larger-img">\n' +
+                            '                                        <img class="card-img-top" width="100%" height="100%"  src="'+contextPath+articles[i].pic_path+'" >\n' +
+                            '                                    </a>\n' +
+                            '                                </div>\n' +
+                            '                                <div class="card-body border border-top-0 rounded-bottom">\n' +
+                            '                                    <div class="card-text overFlowOneRow">\n' +
+                            '                                        <a th:href="@{/user/articleDetail(articleId=\'+articles[i].articleId+\')}" class="plain-a" >'+articles[i].title+'</a>\n' +
+                            '                                    </div>\n' +
+                            '                                    <div class="card-text">\n' +
+                            '                                        <small class="text-muted">\n' +
+                            '                                            <img class="cursor" style="margin-top: -2px" src="http://127.0.0.1:8080/AnalyzeFood/image/clock-icon.svg" width="12px"/>&nbsp;&nbsp;\n' +
+                            '                                            <span>'+articles[i].createTime+'</span>\n' +
+                            '                                            <div style="float: right" class="mr-1 mt-1 align-bottom">\n' +
+                            '                                                <img class="cursor" style="margin-top: -4px" src="http://127.0.0.1:8080/AnalyzeFood/image/eye.png" width="15px"/>&nbsp;\n' +
+                            '                                                <span>'+articles[i].view+'</span>&nbsp;&nbsp;&nbsp;\n' +
+                            // '                                                <img class="cursor" style="margin-top: -2px" th:src="@{/image/xad_raiders/评论_灰.png}" width="14px"/>&nbsp;\n' +
+                            // '                                                <span th:text="${article.countCommentArticle}"></span>\n' +
+                            '\n' +
+                            '                                            </div>\n' +
+                            '                                        </small>\n' +
+                            '                                    </div>\n' +
+                            '                                </div>\n' +
+                            '                            </div>';
+
+                        $('#article_page').html(str);
+                    }
+                    $('#currentPage').val(data.pageNum);
+
+                    if(data.isLastPage){
+                        $('#isLastPage').val(1);
+                    }
+
+                }
+            });
+        }
+    </script>
 
 </head>
 <body id="body">
@@ -32,11 +187,11 @@
 
 
 
-    <form th:action="@{/raiders/index}" id="mainForm" method="post">
+    <!--<form th:action="@{/raiders/index}" id="mainForm" method="post">-->
         <!--<input type="hidden" name="currentPage" id="currentPage" th:value="${articles.pageNum}">-->
         <!--<input type="hidden" name="typeid_cid" id="typeid_cid" th:value="${typeid_cid}">-->
 
-        <div class="container bg-white shadow" >
+    <div class="container bg-white shadow" >
             <div class="row pb-4">
                 <div class="row col-md-10 offset-1 mt-3 ">
                     <div class="col-md-12 p-3 border-bottom">
@@ -62,82 +217,59 @@
 
 
                     <div class="row mt-3">
-                        <div class="card-columns" >
-
-                            <!--<div class="card hoverShadow " th:each="article,iterStat:${articles.list}" style="padding-top: 8px">-->
-                                <!--&lt;!&ndash;<input type="hidden" name="typeid_cid" th:value="${article.typeid}">&ndash;&gt;-->
-                                <!--<div class="cardImgHead" >-->
-                                    <!--<a th:href="@{/raiders/eg(id=${article.articleid})}" class="plain-a larger-img">-->
-                                        <!--<img class="card-img-top" width="100%" height="100%"  th:src="${article.surface}" alt="Card image cap">-->
-                                    <!--</a>-->
-                                <!--</div>-->
-                                <!--<div class="card-body border border-top-0 rounded-bottom">-->
-                                    <!--<div class="card-text overFlowOneRow">-->
-                                        <!--<a th:href="@{/raiders/eg(id=${article.articleid})}" class="plain-a" th:text="${article.title}"></a>-->
-                                    <!--</div>-->
-                                    <!--<div class="card-text">-->
-                                        <!--<small class="text-muted">-->
-                                            <!--<img class="cursor" style="margin-top: -2px" th:src="@{/image/xad_raiders/clock-icon.svg}" width="12px"/>&nbsp;&nbsp;-->
-                                            <!--<span th:text="${article.createtime}"></span>-->
-                                            <!--<div style="float: right" class="mr-1 mt-1 align-bottom">-->
-                                                <!--<img class="cursor" style="margin-top: -4px" th:src="@{/image/xad_raiders/eye.png}" width="15px"/>&nbsp;-->
-                                                <!--<span th:text="${article.view}"></span>&nbsp;&nbsp;&nbsp;-->
-                                                <!--<img class="cursor" style="margin-top: -2px" th:src="@{/image/xad_raiders/评论_灰.png}" width="14px"/>&nbsp;-->
-                                                <!--<span th:text="${article.countCommentArticle}"></span>-->
-
-                                            <!--</div>-->
-                                        <!--</small>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
+                        <div id="article_page">
 
                         </div>
-
                     </div>
 
+                    <input id="morePages" type="hidden" value="1">
+                    <input id="currentPage" type="hidden" value="1">
+                    <input id="isLastPage" type="hidden" value="0">
+
+                    <div id="bottomMore" class="row col-md-12 text-center text-muted mt-3 pt-2 mb-2">
+                        <div class="offset-5"><span class="fa fa-refresh fa-spin"></span>&nbsp;&nbsp;加载更多...</div>
+                    </div>
                 </div>
-
-
             </div>
 
         </div>
 
-        <div class="proDirectory zbs" style="background-color: #f3f3f3;padding-top: 25px;padding-bottom: 25px">
-            <div class="pagination-wrapper" style="margin: 0px  auto;text-align: center">
-                <ul class="pagination">
+        <!--<div class="proDirectory zbs" style="background-color: #f3f3f3;padding-top: 25px;padding-bottom: 25px">-->
+            <!--<div class="pagination-wrapper" style="margin: 0px  auto;text-align: center">-->
+                <!--<ul class="pagination">-->
 
-                    <!--<li><span class="separator borderRight">共<span th:text="${articles.total}"></span>条</span></li>-->
-                    <!--<li>-->
-                        <!--<a th:if="${!articles.isFirstPage}" class="pageNumber borderRight" href="javascript:void(0)" onclick="formclick(1)">首页</a>-->
-                        <!--<a th:if="${articles.isFirstPage}" href="javascript:void(0);">首页</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a th:if="${!articles.isFirstPage}" class="pageNumber borderRight" href="javascript:void(0)" th:onclick="'javascript:formclick('+${articles.prePage}+')'">&lt;上一页</a>-->
-                        <!--<a th:if="${articles.isFirstPage}" href="javascript:void(0);">&lt;上一页</a>-->
-                    <!--</li>-->
-                    <!--<li><span class="separator borderRight">第<span th:text="${articles.pageNum}"></span>/<span th:text="${articles.pages}"></span>页</span></li>-->
-                    <!--<li>-->
-                        <!--<a th:if="${!articles.isLastPage}" class="pageNumber borderRight" href="javascript:void(0)" th:onclick="'javascript:formclick('+${articles.nextPage}+')'">下一页 &gt;</a>-->
-                        <!--<a th:if="${articles.isLastPage}" href="javascript:void(0);">下一页 &gt;</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a th:if="${!articles.isLastPage}" class="pageNumber borderRight" href="javascript:void(0)" th:onclick="'javascript:formclick('+${articles.pages}+')'">尾页</a>-->
-                        <!--<a th:if="${articles.isLastPage}" href="javascript:void(0);">尾页</a>-->
-                    <!--</li>-->
-                    <li>&nbsp;</li>
-                    <li>&nbsp;</li>
-                    <li>&nbsp;</li>
-                    <li>&nbsp;</li>
-                    <li>&nbsp;</li>
-                    <li>&nbsp;</li>
-                    <li>&nbsp;</li>
-                    <li>&nbsp;</li>
-                    <li>&nbsp;</li>
+                    <!--&lt;!&ndash;<li><span class="separator borderRight">共<span th:text="${articles.total}"></span>条</span></li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a th:if="${!articles.isFirstPage}" class="pageNumber borderRight" href="javascript:void(0)" onclick="formclick(1)">首页</a>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a th:if="${articles.isFirstPage}" href="javascript:void(0);">首页</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a th:if="${!articles.isFirstPage}" class="pageNumber borderRight" href="javascript:void(0)" th:onclick="'javascript:formclick('+${articles.prePage}+')'">&lt;上一页</a>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a th:if="${articles.isFirstPage}" href="javascript:void(0);">&lt;上一页</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li><span class="separator borderRight">第<span th:text="${articles.pageNum}"></span>/<span th:text="${articles.pages}"></span>页</span></li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a th:if="${!articles.isLastPage}" class="pageNumber borderRight" href="javascript:void(0)" th:onclick="'javascript:formclick('+${articles.nextPage}+')'">下一页 &gt;</a>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a th:if="${articles.isLastPage}" href="javascript:void(0);">下一页 &gt;</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a th:if="${!articles.isLastPage}" class="pageNumber borderRight" href="javascript:void(0)" th:onclick="'javascript:formclick('+${articles.pages}+')'">尾页</a>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a th:if="${articles.isLastPage}" href="javascript:void(0);">尾页</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                    <!--<li>&nbsp;</li>-->
+                    <!--<li>&nbsp;</li>-->
+                    <!--<li>&nbsp;</li>-->
+                    <!--<li>&nbsp;</li>-->
+                    <!--<li>&nbsp;</li>-->
+                    <!--<li>&nbsp;</li>-->
+                    <!--<li>&nbsp;</li>-->
+                    <!--<li>&nbsp;</li>-->
+                    <!--<li>&nbsp;</li>-->
 
-                </ul>
-            </div>
-        </div>
-    </form>
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</form>-->
 
 </div>
 </body>

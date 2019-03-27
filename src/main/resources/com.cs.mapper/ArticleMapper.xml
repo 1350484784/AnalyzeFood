@@ -6,4 +6,37 @@
       insert into article_info(n_roleId,s_title,s_content,n_typeId,s_pic_path,n_view,d_createTime,n_status)
       values (#{roleId},#{title},#{content},#{typeId},#{pic_path},#{view},#{createTime},#{status})
     </insert>
+
+    <select id="selectArticleNum" resultType="java.lang.Integer" parameterType="com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition">
+        select count(*) from article_info where n_status = 1
+        <if test="articleType != null and articleType != 0">
+            and n_typeId = #{articleType}
+        </if>
+        <if test="roleId != null and roleId != 0">
+            and n_roleId = #{roleId}
+        </if>
+        <if test="judgeTimeOrNumber != null and judgeTimeOrNumber == 0">
+            order by d_createTime
+        </if>
+        <if test="judgeTimeOrNumber != null and judgeTimeOrNumber == 1">
+            order by n_view
+        </if>
+    </select>
+
+    <select id="selectPageArticle" resultType="com.cs.analyzefood.entity.Article" parameterType="com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition">
+        select n_articleId articleId, n_roleId roleId,s_title title,s_content content,n_typeId typeId,s_pic_path pic_path, n_view view,d_createTime createTime
+        from article_info where n_status = 1
+        <if test="articleType != null and articleType != 0">
+            and n_typeId = #{articleType}
+        </if>
+        <if test="roleId != null and roleId != 0">
+            and n_roleId = #{roleId}
+        </if>
+        <if test="judgeTimeOrNumber != null and judgeTimeOrNumber == 0">
+            order by d_createTime desc
+        </if>
+        <if test="judgeTimeOrNumber != null and judgeTimeOrNumber == 1">
+            order by n_view desc
+        </if>
+    </select>
 </mapper>

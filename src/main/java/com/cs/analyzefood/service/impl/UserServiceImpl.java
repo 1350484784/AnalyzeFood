@@ -4,13 +4,12 @@ import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.entity.Meal;
 import com.cs.analyzefood.entity.MealMade;
 import com.cs.analyzefood.entity.vo.diet.DietVo;
-import com.cs.analyzefood.entity.vo.page.PageCondition;
+import com.cs.analyzefood.entity.vo.pageFood.PageCondition;
 import com.cs.analyzefood.mapper.UserMapper;
 import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.mapper.UserZoneMapper;
 import com.cs.analyzefood.service.UserService;
 import com.cs.analyzefood.util.DateUtil;
-import com.cs.analyzefood.util.JsonUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -241,7 +239,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }
-        System.out.println("-----------------------");
+
         List<MealMade> zhong = userMapper.selectOldMealMade(dietVo.getMealId(),1);
         for(MealMade oldMealMade : zhong){
             boolean isdelete = false;
@@ -269,7 +267,6 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        System.out.println("-----------------------");
         List<MealMade> wan = userMapper.selectOldMealMade(dietVo.getMealId(),2);
         for(MealMade oldMealMade : wan){
             boolean isdelete = false;

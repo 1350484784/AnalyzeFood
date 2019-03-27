@@ -1,11 +1,9 @@
 package com.cs.analyzefood.service;
 
-import com.cs.analyzefood.entity.Food;
-import com.cs.analyzefood.entity.Meal;
-import com.cs.analyzefood.entity.MealMade;
-import com.cs.analyzefood.entity.User;
+import com.cs.analyzefood.entity.*;
 import com.cs.analyzefood.entity.vo.diet.DietVo;
-import com.cs.analyzefood.entity.vo.page.PageCondition;
+import com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition;
+import com.cs.analyzefood.entity.vo.pageFood.PageCondition;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
