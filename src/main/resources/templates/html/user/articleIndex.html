@@ -11,6 +11,50 @@
     <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
     <script th:src="@{/js/user/bootstrap.bundle.js}"></script>
 
+    <style>
+        .choice-a{
+            color: #007bff;
+            background-color: white;
+            display: inline-block;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            border: 1px solid #007bff;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 0.25rem;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+        .choice-a:hover {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .choice-now{
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .plain-a2{
+            color: black;
+        }
+        .plain-a2:hover{
+            color: #007bfe;
+            text-decoration: none;
+        }
+        .selected-a{
+            font-weight: 600;
+            color:#007bfe;
+        }
+
+    </style>
+
     <script th:inline="javascript">
         /*<![CDATA[*/
         var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
@@ -21,21 +65,34 @@
         $(function () {
             page_article(1,0,0,0);
 
+            //我的发表
+            $('#myArticle').click(function () {
+                $('#article_page').html('');
+                $('#currentPage').val(1)
+                $("#morePages").val(1)
+                if($(this).hasClass('btn-warning')){
+                    $(this).html('全部文章')
+                    $(this).removeClass('btn-warning')
+                    $(this).addClass('btn-success')
+                }else{
+                    $(this).html('我的发表')
+                    $(this).addClass('btn-warning')
+                    $(this).removeClass('btn-success')
+                }
+                var pageArticleCondition = getCondition();
+                page_article(1,pageArticleCondition.articleType,pageArticleCondition.roleId,pageArticleCondition.judgeTimeOrNumber);
+            });
+
             //加载更多
             if ($('#isLastPage').val() == 1) {
-                $("#bottomMore").html('<div class="offset-5">没有更多图片了。。</div>').removeClass("hide");
+                $("#bottomMore").html('<div class="offset-5">没有更多文章了。。</div>').removeClass("hide");
             } else {
 
                 var execute = false;
 
                 function addMore() {
-                    var currentPage = parseInt($("#currentPage").val()) + 1;
-                    var pageArticleCondition = {
-                        currentPage:currentPage,
-                        articleType:0,
-                        roleId:0,
-                        judgeTimeOrNumber:0
-                    }
+                    var pageArticleCondition = getCondition();
+
                     $.ajax({
                         type: "POST",
                         url: contextPath+"/user/articlePage",
@@ -48,15 +105,19 @@
                                 $("#morePages").val(2);
                             }
                             for(var i = 0;i < articles.length; i++){
+                                var title = articles[i].title;
+                                if(title.length > 16){
+                                    title = title.substr(0,16) + "...";
+                                }
                                 var str = '<div class="card hoverShadow " style="padding-top: 8px;margin: 3px 1px;float: left">\n' +
                                     '                                <div class="cardImgHead" >\n' +
                                     '                                    <a th:href="@{/user/articleDetail(articleId='+articles[i].articleId+')}" class="plain-a larger-img">\n' +
-                                    '                                        <img class="card-img-top" width="100%" height="100%"  src="'+contextPath+articles[i].pic_path+'" >\n' +
+                                    '                                        <img class="card-img-top" width="320px" height="360px"  src="'+contextPath+articles[i].pic_path+'" >\n' +
                                     '                                    </a>\n' +
                                     '                                </div>\n' +
                                     '                                <div class="card-body border border-top-0 rounded-bottom">\n' +
                                     '                                    <div class="card-text overFlowOneRow">\n' +
-                                    '                                        <a th:href="@{/user/articleDetail(articleId=\'+articles[i].articleId+\')}" class="plain-a" >'+articles[i].title+'</a>\n' +
+                                    '                                        <a th:href="@{/user/articleDetail(articleId=\'+articles[i].articleId+\')}" class="plain-a" >'+title+'</a>\n' +
                                     '                                    </div>\n' +
                                     '                                    <div class="card-text">\n' +
                                     '                                        <small class="text-muted">\n' +
@@ -130,38 +191,44 @@
                 contentType : "application/json",
                 data: JSON.stringify(pageArticleCondition),
                 success:function (data){
-                    console.log(data)
                     var str = '';
                     var articles = data.list;
-                    for(var i = 0;i < articles.length; i++){
-                        str +='<div class="card hoverShadow " style="padding-top: 8px;margin: 3px 1px;float: left">\n' +
-                            '                                <div class="cardImgHead" >\n' +
-                            '                                    <a th:href="@{/user/articleDetail(articleId='+articles[i].articleId+')}" class="plain-a larger-img">\n' +
-                            '                                        <img class="card-img-top" width="100%" height="100%"  src="'+contextPath+articles[i].pic_path+'" >\n' +
-                            '                                    </a>\n' +
-                            '                                </div>\n' +
-                            '                                <div class="card-body border border-top-0 rounded-bottom">\n' +
-                            '                                    <div class="card-text overFlowOneRow">\n' +
-                            '                                        <a th:href="@{/user/articleDetail(articleId=\'+articles[i].articleId+\')}" class="plain-a" >'+articles[i].title+'</a>\n' +
-                            '                                    </div>\n' +
-                            '                                    <div class="card-text">\n' +
-                            '                                        <small class="text-muted">\n' +
-                            '                                            <img class="cursor" style="margin-top: -2px" src="http://127.0.0.1:8080/AnalyzeFood/image/clock-icon.svg" width="12px"/>&nbsp;&nbsp;\n' +
-                            '                                            <span>'+articles[i].createTime+'</span>\n' +
-                            '                                            <div style="float: right" class="mr-1 mt-1 align-bottom">\n' +
-                            '                                                <img class="cursor" style="margin-top: -4px" src="http://127.0.0.1:8080/AnalyzeFood/image/eye.png" width="15px"/>&nbsp;\n' +
-                            '                                                <span>'+articles[i].view+'</span>&nbsp;&nbsp;&nbsp;\n' +
-                            // '                                                <img class="cursor" style="margin-top: -2px" th:src="@{/image/xad_raiders/评论_灰.png}" width="14px"/>&nbsp;\n' +
-                            // '                                                <span th:text="${article.countCommentArticle}"></span>\n' +
-                            '\n' +
-                            '                                            </div>\n' +
-                            '                                        </small>\n' +
-                            '                                    </div>\n' +
-                            '                                </div>\n' +
-                            '                            </div>';
+                    if(articles != undefined){
+                        for(var i = 0;i < articles.length; i++){
+                            var title = articles[i].title;
+                            if(title.length > 16){
+                                title = title.substr(0,16) + "...";
+                            }
+                            str +='<div class="card hoverShadow " style="padding-top: 8px;margin: 3px 1px;float: left">\n' +
+                                '                                <div class="cardImgHead" >\n' +
+                                '                                    <a th:href="@{/user/articleDetail(articleId='+articles[i].articleId+')}" class="plain-a larger-img">\n' +
+                                '                                        <img class="card-img-top" width="320px" height="360px"  src="'+contextPath+articles[i].pic_path+'" >\n' +
+                                '                                    </a>\n' +
+                                '                                </div>\n' +
+                                '                                <div class="card-body border border-top-0 rounded-bottom">\n' +
+                                '                                    <div class="card-text overFlowOneRow">\n' +
+                                '                                        <a th:href="@{/user/articleDetail(articleId=\'+articles[i].articleId+\')}"  class="plain-a" >'+title+'</a>\n' +
+                                '                                    </div>\n' +
+                                '                                    <div class="card-text">\n' +
+                                '                                        <small class="text-muted">\n' +
+                                '                                            <img class="cursor" style="margin-top: -2px" src="http://127.0.0.1:8080/AnalyzeFood/image/clock-icon.svg" width="12px"/>&nbsp;&nbsp;\n' +
+                                '                                            <span>'+articles[i].createTime+'</span>\n' +
+                                '                                            <div style="float: right" class="mr-1 mt-1 align-bottom">\n' +
+                                '                                                <img class="cursor" style="margin-top: -4px" src="http://127.0.0.1:8080/AnalyzeFood/image/eye.png" width="15px"/>&nbsp;\n' +
+                                '                                                <span>'+articles[i].view+'</span>&nbsp;&nbsp;&nbsp;\n' +
+                                // '                                                <img class="cursor" style="margin-top: -2px" th:src="@{/image/xad_raiders/评论_灰.png}" width="14px"/>&nbsp;\n' +
+                                // '                                                <span th:text="${article.countCommentArticle}"></span>\n' +
+                                '\n' +
+                                '                                            </div>\n' +
+                                '                                        </small>\n' +
+                                '                                    </div>\n' +
+                                '                                </div>\n' +
+                                '                            </div>';
 
-                        $('#article_page').html(str);
+                            $('#article_page').html(str);
+                        }
                     }
+
                     $('#currentPage').val(data.pageNum);
 
                     if(data.isLastPage){
@@ -171,6 +238,70 @@
                 }
             });
         }
+
+        //热门 最新
+        function get_timeorhot(t){
+            $('#article_page').html('');
+            $('#currentPage').val(1)
+            $("#morePages").val(1)
+            if(!$(t).hasClass('selected-a')){
+                $(".plain-a2").each(function () {
+                    $(this).removeClass('selected-a')
+                });
+                $(t).addClass('selected-a');
+            }
+            var pageArticleCondition = getCondition();
+            page_article(1,pageArticleCondition.articleType,pageArticleCondition.roleId,pageArticleCondition.judgeTimeOrNumber);
+        }
+
+        //文章类型
+        function get_titleType(t,index) {
+            $('#article_page').html('');
+            $('#currentPage').val(1)
+            $("#morePages").val(1)
+            if($(t).hasClass('choice-now')){
+                $(t).removeClass('choice-now');
+            }else{
+                $(".choice-a").each(function () {
+                    $(this).removeClass('choice-now')
+                });
+                $(t).addClass('choice-now');
+            }
+
+            var pageArticleCondition = getCondition();
+            page_article(1,pageArticleCondition.articleType,pageArticleCondition.roleId,pageArticleCondition.judgeTimeOrNumber);
+        }
+
+        //获取 条件
+        function getCondition() {
+            var currentPage = parseInt($("#currentPage").val()) + 1;
+
+            var userId = [[${session.user.roleId}]];
+            if($(this).hasClass('btn-warning')){
+                userId = 0;
+            }
+
+            var articleType = 0;
+            $(".choice-a").each(function (i,j) {
+                if($(j).hasClass('choice-now')){
+                    articleType = i + 1;
+                }
+            });
+            var timeorhot = 0;
+            $(".plain-a2").each(function (i,j) {
+                if($(j).hasClass('selected-a')){
+                    timeorhot = i ;
+                }
+            });
+            var pageArticleCondition = {
+                currentPage:currentPage,
+                articleType:articleType,
+                roleId:userId,
+                judgeTimeOrNumber:timeorhot
+            }
+            return pageArticleCondition;
+        }
+
     </script>
 
 </head>
@@ -180,37 +311,44 @@
 
 <div class="bgcolor">
     <div class="row">
-        <div style="padding-top: 35px;width: 85%">
+        <div style="padding-top: 35px;width: 80%">
             <a th:href="@{/to/addArticle}" style="float: right;" class="plain-a btn btn-primary" >我要发表</a>
+        </div>
+        <div style="padding-top: 35px;">
+            <a id="myArticle" style="float: right;margin-left: 20px" class="plain-a btn btn-warning" >我的发表</a>
         </div>
     </div>
 
 
-
-    <!--<form th:action="@{/raiders/index}" id="mainForm" method="post">-->
-        <!--<input type="hidden" name="currentPage" id="currentPage" th:value="${articles.pageNum}">-->
-        <!--<input type="hidden" name="typeid_cid" id="typeid_cid" th:value="${typeid_cid}">-->
-
     <div class="container bg-white shadow" >
             <div class="row pb-4">
                 <div class="row col-md-10 offset-1 mt-3 ">
+                    <div class="row col-md-12 font-weight-bold-cl border-bottom pb-3" >
+                        <div class="col-md-3 p-0 m-0 pt-2" style="height: 50px;font-size: 30px;line-height: 50px">膳食堂</div>
+                        <div class="row col-md-6 pl-5" style="padding-top: 15px;">
+                        </div>
+                        <div class="col-md-3  text-muted" style="padding-top: 20px;padding-left: 120px">
+                            <a class="plain-a2 selected-a" href="javascript:void(0)"  onclick="get_timeorhot(this)">最新</a>  |
+                            <a class="plain-a2" href="javascript:void(0)" onclick="get_timeorhot(this)" >最热</a>
+                        </div>
+                    </div>
                     <div class="col-md-12 p-3 border-bottom">
                         <div class="row col-md-12 ml-2 mt-1 pl-4 " >
                             <div class="col-md-2"></div>
                             <div>
-                                <a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/to/articleIndex(typeId=1)}"> 饮食常识 </a>
+                                <button class="choice-a  mr-4 choice-now" onclick="get_titleType(this,1)"> 饮食常识 </button>
                             </div>
                             <div>
-                                <a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/to/articleIndex(typeId=2)}"> 食疗食补 </a>
+                                <button class="choice-a mr-4 " onclick="get_titleType(this,2)"> 食疗食补 </button>
                             </div>
                             <div>
-                                <a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/to/articleIndex(typeId=3)}"> 瘦身美容 </a>
+                                <button class="choice-a mr-4 " onclick="get_titleType(this,3)"> 瘦身美容 </button>
                             </div>
                             <div>
-                                <a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/to/articleIndex(typeId=4)}"> 人气菜肴 </a>
+                                <button class="choice-a mr-4 " onclick="get_titleType(this,4)"> 人气菜肴 </button>
                             </div>
                             <div>
-                                <a class="choice-a btn btn-outline-primary mr-4 guideButton" th:href="@{/to/articleIndex(typeId=5)}"> 其他话题 </a>
+                                <button class="choice-a mr-4 " onclick="get_titleType(this,5)"> 其他话题 </button>
                             </div>
                         </div>
                     </div>
@@ -231,45 +369,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
-        <!--<div class="proDirectory zbs" style="background-color: #f3f3f3;padding-top: 25px;padding-bottom: 25px">-->
-            <!--<div class="pagination-wrapper" style="margin: 0px  auto;text-align: center">-->
-                <!--<ul class="pagination">-->
-
-                    <!--&lt;!&ndash;<li><span class="separator borderRight">共<span th:text="${articles.total}"></span>条</span></li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<li>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<a th:if="${!articles.isFirstPage}" class="pageNumber borderRight" href="javascript:void(0)" onclick="formclick(1)">首页</a>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<a th:if="${articles.isFirstPage}" href="javascript:void(0);">首页</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<li>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<a th:if="${!articles.isFirstPage}" class="pageNumber borderRight" href="javascript:void(0)" th:onclick="'javascript:formclick('+${articles.prePage}+')'">&lt;上一页</a>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<a th:if="${articles.isFirstPage}" href="javascript:void(0);">&lt;上一页</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<li><span class="separator borderRight">第<span th:text="${articles.pageNum}"></span>/<span th:text="${articles.pages}"></span>页</span></li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<li>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<a th:if="${!articles.isLastPage}" class="pageNumber borderRight" href="javascript:void(0)" th:onclick="'javascript:formclick('+${articles.nextPage}+')'">下一页 &gt;</a>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<a th:if="${articles.isLastPage}" href="javascript:void(0);">下一页 &gt;</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<li>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<a th:if="${!articles.isLastPage}" class="pageNumber borderRight" href="javascript:void(0)" th:onclick="'javascript:formclick('+${articles.pages}+')'">尾页</a>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<a th:if="${articles.isLastPage}" href="javascript:void(0);">尾页</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                    <!--<li>&nbsp;</li>-->
-                    <!--<li>&nbsp;</li>-->
-                    <!--<li>&nbsp;</li>-->
-                    <!--<li>&nbsp;</li>-->
-                    <!--<li>&nbsp;</li>-->
-                    <!--<li>&nbsp;</li>-->
-                    <!--<li>&nbsp;</li>-->
-                    <!--<li>&nbsp;</li>-->
-                    <!--<li>&nbsp;</li>-->
-
-                <!--</ul>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</form>-->
 
 </div>
 </body>
