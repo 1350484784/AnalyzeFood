@@ -142,6 +142,13 @@
             <artifactId>poi-ooxml</artifactId>
             <version>3.17</version>
         </dependency>
+
+        <!-- jsoup HTML parser library @ https://jsoup.org/ -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.11.3</version>
+        </dependency>
         <!--逆向工厂-->
         <!--<dependency>-->
             <!--<groupId>org.mybatis.generator</groupId>-->
@@ -180,12 +187,7 @@
             <!--<version>4.5.1</version>-->
         <!--</dependency>-->
 
-        <!--<dependency>-->
-            <!--&lt;!&ndash; jsoup HTML parser library @ https://jsoup.org/ &ndash;&gt;-->
-            <!--<groupId>org.jsoup</groupId>-->
-            <!--<artifactId>jsoup</artifactId>-->
-            <!--<version>1.11.3</version>-->
-        <!--</dependency>-->
+
         <!--<dependency>-->
             <!--<groupId>org.junit.jupiter</groupId>-->
             <!--<artifactId>junit-jupiter-api</artifactId>-->

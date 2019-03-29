@@ -1,7 +1,9 @@
 package com.cs.analyzefood;
 
+import com.cs.analyzefood.additional.DownladFoods;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -9,8 +11,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class AnalyzefoodApplicationTests {
 
+    @Autowired
+    private DownladFoods downladFoods;
+
     @Test
-    public void contextLoads() {
+    public void test() {
+        downladFoods.down();
     }
 
 }
