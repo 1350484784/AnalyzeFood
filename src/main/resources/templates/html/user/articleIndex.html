@@ -111,13 +111,13 @@
                                 }
                                 var str = '<div class="card hoverShadow " style="padding-top: 8px;margin: 3px 1px;float: left">\n' +
                                     '                                <div class="cardImgHead" >\n' +
-                                    '                                    <a th:href="@{/user/articleDetail(articleId='+articles[i].articleId+')}" class="plain-a larger-img">\n' +
+                                    '                                    <a href="javascript:void(0)"  onclick="showArticle('+articles[i].articleId+')" class="plain-a larger-img">\n' +
                                     '                                        <img class="card-img-top" width="320px" height="360px"  src="'+contextPath+articles[i].pic_path+'" >\n' +
                                     '                                    </a>\n' +
                                     '                                </div>\n' +
                                     '                                <div class="card-body border border-top-0 rounded-bottom">\n' +
                                     '                                    <div class="card-text overFlowOneRow">\n' +
-                                    '                                        <a th:href="@{/user/articleDetail(articleId=\'+articles[i].articleId+\')}" class="plain-a" >'+title+'</a>\n' +
+                                    '                                        <a href="javascript:void(0)"  onclick="showArticle('+articles[i].articleId+')" class="plain-a" >'+title+'</a>\n' +
                                     '                                    </div>\n' +
                                     '                                    <div class="card-text">\n' +
                                     '                                        <small class="text-muted">\n' +
@@ -126,8 +126,8 @@
                                     '                                            <div style="float: right" class="mr-1 mt-1 align-bottom">\n' +
                                     '                                                <img class="cursor" style="margin-top: -4px" src="http://127.0.0.1:8080/AnalyzeFood/image/eye.png" width="15px"/>&nbsp;\n' +
                                     '                                                <span>'+articles[i].view+'</span>&nbsp;&nbsp;&nbsp;\n' +
-                                    // '                                                <img class="cursor" style="margin-top: -2px" th:src="@{/image/xad_raiders/评论_灰.png}" width="14px"/>&nbsp;\n' +
-                                    // '                                                <span th:text="${article.countCommentArticle}"></span>\n' +
+                                    '                                                <img class="cursor" style="margin-top: -2px" src="http://127.0.0.1:8080/AnalyzeFood/image/comment.png" width="14px"/>&nbsp;\n' +
+                                    '                                                <span>'+articles[i].commentNum+'</span>\n' +
                                     '\n' +
                                     '                                            </div>\n' +
                                     '                                        </small>\n' +
@@ -201,13 +201,13 @@
                             }
                             str +='<div class="card hoverShadow " style="padding-top: 8px;margin: 3px 1px;float: left">\n' +
                                 '                                <div class="cardImgHead" >\n' +
-                                '                                    <a th:href="@{/user/articleDetail(articleId='+articles[i].articleId+')}" class="plain-a larger-img">\n' +
+                                '                                    <a href="javascript:void(0)"  onclick="showArticle('+articles[i].articleId+')" class="plain-a larger-img">\n' +
                                 '                                        <img class="card-img-top" width="320px" height="360px"  src="'+contextPath+articles[i].pic_path+'" >\n' +
                                 '                                    </a>\n' +
                                 '                                </div>\n' +
                                 '                                <div class="card-body border border-top-0 rounded-bottom">\n' +
                                 '                                    <div class="card-text overFlowOneRow">\n' +
-                                '                                        <a th:href="@{/user/articleDetail(articleId=\'+articles[i].articleId+\')}"  class="plain-a" >'+title+'</a>\n' +
+                                '                                        <a href="javascript:void(0)"  onclick="showArticle('+articles[i].articleId+')"  class="plain-a" >'+title+'</a>\n' +
                                 '                                    </div>\n' +
                                 '                                    <div class="card-text">\n' +
                                 '                                        <small class="text-muted">\n' +
@@ -216,8 +216,8 @@
                                 '                                            <div style="float: right" class="mr-1 mt-1 align-bottom">\n' +
                                 '                                                <img class="cursor" style="margin-top: -4px" src="http://127.0.0.1:8080/AnalyzeFood/image/eye.png" width="15px"/>&nbsp;\n' +
                                 '                                                <span>'+articles[i].view+'</span>&nbsp;&nbsp;&nbsp;\n' +
-                                // '                                                <img class="cursor" style="margin-top: -2px" th:src="@{/image/xad_raiders/评论_灰.png}" width="14px"/>&nbsp;\n' +
-                                // '                                                <span th:text="${article.countCommentArticle}"></span>\n' +
+                                '                                                <img class="cursor" style="margin-top: -2px" src="http://127.0.0.1:8080/AnalyzeFood/image/comment.png" width="14px"/>&nbsp;\n' +
+                                '                                                <span>'+articles[i].commentNum+'</span>\n' +
                                 '\n' +
                                 '                                            </div>\n' +
                                 '                                        </small>\n' +
@@ -300,6 +300,10 @@
                 judgeTimeOrNumber:timeorhot
             }
             return pageArticleCondition;
+        }
+        
+        function showArticle(articleId) {
+            window.location.href = contextPath + "/to/showArticle?articleId="+ articleId;
         }
 
     </script>

@@ -3,9 +3,23 @@
 <mapper namespace="com.cs.analyzefood.mapper.ArticleMapper">
 
     <insert id="insertArticle" keyProperty="articleId" useGeneratedKeys="true" parameterType="com.cs.analyzefood.entity.Article">
-      insert into article_info(n_roleId,s_title,s_content,n_typeId,s_pic_path,n_view,d_createTime,n_status)
-      values (#{roleId},#{title},#{content},#{typeId},#{pic_path},#{view},#{createTime},#{status})
+      insert into article_info(n_roleId,s_title,s_content,n_typeId,s_pic_path,n_view,d_createTime,n_status,n_commentNum)
+      values (#{roleId},#{title},#{content},#{typeId},#{pic_path},#{view},#{createTime},#{status},#{commentNum})
     </insert>
+
+    <insert id="insertEvaluate" parameterType="com.cs.analyzefood.entity.ArticleEvaluate">
+      insert into article_evaluate (n_articleId,n_roleId,s_content,d_evaluateTime)
+      values(#{articleId}, #{roleId},#{content},#{evaluateTime})
+    </insert>
+
+    <insert id="insertReply" parameterType="com.cs.analyzefood.entity.ArticleReply">
+      insert into article_evaluate_reply(n_evaluateId,s_content,d_replyTime,n_fromRoleId,n_toRoleId)
+      values (#{evaluateId},#{content},#{replyTime},#{fromRoleId},#{toRoleId})
+    </insert>
+
+    <update id="updateArticleViewById">
+        update article_info set n_view = #{param1} where n_articleId = #{param2}
+    </update>
 
     <select id="selectArticleNum" resultType="java.lang.Integer" parameterType="com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition">
         select count(*) from article_info where n_status = 1
@@ -24,7 +38,7 @@
     </select>
 
     <select id="selectPageArticle" resultType="com.cs.analyzefood.entity.Article" parameterType="com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition">
-        select n_articleId articleId, n_roleId roleId,s_title title,s_content content,n_typeId typeId,s_pic_path pic_path, n_view view,d_createTime createTime
+        select n_articleId articleId, n_roleId roleId,s_title title,s_content content,n_typeId typeId,s_pic_path pic_path, n_view view,d_createTime createTime,n_commentNum commentNum
         from article_info where n_status = 1
         <if test="articleType != null and articleType != 0">
             and n_typeId = #{articleType}
@@ -38,5 +52,43 @@
         <if test="judgeTimeOrNumber != null and judgeTimeOrNumber == 1">
             order by n_view desc
         </if>
+    </select>
+
+
+    <select id="selectArticleById" resultType="com.cs.analyzefood.entity.Article">
+        select n_articleId articleId,n_roleId roleId,s_title title,s_content content,n_typeId typeId,s_pic_path pic_path,n_view view,d_createTime createTime,n_commentNum commentNum
+         from article_info where n_articleId = #{param1} and n_status = 1
+    </select>
+
+    <select id="selectRelatedArticles" resultType="com.cs.analyzefood.entity.Article">
+        select n_articleId articleId,n_roleId roleId,s_title title,s_content content,n_typeId typeId,s_pic_path pic_path,n_view view,d_createTime createTime,n_commentNum commentNum
+        from article_info where n_articleId != #{param1} and n_status = 1 and n_typeId = #{param2} order by n_view desc limit 0,5
+    </select>
+
+
+    <resultMap id="evaluate_reply" type="com.cs.analyzefood.entity.ArticleEvaluate">
+        <id column="id" property="id"/>
+        <result column="articleId" property="articleId"/>
+        <result column="roleId" property="roleId"/>
+        <result column="content" property="content"/>
+        <result column="evaluateTime" property="evaluateTime"/>
+        <collection property="articleReplies" ofType="com.cs.analyzefood.entity.ArticleReply">
+            <id column="replyId" property="id"/>
+            <result column="evaluateId" property="evaluateId"/>
+            <result column="replyContent" property="content"/>
+            <result column="replyTime" property="replyTime"/>
+            <result column="fromRoleId" property="fromRoleId"/>
+            <result column="toRoleId" property="toRoleId"/>
+        </collection>
+    </resultMap>
+    <select id="selectArticleEvaluateByArticleId" resultMap="evaluate_reply">
+        select e.n_id id,e.n_articleId articleId,e.n_roleId roleId,e.s_content content,e.d_evaluateTime evaluateTime,
+        r.n_id replyId, r.n_evaluateId evaluateId, r.s_content replyContent,r.d_replyTime replyTime,r.n_fromRoleId fromRoleId,r.n_toRoleId toRoleId
+        from article_evaluate e left join article_evaluate_reply r on e.n_id = r.n_evaluateId
+        where e.n_articleId = #{param1} order by e.d_evaluateTime desc, r.d_replyTime desc
+    </select>
+
+    <select id="selectArticleEvaluateNumByArticleId" resultType="java.lang.Integer">
+        select count(*) from article_evaluate where n_articleId = #{param1}
     </select>
 </mapper>

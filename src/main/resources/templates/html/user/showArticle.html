@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>INDEX</title>
+    <link rel="stylesheet" th:href="@{/css/user/base.08fea82e.css}">
+    <link rel="stylesheet" th:href="@{/css/user/addArticle.css}">
+
+    <script th:src="@{/bootstrap/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    <script th:src="@{/js/user/bootstrap.bundle.js}"></script>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
+        /*]]>*/
+    </script>
+
+    <script th:inline="javascript">
+        $(function () {
+            commentSearch();
+
+            //发布
+            $('#publish').click(function () {
+
+                var roleId = [[${session.user.roleId}]];
+                var articleId = $('#articleId').val();
+                var content = $('#content').val();
+                 if(content == ''){
+                    centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;信息不能为空',101);
+                }
+                $.ajax({
+                    type:"post",
+                    url: contextPath + '/user/commentArticle',
+                    data:{content:content,articleId:articleId,roleId:roleId},
+                    success:function (resultData){
+                        if(resultData){
+                            centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;发布成功',101);
+                            var spanid1 = $('#spanid1').val();
+                            var cur_count = parseInt(spanid1)+1;
+                            $('#spanid1').val(cur_count);
+                            $('#spanid2').html(cur_count);
+                            $('#spanid3').html(cur_count);
+
+                            commentSearch();
+                        }
+
+                    }
+                });
+                $('.reply textarea').val('');
+            });
+
+
+
+        });
+
+        //回复按钮
+        function replyClick(obj) {
+            $(".re").fadeOut(200);
+            obj.parent().parent().parent().parent().find(".re").fadeIn(200)
+            var fromuserid=obj.parent().parent().parent().parent().find(".fromuserid").val();
+            $("#fromuserid").val(fromuserid);
+            $('.reply textarea').val('');
+        }
+
+        //评论查询
+        function commentSearch() {
+            var articleId = $('#articleId').val();
+            $.ajax({
+                type: "POST",
+                url: contextPath + "/user/commentSearch",
+                data: {articleId: articleId},
+                success:function (data) {
+                    var str='';
+                    if(data && data.length > 0){
+                        $('#idone').html("");
+                        for(var i = 0; i < data.length; i++){
+                            str +='<div>\n' +
+                                '                            <div class=" row ml-1 mb-1 pt-4" style="width: 720px" >\n' +
+                                '                                <input class="commentarticleid" type="hidden" value="'+data[i].id+'">\n' +
+                                '                                <div class="col-md-1  pt-1" style="background-color: #fcffff" >\n' +
+                                '                                    <img src="'+contextPath+data[i].user.headImg+'" class="rounded-circle" style="height: 45px;width: 45px"/>\n' +
+                                '                                </div>\n' +
+                                '                                <div class="col-md-11  pt-1 " style="line-height: 20px;background-color: #fcffff">\n' +
+                                '                                    <span class="font-weight-bold" >'+data[i].user.roleAccount+'</span>\n' +
+                                '                                    <br>\n' +
+                                '                                    <span class="text-muted" style="font-size: 13px" >'+data[i].evaluateTime+'</span>\n' +
+                                '                                </div>\n' +
+                                '                                <div class="card-text col-md-12    pt-1 "style="background-color: #fcffff;font-size: 15px">\n' +
+                                '                                    &nbsp;&nbsp;&nbsp;&nbsp;<span >'+data[i].content+'</span>\n' +
+                                '                                </div>\n' +
+                                '                                <div class="card-text col-md-12  pb-3 " style="border-bottom:1px dotted #dde1e5;background-color: #fcffff">\n' +
+                                '                                    <div style="float: right;font-size: 15px" class="align-bottom mr-4 text-muted" >\n' +
+                                '                                        <div>\n' +
+                                '                                            <input type="hidden" value="'+data[i].user.roleId+'" name="fromuserid" class="fromuserid" >\n' +
+                                '                                            <a href = "javascript:;" class="plain-a reply-comment btn-a" onclick="replyClick($(this))" >&nbsp;&nbsp;回复</a>\n' +
+                                '                                        </div>\n' +
+                                '                                    </div>\n' +
+                                '                                </div>\n' +
+                                '                                <div class="bgcolor " style="width: 690px">\n' +
+                                '                                    <div class="col-md-11 offset-1 re pt-2 pb-2" style="display: none" >\n' +
+                                '                                        <div class="pb-2 reply">\n' +
+                                '                                        <textarea style="width: 600px;height: 80px;font-size: 14px"  class="form-control reply_textarea" placeholder="请输入回复内容~~~" >\n' +
+                                '                                        </textarea>\n' +
+                                '                                        </div>\n' +
+                                '                                        <div>\n' +
+                                '                                            <button type="button"  class="btn btn-primary pt-1 pb-1 pl-3 pr-3 reply-text replycomment"  style="font-size: 14px" onclick="submitClick($(this))">发表</button>\n' +
+                                '                                        </div>\n' +
+                                '                                    </div>\n';
+                            var replys = data[i].articleReplies;
+                            if(replys){
+                                for(var j = 0; j < replys.length; j++){
+                                    if(replys[j].evaluateId !=null && replys[j].evaluateId !=0){
+                                        str +='<div class="col-md-11 offset-1 pt-2" >\n' +
+                                            '                                        <div >\n' +
+                                            '                                        <div>\n' +
+                                            '                                            <a class="plain-a" >'+replys[j].fromUser.roleAccount+'</a>@<a class="plain-a" >'+replys[j].toUser.roleAccount+'</a>：\n' +
+                                            '                                            <span >'+replys[j].content+'</span>\n' +
+                                            '                                        </div>\n' +
+                                            '                                        <div>\n' +
+                                            '                                            <span >'+replys[j].replyTime+'</span>&nbsp;&nbsp;\n' +
+                                            '                                            <input type="hidden" value="'+replys[j].toUser.roleId+'" name="fromuserid" class="fromuserid" >\n' +
+                                            '                                            <a href = "javascript:;" class="plain-a reply-comment btn-a"  onclick="replyClick($(this))">\n' +
+                                            '                                                &nbsp;&nbsp;回复</a>\n' +
+                                            '                                        </div>\n' +
+                                            '                                        </div>\n' +
+                                            '                                    </div>';
+                                    }
+
+                                }
+                            }
+
+
+                            str +='</div>\n' +
+                                '                                </div>\n' +
+                                '                            </div>';
+
+
+                        }
+                        $('#idone').append(str);
+                    }else{
+                        $('#idone').html("");
+                    }
+                }
+            });
+        }
+
+        //回复
+        function submitClick(obj) {
+            var evaluateId=obj.parent().parent().parent().parent().find(".commentarticleid").val();
+            var content=obj.parent().parent().parent().parent().find(".reply_textarea").val();
+            if(content == ''){
+                centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;信息不能为空',101);
+                return false;
+            }
+            var toRoleId=$("#fromuserid").val();
+            var fromRoleId = [[${session.user.roleId}]];
+            $.ajax({
+                type:"post",
+                url:contextPath + "/user/reply_evaluate",
+                data:{evaluateId:evaluateId,content:content,toRoleId:toRoleId,fromRoleId:fromRoleId},
+                success:function (resultData) {
+                    if(resultData){
+                        centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;回复成功',101);
+                        commentSearch();
+                    }
+                },
+                error:function () {
+                    alert("服务器请求失败");
+                }
+            });
+            $('.reply textarea').val('');
+        }
+    </script>
+
+
+</head>
+<body>
+    <!--nav-->
+    <div th:replace="/html/top2 :: html"></div>
+
+    <div class="bgcolor">
+        <input type="hidden" id="fromuserid" value="">
+        <div class="container ">
+            <div class="row">
+                <div class="row  bg-white d-flex align-items-start" style="width: 850px;" >
+                    <div class="row col-md-10 offset-1 mt-3 " th:object="${article}">
+                        <div class="row col-md-12  border-bottom pb-3" >
+                            <div style="font-size: 30px" th:text="*{title}"></div>
+                        </div>
+                        <div class="row col-md-12 border-bottom p-2">
+                            <div style="font-size: 16px;width: 25%" th:object="${author}">
+                                <a href="###" class="plain-a">
+                                    <img th:src="'/AnalyzeFood'+*{headImg}" class="rounded-circle" style="width: 40px;height: 40px">
+                                    &nbsp;&nbsp;<span th:text="*{name}"></span>
+                                </a>
+                            </div>
+                            <div class="card-text p-1 pt-2 " style="width: 75%">
+                                <small class="text-muted" style="float: right">
+                                <span >
+                                    <span th:if="*{typeId==1}">饮食常识</span>
+                                    <span th:if="*{typeId==2}">食疗食补</span>
+                                    <span th:if="*{typeId==3}">瘦身美容</span>
+                                    <span th:if="*{typeId==4}">人气菜肴</span>
+                                    <span th:if="*{typeId==5}">其他话题</span>
+                                </span>
+                                    &nbsp;
+                                    <img class="cursor" style="margin-top: -2px" th:src="@{/image/clock-icon.svg}" width="12px"/>&nbsp;
+                                    <span th:text="${#dates.format(article.createTime,'yyyy-MM-dd')}"></span>&nbsp;&nbsp;&nbsp;
+                                    <img class="cursor" style="margin-top: -4px" th:src="@{/image/eye.png}" width="15px"/>
+                                    <span th:text="*{view}"></span>&nbsp;&nbsp;
+                                    <img class=" cursor" style="margin-top: -2px" th:src="@{/image/comment.png}" width="14px"/>&nbsp;
+                                    <input id="spanid1" type="hidden" th:value="*{commentNum}">
+                                    <span id="spanid2" class="spanid" th:text="*{commentNum}"></span>
+                                    &nbsp;&nbsp;
+                                    <img class=" cursor" style="margin-top: -2px" th:src="@{/image/jubao.png}" width="13px"/>
+
+                                    <!--jubao-->
+                                    <input id="articleId" type="hidden" th:value="${article.articleId}">
+                                    <a class="cursor  btn-default" data-toggle="modal" data-target="#myModal" style="width: 40px;height: 25px" role="button" >
+                                        举报
+                                    </a>
+                                </small>
+                            </div>
+                        </div>
+                        <div class="row mt-3 border-bottom">
+                            <div class="p-3 mt-2 pb-lg-5">
+                                <div id="info2" style="font-size: 16px;" th:utext="*{content}">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row  mt-5 mb-5" >
+                            <div class=" pb-1" >
+                                <div style="font-size: 24px">
+                                    <strong><span id="spanid3" class="spanid" th:text="${article.commentNum}"></span>条评论</strong>
+                                </div>
+                            </div>
+                            <div class="reply row col-md-12 p-2  bg-light rounded mt-3 " style="width: 650px" >
+                                <div class="col-md-1">
+                                    <img th:src="'/AnalyzeFood'+${session.user.headImg}" class="rounded-circle" style="height: 60px; width:60px;"/>
+
+                                </div>
+                                <div class="col-md-10 ml-3 reply" >
+                                    <!---->
+                                    <textarea id="content" style="width: 600px;height: 80px;font-size: 14px" class="form-control" placeholder="说说你的看法~~~" ></textarea>
+                                </div>
+                                <div class="col-md-2 offset-10 mt-2">
+                                    <button type="button" id="publish" class="btn btn-primary ml-4 pt-1 pb-1 pl-3 pr-3 reply-text"  style="font-size: 14px" >发布</button>
+                                </div>
+                            </div>
+                            <!---->
+                            <div id="idone">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  bg-white  d-flex align-items-start" style="width: 332px; margin-left: 2.2rem;height: 730px" >
+                    <div class="row col-md-11 offset-1 mt-3 ">
+                        <div class="row col-md-12  border-bottom pb-3" >
+                            <div class="col-md-5">
+                                <a class="btn btn-primary" th:href="@{/to/addArticle}">我要发表</a>
+                            </div>
+                        </div>
+                        <div class="row col-md-12 mt-3 border-bottom" style="padding-bottom: 2rem" >
+                            <div class="row pl-0 col-md-12" style="font-weight: bold;font-size: 16px" >
+                                相关文章
+                            </div>
+
+                            <div class="row pl-0 col-md-12 pt-3" th:each="relatedArticle,iterStat:${relatedArticles}">
+                                <div class="col-md-5 p-0" style="display: inline-block">
+                                    <a th:href="@{/to/showArticle(articleId=${relatedArticle.articleId})}"><img th:src="'/AnalyzeFood'+${relatedArticle.pic_path}" style="width: 100px;height: 100px"></a>
+                                </div>
+                                <div class="pl-2 col-md-7 p-0 pl-3" style="display: inline-block">
+                                    <a th:href="@{/to/showArticle(articleId=${relatedArticle.articleId})}" class="plain-a" th:text="${relatedArticle.title}"></a>&nbsp;
+                                    <a th:href="@{/to/showArticle(articleId=${relatedArticle.articleId})}" class="selected-a plain-a">详情&nbsp;></a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="centerContent" style="display:none">操作成功！</div>
+</body>
+</html>

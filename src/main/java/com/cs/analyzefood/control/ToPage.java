@@ -1,10 +1,12 @@
 package com.cs.analyzefood.control;
 
 
+import com.cs.analyzefood.entity.Article;
 import com.cs.analyzefood.entity.Meal;
 import com.cs.analyzefood.entity.MealMade;
 import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.exception.SystemFailedException;
+import com.cs.analyzefood.service.ArticleService;
 import com.cs.analyzefood.service.UserService;
 import com.cs.analyzefood.util.JsonUtil;
 import com.github.pagehelper.PageInfo;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -24,6 +27,9 @@ public class ToPage {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ArticleService articleService;
 
     @RequestMapping("/login")
     public String login(){
@@ -105,6 +111,33 @@ public class ToPage {
     public String addArticle(Model model){
         model.addAttribute("topIndex", 1);
         return "/html/user/addArticle";
+    }
+
+    @RequestMapping("/showArticle")
+    public String showArticle(int articleId,Model model){
+        Article article = articleService.findArticleById(articleId);
+        if(article == null){
+            throw new SystemFailedException("article do not exist");
+        }
+        //更新浏览数
+        article.setView(article.getView()+1);
+        articleService.updateViewByArticleId(article.getView(),articleId);
+        //作者
+        User author = userService.findUserById(article.getRoleId());
+
+        //相关文章
+        List<Article> relatedArticles = articleService.findRelatedArticles(articleId,article.getTypeId());
+
+        //评论数
+        int commentNum = articleService.findCommentNum(article.getArticleId());
+        article.setCommentNum(commentNum);
+
+
+        model.addAttribute("article", article);
+        model.addAttribute("author", author);
+        model.addAttribute("relatedArticles", relatedArticles);
+        model.addAttribute("topIndex", 1);
+        return "/html/user/showArticle";
     }
 
 

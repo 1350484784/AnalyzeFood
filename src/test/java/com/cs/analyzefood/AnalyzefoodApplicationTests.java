@@ -16,7 +16,7 @@ public class AnalyzefoodApplicationTests {
 
     @Test
     public void test() {
-        downladFoods.down();
+
     }
 
 }

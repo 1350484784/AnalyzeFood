@@ -282,7 +282,13 @@
                         </div>
                         <br>
 
-                        <div class="hr-panel" style="margin-bottom: 20px" th:each="meal:${meals.list}">
+                        <div class="hr-panel" style="margin-bottom: 20px" th:if="${meals.list != null && meals.list.size() == 0}" >
+                            <div class="hr-panel-body" style="padding:10px" >
+                                <span style="color: red;font-size: 14px;margin-left:10px ">您还没有创建食谱呢</span>
+                            </div>
+                        </div>
+
+                        <div class="hr-panel" style="margin-bottom: 20px" th:if="${meals.list != null && meals.list.size() > 0}" th:each="meal:${meals.list}">
                             <div class="hr-panel-body" style="padding:10px" >
                                 <div class="row">
                                     <div class="col-sm-8">
@@ -425,7 +431,7 @@
                                     <a th:if="${!meals.isLastPage}" th:href="@{/to/userIndex(currentPage=${meals.nextPage})}">下一页</a>
                                 </div>
                                 <div class="tsy-pager-t">
-                                     第 <span th:text="${meals.pageNum}"></span> 页;共 <span th:text="${meals.pages}"></span> 页
+                                     第 <span th:text="${meals.pageNum}"></span> 页;共 <span th:if="${meals.pages != 0}" th:text="${meals.pages}"></span><span th:if="${meals.pages == 0}" >1</span> 页
                                 </div>
                             </div>
                             <div style="clear: both"></div>

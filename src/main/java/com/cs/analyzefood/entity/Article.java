@@ -10,6 +10,7 @@ public class Article {
     private int typeId;
     private String pic_path;
     private int view;
+    private int commentNum;
     private Date createTime;
     private byte status;
 
@@ -94,5 +95,13 @@ public class Article {
 
     public void setStatus(byte status) {
         this.status = status;
+    }
+
+    public int getCommentNum() {
+        return commentNum;
+    }
+
+    public void setCommentNum(int commentNum) {
+        this.commentNum = commentNum;
     }
 }

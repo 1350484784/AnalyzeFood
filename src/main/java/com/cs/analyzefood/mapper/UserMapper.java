@@ -4,6 +4,7 @@ import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.entity.Meal;
 import com.cs.analyzefood.entity.MealMade;
 import com.cs.analyzefood.entity.User;
+import com.cs.analyzefood.entity.vo.download.DownLoadFoodVo;
 
 import java.util.List;
 
@@ -57,6 +58,10 @@ public interface UserMapper {
     List<MealMade> selectOldMealMade(int mealId, int mealType);
 
     void deleteMealMade(int id);
+
+    void insertFood(DownLoadFoodVo downLoadFoodVo);
+
+    Food selectFoodByName(String name);
 
 
 //    int selectFoodNumByFoodIds(int[] foodIds);

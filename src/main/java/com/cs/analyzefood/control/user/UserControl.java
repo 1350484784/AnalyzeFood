@@ -410,9 +410,41 @@ public class UserControl {
         if(pageArticleCondition == null){
             pageArticleCondition = new PageArticleCondition(1);
         }
-        System.out.println(JsonUtil.toJson(pageArticleCondition));
         PageInfo<Article> pageInfo = articleService.getPageArticle(pageArticleCondition);
-        System.out.println(JsonUtil.toJson(pageInfo));
         return new ResponseEntity(pageInfo, HttpStatus.OK);
+    }
+
+
+    @RequestMapping("/commentArticle")
+    @ResponseBody
+    public ResponseEntity commentArticle(ArticleEvaluate articleEvaluate){
+        articleService.addComment(articleEvaluate);
+        return new ResponseEntity(true, HttpStatus.OK);
+    }
+
+    @RequestMapping("/commentSearch")
+    @ResponseBody
+    public ResponseEntity commentSearch(int articleId){
+        List<ArticleEvaluate> articleEvaluates = articleService.findArticleEvaluate(articleId);
+        for (ArticleEvaluate articleEvaluate : articleEvaluates) {
+            User userEvaluate = userService.findUserById(articleEvaluate.getRoleId());
+            articleEvaluate.setUser(userEvaluate);
+
+            List<ArticleReply> articleReplies = articleEvaluate.getArticleReplies();
+            for (ArticleReply articleReply : articleReplies) {
+                User fromUser = userService.findUserById(articleReply.getFromRoleId());
+                User toUser = userService.findUserById(articleReply.getToRoleId());
+                articleReply.setFromUser(fromUser);
+                articleReply.setToUser(toUser);
+            }
+        }
+        return new ResponseEntity(articleEvaluates, HttpStatus.OK);
+    }
+
+    @RequestMapping("/reply_evaluate")
+    @ResponseBody
+    public ResponseEntity reply_evaluate(ArticleReply articleReply){
+        articleService.addReply(articleReply);
+        return new ResponseEntity(true, HttpStatus.OK);
     }
 }

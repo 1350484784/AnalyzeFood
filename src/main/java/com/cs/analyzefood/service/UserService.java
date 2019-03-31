@@ -2,6 +2,7 @@ package com.cs.analyzefood.service;
 
 import com.cs.analyzefood.entity.*;
 import com.cs.analyzefood.entity.vo.diet.DietVo;
+import com.cs.analyzefood.entity.vo.download.DownLoadFoodVo;
 import com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition;
 import com.cs.analyzefood.entity.vo.pageFood.PageCondition;
 import com.github.pagehelper.PageInfo;
@@ -52,5 +53,11 @@ public interface UserService {
     MealMade findMealMade(int mealId, int foodId, int mealType);
 
     void updateMeal(DietVo dietVo,int roleId);
+
+    void insertDownloadFood(DownLoadFoodVo downLoadFoodVo);
+
+    Food findFoodByName(String name);
+
+
 
 }

@@ -1,6 +1,8 @@
 package com.cs.analyzefood.service.impl;
 
 import com.cs.analyzefood.entity.Article;
+import com.cs.analyzefood.entity.ArticleEvaluate;
+import com.cs.analyzefood.entity.ArticleReply;
 import com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition;
 import com.cs.analyzefood.mapper.ArticleMapper;
 import com.cs.analyzefood.service.ArticleService;
@@ -30,6 +32,7 @@ public class ArticleServiceImpl implements ArticleService {
         newArticle.setStatus((byte) 1);
         newArticle.setCreateTime(new Date());
         newArticle.setView(0);
+        newArticle.setCommentNum(0);
         int result = articleMapper.insertArticle(newArticle);
         if (result > 0) {
             return newArticle.getArticleId();
@@ -42,8 +45,12 @@ public class ArticleServiceImpl implements ArticleService {
         int count = articleMapper.selectArticleNum(pageArticleCondition);
         PageHelper.startPage(pageArticleCondition.getCurrentPage(),6);
         List<Article> articles = articleMapper.selectPageArticle(pageArticleCondition);
+        //查评论数
+        for (Article article : articles) {
+            int commentNum = findCommentNum(article.getArticleId());
+            article.setCommentNum(commentNum);
+        }
         PageInfo<Article> pageInfo = new PageInfo<>(articles);
-
         //当前页
         pageInfo.setPageNum(pageArticleCondition.getCurrentPage());
         //每页显示的条数
@@ -52,5 +59,42 @@ public class ArticleServiceImpl implements ArticleService {
         pageInfo.setTotal(count);
 
         return pageInfo;
+    }
+
+    @Override
+    public Article findArticleById(int articleId) {
+        return articleMapper.selectArticleById(articleId);
+    }
+
+    @Override
+    public List<Article> findRelatedArticles(int articleId, int typeId) {
+        return articleMapper.selectRelatedArticles(articleId, typeId);
+    }
+
+    @Override
+    public void updateViewByArticleId(int view, int articleId) {
+        articleMapper.updateArticleViewById(view,articleId);
+    }
+
+    @Override
+    public void addComment(ArticleEvaluate articleEvaluate) {
+        articleEvaluate.setEvaluateTime(new Date());
+        articleMapper.insertEvaluate(articleEvaluate);
+    }
+
+    @Override
+    public List<ArticleEvaluate> findArticleEvaluate(int articleId) {
+        return articleMapper.selectArticleEvaluateByArticleId(articleId);
+    }
+
+    @Override
+    public void addReply(ArticleReply articleReply) {
+        articleReply.setReplyTime(new Date());
+        articleMapper.insertReply(articleReply);
+    }
+
+    @Override
+    public int findCommentNum(int articleId) {
+        return articleMapper.selectArticleEvaluateNumByArticleId(articleId);
     }
 }
