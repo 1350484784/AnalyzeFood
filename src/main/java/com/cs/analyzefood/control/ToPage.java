@@ -60,6 +60,10 @@ public class ToPage {
         return "/html/lostPwd";
     }
 
+
+    /****************************************************************/
+
+
     @RequestMapping("/CMSIndex")
     public String toAdminIndex(){
         return "/html/manage/index";
@@ -84,6 +88,10 @@ public class ToPage {
     public String toAddFood(){
         return "/html/manage/addFood";
     }
+
+
+    /***************************************************************/
+
 
     @RequestMapping("/userUpdatePwd")
     public String toUserUpdatePwd(){

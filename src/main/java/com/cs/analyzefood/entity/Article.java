@@ -14,6 +14,8 @@ public class Article {
     private Date createTime;
     private byte status;
 
+    private User author;
+
     public Article() {
     }
 
@@ -103,5 +105,13 @@ public class Article {
 
     public void setCommentNum(int commentNum) {
         this.commentNum = commentNum;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 }

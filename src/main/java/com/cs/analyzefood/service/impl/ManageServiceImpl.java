@@ -2,6 +2,7 @@ package com.cs.analyzefood.service.impl;
 
 import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.entity.FoodType;
+import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.util.JsonUtil;
 import com.cs.analyzefood.util.ReadExcel;
 import com.cs.analyzefood.mapper.ManageMapper;
@@ -203,6 +204,17 @@ public class ManageServiceImpl implements ManageService {
         }
 
         return true;
+    }
+
+    @Override
+    public List<User> getAllUser() {
+        return manageMapper.selectUser();
+    }
+
+    @Override
+    public List<User> getPageUser(int page, int pageSize) {
+        int start = (page - 1) * pageSize;
+        return manageMapper.selectPageUser(start, pageSize);
     }
 
 

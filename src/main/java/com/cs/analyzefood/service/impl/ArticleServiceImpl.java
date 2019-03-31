@@ -3,6 +3,7 @@ package com.cs.analyzefood.service.impl;
 import com.cs.analyzefood.entity.Article;
 import com.cs.analyzefood.entity.ArticleEvaluate;
 import com.cs.analyzefood.entity.ArticleReply;
+import com.cs.analyzefood.entity.ArticleReport;
 import com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition;
 import com.cs.analyzefood.mapper.ArticleMapper;
 import com.cs.analyzefood.service.ArticleService;
@@ -96,5 +97,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public int findCommentNum(int articleId) {
         return articleMapper.selectArticleEvaluateNumByArticleId(articleId);
+    }
+
+    @Override
+    public void addReport(ArticleReport articleReport) {
+        articleReport.setReportTime(new Date());
+        articleMapper.insertReport(articleReport);
     }
 }

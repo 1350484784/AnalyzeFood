@@ -29,34 +29,19 @@
 </head>
 <body class="childrenBody">
 	<div class="panel_box row">
+		<!--<div class="panel col">-->
+			<!--&lt;!&ndash;url 链接&ndash;&gt;-->
+			<!--<a href="javascript:;" data-url="page/message/message.html">-->
+				<!--<div class="panel_icon">-->
+					<!--<i class="layui-icon" data-icon="&#xe63a;">&#xe63a;</i>-->
+				<!--</div>-->
+				<!--<div class="panel_word newMessage">-->
+					<!--<span></span>-->
+					<!--<cite>新消息</cite>-->
+				<!--</div>-->
+			<!--</a>-->
+		<!--</div>-->
 		<div class="panel col">
-
-			<!--url 链接-->
-			<a href="javascript:;" data-url="page/message/message.html">
-				<div class="panel_icon">
-					<i class="layui-icon" data-icon="&#xe63a;">&#xe63a;</i>
-				</div>
-				<div class="panel_word newMessage">
-					<span></span>
-					<cite>新消息</cite>
-				</div>
-			</a>
-		</div>
-		<div class="panel col">
-
-			<!--url 链接-->
-			<a href="javascript:;" data-url="page/user/allUsers.html">
-				<div class="panel_icon" style="background-color:#FF5722;">
-					<i class="iconfont icon-dongtaifensishu" data-icon="icon-dongtaifensishu"></i>
-				</div>
-				<div class="panel_word userAll">
-					<span></span>
-					<cite>新增人数</cite>
-				</div>
-			</a>
-		</div>
-		<div class="panel col">
-
 			<!--url 链接-->
 			<a href="javascript:;" data-url="page/user/allUsers.html">
 				<div class="panel_icon" style="background-color:#009688;">
@@ -71,13 +56,13 @@
 		<div class="panel col">
 
 			<!--url 链接-->
-			<a href="javascript:;" data-url="page/img/images.html">
+			<a th:href="@{/to/CMSAllFood}">
 				<div class="panel_icon" style="background-color:#5FB878;">
 					<i class="layui-icon" data-icon="&#xe64a;">&#xe64a;</i>
 				</div>
-				<div class="panel_word imgAll">
+				<div class="panel_word foodAll">
 					<span></span>
-					<cite>图片总数</cite>
+					<cite>膳食总数</cite>
 				</div>
 			</a>
 		</div>
@@ -89,8 +74,10 @@
 					<i class="iconfont icon-wenben" data-icon="icon-wenben"></i>
 				</div>
 				<div class="panel_word waitNews">
-					<span></span>
-					<cite>待审核文章</cite>
+                    <span></span>
+                    <em>文章总数</em>
+                    <cite>文章列表</cite>
+
 				</div>
 			</a>
 		</div>
@@ -102,9 +89,8 @@
 					<i class="iconfont icon-text" data-icon="icon-text"></i>
 				</div>
 				<div class="panel_word allNews">
-					<span></span>
-					<em>文章总数</em>
-					<cite>文章列表</cite>
+                    <span></span>
+                    <cite>待审核文章</cite>
 				</div>
 			</a>
 		</div>
@@ -173,15 +159,15 @@
 				</tbody>
 			</table>
 
-			<!--是否需要-->
-			<blockquote class="layui-elem-quote title">最新文章<i class="iconfont icon-new1"></i></blockquote>
-			<table class="layui-table" lay-skin="line">
-				<colgroup>
-					<col>
-					<col width="110">
-				</colgroup>
-				<tbody class="hot_news"></tbody>
-			</table>
+			<!--&lt;!&ndash;是否需要&ndash;&gt;-->
+			<!--<blockquote class="layui-elem-quote title">最新文章<i class="iconfont icon-new1"></i></blockquote>-->
+			<!--<table class="layui-table" lay-skin="line">-->
+				<!--<colgroup>-->
+					<!--<col>-->
+					<!--<col width="110">-->
+				<!--</colgroup>-->
+				<!--<tbody class="hot_news"></tbody>-->
+			<!--</table>-->
 		</div>
 	</div>
 </body>

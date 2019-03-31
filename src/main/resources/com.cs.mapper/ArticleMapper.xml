@@ -17,6 +17,11 @@
       values (#{evaluateId},#{content},#{replyTime},#{fromRoleId},#{toRoleId})
     </insert>
 
+    <insert id="insertReport" parameterType="com.cs.analyzefood.entity.ArticleReport">
+      insert into article_report(n_articleId,s_reportContent,n_roleId,d_reportTime,n_status)
+      values (#{articleId},#{reportContent},#{roleId},#{reportTime},1)
+    </insert>
+
     <update id="updateArticleViewById">
         update article_info set n_view = #{param1} where n_articleId = #{param2}
     </update>

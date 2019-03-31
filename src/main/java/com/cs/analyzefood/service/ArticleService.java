@@ -3,6 +3,7 @@ package com.cs.analyzefood.service;
 import com.cs.analyzefood.entity.Article;
 import com.cs.analyzefood.entity.ArticleEvaluate;
 import com.cs.analyzefood.entity.ArticleReply;
+import com.cs.analyzefood.entity.ArticleReport;
 import com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition;
 import com.github.pagehelper.PageInfo;
 
@@ -26,4 +27,6 @@ public interface ArticleService {
     void addReply(ArticleReply articleReply);
 
     int findCommentNum(int articleId);
+
+    void addReport(ArticleReport articleReport);
 }

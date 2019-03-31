@@ -3,6 +3,7 @@ package com.cs.analyzefood.control.manage;
 import com.cs.analyzefood.entity.Admin;
 import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.entity.FoodType;
+import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.entity.vo.manage.LayuiTableVo;
 import com.cs.analyzefood.entity.vo.manage.SystemInfoVo;
 import com.cs.analyzefood.exception.SystemFailedException;
@@ -65,6 +66,7 @@ public class ManageControl {
         vo.setCount(foods.size());
         vo.setMsg("");
         vo.setData(pageFood);
+        System.out.println(JsonUtil.toJson(vo));
         return new ResponseEntity(vo, HttpStatus.OK);
     }
 
@@ -158,6 +160,19 @@ public class ManageControl {
         vo.setCount(foods.size());
         vo.setMsg("");
         vo.setData(foods);
+        return new ResponseEntity(vo, HttpStatus.OK);
+    }
+
+    @RequestMapping("/allUser")
+    @ResponseBody
+    public ResponseEntity allUser(int page, int limit) {
+        List<User> users = manageService.getAllUser();
+        List<User> pageUser = manageService.getPageUser(page, limit);
+        LayuiTableVo vo = new LayuiTableVo();
+        vo.setCode(0);
+        vo.setCount(users.size());
+        vo.setMsg("");
+        vo.setData(pageUser);
         return new ResponseEntity(vo, HttpStatus.OK);
     }
 }

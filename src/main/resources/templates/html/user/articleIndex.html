@@ -276,9 +276,9 @@
         function getCondition() {
             var currentPage = parseInt($("#currentPage").val()) + 1;
 
-            var userId = [[${session.user.roleId}]];
-            if($(this).hasClass('btn-warning')){
-                userId = 0;
+            var userId = 0;
+            if($('#myArticle').hasClass('btn-success')){
+                userId = [[${session.user.roleId}]];
             }
 
             var articleType = 0;

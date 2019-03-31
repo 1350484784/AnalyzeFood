@@ -7,7 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/user/addArticle.css}">
 
     <script th:src="@{/bootstrap/js/jquery-3.3.1.js}"></script>
-    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    <!--<script th:src="@{/bootstrap/js/bootstrap.js}"></script>-->
     <script th:src="@{/js/user/bootstrap.bundle.js}"></script>
 
     <script th:inline="javascript">
@@ -171,6 +171,38 @@
             });
             $('.reply textarea').val('');
         }
+
+        //举报取消
+        function resetReport(obj) {
+            $('#Report').val('');
+            $('#myModal').modal('hide');
+            $(".modal-backdrop").remove();
+            $("body").removeClass('modal-open');
+        }
+
+        //举报提交
+        function submitReport(obj) {
+            var articleId = $('#articleId').val();
+            var roleId = [[${session.user.roleId}]];
+            var reportContent=obj.parent().parent().parent().parent().parent().find("#Report").val();
+            $.ajax({
+                type:"post",
+                url: contextPath + "/user/reportArticle",
+                data:{articleId:articleId,reportContent:reportContent,roleId:roleId},
+                success:function (resultData) {
+                    if(resultData){
+                        centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;举报成功',101);
+                    }
+                    $('#Report').val('');
+                    $('#myModal').modal('hide');
+                    $(".modal-backdrop").remove();
+                    $("body").removeClass('modal-open');
+                },
+                error:function () {
+                    alert("服务器请求失败");
+                }
+            });
+        }
     </script>
 
 
@@ -215,7 +247,7 @@
                                     &nbsp;&nbsp;
                                     <img class=" cursor" style="margin-top: -2px" th:src="@{/image/jubao.png}" width="13px"/>
 
-                                    <!--jubao-->
+                                    <!--举报-->
                                     <input id="articleId" type="hidden" th:value="${article.articleId}">
                                     <a class="cursor  btn-default" data-toggle="modal" data-target="#myModal" style="width: 40px;height: 25px" role="button" >
                                         举报
@@ -243,14 +275,13 @@
 
                                 </div>
                                 <div class="col-md-10 ml-3 reply" >
-                                    <!---->
                                     <textarea id="content" style="width: 600px;height: 80px;font-size: 14px" class="form-control" placeholder="说说你的看法~~~" ></textarea>
                                 </div>
                                 <div class="col-md-2 offset-10 mt-2">
                                     <button type="button" id="publish" class="btn btn-primary ml-4 pt-1 pb-1 pl-3 pr-3 reply-text"  style="font-size: 14px" >发布</button>
                                 </div>
                             </div>
-                            <!---->
+
                             <div id="idone">
 
                             </div>
@@ -287,5 +318,44 @@
         </div>
     </div>
     <div id="centerContent" style="display:none">操作成功！</div>
+
+
+    <!-- 模态框 举报 -->
+    <div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">举报文章</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="unit-style padding-big-lr clearfix">
+                        <div class="row col-md-12 real-name-con height-main margin-top-25">
+                            <div class="col-md-2">
+                                内容
+                            </div>
+
+                            <div class="col-md-10">
+                                <textarea class="form-control textarea" rows="2" id="Report" name="content" placeholder="请详细说明举报的情况,可获得更准确的回复！"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="unit-style padding-large-tb clearfix mt-4">
+                        <div class="margin-large-top padding-left text-left content-right-zoon">
+                            <div class="row text-left">
+                                <div class=" col-md-3 offset-3">
+                                    <input type="submit" value="提交" class="submit btn  fl btn-primary btn-xs" data-dissmiss="modal" onclick="submitReport($(this))">
+                                </div>
+                                <div class=" col-md-3">
+                                    <input type="button" value="取消" class="btn  f1 btn-primary btn-xs " data-dissmiss="modal" onclick="resetReport($(this))">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

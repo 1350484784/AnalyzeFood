@@ -3,6 +3,7 @@ package com.cs.analyzefood.mapper;
 import com.cs.analyzefood.entity.Article;
 import com.cs.analyzefood.entity.ArticleEvaluate;
 import com.cs.analyzefood.entity.ArticleReply;
+import com.cs.analyzefood.entity.ArticleReport;
 import com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition;
 
 import java.util.List;
@@ -27,4 +28,6 @@ public interface ArticleMapper {
     void insertReply(ArticleReply articleReply);
 
     int selectArticleEvaluateNumByArticleId(int articleId);
+
+    void insertReport(ArticleReport articleReport);
 }

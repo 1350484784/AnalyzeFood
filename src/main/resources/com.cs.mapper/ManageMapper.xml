@@ -55,4 +55,15 @@
     <select id="selectFoodByName" resultType="com.cs.analyzefood.entity.Food">
         select n_foodId foodId from food_info where n_delFlag = 1 and s_foodName = #{param1}
     </select>
+
+    <select id="selectUser" resultType="com.cs.analyzefood.entity.User">
+        select n_roleId roleId,s_roleAccount roleAccount,s_name name,s_password password,n_age age,n_weight weight, s_sex sex,s_phone phone,d_createTime createTime,s_headImg headImg, n_onlineFlag onlineFlag
+        from user_info
+    </select>
+    <select id="selectPageUser" resultType="com.cs.analyzefood.entity.User">
+        select n_roleId roleId,s_roleAccount roleAccount,s_name name,s_password password,n_age age,n_weight weight, s_sex sex,s_phone phone,d_createTime createTime,s_headImg headImg, n_onlineFlag onlineFlag
+        from user_info limit #{param1},#{param2}
+    </select>
+
+
 </mapper>

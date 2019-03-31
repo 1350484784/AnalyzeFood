@@ -447,4 +447,11 @@ public class UserControl {
         articleService.addReply(articleReply);
         return new ResponseEntity(true, HttpStatus.OK);
     }
+
+    @RequestMapping("/reportArticle")
+    @ResponseBody
+    public ResponseEntity reportArticle(ArticleReport articleReport){
+        articleService.addReport(articleReport);
+        return new ResponseEntity(true, HttpStatus.OK);
+    }
 }
