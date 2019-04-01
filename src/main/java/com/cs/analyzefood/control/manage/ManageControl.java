@@ -175,4 +175,16 @@ public class ManageControl {
         vo.setData(pageUser);
         return new ResponseEntity(vo, HttpStatus.OK);
     }
+
+    @RequestMapping("/searchUser")
+    @ResponseBody
+    public ResponseEntity searchUser(String searchData){
+        List<User> users = manageService.searchUser(searchData);
+        LayuiTableVo vo = new LayuiTableVo();
+        vo.setCode(0);
+        vo.setCount(users.size());
+        vo.setMsg("");
+        vo.setData(users);
+        return new ResponseEntity(vo, HttpStatus.OK);
+    }
 }

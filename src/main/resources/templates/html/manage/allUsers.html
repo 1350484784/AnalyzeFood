@@ -36,44 +36,30 @@
 		    </div>
 		    <a class="layui-btn search_btn">查询</a>
 		</div>
-		<!--<div class="layui-inline">-->
-			<!--<a class="layui-btn layui-btn-normal usersAdd_btn">添加用户</a>-->
-		<!--</div>-->
-		<div class="layui-inline">
-			<a class="layui-btn layui-btn-danger batchDel">批量删除</a>
-		</div>
-		<!--<div class="layui-inline">-->
-			<!--<div class="layui-form-mid layui-word-aux">　本页面刷新后除新添加的文章外所有操作无效，关闭页面所有数据重置</div>-->
-		<!--</div>-->
 	</blockquote>
 	<div class="layui-form users_list">
-	  	<table class="layui-table">
-		    <colgroup>
-				<col width="50">
-				<col>
-				<col width="18%">
-				<col width="8%">
-				<col width="12%">
-				<col width="12%">
-				<col width="18%">
-				<col width="15%">
-		    </colgroup>
-		    <thead>
-				<tr>
-					<th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose"></th>
-					<th>登录名</th>
-					<th>邮箱</th>
-					<th>性别</th>
-					<th>会员等级</th>
-					<th>会员状态</th>
-					<th>最后登录时间</th>
-					<th>操作</th>
-				</tr> 
-		    </thead>
-		    <tbody class="users_content"></tbody>
+	  	<table class="layui-table" id="user_table_id" lay-filter="user_table">
+
 		</table>
 	</div>
-	<div id="page"></div>
+	<script type="text/html" id="bar">
+		<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">发送通知信息</a>
+	</script>
+
+	<script type="text/html" id="sexTpl">
+		{{#  if(d.sex === '女'){ }}
+		<span style="color: #F581B1;">{{ d.sex }}</span>
+		{{#  } else { }}
+		{{ d.sex }}
+		{{#  } }}
+	</script>
+    <script type="text/html" id="onlineTpl">
+		{{#  if(d.onlineFlag == 1){ }}
+		<span style="color: #F581B1;">在线</span>
+		{{#  } else { }}
+        <span style="color: grey">不在线</span>
+		{{#  } }}
+	</script>
 
 </body>
 </html>

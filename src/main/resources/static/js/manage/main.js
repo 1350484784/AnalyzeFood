@@ -44,17 +44,14 @@ layui.config({
 
 
 	//膳食总数
-    // $.ajax({
-     //    url : "/"+projectName+"/manage/allFood",
-     //    type: "POST",
-     //    data:{page:1,limit:10},
-     //    success : function(data){
-     //        $(".foodAll span").text(data.count);
-     //    }
-    // })
-
-
-
+    $.ajax({
+        url : "/"+projectName+"/manage/allFood",
+        type: "POST",
+        data:{page:1,limit:10},
+        success : function(data){
+            $(".foodAll span").text(data.count);
+        }
+    })
 
 	//用户数
 	$.ajax({

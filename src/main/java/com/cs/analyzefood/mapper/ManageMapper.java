@@ -29,4 +29,6 @@ public interface ManageMapper {
     List<User> selectUser();
 
     List<User> selectPageUser(int start, int pageSize);
+
+    List<User> selectUserForSearch(String searchData);
 }

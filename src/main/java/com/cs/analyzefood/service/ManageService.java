@@ -29,4 +29,7 @@ public interface ManageService {
     List<User> getAllUser();
 
     List<User> getPageUser(int page, int limit);
+
+
+    List<User> searchUser(String searchData);
 }

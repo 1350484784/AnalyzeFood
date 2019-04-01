@@ -217,5 +217,10 @@ public class ManageServiceImpl implements ManageService {
         return manageMapper.selectPageUser(start, pageSize);
     }
 
+    @Override
+    public List<User> searchUser(String searchData) {
+        return manageMapper.selectUserForSearch(searchData);
+    }
+
 
 }
