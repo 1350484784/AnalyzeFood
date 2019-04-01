@@ -113,13 +113,13 @@ layui.config({
 	// 					$("body").removeAttr("class").addClass("main_body");
 	// 				}
 	// 				window.sessionStorage.setItem("skinValue",data.field.skin);
-	// 				layer.closeAll("pageFood");
+	// 				layer.closeAll("page");
 	// 			});
 	// 			form.on("submit(noChangeSkin)",function(){
 	// 				$("body").removeAttr("class").addClass("main_body "+window.sessionStorage.getItem("skin")+"");
 	// 				$(".layui-bg-black,.hideMenu,.layui-layout-admin .layui-header").removeAttr("style");
 	// 				skins();
-	// 				layer.closeAll("pageFood");
+	// 				layer.closeAll("page");
 	// 			});
 	// 		},
 	// 		cancel : function(){
