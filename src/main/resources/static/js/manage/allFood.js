@@ -46,11 +46,8 @@ layui.config({
         }
         // ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
         , cols: [[ //表头
-
             {type: 'checkbox', fixed: 'left', width: 40, LAY_CHECKED: false}
-            // ,{field: 'foodId', title: 'ID', fixed: 'left',hide:true}
             , {field: 'foodName', title: '名称',}
-            // ,{field: 'typeId', title: '类型', }
             , {field: 'eat_part', title: '可食部分', width: 120}
             , {field: 'energy', title: '能量', width: 120}
             , {field: 'moisture', title: '水分', width: 120}
@@ -58,18 +55,7 @@ layui.config({
             , {field: 'fat', title: '脂肪', width: 120}
             , {field: 'fiber', title: '膳食纤维', width: 120}
             , {field: 'carbohydrate', title: '碳水化合物', width: 120}
-            // ,{field: 'va', title: '维A', }
-            // ,{field: 'vb1', title: '维B1', }
-            // ,{field: 'vb2', title: '维B2', }
-            // ,{field: 'niacin', title: '烟酸', }
-            // ,{field: 've', title: '维E', }
-            // ,{field: 'na', title: '钠', }
-            // ,{field: 'ca', title: '钙', }
-            // ,{field: 'fe', title: '铁', }
-            // ,{field: 'vc', title: '维C', }
-            // ,{field: 'cholesterol', title: '胆固醇', }
             , {fixed: 'right', align: 'center', title: '操作', toolbar: '#bar'}
-
         ]]
     });
 

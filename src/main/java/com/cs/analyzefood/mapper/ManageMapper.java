@@ -38,4 +38,6 @@ public interface ManageMapper {
     List<Article> selectPageArticle(int start, int pageSize);
 
     String selectUserAccountById(int roleId);
+
+    List<Article> selectArticleForSearch(String searchData);
 }

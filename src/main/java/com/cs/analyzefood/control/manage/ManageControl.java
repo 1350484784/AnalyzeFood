@@ -63,7 +63,6 @@ public class ManageControl {
         vo.setCount(foods.size());
         vo.setMsg("");
         vo.setData(pageFood);
-        System.out.println(JsonUtil.toJson(vo));
         return new ResponseEntity(vo, HttpStatus.OK);
     }
 
@@ -197,4 +196,17 @@ public class ManageControl {
         vo.setData(pageArticles);
         return new ResponseEntity(vo, HttpStatus.OK);
     }
+
+    @RequestMapping("/searchArticle")
+    @ResponseBody
+    public ResponseEntity searchArticle(String searchData){
+        List<TableArticle> articles = manageService.searchArticle(searchData);
+        LayuiTableVo vo = new LayuiTableVo();
+        vo.setCode(0);
+        vo.setCount(articles.size());
+        vo.setMsg("");
+        vo.setData(articles);
+        return new ResponseEntity(vo, HttpStatus.OK);
+    }
+
 }

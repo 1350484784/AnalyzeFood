@@ -71,12 +71,12 @@
     </select>
 
     <select id="selectArticle" resultType="com.cs.analyzefood.entity.Article">
-        select n_articleId articleId,n_roleId roleId,s_title title,s_content content,n_typeId typeId,s_pic_path pic_path,n_view view,d_createTime createTime,n_commentNum commentNum
+        select n_articleId articleId,n_roleId roleId,s_title title,s_content content,n_typeId typeId,s_pic_path pic_path,n_view view,d_createTime createTime,n_commentNum commentNum,n_status status
         from article_info
     </select>
 
     <select id="selectPageArticle" resultType="com.cs.analyzefood.entity.Article">
-        select n_articleId articleId,n_roleId roleId,s_title title,s_content content,n_typeId typeId,s_pic_path pic_path,n_view view,d_createTime createTime,n_commentNum commentNum
+        select n_articleId articleId,n_roleId roleId,s_title title,s_content content,n_typeId typeId,s_pic_path pic_path,n_view view,d_createTime createTime,n_commentNum commentNum,n_status status
         from article_info limit #{param1},#{param2}
     </select>
 
@@ -84,6 +84,10 @@
         select s_roleAccount from user_info where n_roleId = #{param1}
     </select>
 
+    <select id="selectArticleForSearch" resultType="com.cs.analyzefood.entity.Article">
+        select n_articleId articleId,n_roleId roleId,s_title title,s_content content,n_typeId typeId,s_pic_path pic_path,n_view view,d_createTime createTime,n_commentNum commentNum,n_status status
+        from article_info where instr(n_articleId, #{param1}) > 0 or instr(s_title, #{param1}) > 0
+    </select>
 
 
 </mapper>

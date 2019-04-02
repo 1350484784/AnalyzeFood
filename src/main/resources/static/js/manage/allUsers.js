@@ -87,32 +87,22 @@ layui.config({
                     '\t\t</div>',
                 btn:['发送','取消'],
                 btn1: function (index,layero) {
-                    console.log("roleId",data.roleId)
-                    console.log("description",layero.find('textarea')[0].value)
-
+                    $.ajax({
+                        url: "/" + projectName + "/inform/produceInfo",
+                        type: "post",
+                        data:{roleId:data.roleId,content:layero.find('textarea')[0].value,type:1},
+                        success:function (resultData){
+                            if(resultData){
+                                layer.alert("发送成功");
+                                layer.close(index);
+                            }
+                        }
+                    });
                 },
                 btn2:function (index,layero) {
                     layer.close(index);
                 }
             });
-            // var index = layui.layer.open({
-            //     title: "编辑",
-            //     type: 2,
-            //     area: ['700px', '530px'],
-            //     content: "/" + projectName + "/manage/editFood?foodId="+data.foodId,
-            //     success: function (layero, index) {
-            //         setTimeout(function () {
-            //             layui.layer.tips('点击此处返回食物列表', '.layui-layer-setwin .layui-layer-close', {
-            //                 tips: 3
-            //             });
-            //         }, 500)
-            //     }
-            // })
-            // //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
-            // $(window).resize(function () {
-            //     layui.layer.full(index);
-            // })
-            // layui.layer.full(index);
         }
     });
 

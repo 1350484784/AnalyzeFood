@@ -11,7 +11,6 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet"  th:href="@{/layui/css/layui.css}" media="all" />
     <link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all" />
-
     <style>
         .layui-table,.layui-table th{ text-align:center; }
         /*子页面样式*/
@@ -24,19 +23,11 @@
         .layui-inline{ margin:5px 5px 5px 0; }
     </style>
     <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
-    <script type="text/javascript" th:src="@{/js/manage/allArticles.js}"></script>
+    <script type="text/javascript" th:src="@{/js/manage/allReport.js}"></script>
 </head>
 <body class="childrenBody">
-<blockquote class="layui-elem-quote news_search">
-    <div class="layui-inline">
-        <div class="layui-input-inline">
-            <input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">
-        </div>
-        <a class="layui-btn search_btn">查询</a>
-    </div>
-</blockquote>
 <div class="layui-form">
-    <table class="layui-table" id="article_table_id" lay-filter="article_table">
+    <table class="layui-table" id="report_table_id" lay-filter="report_table">
 
     </table>
 </div>

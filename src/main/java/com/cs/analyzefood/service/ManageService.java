@@ -38,4 +38,6 @@ public interface ManageService {
     List<Article> getAllArticle();
 
     List<TableArticle> getPageArticle(int page, int limit);
+
+    List<TableArticle> searchArticle(String searchData);
 }

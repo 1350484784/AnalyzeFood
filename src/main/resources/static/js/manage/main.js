@@ -69,7 +69,7 @@ layui.config({
 		type: "POST",
 		data:{page:1,limit:10},
 		success : function(data){
-			$(".foodAll span").text(data.count);
+			$(".articleAll span").text(data.count);
 		}
 	})
 

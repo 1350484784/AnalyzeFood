@@ -13,9 +13,9 @@ layui.config({
 
     // 引入 table模块
     table.render({
-        id: "article_table_render",
-        elem: '#article_table_id',//指定表格元素
-        url: "/" + projectName + "/manage/allArticle",  //请求路径
+        id: "report_table_render",
+        elem: '#report_table_id',//指定表格元素
+        url: "/" + projectName + "/manage/allReport",  //请求路径
         skin: 'line ' //表格风格 line （行边框风格）row （列边框风格）nob （无边框风格）
         , limit: 10//要传向后台的每页显示条数
         , method: 'post'
@@ -25,45 +25,18 @@ layui.config({
             , first: false //不显示首页
             , last: false //不显示尾页
         }
-        // ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
         , cols: [[ //表头
-            {field: 'articleId', title: 'ID',sort: true, fixed: 'left',width:80}
-            , {field: 'authorName', title: '作者', width:150}
-            , {field: 'title', title: '标题',  width:220, event:'showContent',style:'color: blue;'}
-            , {field: 'type', title: '文章类型', width:150 }
-            , {field: 'pic_path', title: '封面地址', width:180 }
-            , {field: 'view', title: '浏览数', templet: '#sexTpl',  width:80}
-            , {field: 'commentNum', title: '评论数',  width:80}
-            , {field: 'createTime', title: '创建时间',sort: true,  width:180}
-            , {field: 'status', title: '审核',  templet: '#checkTpl'}
+            // {field: 'articleId', title: 'ID',sort: true, fixed: 'left',width:80}
+            // , {field: 'authorName', title: '作者', width:150}
+            // , {field: 'title', title: '标题',  width:220, event:'showContent',style:'color: blue;'}
+            // , {field: 'type', title: '文章类型', width:150 }
+            // , {field: 'pic_path', title: '封面地址', width:180 }
+            // , {field: 'view', title: '浏览数', templet: '#sexTpl',  width:80}
+            // , {field: 'commentNum', title: '评论数',  width:80}
+            // , {field: 'createTime', title: '创建时间',sort: true,  width:180}
+            // , {field: 'status', title: '审核',  templet: '#checkTpl'}
         ]]
     });
-
-    //查询
-    $(".search_btn").click(function(){
-        if($(".search_input").val() != ''){
-            var index = layer.msg('查询中，请稍候',{icon: 16,time:false,shade:0.8});
-            var searchData = $(".search_input").val();
-            setTimeout(function(){
-                table.reload('article_table_render',{
-                    page:{
-                        curr:1
-                    },
-                    method:'post',
-                    where:{
-                        'searchData':searchData
-                    },
-                    url: "/" + projectName + "/manage/searchArticle"
-                });
-                layer.close(index);
-            },2000);
-        }else{
-            layer.msg("请输入需要查询的内容");
-        }
-    })
-
-
-
 
     //操作
     table.on('tool(article_table)', function (obj) {

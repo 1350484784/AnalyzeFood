@@ -204,8 +204,6 @@ public class ManageServiceImpl implements ManageService {
                     return false;
                 }
             }
-            System.out.println(JsonUtil.toJson(food));
-
         }
 
         return true;
@@ -236,6 +234,25 @@ public class ManageServiceImpl implements ManageService {
     public List<TableArticle> getPageArticle(int page, int pageSize) {
         int start = (page - 1) * pageSize;
         List<Article> articles = manageMapper.selectPageArticle(start, pageSize);
+        List<TableArticle> tableArticles = new ArrayList<>();
+        Map<Integer,String> typeMap = new HashMap<Integer,String>(){{
+            put(1,"饮食常识");
+            put(2,"食疗食补");
+            put(3,"瘦身美容");
+            put(4,"人气菜肴");
+            put(5,"其他话题");
+        }};
+        for (Article article : articles) {
+            String name = manageMapper.selectUserAccountById(article.getRoleId());
+            String type = typeMap.get(article.getTypeId());
+            tableArticles.add(new TableArticle(article.getArticleId(),name,article.getTitle(),article.getContent(),type,article.getPic_path(),article.getView(),article.getCommentNum(),article.getCreateTime(),article.getStatus()));
+        }
+        return tableArticles;
+    }
+
+    @Override
+    public List<TableArticle> searchArticle(String searchData) {
+        List<Article> articles = manageMapper.selectArticleForSearch(searchData);
         List<TableArticle> tableArticles = new ArrayList<>();
         Map<Integer,String> typeMap = new HashMap<Integer,String>(){{
             put(1,"饮食常识");
