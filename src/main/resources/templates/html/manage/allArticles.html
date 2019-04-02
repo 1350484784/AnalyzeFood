@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>CMS</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet"  th:href="@{/layui/css/layui.css}" media="all" />
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all" />
+
+    <style>
+        .layui-table,.layui-table th{ text-align:center; }
+        /*子页面样式*/
+        .childrenBody{ margin:10px 10px 0; }
+        .layui-table td, .layui-table th{ word-break:break-all; }
+        /*文字选中背景色*/
+        ::selection{background:#ff5722; color:#fff;}
+        /*表格中的操作按钮样式问题*/
+        .layui-table .layui-btn, .layui-table .layui-btn+.layui-btn{ margin:2px 5px; }
+        .layui-inline{ margin:5px 5px 5px 0; }
+    </style>
+    <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+    <script type="text/javascript" th:src="@{/js/manage/allUsers.js}"></script>
+</head>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote news_search">
+    <div class="layui-inline">
+        <div class="layui-input-inline">
+            <input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">
+        </div>
+        <a class="layui-btn search_btn">查询</a>
+    </div>
+</blockquote>
+<div class="layui-form">
+    <table class="layui-table" id="article_table_id" lay-filter="article_table">
+
+    </table>
+</div>
+<script type="text/html" id="checkTpl">
+    {{#  if(d.onlineFlag == 1){ }}
+    <span style="color: #F581B1;">通过</span>
+    {{#  } else { }}
+    <span style="color: grey">不通过</span>
+    {{#  } }}
+</script>
+
+</body>
+</html>

@@ -1,11 +1,9 @@
 package com.cs.analyzefood.control.manage;
 
-import com.cs.analyzefood.entity.Admin;
-import com.cs.analyzefood.entity.Food;
-import com.cs.analyzefood.entity.FoodType;
-import com.cs.analyzefood.entity.User;
+import com.cs.analyzefood.entity.*;
 import com.cs.analyzefood.entity.vo.manage.LayuiTableVo;
 import com.cs.analyzefood.entity.vo.manage.SystemInfoVo;
+import com.cs.analyzefood.entity.vo.manage.TableArticle;
 import com.cs.analyzefood.exception.SystemFailedException;
 import com.cs.analyzefood.service.ManageService;
 import com.cs.analyzefood.util.JsonUtil;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -185,6 +182,19 @@ public class ManageControl {
         vo.setCount(users.size());
         vo.setMsg("");
         vo.setData(users);
+        return new ResponseEntity(vo, HttpStatus.OK);
+    }
+
+    @RequestMapping("/allArticle")
+    @ResponseBody
+    public ResponseEntity allArticle(int page, int limit) {
+        List<Article> articles = manageService.getAllArticle();
+        List<TableArticle> pageArticles = manageService.getPageArticle(page, limit);
+        LayuiTableVo vo = new LayuiTableVo();
+        vo.setCode(0);
+        vo.setCount(articles.size());
+        vo.setMsg("");
+        vo.setData(pageArticles);
         return new ResponseEntity(vo, HttpStatus.OK);
     }
 }

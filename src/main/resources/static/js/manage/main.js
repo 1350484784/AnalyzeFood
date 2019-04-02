@@ -63,6 +63,15 @@ layui.config({
         }
     })
 
+	//文章总数
+	$.ajax({
+		url : "/"+projectName+"/manage/allArticle",
+		type: "POST",
+		data:{page:1,limit:10},
+		success : function(data){
+			$(".foodAll span").text(data.count);
+		}
+	})
 
 	// //新消息
 	// $.get("../json/message.json",

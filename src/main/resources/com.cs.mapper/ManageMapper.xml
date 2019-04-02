@@ -70,5 +70,20 @@
         from user_info where instr(n_roleId, #{param1}) > 0 or instr(s_roleAccount, #{param1}) > 0 or instr(s_name, #{param1}) > 0 or instr(s_phone, #{param1}) > 0
     </select>
 
+    <select id="selectArticle" resultType="com.cs.analyzefood.entity.Article">
+        select n_articleId articleId,n_roleId roleId,s_title title,s_content content,n_typeId typeId,s_pic_path pic_path,n_view view,d_createTime createTime,n_commentNum commentNum
+        from article_info
+    </select>
+
+    <select id="selectPageArticle" resultType="com.cs.analyzefood.entity.Article">
+        select n_articleId articleId,n_roleId roleId,s_title title,s_content content,n_typeId typeId,s_pic_path pic_path,n_view view,d_createTime createTime,n_commentNum commentNum
+        from article_info limit #{param1},#{param2}
+    </select>
+
+    <select id="selectUserAccountById" resultType="java.lang.String">
+        select s_roleAccount from user_info where n_roleId = #{param1}
+    </select>
+
+
 
 </mapper>

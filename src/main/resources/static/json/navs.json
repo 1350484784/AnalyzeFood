@@ -21,7 +21,7 @@
   {
     "title": "文章列表",
     "icon": "icon-text",
-    "href": "page/news/newsList.html",
+    "href": "/to/CMSAllArticle",
     "spread": false
   },
   {

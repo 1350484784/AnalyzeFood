@@ -42,8 +42,7 @@
 			<!--</a>-->
 		<!--</div>-->
 		<div class="panel col">
-			<!--url 链接-->
-			<a href="javascript:;" data-url="page/user/allUsers.html">
+			<a th:href="@{/to/CMSAllUsers}">
 				<div class="panel_icon" style="background-color:#009688;">
 					<i class="layui-icon" data-icon="&#xe613;">&#xe613;</i>
 				</div>
@@ -54,8 +53,6 @@
 			</a>
 		</div>
 		<div class="panel col">
-
-			<!--url 链接-->
 			<a th:href="@{/to/CMSAllFood}">
 				<div class="panel_icon" style="background-color:#5FB878;">
 					<i class="layui-icon" data-icon="&#xe64a;">&#xe64a;</i>
@@ -69,15 +66,13 @@
 		<div class="panel col">
 
 			<!--url 链接-->
-			<a href="javascript:;" data-url="page/news/newsList.html">
+			<a th:href="@{/to/CMSAllArticle}">
 				<div class="panel_icon" style="background-color:#F7B824;">
 					<i class="iconfont icon-wenben" data-icon="icon-wenben"></i>
 				</div>
 				<div class="panel_word waitNews">
                     <span></span>
-                    <em>文章总数</em>
                     <cite>文章列表</cite>
-
 				</div>
 			</a>
 		</div>

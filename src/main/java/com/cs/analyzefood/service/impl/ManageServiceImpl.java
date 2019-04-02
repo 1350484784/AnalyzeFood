@@ -1,12 +1,15 @@
 package com.cs.analyzefood.service.impl;
 
+import com.cs.analyzefood.entity.Article;
 import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.entity.FoodType;
 import com.cs.analyzefood.entity.User;
+import com.cs.analyzefood.entity.vo.manage.TableArticle;
 import com.cs.analyzefood.util.JsonUtil;
 import com.cs.analyzefood.util.ReadExcel;
 import com.cs.analyzefood.mapper.ManageMapper;
 import com.cs.analyzefood.service.ManageService;
+import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -220,6 +225,31 @@ public class ManageServiceImpl implements ManageService {
     @Override
     public List<User> searchUser(String searchData) {
         return manageMapper.selectUserForSearch(searchData);
+    }
+
+    @Override
+    public List<Article> getAllArticle() {
+        return manageMapper.selectArticle();
+    }
+
+    @Override
+    public List<TableArticle> getPageArticle(int page, int pageSize) {
+        int start = (page - 1) * pageSize;
+        List<Article> articles = manageMapper.selectPageArticle(start, pageSize);
+        List<TableArticle> tableArticles = new ArrayList<>();
+        Map<Integer,String> typeMap = new HashMap<Integer,String>(){{
+            put(1,"饮食常识");
+            put(2,"食疗食补");
+            put(3,"瘦身美容");
+            put(4,"人气菜肴");
+            put(5,"其他话题");
+        }};
+        for (Article article : articles) {
+            String name = manageMapper.selectUserAccountById(article.getRoleId());
+            String type = typeMap.get(article.getTypeId());
+            tableArticles.add(new TableArticle(article.getArticleId(),name,article.getTitle(),article.getContent(),type,article.getPic_path(),article.getView(),article.getCommentNum(),article.getCreateTime(),article.getStatus()));
+        }
+        return tableArticles;
     }
 
 

@@ -89,6 +89,10 @@ public class ToPage {
         return "/html/manage/addFood";
     }
 
+    @RequestMapping("/CMSAllArticle")
+    public String toAllArticle(){
+        return "/html/manage/allArticles";
+    }
 
     /***************************************************************/
 
