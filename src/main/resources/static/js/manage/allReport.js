@@ -133,7 +133,7 @@ layui.config({
                 // $.ajax({
                 //     url: "/" + projectName + "/manage/delOneReport",
                 //     type: "post",
-                //     data: {id: data.id, authorId:data.authorId},
+                //     data: {id: data.id, authorId:data.authorId,roleId:data.roleId},
                 //     success: function (data) {
                 //         if (data) {
                 //             top.layer.msg("取消成功！");
