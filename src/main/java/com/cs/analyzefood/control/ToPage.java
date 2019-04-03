@@ -94,6 +94,11 @@ public class ToPage {
         return "/html/manage/allArticles";
     }
 
+    @RequestMapping("/CMSAllReport")
+    public String toCMSAllReport(){
+        return "/html/manage/allReport";
+    }
+
     /***************************************************************/
 
 

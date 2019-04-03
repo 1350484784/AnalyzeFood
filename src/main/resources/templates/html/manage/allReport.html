@@ -30,14 +30,17 @@
     <table class="layui-table" id="report_table_id" lay-filter="report_table">
 
     </table>
+    <script type="text/html" id="bar">
+        <a class="layui-btn layui-btn-danger layui-btn-xs report_del" lay-event="del">删除</a>
+    </script>
 </div>
-<script type="text/html" id="checkTpl">
-    {{#  if(d.status == 1){ }}
-    <span style="color: #F581B1;">通过</span>
-    {{#  } else { }}
-    <span style="color: grey">不通过</span>
-    {{#  } }}
-</script>
+<!--<script type="text/html" id="checkTpl">-->
+    <!--{{#  if(d.status == 1){ }}-->
+    <!--<span style="color: #F581B1;">通过</span>-->
+    <!--{{#  } else { }}-->
+    <!--<span style="color: grey">不通过</span>-->
+    <!--{{#  } }}-->
+<!--</script>-->
 
 </body>
 </html>

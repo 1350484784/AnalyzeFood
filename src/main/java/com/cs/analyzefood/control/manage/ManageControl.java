@@ -4,6 +4,7 @@ import com.cs.analyzefood.entity.*;
 import com.cs.analyzefood.entity.vo.manage.LayuiTableVo;
 import com.cs.analyzefood.entity.vo.manage.SystemInfoVo;
 import com.cs.analyzefood.entity.vo.manage.TableArticle;
+import com.cs.analyzefood.entity.vo.manage.TableReport;
 import com.cs.analyzefood.exception.SystemFailedException;
 import com.cs.analyzefood.service.ManageService;
 import com.cs.analyzefood.util.JsonUtil;
@@ -206,6 +207,19 @@ public class ManageControl {
         vo.setCount(articles.size());
         vo.setMsg("");
         vo.setData(articles);
+        return new ResponseEntity(vo, HttpStatus.OK);
+    }
+
+    @RequestMapping("/allReport")
+    @ResponseBody
+    public ResponseEntity allReport(int page, int limit){
+        List<ArticleReport> reports = manageService.getAllReport();
+        List<TableReport> pageReport = manageService.getPageReport(page, limit);
+        LayuiTableVo vo = new LayuiTableVo();
+        vo.setCode(0);
+        vo.setCount(reports.size());
+        vo.setMsg("");
+        vo.setData(pageReport);
         return new ResponseEntity(vo, HttpStatus.OK);
     }
 

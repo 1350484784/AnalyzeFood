@@ -26,17 +26,21 @@ layui.config({
             , last: false //不显示尾页
         }
         , cols: [[ //表头
-            // {field: 'articleId', title: 'ID',sort: true, fixed: 'left',width:80}
-            // , {field: 'authorName', title: '作者', width:150}
-            // , {field: 'title', title: '标题',  width:220, event:'showContent',style:'color: blue;'}
-            // , {field: 'type', title: '文章类型', width:150 }
-            // , {field: 'pic_path', title: '封面地址', width:180 }
-            // , {field: 'view', title: '浏览数', templet: '#sexTpl',  width:80}
-            // , {field: 'commentNum', title: '评论数',  width:80}
-            // , {field: 'createTime', title: '创建时间',sort: true,  width:180}
-            // , {field: 'status', title: '审核',  templet: '#checkTpl'}
+            {field: 'id', title: 'ID',sort: true, fixed: 'left',width:80}
+            , {field: 'author', title: '作者', width:150}
+            , {field: 'title', title: '标题',  width:220, event:'showContent',style:'color: blue;'}
+            , {field: 'authorId', title: '作者id', width:150 }
+            , {field: 'roleId', title: '举报人id', width:180 }
+            , {field: 'reportUserName', title: '举报人', templet: '#sexTpl',  width:80}
+            , {field: 'reportContent', title: '举报内容',  width:80}
+            , {field: 'reportTime', title: '举报时间',sort: true,  width:180}
+            , {field: 'status', title: '审核', width:100 }
+            , {fixed: 'right', align: 'center', title: '操作', toolbar: '#bar'}
         ]]
     });
+
+    //批量删除
+
 
     //操作
     table.on('tool(article_table)', function (obj) {
@@ -54,6 +58,34 @@ layui.config({
                 yes: function () {
                     layer.closeAll();
                 }
+            });
+        }else if (obj.event === 'del') {
+            layer.confirm('取消举报信息么', function (index) {
+                $.ajax({
+                    url: "/" + projectName + "/manage/delOneReport",
+                    type: "post",
+                    data: {foodId: data.foodId},
+                    success: function (data) {
+                        if (data) {
+                            top.layer.msg("取消成功！");
+                            layer.closeAll("iframe");
+                        } else {
+                            layer.open({
+                                type: 1,
+                                icon: 5,
+                                content: '<div style="padding: 20px 100px;">' + "取消失败" + '</div>',
+                                btn: '关闭',
+                                btnAlign: 'c', //按钮居中
+                                shade: 0, //不显示遮罩
+                                yes: function () {
+                                    layer.closeAll();
+                                }
+                            });
+                        }
+                    }
+                });
+                obj.del();
+                layer.close(index);
             });
         }
     });

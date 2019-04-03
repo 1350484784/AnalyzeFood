@@ -89,5 +89,15 @@
         from article_info where instr(n_articleId, #{param1}) > 0 or instr(s_title, #{param1}) > 0
     </select>
 
+    <select id="selectAllReport" resultType="com.cs.analyzefood.entity.ArticleReport">
+        select n_id id,n_articleId articleId,s_reportContent reportContent,n_roleId roleId,d_reportTime reportTime,n_status status
+        from article_report where n_status = 1
+    </select>
+
+    <select id="selectPageReport" resultType="com.cs.analyzefood.entity.ArticleReport">
+        select n_id id,n_articleId articleId,s_reportContent reportContent,n_roleId roleId,d_reportTime reportTime,n_status status
+        from article_report where n_status = 1 limit #{param1},#{param2}
+    </select>
+
 
 </mapper>

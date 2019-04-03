@@ -11,7 +11,8 @@ public class TableReport {
     private String reportUserName;
     private String reportContent;
     private Date reportTime;
-    private byte status;
+    private byte status; // 0 已删除，审核未通过，文章显示 1 审核中 2 审核通过，文章不显示
+
 
     public TableReport() {
     }

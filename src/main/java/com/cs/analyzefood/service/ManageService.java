@@ -1,10 +1,8 @@
 package com.cs.analyzefood.service;
 
-import com.cs.analyzefood.entity.Article;
-import com.cs.analyzefood.entity.Food;
-import com.cs.analyzefood.entity.FoodType;
-import com.cs.analyzefood.entity.User;
+import com.cs.analyzefood.entity.*;
 import com.cs.analyzefood.entity.vo.manage.TableArticle;
+import com.cs.analyzefood.entity.vo.manage.TableReport;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -40,4 +38,8 @@ public interface ManageService {
     List<TableArticle> getPageArticle(int page, int limit);
 
     List<TableArticle> searchArticle(String searchData);
+
+    List<ArticleReport> getAllReport();
+
+    List<TableReport> getPageReport(int page, int limit);
 }

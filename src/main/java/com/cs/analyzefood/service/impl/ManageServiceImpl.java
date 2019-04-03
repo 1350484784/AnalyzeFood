@@ -1,15 +1,12 @@
 package com.cs.analyzefood.service.impl;
 
-import com.cs.analyzefood.entity.Article;
-import com.cs.analyzefood.entity.Food;
-import com.cs.analyzefood.entity.FoodType;
-import com.cs.analyzefood.entity.User;
+import com.cs.analyzefood.entity.*;
 import com.cs.analyzefood.entity.vo.manage.TableArticle;
-import com.cs.analyzefood.util.JsonUtil;
-import com.cs.analyzefood.util.ReadExcel;
+import com.cs.analyzefood.entity.vo.manage.TableReport;
+import com.cs.analyzefood.mapper.ArticleMapper;
 import com.cs.analyzefood.mapper.ManageMapper;
 import com.cs.analyzefood.service.ManageService;
-import org.apache.commons.collections.map.HashedMap;
+import com.cs.analyzefood.util.ReadExcel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +27,9 @@ public class ManageServiceImpl implements ManageService {
 
     @Autowired
     private ManageMapper manageMapper;
+
+    @Autowired
+    private ArticleMapper articleMapper;
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -267,6 +267,22 @@ public class ManageServiceImpl implements ManageService {
             tableArticles.add(new TableArticle(article.getArticleId(),name,article.getTitle(),article.getContent(),type,article.getPic_path(),article.getView(),article.getCommentNum(),article.getCreateTime(),article.getStatus()));
         }
         return tableArticles;
+    }
+
+    @Override
+    public List<ArticleReport> getAllReport() {
+        return manageMapper.selectAllReport();
+    }
+
+    @Override
+    public List<TableReport> getPageReport(int page, int pageSize) {
+        List<TableReport> tableReports = new ArrayList<>();
+        int start = (page - 1) * pageSize;
+        List<ArticleReport> reports = manageMapper.selectPageReport(start, pageSize);
+        for (ArticleReport report : reports) {
+            User author = articleMapper.selectUserByArticle(report.getArticleId());
+        }
+        return tableReports;
     }
 
 

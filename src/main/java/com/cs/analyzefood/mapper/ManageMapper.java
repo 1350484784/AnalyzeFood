@@ -1,9 +1,6 @@
 package com.cs.analyzefood.mapper;
 
-import com.cs.analyzefood.entity.Article;
-import com.cs.analyzefood.entity.Food;
-import com.cs.analyzefood.entity.FoodType;
-import com.cs.analyzefood.entity.User;
+import com.cs.analyzefood.entity.*;
 
 import java.util.List;
 
@@ -40,4 +37,8 @@ public interface ManageMapper {
     String selectUserAccountById(int roleId);
 
     List<Article> selectArticleForSearch(String searchData);
+
+    List<ArticleReport> selectAllReport();
+
+    List<ArticleReport> selectPageReport(int start, int pageSize);
 }
