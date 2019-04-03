@@ -73,7 +73,7 @@ layui.config({
 		}
 	})
 
-	//文章总数
+	//举报总数
 	$.ajax({
 		url : "/"+projectName+"/manage/allReport",
 		type: "POST",

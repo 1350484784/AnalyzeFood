@@ -26,12 +26,17 @@
     <script type="text/javascript" th:src="@{/js/manage/allReport.js}"></script>
 </head>
 <body class="childrenBody">
+<blockquote class="layui-elem-quote">
+    <div class="layui-inline batchDel">
+        <button class="layui-btn layui-btn-danger " data-type="getCheckData">批量审核</button>
+    </div>
+</blockquote>
 <div class="layui-form">
     <table class="layui-table" id="report_table_id" lay-filter="report_table">
 
     </table>
     <script type="text/html" id="bar">
-        <a class="layui-btn layui-btn-danger layui-btn-xs report_del" lay-event="del">删除</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs report_del" lay-event="del">审核</a>
     </script>
 </div>
 <!--<script type="text/html" id="checkTpl">-->

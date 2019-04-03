@@ -29,4 +29,6 @@ public interface ArticleMapper {
     void insertReport(ArticleReport articleReport);
 
     User selectUserByArticle(int articleId);
+
+    User selectReportUserByRoleId(int roleId);
 }

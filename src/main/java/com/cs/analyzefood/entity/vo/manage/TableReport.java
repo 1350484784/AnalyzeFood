@@ -5,6 +5,7 @@ import java.util.Date;
 public class TableReport {
     private int id;
     private String title;
+    private String content;
     private String author;
     private int authorId;
     private int roleId;
@@ -17,9 +18,10 @@ public class TableReport {
     public TableReport() {
     }
 
-    public TableReport(int id, String title, String author, int authorId, int roleId, String reportUserName, String reportContent, Date reportTime, byte status) {
+    public TableReport(int id, String title, String content, String author, int authorId, int roleId, String reportUserName, String reportContent, Date reportTime, byte status) {
         this.id = id;
         this.title = title;
+        this.content = content;
         this.author = author;
         this.authorId = authorId;
         this.roleId = roleId;
@@ -99,5 +101,13 @@ public class TableReport {
 
     public void setStatus(byte status) {
         this.status = status;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

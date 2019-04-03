@@ -98,6 +98,14 @@
     </select>
 
     <select id="selectUserByArticle" resultType="com.cs.analyzefood.entity.User">
-
+        select u.n_roleId roleId,u.s_roleAccount roleAccount from article_info a,user_info u
+        where a.n_articleId = #{param1} and a.n_roleId = u.n_roleId
     </select>
+
+
+    <select id="selectReportUserByRoleId" resultType="com.cs.analyzefood.entity.User">
+        select n_roleId roleId,s_roleAccount roleAccount from user_info
+        where n_roleId = #{param1}
+    </select>
+
 </mapper>

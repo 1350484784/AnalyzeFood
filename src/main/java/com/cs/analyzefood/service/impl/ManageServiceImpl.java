@@ -281,6 +281,14 @@ public class ManageServiceImpl implements ManageService {
         List<ArticleReport> reports = manageMapper.selectPageReport(start, pageSize);
         for (ArticleReport report : reports) {
             User author = articleMapper.selectUserByArticle(report.getArticleId());
+            User reportUser = articleMapper.selectReportUserByRoleId(report.getRoleId());
+            Article article = articleMapper.selectArticleById(report.getArticleId());
+            TableReport tableReport = new TableReport(report.getId(),article.getTitle(),article.getContent(),
+                    author.getRoleAccount(),author.getRoleId(),
+                    report.getRoleId(),reportUser.getRoleAccount(),
+                    report.getReportContent(),report.getReportTime(),report.getStatus());
+            tableReports.add(tableReport);
+
         }
         return tableReports;
     }
