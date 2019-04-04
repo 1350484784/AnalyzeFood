@@ -6,10 +6,8 @@ import com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition;
 import com.cs.analyzefood.entity.vo.pageFood.PageCondition;
 import com.cs.analyzefood.entity.vo.pageFood.PageFoodVo;
 import com.cs.analyzefood.exception.SystemFailedException;
-import com.cs.analyzefood.service.AdminService;
-import com.cs.analyzefood.service.ArticleService;
-import com.cs.analyzefood.service.UserService;
-import com.cs.analyzefood.service.UserZoneService;
+import com.cs.analyzefood.service.*;
+import com.cs.analyzefood.util.InformUtil;
 import com.cs.analyzefood.util.JsonUtil;
 import com.cs.analyzefood.util.SendMessageUtil;
 import com.github.pagehelper.PageInfo;
@@ -20,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
@@ -49,6 +48,9 @@ public class UserControl {
 
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private InformService informService;
 
     @Value("${user.headImg.path}")
     private String headImg_path;
@@ -392,9 +394,6 @@ public class UserControl {
             }
         }
 
-        System.out.println(JsonUtil.toJson(article));
-        System.out.println("picName: " + picName);
-
         Article newArticle = new Article(user.getRoleId(),article.getTitle(),article.getContent(),article.getTypeId(),article_path+picName);
         int articleId = articleService.addNewArticle(newArticle);
         if(articleId <= 0){
@@ -416,9 +415,15 @@ public class UserControl {
 
 
     @RequestMapping("/commentArticle")
+    @Transactional
     @ResponseBody
     public ResponseEntity commentArticle(ArticleEvaluate articleEvaluate){
         articleService.addComment(articleEvaluate);
+        User commentUser = userService.findUserById(articleEvaluate.getRoleId());
+        User author = articleService.selectUserByArticleId(articleEvaluate.getArticleId());
+        String content = InformUtil.INFORM_TYPE_4_EVALUATE + "您的文章被" +commentUser.getRoleAccount()+ "评论，评论的内容为:" + articleEvaluate.getContent();
+        InformEvent informEvent = new InformEvent(4,content,author.getRoleId());
+        informService.addInform(informEvent);
         return new ResponseEntity(true, HttpStatus.OK);
     }
 
@@ -442,16 +447,30 @@ public class UserControl {
     }
 
     @RequestMapping("/reply_evaluate")
+    @Transactional
     @ResponseBody
     public ResponseEntity reply_evaluate(ArticleReply articleReply){
         articleService.addReply(articleReply);
+        User evaluateUser = userService.findUserById(articleReply.getFromRoleId());
+        User toUser = userService.findUserById(articleReply.getToRoleId());
+        String content = InformUtil.INFORM_TYPE_4_REPLY + "您的评论被" + evaluateUser.getRoleAccount()+ "回复，回复内容为:" + articleReply.getContent();
+        InformEvent informEvent = new InformEvent(4,content,toUser.getRoleId());
+        informService.addInform(informEvent);
         return new ResponseEntity(true, HttpStatus.OK);
     }
 
     @RequestMapping("/reportArticle")
+    @Transactional
     @ResponseBody
     public ResponseEntity reportArticle(ArticleReport articleReport){
+        User reportUser = userService.findUserById(articleReport.getRoleId());
+        Article article = articleService.findArticleById(articleReport.getArticleId());
+        String content = InformUtil.INFORM_TYPE_2_REPORT + "《"+ article.getTitle() + "》该文章正在审核";
+        InformEvent informEvent = new InformEvent(2,content,reportUser.getRoleId());
+        informService.addInform(informEvent);
         articleService.addReport(articleReport);
         return new ResponseEntity(true, HttpStatus.OK);
     }
+
+
 }

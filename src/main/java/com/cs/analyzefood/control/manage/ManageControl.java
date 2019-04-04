@@ -6,19 +6,24 @@ import com.cs.analyzefood.entity.vo.manage.SystemInfoVo;
 import com.cs.analyzefood.entity.vo.manage.TableArticle;
 import com.cs.analyzefood.entity.vo.manage.TableReport;
 import com.cs.analyzefood.exception.SystemFailedException;
+import com.cs.analyzefood.service.ArticleService;
+import com.cs.analyzefood.service.InformService;
 import com.cs.analyzefood.service.ManageService;
+import com.cs.analyzefood.util.InformUtil;
 import com.cs.analyzefood.util.JsonUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +34,10 @@ public class ManageControl {
 
     @Autowired
     private ManageService manageService;
-
+    @Autowired
+    private InformService informService;
+    @Autowired
+    private ArticleService articleService;
 
     @RequestMapping("/systemInfo")
     @ResponseBody
@@ -221,6 +229,31 @@ public class ManageControl {
         vo.setMsg("");
         vo.setData(pageReport);
         return new ResponseEntity(vo, HttpStatus.OK);
+    }
+
+    @RequestMapping("/delOneReport")
+    @ResponseBody
+    @Transactional
+    public ResponseEntity delOneReport(TableReport tableReport) {
+        if (tableReport.getStatus() == 2){
+            //审核通过，文章不显示
+            String content = InformUtil.INFORM_TYPE_3_SUCCESS +"《"+ tableReport.getTitle() + "》该文章已处理";
+            InformEvent informEvent = new InformEvent(3,content,tableReport.getRoleId());
+            informService.addInform(informEvent);
+            content = InformUtil.INFORM_TYPE_3_SUCCESS +"《"+ tableReport.getTitle() + "》该文章已处理,被举报！！！";
+            informEvent = new InformEvent(3,content,tableReport.getAuthorId());
+            informService.addInform(informEvent);
+            articleService.delArticleById(tableReport.getArticleId());
+        }
+        if (tableReport.getStatus() == 0){
+            //审核未通过，文章显示
+            String content = InformUtil.INFORM_TYPE_3_FAIL +"《"+ tableReport.getTitle() + "》该文章符合要求，举报无效";
+            InformEvent informEvent = new InformEvent(3,content,tableReport.getRoleId());
+            informService.addInform(informEvent);
+        }
+
+        boolean flag = articleService.delOneReport(tableReport.getId());
+        return new ResponseEntity(flag, HttpStatus.OK);
     }
 
 }

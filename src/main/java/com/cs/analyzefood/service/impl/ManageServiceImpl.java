@@ -283,7 +283,7 @@ public class ManageServiceImpl implements ManageService {
             User author = articleMapper.selectUserByArticle(report.getArticleId());
             User reportUser = articleMapper.selectReportUserByRoleId(report.getRoleId());
             Article article = articleMapper.selectArticleById(report.getArticleId());
-            TableReport tableReport = new TableReport(report.getId(),article.getTitle(),article.getContent(),
+            TableReport tableReport = new TableReport(report.getId(),article.getArticleId(),article.getTitle(),article.getContent(),
                     author.getRoleAccount(),author.getRoleId(),
                     report.getRoleId(),reportUser.getRoleAccount(),
                     report.getReportContent(),report.getReportTime(),report.getStatus());

@@ -26,6 +26,13 @@
         update article_info set n_view = #{param1} where n_articleId = #{param2}
     </update>
 
+    <update id="updateArticleReportById">
+        update article_report set n_status = 0 where n_id = #{param1}
+    </update>
+    <update id="updateArticleById">
+         update article_info set n_status = 0 where n_articleId = #{param1}
+    </update>
+
     <select id="selectArticleNum" resultType="java.lang.Integer" parameterType="com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition">
         select count(*) from article_info where n_status = 1
         <if test="articleType != null and articleType != 0">

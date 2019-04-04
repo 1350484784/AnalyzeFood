@@ -13,6 +13,20 @@ public class InformEvent {
     public InformEvent() {
     }
 
+    public InformEvent(int type, String content, int roleId) {
+        this.type = type;
+        this.content = content;
+        this.roleId = roleId;
+    }
+
+    public InformEvent(int type, String content, int roleId, Date createTime, byte status) {
+        this.type = type;
+        this.content = content;
+        this.roleId = roleId;
+        this.createTime = createTime;
+        this.status = status;
+    }
+
     public int getId() {
         return id;
     }

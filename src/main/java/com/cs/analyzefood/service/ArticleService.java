@@ -1,9 +1,6 @@
 package com.cs.analyzefood.service;
 
-import com.cs.analyzefood.entity.Article;
-import com.cs.analyzefood.entity.ArticleEvaluate;
-import com.cs.analyzefood.entity.ArticleReply;
-import com.cs.analyzefood.entity.ArticleReport;
+import com.cs.analyzefood.entity.*;
 import com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition;
 import com.github.pagehelper.PageInfo;
 
@@ -29,4 +26,10 @@ public interface ArticleService {
     int findCommentNum(int articleId);
 
     void addReport(ArticleReport articleReport);
+
+    boolean delOneReport(int id);
+
+    void delArticleById(int articleId);
+
+    User selectUserByArticleId(int articleId);
 }

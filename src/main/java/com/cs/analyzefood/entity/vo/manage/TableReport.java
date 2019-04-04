@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class TableReport {
     private int id;
+    private int articleId;
     private String title;
     private String content;
     private String author;
@@ -18,8 +19,9 @@ public class TableReport {
     public TableReport() {
     }
 
-    public TableReport(int id, String title, String content, String author, int authorId, int roleId, String reportUserName, String reportContent, Date reportTime, byte status) {
+    public TableReport(int id, int articleId, String title, String content, String author, int authorId, int roleId, String reportUserName, String reportContent, Date reportTime, byte status) {
         this.id = id;
+        this.articleId = articleId;
         this.title = title;
         this.content = content;
         this.author = author;
@@ -37,6 +39,14 @@ public class TableReport {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(int articleId) {
+        this.articleId = articleId;
     }
 
     public String getTitle() {

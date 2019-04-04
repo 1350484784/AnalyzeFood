@@ -129,32 +129,35 @@ layui.config({
                 console.log("data",data)
                 console.log("index", index)
                 console.log("status", $('.layui-form-switch').eq(index-1).find('em').html())
-
-                // $.ajax({
-                //     url: "/" + projectName + "/manage/delOneReport",
-                //     type: "post",
-                //     data: {id: data.id, authorId:data.authorId,roleId:data.roleId},
-                //     success: function (data) {
-                //         if (data) {
-                //             top.layer.msg("取消成功！");
-                //             layer.closeAll("iframe");
-                //         } else {
-                //             layer.open({
-                //                 type: 1,
-                //                 icon: 5,
-                //                 content: '<div style="padding: 20px 100px;">' + "取消失败" + '</div>',
-                //                 btn: '关闭',
-                //                 btnAlign: 'c', //按钮居中
-                //                 shade: 0, //不显示遮罩
-                //                 yes: function () {
-                //                     layer.closeAll();
-                //                 }
-                //             });
-                //         }
-                //     }
-                // });
-                // obj.del();
-                // layer.close(index);
+                var status = 2;
+                if($('.layui-form-switch').eq(index-1).find('em').html() == '不通过'){
+                    status = 1;
+                }
+                $.ajax({
+                    url: "/" + projectName + "/manage/delOneReport",
+                    type: "post",
+                    data: {id: data.id,articleId:data.articleId ,authorId:data.authorId,roleId:data.roleId,status:status},
+                    success: function (data) {
+                        if (data) {
+                            top.layer.msg("取消成功！");
+                            layer.closeAll("iframe");
+                        } else {
+                            layer.open({
+                                type: 1,
+                                icon: 5,
+                                content: '<div style="padding: 20px 100px;">' + "取消失败" + '</div>',
+                                btn: '关闭',
+                                btnAlign: 'c', //按钮居中
+                                shade: 0, //不显示遮罩
+                                yes: function () {
+                                    layer.closeAll();
+                                }
+                            });
+                        }
+                    }
+                });
+                obj.del();
+                layer.close(index);
             });
         }
     });

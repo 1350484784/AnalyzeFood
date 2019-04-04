@@ -31,4 +31,8 @@ public interface ArticleMapper {
     User selectUserByArticle(int articleId);
 
     User selectReportUserByRoleId(int roleId);
+
+    boolean updateArticleReportById(int id);
+
+    void updateArticleById(int articleId);
 }
