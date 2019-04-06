@@ -1,11 +1,9 @@
 package com.cs.analyzefood.control.manage;
 
 import com.cs.analyzefood.entity.*;
-import com.cs.analyzefood.entity.vo.manage.LayuiTableVo;
-import com.cs.analyzefood.entity.vo.manage.SystemInfoVo;
-import com.cs.analyzefood.entity.vo.manage.TableArticle;
-import com.cs.analyzefood.entity.vo.manage.TableReport;
+import com.cs.analyzefood.entity.vo.manage.*;
 import com.cs.analyzefood.exception.SystemFailedException;
+import com.cs.analyzefood.service.AdminService;
 import com.cs.analyzefood.service.ArticleService;
 import com.cs.analyzefood.service.InformService;
 import com.cs.analyzefood.service.ManageService;
@@ -18,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,6 +33,8 @@ import java.util.Map;
 public class ManageControl {
 
     @Autowired
+    private AdminService adminService;
+    @Autowired
     private ManageService manageService;
     @Autowired
     private InformService informService;
@@ -46,7 +48,7 @@ public class ManageControl {
         if (admin == null) {
             throw new SystemFailedException("admin do not login");
         }
-        SystemInfoVo systemInfoVo = new SystemInfoVo(admin.getAdminAccount(), admin.getAuthor(), admin.getProjectName(), admin.getVersion(), admin.getDescription(), admin.getHomePage());
+        SystemInfoVo systemInfoVo = adminService.findSystemInfo(admin.getAdminAccount(), admin.getPassword());
 
         return new ResponseEntity(systemInfoVo, HttpStatus.OK);
     }
@@ -254,6 +256,41 @@ public class ManageControl {
 
         boolean flag = articleService.delOneReport(tableReport.getId());
         return new ResponseEntity(flag, HttpStatus.OK);
+    }
+
+    @RequestMapping("/delManyReport")
+    @ResponseBody
+    @Transactional
+    public ResponseEntity delManyReport(@RequestBody RepoerFeedbackVo repoerFeedbackVo){
+        if(repoerFeedbackVo.getId() != null && repoerFeedbackVo.getId().length > 0){
+            for(int i = 0; i < repoerFeedbackVo.getId().length; i++){
+                if(repoerFeedbackVo.getStatus()[i] == 2){
+                    //审核通过，文章不显示
+                    String content = InformUtil.INFORM_TYPE_3_SUCCESS +"《"+ repoerFeedbackVo.getTitle()[i] + "》该文章已处理";
+                    InformEvent informEvent = new InformEvent(3, content, repoerFeedbackVo.getRoleId()[i]);
+                    informService.addInform(informEvent);
+                    content = InformUtil.INFORM_TYPE_3_SUCCESS +"《"+ repoerFeedbackVo.getTitle()[i] + "》该文章已处理,被举报！！！";
+                    informEvent = new InformEvent(3, content, repoerFeedbackVo.getAuthorId()[i]);
+                    informService.addInform(informEvent);
+                    articleService.delArticleById(repoerFeedbackVo.getArticleId()[i]);
+                }
+                if(repoerFeedbackVo.getStatus()[i] == 0){
+                    //审核未通过，文章显示
+                    String content = InformUtil.INFORM_TYPE_3_FAIL +"《"+ repoerFeedbackVo.getTitle()[i] + "》该文章符合要求，举报无效";
+                    InformEvent informEvent = new InformEvent(3, content, repoerFeedbackVo.getRoleId()[i]);
+                    informService.addInform(informEvent);
+                }
+                articleService.delOneReport(repoerFeedbackVo.getId()[i]);
+            }
+        }
+        return new ResponseEntity(true, HttpStatus.OK);
+    }
+
+    @RequestMapping("/changeSystemInfo")
+    @ResponseBody
+    public ResponseEntity changeSystemInfo(SystemInfoVo systemInfoVo){
+        adminService.updateSystem(systemInfoVo);
+        return new ResponseEntity(true, HttpStatus.OK);
     }
 
 }

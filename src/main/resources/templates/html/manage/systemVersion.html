@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet"  th:href="@{/layui/css/layui.css}" media="all" />
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all" />
+    <link rel="stylesheet" th:href="@{/css/fileinput.min.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}">
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
+        /*]]>*/
+    </script>
+    <title>CMS</title>
+    <style>
+        .layui-table,.layui-table th{
+            text-align:center;
+            font-size: 14px;
+        }
+        /*子页面样式*/
+        .childrenBody{ margin:10px 10px 0; }
+        .layui-table td, .layui-table th{ word-break:break-all; }
+        /*文字选中背景色*/
+        ::selection{background:#ff5722; color:#fff;}
+        /*表格中的操作按钮样式问题*/
+        .layui-table .layui-btn, .layui-table .layui-btn+.layui-btn{ margin:2px 5px; }
+        .layui-inline{ margin:5px 5px 5px 0; }
+    </style>
+    <script type="text/javascript" th:src="@{/bootstrap/js/jquery-3.3.1.js}"></script>
+    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    <script type="text/javascript" th:src="@{/js/fileinput.min.js}"></script>
+    <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+    <script type="text/javascript" th:src="@{/js/manage/systemVersion.js}"></script>
+
+
+</head>
+<body class="childrenBody">
+<form class="layui-form">
+    <table class="layui-table">
+        <colgroup>
+            <col width="20%">
+            <col width="50%">
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>参数说明</th>
+            <th>参数值</th>
+            <th>变量名</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>当前版本</td>
+            <td><input type="text" name="version" class="layui-input version" placeholder="请输入当前模版版本"></td>
+            <td>version</td>
+        </tr>
+        <tr>
+            <td>开发作者</td>
+            <td><input type="text" name="author" class="layui-input author" placeholder="请输入开发作者"></td>
+            <td>author</td>
+        </tr>
+        <tr>
+            <td>网站首页</td>
+            <td><input type="text" name="homePage" class="layui-input homePage" placeholder="请输入网站首页"></td>
+            <td>homePage</td>
+        </tr>
+        <tr>
+            <td>账号</td>
+            <td><input type="text" name="account" class="layui-input account" readonly></td>
+            <td>account</td>
+        </tr>
+        <tr>
+            <td>项目名</td>
+            <td><input type="text" name="projectName" class="layui-input projectName" placeholder="请输入项目名"></td>
+            <td>projectName</td>
+        </tr>
+        <tr>
+            <td>网站描述</td>
+            <td><textarea placeholder="请输入网站描述" name="description" class="layui-textarea description"></textarea></td>
+            <td>description</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="layui-form-item" style="text-align: right;">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="systemParameter">立即提交</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>

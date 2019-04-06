@@ -99,6 +99,11 @@ public class ToPage {
         return "/html/manage/allReport";
     }
 
+    @RequestMapping("/CMSSystemInfo")
+    public String CMSSystemInfo(){
+        return "/html/manage/systemVersion";
+    }
+
     /***************************************************************/
 
 

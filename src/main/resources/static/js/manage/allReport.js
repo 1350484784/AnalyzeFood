@@ -58,16 +58,46 @@ layui.config({
                 return;
             }
 
-            var delList = [];
+            var idList = [];
+            var articleIdList = [];
+            var titleList = [];
+            var authorIdList = [];
+            var roleIdList = [];
             data.forEach(function (n, i) {
-                delList.push(n.id)
+                idList.push(n.id)
+                articleIdList.push(n.articleId)
+                titleList.push(n.title)
+                authorIdList.push(n.authorId)
+                roleIdList.push(n.roleId)
             });
+
+            var status = [];
+            $('.layui-form-switch').each(function (index) {
+                var str = $('.layui-form-switch').eq(index-1).find('em').html();
+                if(str == '不通过'){
+                    status.push(0)
+                }else{
+                    status.push(2)
+                }
+            });
+            //
+            // console.log("titleList",titleList)
+            // console.log("status",status)
+            var reportData = {
+                id: idList,
+                articleId:articleIdList,
+                title:titleList,
+                authorId:authorIdList,
+                roleId:roleIdList,
+                status:status
+            }
             layer.confirm('确定审核么', function (index) {
                 $.ajax({
                     url: "/" + projectName + "/manage/delManyReport",
                     type: "post",
-                    data: "delReportList=" + delList,
-                    dataType: 'json',
+                    dataType:"json",
+                    contentType : "application/json",
+                    data:  JSON.stringify(reportData),
                     success: function (data) {
                         if (data) {
                             top.layer.msg("反馈成功！");
@@ -89,6 +119,7 @@ layui.config({
                 });
                 layer.close(index);
             });
+
         }
     };
 
@@ -126,17 +157,14 @@ layui.config({
             });
         } else if (obj.event === 'del') {
             layer.confirm('取消举报信息么', function (index) {
-                console.log("data",data)
-                console.log("index", index)
-                console.log("status", $('.layui-form-switch').eq(index-1).find('em').html())
                 var status = 2;
                 if($('.layui-form-switch').eq(index-1).find('em').html() == '不通过'){
-                    status = 1;
+                    status = 0;
                 }
                 $.ajax({
                     url: "/" + projectName + "/manage/delOneReport",
                     type: "post",
-                    data: {id: data.id,articleId:data.articleId ,authorId:data.authorId,roleId:data.roleId,status:status},
+                    data: {id: data.id, articleId:data.articleId ,title:data.title, authorId:data.authorId, roleId:data.roleId, status:status},
                     success: function (data) {
                         if (data) {
                             top.layer.msg("取消成功！");

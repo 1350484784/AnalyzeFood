@@ -7,6 +7,7 @@ import com.cs.analyzefood.mapper.ArticleMapper;
 import com.cs.analyzefood.mapper.ManageMapper;
 import com.cs.analyzefood.service.ManageService;
 import com.cs.analyzefood.util.ReadExcel;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -279,17 +280,20 @@ public class ManageServiceImpl implements ManageService {
         List<TableReport> tableReports = new ArrayList<>();
         int start = (page - 1) * pageSize;
         List<ArticleReport> reports = manageMapper.selectPageReport(start, pageSize);
-        for (ArticleReport report : reports) {
-            User author = articleMapper.selectUserByArticle(report.getArticleId());
-            User reportUser = articleMapper.selectReportUserByRoleId(report.getRoleId());
-            Article article = articleMapper.selectArticleById(report.getArticleId());
-            TableReport tableReport = new TableReport(report.getId(),article.getArticleId(),article.getTitle(),article.getContent(),
-                    author.getRoleAccount(),author.getRoleId(),
-                    report.getRoleId(),reportUser.getRoleAccount(),
-                    report.getReportContent(),report.getReportTime(),report.getStatus());
-            tableReports.add(tableReport);
+        if(CollectionUtils.isNotEmpty(reports)){
+            for (ArticleReport report : reports) {
+                User author = articleMapper.selectUserByArticle(report.getArticleId());
+                User reportUser = articleMapper.selectReportUserByRoleId(report.getRoleId());
+                Article article = articleMapper.selectArticleById(report.getArticleId());
+                TableReport tableReport = new TableReport(report.getId(),article.getArticleId(),article.getTitle(),article.getContent(),
+                        author.getRoleAccount(),author.getRoleId(),
+                        report.getRoleId(),reportUser.getRoleAccount(),
+                        report.getReportContent(),report.getReportTime(),report.getStatus());
+                tableReports.add(tableReport);
 
+            }
         }
+
         return tableReports;
     }
 
