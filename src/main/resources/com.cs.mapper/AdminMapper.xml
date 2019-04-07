@@ -5,8 +5,12 @@
         update admin set s_version = #{version}, s_author =#{author},s_homePage=#{homePage},s_projectName=#{projectName},s_description=#{description}
     </update>
 
+    <update id="updateAdminOnline">
+        update admin set n_onlineFlag = #{param2} where n_adminId = #{param1}
+    </update>
+
     <select id="findAdminByPhonePwd" resultType="com.cs.analyzefood.entity.Admin">
-        select n_adminId adminId,s_adminAccount adminAccount,s_password password,s_author author,s_projectName projectName ,s_version version, s_description description,s_headImg headImg,s_homePage homePage
+        select n_adminId adminId,s_adminAccount adminAccount,s_password password,s_author author,s_projectName projectName ,s_version version, s_description description,s_headImg headImg,s_homePage homePage,n_onlineFlag onlineFlag
         from admin where s_adminAccount = #{param1} and s_password = #{param2}
     </select>
 

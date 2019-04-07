@@ -27,4 +27,9 @@ public class AdminServiceImpl implements AdminService {
     public SystemInfoVo findSystemInfo(String adminAccount, String password) {
         return mapper.selectSystemInfo(adminAccount, password);
     }
+
+    @Override
+    public void updateAdminOnline(int adminId, byte flag) {
+        mapper.updateAdminOnline(adminId, flag);
+    }
 }

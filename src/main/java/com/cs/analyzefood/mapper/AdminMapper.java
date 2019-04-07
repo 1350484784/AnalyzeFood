@@ -10,4 +10,6 @@ public interface AdminMapper {
     void updateSystem(SystemInfoVo systemInfoVo);
 
     SystemInfoVo selectSystemInfo(String adminAccount, String password);
+
+    void updateAdminOnline(int adminId, byte flag);
 }

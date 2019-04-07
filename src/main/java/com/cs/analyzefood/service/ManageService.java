@@ -42,4 +42,5 @@ public interface ManageService {
     List<ArticleReport> getAllReport();
 
     List<TableReport> getPageReport(int page, int limit);
+
 }

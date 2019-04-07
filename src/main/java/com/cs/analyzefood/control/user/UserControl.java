@@ -473,4 +473,16 @@ public class UserControl {
     }
 
 
+    @RequestMapping("/isAdminOnline")
+    @ResponseBody
+    public ResponseEntity isAdminOnline(HttpSession session){
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null) {
+            return new ResponseEntity(false, HttpStatus.OK);
+        }
+        if(admin.getOnlineFlag() == 0){
+            return new ResponseEntity(false, HttpStatus.OK);
+        }
+        return new ResponseEntity(true, HttpStatus.OK);
+    }
 }

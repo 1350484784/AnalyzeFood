@@ -10,6 +10,8 @@ public class Admin {
     private String version;
     private String description;
     private String homePage;
+    private byte onlineFlag;
+
 
     public Admin() {
     }
@@ -84,5 +86,13 @@ public class Admin {
 
     public void setHomePage(String homePage) {
         this.homePage = homePage;
+    }
+
+    public byte getOnlineFlag() {
+        return onlineFlag;
+    }
+
+    public void setOnlineFlag(byte onlineFlag) {
+        this.onlineFlag = onlineFlag;
     }
 }

@@ -15,13 +15,157 @@
     <link rel="stylesheet" href="//at.alicdn.com/t/font_tnyc012u2rlwstt9.css" media="all" />
     <link rel="stylesheet" th:href="@{/css/manage/main.css}" media="all" />
 
+    <link rel="stylesheet" th:href="@{/chat/chat.css}">
+    <link rel="stylesheet" th:href="@{/chat/main.css}">
+    <link rel="stylesheet" th:href="@{/chat/font_Icon/iconfont.css}">
+
     <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
     <script type="text/javascript" th:src="@{/js/manage/leftNav.js}"></script>
     <script type="text/javascript" th:src="@{/js/manage/index.js}"></script>
+
     <script th:inline="javascript">
         /*<![CDATA[*/
         var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
         /*]]>*/
+    </script>
+
+    <script th:inline="javascript">
+        var $;
+        layui.use(['layer','jquery','table'], function(){
+            $ = layui.jquery;
+
+            $(function () {
+                $("#quxiaobtn").click(function(){
+                    $('#input_msg').html("");
+                });
+
+                //发送表情
+                $("#chat-biaoqing").click(function () {
+                    $(".biaoqing-photo").toggle();
+                });
+                $(document).click(function () {
+                    $(".biaoqing-photo").css("display", "none");
+                });
+                $("#chat-biaoqing").click(function (event) {
+                    event.stopPropagation();//阻止事件
+                });
+
+
+                $(".emoji-picker-image").each(function () {
+                    $(this).click(function () {
+                        var bq = $(this).parent().html();
+                        if (bq == "") {
+                            return;
+                        }
+                        var content = {
+                            msg:bq,
+                            headImg:[[${session.admin.headImg}]]
+                        }
+                        webSocket.send(JSON.stringify(content));
+                        //发送后关闭表情框
+                        $(".biaoqing-photo").toggle();
+                        //聊天框默认最底部
+                        $(document).ready(function () {
+                            $("#chatBox-content-demo").scrollTop($("#chatBox-content-demo")[0].scrollHeight);
+                        });
+                    })
+                });
+            });
+        });
+        function chatme() {
+            $.ajax({
+                type: "POST",
+                url: contextPath + "/manage/updateAdminOnline",
+                data:{flag : 1},
+                success: function (data) {
+                    if (data){
+                        $(".chatBox-head-two").toggle();
+                        $(".chatBox").toggle(10);
+                        $(".chatBox-kuang").fadeToggle();
+
+                        //聊天框默认最底部
+                        $(document).ready(function () {
+                            $("#chatBox-content-demo").scrollTop($("#chatBox-content-demo")[0].scrollHeight);
+                        });
+
+                        initWebSocket();
+                        $("#quxiaobtn").click(function(){
+                            $('#input_msg').html("");
+                        });
+                        $('.chatContainer').css('display','block');
+                    }else {
+                        alert("对方不在线,请稍后联系")
+                    }
+                },
+                error: function () {
+                }
+            })
+        }
+
+        var webSocket;
+        function send_msg() {
+            if (webSocket != null) {
+                var input_msg = $('#input_msg').html().trim();
+                if (input_msg == "") {
+                    return;
+                }
+                var content = {
+                    msg:input_msg,
+                    headImg:[[${session.admin.headImg}]]
+                }
+                webSocket.send(JSON.stringify(content));
+                // 清除input框里的信息
+                $('#input_msg').html("");
+            }
+        };
+
+
+        function closeWs() {
+            $.ajax({
+                type: "POST",
+                url: contextPath + "/manage/updateAdminOnline",
+                data:{flag : 0},
+                success: function (data) {
+                    if (data){
+                        $(".chatBox-head-two").toggle();
+                        $(".chatBox").toggle(10);
+                        $(".chatBox-kuang").fadeToggle();
+                        webSocket.close();
+                    }
+                }
+            })
+        };
+
+        function initWebSocket() {
+            var adminAccount = [[${session.admin.adminAccount}]];
+            var roomName = adminAccount;
+            // 房间名不能为空
+            if (roomName == null || roomName == "") {
+                return;
+            }
+            if ("WebSocket" in window) {
+                if (webSocket == null) {
+                    var url = "ws://192.168.43.188:8080/AnalyzeFood/webSocket/chat/" + roomName;
+                    webSocket = new WebSocket(url);
+                }
+                webSocket.onopen = function () {
+                };
+
+                webSocket.onmessage = function (evt) {
+                    var msg_board = document.getElementsByClassName("msg_board")[0];
+                    var received_msg = evt.data;
+                    var old_msg = msg_board.innerHTML;
+                    msg_board.innerHTML  = old_msg + received_msg ;
+                    // 让滚动块往下移动
+                    msg_board.scrollTop = msg_board.scrollHeight;
+                };
+
+                webSocket.onclose = function () {
+                    webSocket = null;
+                    document.getElementsByClassName("msg_board")[0].innerHTML = "";
+                };
+            }
+        }
     </script>
 </head>
 <body class="main_body">
@@ -53,30 +197,30 @@
                 tpwidget("show");</script>
             </div>
             <!-- 顶部右侧菜单 -->
-            <ul class="layui-nav top_menu">
-                <li class="layui-nav-item" >
-                    <a href="javascript:;">
-                        <img th:src="'/AnalyzeFood/admin/'+${session.admin.headImg}" class="layui-circle" width="35" height="35">
-                        <cite th:text="${session.admin.author}"></cite>
-                    </a>
-                    <dl class="layui-nav-child">
+            <!--<ul class="layui-nav top_menu">-->
+                <!--<li class="layui-nav-item" >-->
+                    <!--<a href="javascript:;">-->
+                        <!--<img th:src="'/AnalyzeFood/admin/'+${session.admin.headImg}" class="layui-circle" width="35" height="35">-->
+                        <!--<cite th:text="${session.admin.author}"></cite>-->
+                    <!--</a>-->
+                    <!--<dl class="layui-nav-child">-->
 
-                        <!--到时候 在考虑 改变下模板的样式 背景-->
+                        <!--&lt;!&ndash;到时候 在考虑 改变下模板的样式 背景&ndash;&gt;-->
 
-                        <!--<dd><a href="javascript:;" data-url="page/user/userInfo.html"><i class="iconfont icon-zhanghu" data-icon="icon-zhanghu"></i><cite>个人资料</cite></a></dd>-->
-                        <!--<dd><a href="javascript:;" data-url="page/user/changePwd.html"><i class="iconfont icon-shezhi1" data-icon="icon-shezhi1"></i><cite>修改密码</cite></a></dd>-->
-                        <!--<dd><a href="javascript:;" class="changeSkin"><i class="iconfont icon-huanfu"></i><cite>更换皮肤</cite></a></dd>-->
+                        <!--&lt;!&ndash;<dd><a href="javascript:;" data-url="page/user/userInfo.html"><i class="iconfont icon-zhanghu" data-icon="icon-zhanghu"></i><cite>个人资料</cite></a></dd>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<dd><a href="javascript:;" data-url="page/user/changePwd.html"><i class="iconfont icon-shezhi1" data-icon="icon-shezhi1"></i><cite>修改密码</cite></a></dd>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<dd><a href="javascript:;" class="changeSkin"><i class="iconfont icon-huanfu"></i><cite>更换皮肤</cite></a></dd>&ndash;&gt;-->
 
-                        <dd><a th:href="@{/user/logout}" class="signOut"><i class="iconfont icon-loginout"></i><cite>退出</cite></a></dd>
-                    </dl>
-                </li>
-            </ul>
+                        <!--<dd><a th:href="@{/manage/logout}" class="signOut"><i class="iconfont icon-loginout"></i><cite>退出</cite></a></dd>-->
+                    <!--</dl>-->
+                <!--</li>-->
+            <!--</ul>-->
         </div>
     </div>
     <!-- 左侧导航 -->
     <div class="layui-side layui-bg-black">
         <div class="user-photo">
-            <a class="img" title="我的头像" ><img th:src="'/AnalyzeFood/admin/'+${session.admin.headImg}"></a>
+            <a class="img" title="我的头像" ><img th:src="'/AnalyzeFood'+${session.admin.headImg}"></a>
             <p>你好！管理员:<span class="userName" th:text="${session.admin.author}"></span></p>
         </div>
         <div class="navBar layui-side-scroll"></div>
@@ -107,6 +251,87 @@
     <!-- 底部 -->
     <div class="layui-footer footer">
         <p>copyright @2019 Carey</p>
+    </div>
+</div>
+
+<div class="chatContainer" style="display:block;z-index: 9999">
+    <div class="chatBtn" style="line-height: 50px;" onclick="chatme()">
+        <i class="iconfont icon-xiaoxi1"></i>
+    </div>
+    <div class="chatBox" ref="chatBox" style="display: none;">
+        <div class="chatBox-head">
+            <!--使用者-->
+            <div class="chatBox-head-two" style="display: none;">
+                <div class="chat-people">
+                    <div class="ChatInfoHead">
+                        <img th:src="'/AnalyzeFood'+${session.admin.headImg}" alt="头像">
+                    </div>
+                    <div class="ChatInfoName" th:text="${session.admin.adminAccount}">这是用户的名字，看看名字到底能有多长</div>
+                </div>
+                <div class="chat-close" onclick="closeWs()">关闭</div>
+            </div>
+        </div>
+        <div class="chatBox-info">
+            <div class="chatBox-kuang" ref="chatBoxkuang" style="display: none;">
+                <div class="chatBox-content">
+                    <div class="chatBox-content-demo" id="chatBox-content-demo">
+                        <div id="msg_board" class="chat-discussion msg_board">
+                            <!--信息出现-->
+                        </div>
+                    </div>
+                </div>
+                <div class="chatBox-send">
+                    <div id="input_msg" class="div-textarea" style="width: 230px;" contenteditable="true"></div>
+
+                    <!--表情-->
+                    <div class="biaoqing-photo">
+                        <ul>
+                            <li><span class="emoji-picker-image" style="background-position: -9px -18px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -40px -18px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -71px -18px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -102px -18px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -133px -18px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -164px -18px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -9px -52px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -40px -52px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -71px -52px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -102px -52px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -133px -52px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -164px -52px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -9px -86px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -40px -86px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -71px -86px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -102px -86px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -133px -86px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -164px -86px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -9px -120px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -40px -120px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -71px -120px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -102px -120px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -133px -120px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -164px -120px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -9px -154px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -40px -154px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -71px -154px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -102px -154px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -133px -154px;"></span></li>
+                            <li><span class="emoji-picker-image" style="background-position: -164px -154px;"></span></li>
+                        </ul>
+                    </div>
+
+                    <div class="buttongroup" style="float: right;">
+
+
+                        <button id="chat-biaoqing" class="btn-default-styles">
+                            <i class="iconfont icon-biaoqing"></i>
+                        </button>
+
+                        <input id="quxiaobtn" type="reset" class="btn-default-styles" value="reset" />
+                        <button id="chat-fasong" class="btn-default-styles" onclick="send_msg()"><i class="iconfont icon-fasong"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

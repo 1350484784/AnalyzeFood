@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -40,6 +41,16 @@ public class ManageControl {
     private InformService informService;
     @Autowired
     private ArticleService articleService;
+
+    @RequestMapping("/logout")
+    public String logout(SessionStatus sessionStatus, HttpSession session) {
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin != null) {
+            adminService.updateAdminOnline(admin.getAdminId(), (byte) 0);
+            sessionStatus.setComplete();//将session移除
+        }
+        return "/html/login";
+    }
 
     @RequestMapping("/systemInfo")
     @ResponseBody
@@ -293,4 +304,14 @@ public class ManageControl {
         return new ResponseEntity(true, HttpStatus.OK);
     }
 
+    @RequestMapping("/updateAdminOnline")
+    @ResponseBody
+    public ResponseEntity updateAdminOnline(HttpSession session,int flag){
+        Admin admin = (Admin) session.getAttribute("admin");
+        if (admin == null) {
+            throw new SystemFailedException("admin do not login");
+        }
+        adminService.updateAdminOnline(admin.getAdminId(), (byte) flag);
+        return new ResponseEntity(true, HttpStatus.OK);
+    }
 }

@@ -11,4 +11,6 @@ public interface AdminService {
 
     SystemInfoVo findSystemInfo(String adminAccount, String password);
 
+    void updateAdminOnline(int adminId, byte flag);
+
 }
