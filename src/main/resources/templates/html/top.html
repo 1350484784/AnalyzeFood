@@ -81,7 +81,6 @@
                 url: contextPath + "/user/isAdminOnline",
                 success: function (data) {
                     if (data){
-                        var n = $(this).index();
                         $(".chatBox-head-two").toggle();
                         $(".chatBox").toggle(10);
                         $(".chatBox-kuang").fadeToggle();
@@ -91,7 +90,7 @@
                             $("#chatBox-content-demo").scrollTop($("#chatBox-content-demo")[0].scrollHeight);
                         });
 
-                        initWebSocket();
+                        initWebSocket(data);
                         $("#quxiaobtn").click(function(){
                             $('#input_msg').html("");
                         });
@@ -130,35 +129,42 @@
             webSocket.close();
         };
 
-        function initWebSocket() {
-            var adminAccount = [[${session.admin.adminAccount}]];
-            var roomName = adminAccount;
-            // 房间名不能为空
-            if (roomName == null || roomName == "") {
-                return;
-            }
-            if ("WebSocket" in window) {
-                if (webSocket == null) {
-                    var url = "ws://192.168.43.188:8080/AnalyzeFood/webSocket/chat/" + roomName;
-                    webSocket = new WebSocket(url);
+        function initWebSocket(adminAccount) {
+
+            // var adminAccount = [[${session?.admin?.adminAccount}]];
+            if(adminAccount != undefined && adminAccount != null && adminAccount != ""){
+
+                var roomName = adminAccount;
+                // 房间名不能为空
+                if (roomName == null || roomName == "") {
+                    return;
                 }
-                webSocket.onopen = function () {
-                };
+                if ("WebSocket" in window) {
+                    if (webSocket == null) {
+                        var url = "ws://192.168.43.188:8080/AnalyzeFood/webSocket/chat/" + roomName;
+                        webSocket = new WebSocket(url);
+                    }
+                    webSocket.onopen = function () {
+                    };
 
-                webSocket.onmessage = function (evt) {
-                    var msg_board = document.getElementsByClassName("msg_board")[0];
-                    var received_msg = evt.data;
-                    var old_msg = msg_board.innerHTML;
-                    msg_board.innerHTML  = old_msg + received_msg ;
-                    // 让滚动块往下移动
-                    msg_board.scrollTop = msg_board.scrollHeight;
-                };
+                    webSocket.onmessage = function (evt) {
+                        var msg_board = document.getElementsByClassName("msg_board")[0];
+                        var received_msg = evt.data;
+                        var old_msg = msg_board.innerHTML;
+                        msg_board.innerHTML  = old_msg + received_msg ;
+                        // 让滚动块往下移动
+                        msg_board.scrollTop = msg_board.scrollHeight;
+                    };
 
-                webSocket.onclose = function () {
-                    webSocket = null;
-                    document.getElementsByClassName("msg_board")[0].innerHTML = "";
-                };
+                    webSocket.onclose = function () {
+                        webSocket = null;
+                        document.getElementsByClassName("msg_board")[0].innerHTML = "";
+                    };
+                }
             }
+
+
+
         }
     </script>
 

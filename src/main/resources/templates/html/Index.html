@@ -17,7 +17,6 @@
 
     <script th:inline="javascript">
 
-        // th:href="@{/to/userAddMeal}"
         function userAddMeal(){
             $.ajax({
                 type: "POST",
@@ -36,6 +35,11 @@
         function editDiet(t){
             var mealId = $(t).prev().val();
             window.location.href = contextPath+"/user/toEditDiet?mealId="+mealId;
+        }
+
+        function showDietDetail(t){
+            var mealId = $(t).prev().prev().val();
+            window.location.href = contextPath+"/user/toShowDiet?mealId="+mealId;
         }
 
         $(function () {
@@ -222,19 +226,21 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <h3 style="margin-top: 10px">
-                                                <span th:if="${session.user.name!=null}" th:text="${session.user.name}"></span>
-                                                <span th:unless="${session.user.name!=null}" th:text="小吃瓜群众"></span>
+                                                <span th:if="${session.user.name != null}" th:text="${session.user.name}"></span>
+                                                <span th:unless="${session.user.name != null}" th:text="小吃瓜群众"></span>
                                             </h3>
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <div style="line-height: 1.1">
-                                                        <!--<span></span><br>-->
-                                                        <!--现居住地：绵阳市青龙大道59号<br>-->
-                                                        <!--任教时间：2016-06-25<br>-->
-                                                        注册时间：<span th:text="${#dates.format(session.user.createTime,'yyyy-MM-dd')}"></span><br>
-
-                                                        <!--<br>-->
-                                                        联系电话：<span th:text="${session.user.phone}"></span>
+                                                        年龄: <span th:if="${session.user.age != null}" th:text="${session.user.age}"></span>
+                                                        <br>
+                                                        性别: <span th:if="${session.user.sex != null}" th:text="${session.user.sex}"></span>
+                                                        <br>
+                                                        体重: <span th:if="${session.user.weight != null}" th:text="${session.user.weight}"></span>
+                                                        <br>
+                                                        注册时间: <span th:text="${#dates.format(session.user.createTime,'yyyy-MM-dd')}"></span><br>
+                                                        <br>
+                                                        联系电话: <span th:text="${session.user.phone}"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -244,18 +250,10 @@
 
                                 <div class="hr-panel-footer coach-card-footer">
                                     <div class="row">
-                                        <!--<div class="col-sm-4">-->
-                                        <!--<i class="icon iconfont icon-qianzaixueyuan"></i>-->
-                                        <!--累计会员 <strong>18</strong> 位-->
-                                        <!--</div>-->
                                         <div class="col-sm-4">
                                             <i class="icon iconfont icon-shipu"></i>
                                             创建食谱 <strong><span th:text="${sum}"></span></strong> 份
                                         </div>
-                                        <!--<div class="col-sm-4">-->
-                                        <!--<i class="icon iconfont icon-temai"></i>-->
-                                        <!--累积售出 <strong>3</strong> 份-->
-                                        <!--</div>-->
                                     </div>
 
                                 </div>
@@ -411,11 +409,9 @@
                                     <button onclick="editDiet(this)" class="btn btn-info " style="width: 120px">
                                         编辑
                                     </button>
-                                    <a class="btn btn-default  pull-right" style="width: 120px"
-                                       href="https://www.tandanzhi.com/index.html#!/DietDetails/46">
+                                    <button onclick="showDietDetail(this)" class="btn btn-default  pull-right" style="width: 120px">
                                         详情
-                                    </a>
-
+                                    </button>
                                 </div>
 
                             </div>

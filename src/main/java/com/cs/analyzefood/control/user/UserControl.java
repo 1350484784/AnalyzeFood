@@ -324,7 +324,7 @@ public class UserControl {
     }
 
     @RequestMapping("/toEditDiet")
-    public String toEditDiet(int mealId,Model model){
+    public String toEditDiet(int mealId, Model model){
         Meal meal = userService.findMealById(mealId);
         model.addAttribute("meal", meal);
         return "/html/user/editDietDetail";
@@ -343,6 +343,20 @@ public class UserControl {
         userService.updateMeal(dietVo,user.getRoleId());
 
         return new ResponseEntity(true, HttpStatus.OK);
+    }
+
+
+    @RequestMapping("/toShowDiet")
+    public String toShowDiet(int mealId, Model model, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            throw new SystemFailedException("user do not login");
+        }
+        Meal meal = userService.findMealById(mealId);
+        int sum = userService.getMealSum(user.getRoleId());
+        model.addAttribute("meal", meal);
+        model.addAttribute("sum", sum);
+        return "/html/user/showDietDetail";
     }
 
     @RequestMapping("/foodListPage")
@@ -480,9 +494,9 @@ public class UserControl {
         if (admin == null) {
             return new ResponseEntity(false, HttpStatus.OK);
         }
-        if(admin.getOnlineFlag() == 0){
+        if(admin.getOnlineFlag() == (byte) 0){
             return new ResponseEntity(false, HttpStatus.OK);
         }
-        return new ResponseEntity(true, HttpStatus.OK);
+        return new ResponseEntity(admin.getAdminAccount(), HttpStatus.OK);
     }
 }

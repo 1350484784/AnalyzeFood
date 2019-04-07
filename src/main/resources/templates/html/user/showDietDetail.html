@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>INDEX</title>
+    <link rel="stylesheet" th:href="@{/css/user/DietDetails.css}">
+    <script th:src="@{/bootstrap/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    <script th:src="@{/js/user/userIndex.js}"></script>
+    <script th:src="@{/js/user/dietDetail.js}"></script>
+    <script th:src="@{/js/echarts.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
+        /*]]>*/
+    </script>
+
+
+</head>
+<body class="indexBody">
+<div id="body">
+    <!--nav-->
+    <div th:replace="/html/top :: html"></div>
+
+    <div id="content" style="height: auto; opacity: 1;">
+        <div class="DietDetails container">
+            <div class="row">
+                <div class="col-sm-9">
+                    <!--基本信息-->
+                    <div class="hr-panel">
+                        <div class="hr-panel-title">
+                            <span>食谱详情</span>
+                            <strong class="pull-right">
+                                <span th:text="${meal.mealName}"></span>
+                            </strong>
+                        </div>
+                        <div class="hr-panel-body">
+                            食谱介绍：
+                            <hr class="hr-line">
+                            <span th:if="${meal.description != null}" style="color:#ddd" th:text="${meal.description}"></span>
+                            <span th:if="${meal.description == null}" style="color:#ddd">暂无食谱介绍……</span>
+                            <br><br>
+                            <!--食物清单-->
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="hr-block">
+                                        <div class="hr-panel-title">
+                                            早餐
+                                        </div>
+                                        <div class="hr-panel-body " th:each="mealMade:${meal.mealMades}"
+                                             th:if="${mealMade.mealType} eq 0 ">
+                                            <div style="margin-bottom: 5px">
+                                                <div style="clear: both">
+                                                    <div class="food-type">
+                                                        <p class="foodtype_hidden" style="display: none"
+                                                           th:text="${mealMade.food.typeId}"></p>
+                                                    </div>
+                                                    <span th:text="${mealMade.food.foodName}"></span>
+                                                    <span class='pull-right'>
+                                                    ×
+                                                    <strong style="font-size: 18px">
+                                                        <span th:text="${mealMade.num}"></span>
+                                                    </strong>
+                                                    g
+                                                </span>
+                                                </div>
+
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="hr-block">
+                                        <div class="hr-panel-title">
+                                            中餐
+                                        </div>
+                                        <div class="hr-panel-body " th:each="mealMade:${meal.mealMades}"
+                                             th:if="${mealMade.mealType} eq 1 ">
+                                            <div style="margin-bottom: 5px">
+                                                <div style="clear: both">
+                                                    <div class="food-type">
+                                                        <p class="foodtype_hidden" style="display: none"
+                                                           th:text="${mealMade.food.typeId}"></p>
+                                                    </div>
+                                                    <span th:text="${mealMade.food.foodName}"></span>
+                                                    <span class='pull-right'>
+                                                    ×
+                                                    <strong style="font-size: 18px">
+                                                        <span th:text="${mealMade.num}"></span>
+                                                    </strong>
+                                                    g
+                                                </span>
+                                                </div>
+
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="hr-block">
+                                        <div class="hr-panel-title">
+                                            晚餐
+                                        </div>
+                                        <div class="hr-panel-body " th:each="mealMade:${meal.mealMades}"
+                                             th:if="${mealMade.mealType} eq 2 ">
+                                            <div style="margin-bottom: 5px">
+                                                <div style="clear: both">
+                                                    <div class="food-type">
+                                                        <p class="foodtype_hidden" style="display: none"
+                                                           th:text="${mealMade.food.typeId}"></p>
+                                                    </div>
+                                                    <span th:text="${mealMade.food.foodName}"></span>
+                                                    <span class='pull-right'>
+                                                    ×
+                                                    <strong style="font-size: 18px">
+                                                        <span th:text="${mealMade.num}"></span>
+                                                    </strong>
+                                                    g
+                                                </span>
+                                                </div>
+
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--统计信息-->
+                    <!--<div class="hr-panel">-->
+                    <!--<div class="hr-panel-title">-->
+                    <!--食谱统计-->
+                    <!--</div>-->
+                    <!--<div class="hr-panel-body">-->
+                    <!--<div class="row">-->
+                    <!--<div class="col-md-4">-->
+                    <!--<div class="hr-block">-->
+                    <!--<div class="hr-panel-title">-->
+                    <!--能量统计（单位：kcal）-->
+                    <!--</div>-->
+                    <!--<div class="hr-panel-body">-->
+                    <!--<div class="shiguan-box pull-left">-->
+
+                    <!--<div class="shiguan-fill">-->
+                    <!--<div class="shiguan-fill-empyt"-->
+                    <!--ms-css-height="16-95*(DetailsInfo.Energy-DetailsInfo.REI)/DetailsInfo.REI"></div>-->
+
+                    <!--</div>-->
+                    <!--<i class="icon iconfont icon-shiguan" style=""></i>-->
+
+
+                    <!--</div>-->
+                    <!--<div class="pull-right">-->
+                    <!--推荐能量：{{Number(DetailsInfo.REI).toFixed(2)}}<br/>-->
+                    <!--实际能量：{{Number(DetailsInfo.Energy).toFixed(2)}}<br/>-->
+                    <!--<span ms-if="Number(DetailsInfo.REI)>Number(DetailsInfo.Energy)">-->
+                    <!--差距：-->
+                    <!--</span>-->
+                    <!--<span ms-if="Number(DetailsInfo.REI)<Number(DetailsInfo.Energy)">-->
+                    <!--多出：-->
+                    <!--</span>-->
+                    <!--<span ms-if="Number(DetailsInfo.REI)!=Number(DetailsInfo.Energy)">-->
+                    <!--{{Math.abs(DetailsInfo.REI-DetailsInfo.Energy).toFixed(2)}}-->
+                    <!--</span>-->
+
+                    <!--<br/>-->
+                    <!--</div>-->
+                    <!--<div class="clearfix">-->
+
+                    <!--</div>-->
+
+
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-md-4">-->
+                    <!--<div class="hr-block">-->
+                    <!--<div class="hr-panel-title">-->
+                    <!--三餐能量统计（单位：kcal）-->
+                    <!--</div>-->
+                    <!--<div class="hr-panel-body">-->
+                    <!--<tsy:chart config="$D_mealPie"></tsy:chart>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--</div>-->
+                    <!--<div class="col-md-4">-->
+                    <!--<div class="hr-block">-->
+                    <!--<div class="hr-panel-title">-->
+                    <!--三大营养素能量统计-->
+                    <!--</div>-->
+                    <!--<div class="hr-panel-body">-->
+                    <!--<tsy:chart config="$D_NEPie"></tsy:chart>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<br>-->
+                    <!--<div class="row">-->
+                    <!--<div class="col-sm-7">-->
+                    <!--<table class="table table-responsive table-bordered ">-->
+                    <!--<thead>-->
+                    <!--<tr>-->
+                    <!--<td>食物类别</td>-->
+                    <!--<td>实际摄入量</td>-->
+                    <!--<td>推荐摄入量</td>-->
+                    <!--</tr>-->
+                    <!--</thead>-->
+                    <!--<tbody>-->
+                    <!--<tr ms-repeat="foodTypes">-->
+                    <!--<td>-->
+                    <!--<div class="food-type select-food-type pull-left" style="display: block"-->
+                    <!--ms-class="food-type-{{el.TypeID}}:el.foodTotal>0"-->
+                    <!--ms-class-2="now-food:foodType===el.TypeID">-->
+                    <!--<span ms-if="el.foodTotal==0">-->
+                    <!--{{el.icon}}-->
+                    <!--</span>-->
+
+                    <!--</div>-->
+                    <!--&nbsp;-->
+                    <!--{{el.Name}}-->
+                    <!--</td>-->
+                    <!--<td ms-class="attention:(el.TargetWeightMin-el.foodTotal)>el.foodTotal/10||(el.foodTotal-el.TargetWeightMax)>el.foodTotal/10">-->
+                    <!--{{el.foodTotal}}-->
+                    <!--<span class="text-danger pull-right"-->
+                    <!--ms-if="(el.TargetWeightMin-el.foodTotal)>el.foodTotal/10">缺乏</span>-->
+                    <!--<span class="text-danger pull-right"-->
+                    <!--ms-if="(el.foodTotal-el.TargetWeightMax)>el.foodTotal/10">过量</span>-->
+                    <!--</td>-->
+                    <!--<td>{{el.TargetWeightMin}}-{{el.TargetWeightMax}}g</td>-->
+
+                    <!--</tr>-->
+
+                    <!--</tbody>-->
+                    <!--</table>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-5">-->
+                    <!--<table class="table table-responsive table-bordered ">-->
+                    <!--<thead>-->
+                    <!--<tr>-->
+                    <!--<td>微量元素</td>-->
+                    <!--<td>实际摄入量</td>-->
+                    <!--</tr>-->
+                    <!--</thead>-->
+                    <!--<tbody>-->
+                    <!--<tr ms-repeat="TE">-->
+                    <!--<td>-->
+                    <!--{{$val.name}}-->
+                    <!--</td>-->
+                    <!--<td>-->
+                    <!--{{$val.sum}}-->
+
+                    <!--</td>-->
+                    <!--</tr>-->
+                    <!--</tbody>-->
+                    <!--</table>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                </div>
+
+                <div class="col-sm-3">
+
+                    <!--作者信息-->
+                    <div class="hr-panel">
+                        <div class="hr-panel-title">
+                            作者
+                        </div>
+                        <div class="hr-panel-body">
+
+                            <!--头像-->
+                            <div class="pull-left user-head">
+                                <img id="headImg" th:src="'/AnalyzeFood'+${session.user.headImg}" style="width: 100%; height: 100%;object-fit:cover;">
+                            </div>
+
+                            <div style="margin-left: 70px">
+                                <h3 style="margin: 0px;">
+                                    <span th:text="${session.user.name}"></span>
+                                </h3>
+                                年龄: <span th:if="${session.user.age != null}" th:text="${session.user.age}"></span>
+                                <br>
+                                性别: <span th:if="${session.user.sex != null}" th:text="${session.user.sex}"></span>
+                                <br>
+                                体重: <span th:if="${session.user.weight != null}" th:text="${session.user.weight}"></span>
+                                <br>
+                            </div>
+                        </div>
+                        <div class="hr-panel-footer">
+                            <div class="row" style="text-align: center;color: #6E6E6E;font-size: 16px;">
+                                <div class="col-sm-4" style="padding:5px 0px">
+                                    <strong><span th:text="${sum}"></span></strong><br>
+                                    <i class="icon iconfont icon-shipu"></i>
+                                    创建
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--出售信息-->
+                    <!--<div class="hr-panel">-->
+                    <!--<div class="hr-panel-title">-->
+                    <!--该食谱已售出 <strong>{{DetailsInfo.TotalSale}}</strong> 份-->
+                    <!--</div>-->
+                    <!--<div class="hr-panel-body" style="padding: 0px">-->
+
+                    <!--&lt;!&ndash;作者看到的&ndash;&gt;-->
+                    <!--<div class="DD-btn-group box-row ver-same hor-ends"-->
+                    <!--ms-if="DetailsInfo.CUID==cache.go('UID')">-->
+                    <!--<a ms-attr-href="#!/EditDiet/1&&{{DetailsInfo.DietID}}"-->
+                    <!--style="border-right: 1px solid #dddddd">-->
+                    <!--<i class="icon iconfont icon-bianji"></i>-->
+                    <!--编辑-->
+                    <!--</a>-->
+                    <!--<a ms-attr-href="#!/EditDiet/2&&{{DetailsInfo.DietID}}">-->
+                    <!--<i class="icon iconfont icon-fuzhi"></i>-->
+                    <!--复制-->
+                    <!--</a>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash;未获取者看到的&ndash;&gt;-->
+                    <!--<div class="DD-btn-group box-row ver-same hor-ends"-->
+                    <!--ms-if="!DetailsInfo.Has&&DetailsInfo.CUID!=cache.go('UID')">-->
+                    <!--<button style="width: 100%" ms-click="buy(DetailsInfo.DietID)">-->
+                    <!--<i class="icon iconfont icon-goumai"></i>-->
+
+                    <!--获取-->
+                    <!--</button>-->
+                    <!--</div>-->
+
+
+                    <!--&lt;!&ndash;获取者看到的&ndash;&gt;-->
+                    <!--<div class="DD-btn-group box-row ver-same hor-ends" ms-if="DetailsInfo.Has">-->
+                    <!--<button style="border-right: 1px solid #dddddd">-->
+                    <!--<i class="icon iconfont icon-shoucang1"></i>-->
+                    <!--已获取-->
+                    <!--</button>-->
+                    <!--<a ms-attr-href="#!/EditDiet/2&&{{DetailsInfo.DietID}}">-->
+                    <!--<i class="icon iconfont icon-fuzhi"></i>-->
+                    <!--复制-->
+                    <!--</a>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--评论信息-->
+                    <!--<div class="hr-panel">-->
+                    <!--<div class="hr-panel-title">-->
+                    <!--<span class="pull-left">-->
+                    <!--好评：-->
+                    <!--<strong>-->
+                    <!--{{Number(DetailsInfo.Praise)}}-->
+                    <!--</strong>-->
+                    <!--</span>-->
+                    <!--<span class="pull-right">-->
+                    <!--差评：-->
+                    <!--<strong>-->
+                    <!--{{Number(DetailsInfo.Bad)}}-->
+                    <!--</strong>-->
+                    <!--</span>-->
+                    <!--<div class="clearfix"></div>-->
+                    <!--</div>-->
+                    <!--<div class="hr-panel-body">-->
+                    <!--评论：-->
+                    <!--<div style="border-bottom: 1px solid #dddddd;margin-bottom: 5px;padding: 5px 0px;"-->
+                    <!--ms-repeat="CList" class="clearfix">-->
+                    <!--&lt;!&ndash;头像&ndash;&gt;-->
+                    <!--<div class="pull-left user-head"-->
+                    <!--style="width:30px;height: 30px;margin-right: 5px"-->
+                    <!--ms-css-background-image="url({{el.User.HeadImgURL}})">-->
+                    <!--</div>-->
+                    <!--<div>-->
+                    <!--<span ms-if="el.Level==1">好评！</span>-->
+                    <!--<span ms-if="el.Level==0">差评！</span>-->
+                    <!--{{el.Content}}-->
+                    <!--</div>-->
+
+                    <!--</div>-->
+
+                    <!--<button ms-if='CT>CP*CN' class="btn btn-block btn-link"-->
+                    <!--style="outline: none"-->
+                    <!--ms-click="pullComment(CP+1)">更多评论-->
+                    <!--</button>-->
+
+                    <!--</div>-->
+                    <!--<div class="hr-panel-footer" style="padding: 10px;"-->
+                    <!--ms-if="!DetailsInfo.IsCommented&&DetailsInfo.Has">-->
+                    <!--&lt;!&ndash;输入框&ndash;&gt;-->
+                    <!--<textarea class="form-control" placeholder="输入食谱评价" ms-duplex="Content">-->
+
+                    <!--</textarea>-->
+                    <!--&lt;!&ndash;获取者看到的&ndash;&gt;-->
+                    <!--<div class="DD-btn-group box-row ver-same hor-ends"-->
+                    <!--style="margin:10px -10px -10px -10px;border-top: 1px solid #dddddd;">-->
+                    <!--<button style="border-right: 1px solid #dddddd;background-color: transparent"-->
+                    <!--ms-click="Comment(0)">-->
+                    <!--<i class="icon iconfont icon-shoucang1"></i>-->
+                    <!--差评-->
+                    <!--</button>-->
+                    <!--<button style=";background-color: transparent" ms-click="Comment(1)">-->
+                    <!--<i class="icon iconfont icon-shoucang1"></i>-->
+                    <!--好评-->
+                    <!--</button>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    $(function () {
+        $('.foodtype_hidden').each(function () {
+            var foodClass = getFoodClass($(this).text());
+            $(this).parent().addClass(foodClass);
+        });
+
+    });
+</script>
+</html>
