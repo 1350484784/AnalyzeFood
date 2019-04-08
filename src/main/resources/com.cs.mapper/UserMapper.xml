@@ -244,5 +244,9 @@
         select n_foodId foodId from food_info where s_foodName = #{param1}
     </select>
 
+    <select id="selectArticleSum" resultType="java.lang.Integer">
+        select count(*) from article_info where n_roleId = #{parma1} and n_status = 1
+    </select>
+
 
 </mapper>

@@ -307,5 +307,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectFoodByName(name);
     }
 
+    @Override
+    public int getArticleSum(int roleId) {
+        return userMapper.selectArticleSum(roleId);
+    }
+
 
 }

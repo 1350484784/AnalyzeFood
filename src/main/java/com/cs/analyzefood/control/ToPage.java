@@ -43,10 +43,12 @@ public class ToPage {
             throw new SystemFailedException("user do not login");
         }
         int sum = userService.getMealSum(user.getRoleId());
+        int articleSum = userService.getArticleSum(user.getRoleId());
         PageInfo<Meal> pageInfo = userService.getPageMeal(user.getRoleId(),currentPage);
         model.addAttribute("topIndex", 0);
         model.addAttribute("meals", pageInfo);
         model.addAttribute("sum", sum);
+        model.addAttribute("articleSum", articleSum);
         return "/html/index";
     }
 

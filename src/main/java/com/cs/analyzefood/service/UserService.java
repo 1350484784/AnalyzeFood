@@ -58,6 +58,6 @@ public interface UserService {
 
     Food findFoodByName(String name);
 
-
+    int getArticleSum(int roleId);
 
 }

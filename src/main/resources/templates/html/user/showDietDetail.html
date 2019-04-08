@@ -37,7 +37,8 @@
                         <div class="hr-panel-body">
                             食谱介绍：
                             <hr class="hr-line">
-                            <span th:if="${meal.description != null}" style="color:#ddd" th:text="${meal.description}"></span>
+                            <span th:if="${meal.description != null}" style="color:#ddd"
+                                  th:text="${meal.description}"></span>
                             <span th:if="${meal.description == null}" style="color:#ddd">暂无食谱介绍……</span>
                             <br><br>
                             <!--食物清单-->
@@ -133,138 +134,136 @@
                     </div>
 
                     <!--统计信息-->
-                    <!--<div class="hr-panel">-->
-                    <!--<div class="hr-panel-title">-->
-                    <!--食谱统计-->
-                    <!--</div>-->
-                    <!--<div class="hr-panel-body">-->
-                    <!--<div class="row">-->
-                    <!--<div class="col-md-4">-->
-                    <!--<div class="hr-block">-->
-                    <!--<div class="hr-panel-title">-->
-                    <!--能量统计（单位：kcal）-->
-                    <!--</div>-->
-                    <!--<div class="hr-panel-body">-->
-                    <!--<div class="shiguan-box pull-left">-->
+                    <div class="hr-panel">
+                        <div class="hr-panel-title">
+                            食谱统计
+                        </div>
+                        <div class="hr-panel-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="hr-block">
+                                        <div class="hr-panel-title">
+                                            能量统计（单位：kcal）
+                                        </div>
+                                        <div class="hr-panel-body">
+                                            <div class="shiguan-box pull-left">
 
-                    <!--<div class="shiguan-fill">-->
-                    <!--<div class="shiguan-fill-empyt"-->
-                    <!--ms-css-height="16-95*(DetailsInfo.Energy-DetailsInfo.REI)/DetailsInfo.REI"></div>-->
+                                                <div class="shiguan-fill">
+                                                    <div class="shiguan-fill-empyt"
+                                                         ms-css-height="16-95*(DetailsInfo.Energy-DetailsInfo.REI)/DetailsInfo.REI"></div>
 
-                    <!--</div>-->
-                    <!--<i class="icon iconfont icon-shiguan" style=""></i>-->
+                                                </div>
+                                                <i class="icon iconfont icon-shiguan"></i>
+                                            </div>
+                                            <div class="pull-right">
+                                                推荐能量：{{Number(DetailsInfo.REI).toFixed(2)}}<br/>
+                                                实际能量：{{Number(DetailsInfo.Energy).toFixed(2)}}<br/>
+                                                <span ms-if="Number(DetailsInfo.REI)>Number(DetailsInfo.Energy)">
+                    差距：
+                    </span>
+                                                <span ms-if="Number(DetailsInfo.REI)<Number(DetailsInfo.Energy)">
+                    多出：
+                    </span>
+                                                <span ms-if="Number(DetailsInfo.REI)!=Number(DetailsInfo.Energy)">
+                    {{Math.abs(DetailsInfo.REI-DetailsInfo.Energy).toFixed(2)}}
+                    </span>
 
+                                                <br/>
+                                            </div>
+                                            <div class="clearfix">
 
-                    <!--</div>-->
-                    <!--<div class="pull-right">-->
-                    <!--推荐能量：{{Number(DetailsInfo.REI).toFixed(2)}}<br/>-->
-                    <!--实际能量：{{Number(DetailsInfo.Energy).toFixed(2)}}<br/>-->
-                    <!--<span ms-if="Number(DetailsInfo.REI)>Number(DetailsInfo.Energy)">-->
-                    <!--差距：-->
-                    <!--</span>-->
-                    <!--<span ms-if="Number(DetailsInfo.REI)<Number(DetailsInfo.Energy)">-->
-                    <!--多出：-->
-                    <!--</span>-->
-                    <!--<span ms-if="Number(DetailsInfo.REI)!=Number(DetailsInfo.Energy)">-->
-                    <!--{{Math.abs(DetailsInfo.REI-DetailsInfo.Energy).toFixed(2)}}-->
-                    <!--</span>-->
-
-                    <!--<br/>-->
-                    <!--</div>-->
-                    <!--<div class="clearfix">-->
-
-                    <!--</div>-->
+                                            </div>
 
 
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-4">-->
-                    <!--<div class="hr-block">-->
-                    <!--<div class="hr-panel-title">-->
-                    <!--三餐能量统计（单位：kcal）-->
-                    <!--</div>-->
-                    <!--<div class="hr-panel-body">-->
-                    <!--<tsy:chart config="$D_mealPie"></tsy:chart>-->
-                    <!--</div>-->
-                    <!--</div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="hr-block">
+                                        <div class="hr-panel-title">
+                                            三餐能量统计（单位：kcal）
+                                        </div>
+                                        <div class="hr-panel-body">
+                                            <tsy:chart config="$D_mealPie"></tsy:chart>
+                                        </div>
+                                    </div>
 
-                    <!--</div>-->
-                    <!--<div class="col-md-4">-->
-                    <!--<div class="hr-block">-->
-                    <!--<div class="hr-panel-title">-->
-                    <!--三大营养素能量统计-->
-                    <!--</div>-->
-                    <!--<div class="hr-panel-body">-->
-                    <!--<tsy:chart config="$D_NEPie"></tsy:chart>-->
-                    <!--</div>-->
-                    <!--</div>-->
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="hr-block">
+                                        <div class="hr-panel-title">
+                                            三大营养素能量统计
+                                        </div>
+                                        <div class="hr-panel-body">
+                                            <tsy:chart config="$D_NEPie"></tsy:chart>
+                                        </div>
+                                    </div>
 
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--<br>-->
-                    <!--<div class="row">-->
-                    <!--<div class="col-sm-7">-->
-                    <!--<table class="table table-responsive table-bordered ">-->
-                    <!--<thead>-->
-                    <!--<tr>-->
-                    <!--<td>食物类别</td>-->
-                    <!--<td>实际摄入量</td>-->
-                    <!--<td>推荐摄入量</td>-->
-                    <!--</tr>-->
-                    <!--</thead>-->
-                    <!--<tbody>-->
-                    <!--<tr ms-repeat="foodTypes">-->
-                    <!--<td>-->
-                    <!--<div class="food-type select-food-type pull-left" style="display: block"-->
-                    <!--ms-class="food-type-{{el.TypeID}}:el.foodTotal>0"-->
-                    <!--ms-class-2="now-food:foodType===el.TypeID">-->
-                    <!--<span ms-if="el.foodTotal==0">-->
-                    <!--{{el.icon}}-->
-                    <!--</span>-->
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <table class="table table-responsive table-bordered ">
+                                        <thead>
+                                        <tr>
+                                            <td>食物类别</td>
+                                            <td>实际摄入量</td>
+                                            <td>推荐摄入量</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ms-repeat="foodTypes">
+                                            <td>
+                                                <div class="food-type select-food-type pull-left" style="display: block"
+                                                     ms-class="food-type-{{el.TypeID}}:el.foodTotal>0"
+                                                     ms-class-2="now-food:foodType===el.TypeID">
+                    <span ms-if="el.foodTotal==0">
+                    {{el.icon}}
+                    </span>
 
-                    <!--</div>-->
-                    <!--&nbsp;-->
-                    <!--{{el.Name}}-->
-                    <!--</td>-->
-                    <!--<td ms-class="attention:(el.TargetWeightMin-el.foodTotal)>el.foodTotal/10||(el.foodTotal-el.TargetWeightMax)>el.foodTotal/10">-->
-                    <!--{{el.foodTotal}}-->
-                    <!--<span class="text-danger pull-right"-->
-                    <!--ms-if="(el.TargetWeightMin-el.foodTotal)>el.foodTotal/10">缺乏</span>-->
-                    <!--<span class="text-danger pull-right"-->
-                    <!--ms-if="(el.foodTotal-el.TargetWeightMax)>el.foodTotal/10">过量</span>-->
-                    <!--</td>-->
-                    <!--<td>{{el.TargetWeightMin}}-{{el.TargetWeightMax}}g</td>-->
+                                                </div>
+                                                &nbsp;
+                                                {{el.Name}}
+                                            </td>
+                                            <td ms-class="attention:(el.TargetWeightMin-el.foodTotal)>el.foodTotal/10||(el.foodTotal-el.TargetWeightMax)>el.foodTotal/10">
+                                                {{el.foodTotal}}
+                                                <span class="text-danger pull-right"
+                                                      ms-if="(el.TargetWeightMin-el.foodTotal)>el.foodTotal/10">缺乏</span>
+                                                <span class="text-danger pull-right"
+                                                      ms-if="(el.foodTotal-el.TargetWeightMax)>el.foodTotal/10">过量</span>
+                                            </td>
+                                            <td>{{el.TargetWeightMin}}-{{el.TargetWeightMax}}g</td>
 
-                    <!--</tr>-->
+                                        </tr>
 
-                    <!--</tbody>-->
-                    <!--</table>-->
-                    <!--</div>-->
-                    <!--<div class="col-sm-5">-->
-                    <!--<table class="table table-responsive table-bordered ">-->
-                    <!--<thead>-->
-                    <!--<tr>-->
-                    <!--<td>微量元素</td>-->
-                    <!--<td>实际摄入量</td>-->
-                    <!--</tr>-->
-                    <!--</thead>-->
-                    <!--<tbody>-->
-                    <!--<tr ms-repeat="TE">-->
-                    <!--<td>-->
-                    <!--{{$val.name}}-->
-                    <!--</td>-->
-                    <!--<td>-->
-                    <!--{{$val.sum}}-->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-sm-5">
+                                    <table class="table table-responsive table-bordered ">
+                                        <thead>
+                                        <tr>
+                                            <td>微量元素</td>
+                                            <td>实际摄入量</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ms-repeat="TE">
+                                            <td>
+                                                {{$val.name}}
+                                            </td>
+                                            <td>
+                                                {{$val.sum}}
 
-                    <!--</td>-->
-                    <!--</tr>-->
-                    <!--</tbody>-->
-                    <!--</table>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-sm-3">
@@ -278,7 +277,8 @@
 
                             <!--头像-->
                             <div class="pull-left user-head">
-                                <img id="headImg" th:src="'/AnalyzeFood'+${session.user.headImg}" style="width: 100%; height: 100%;object-fit:cover;">
+                                <img id="headImg" th:src="'/AnalyzeFood'+${session.user.headImg}"
+                                     style="width: 100%; height: 100%;object-fit:cover;">
                             </div>
 
                             <div style="margin-left: 70px">
@@ -289,7 +289,8 @@
                                 <br>
                                 性别: <span th:if="${session.user.sex != null}" th:text="${session.user.sex}"></span>
                                 <br>
-                                体重: <span th:if="${session.user.weight != null}" th:text="${session.user.weight}"></span>
+                                体重: <span th:if="${session.user.weight != null}"
+                                          th:text="${session.user.weight}"></span>
                                 <br>
                             </div>
                         </div>
@@ -298,7 +299,12 @@
                                 <div class="col-sm-4" style="padding:5px 0px">
                                     <strong><span th:text="${sum}"></span></strong><br>
                                     <i class="icon iconfont icon-shipu"></i>
-                                    创建
+                                    食谱
+                                </div>
+                                <div class="col-sm-4" style="padding:5px 0px">
+                                    <strong><span th:text="${articleSum}"></span></strong><br>
+                                    <i class="icon icon-book"></i>
+                                    文章
                                 </div>
                             </div>
                         </div>

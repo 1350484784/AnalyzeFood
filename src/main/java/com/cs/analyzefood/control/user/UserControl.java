@@ -354,8 +354,10 @@ public class UserControl {
         }
         Meal meal = userService.findMealById(mealId);
         int sum = userService.getMealSum(user.getRoleId());
+        int articleSum = userService.getArticleSum(user.getRoleId());
         model.addAttribute("meal", meal);
         model.addAttribute("sum", sum);
+        model.addAttribute("articleSum", articleSum);
         return "/html/user/showDietDetail";
     }
 

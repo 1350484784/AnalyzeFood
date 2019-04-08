@@ -63,6 +63,8 @@ public interface UserMapper {
 
     Food selectFoodByName(String name);
 
+    int selectArticleSum(int roleId);
+
 
 //    int selectFoodNumByFoodIds(int[] foodIds);
 }
