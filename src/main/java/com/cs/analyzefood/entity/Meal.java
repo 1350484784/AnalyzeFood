@@ -17,9 +17,9 @@ public class Meal {
     private double per_zhong;
     private double per_wan;
     private double dayEnergy;
-    private double dayCHO;
-    private double dayProtein;
-    private double dayFat;
+    private double dayCHO;    //碳水化合物
+    private double dayProtein;//蛋白质
+    private double dayFat;    //脂肪
 
     private List<MealMade> mealMades;
 

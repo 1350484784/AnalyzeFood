@@ -1,6 +1,7 @@
 package com.cs.analyzefood.control.user;
 
 import com.cs.analyzefood.entity.*;
+import com.cs.analyzefood.entity.vo.analyze.ResultVo;
 import com.cs.analyzefood.entity.vo.diet.DietVo;
 import com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition;
 import com.cs.analyzefood.entity.vo.pageFood.PageCondition;
@@ -51,6 +52,9 @@ public class UserControl {
 
     @Autowired
     private InformService informService;
+
+    @Autowired
+    private AnalyzeService analyzeService;
 
     @Value("${user.headImg.path}")
     private String headImg_path;
@@ -365,6 +369,12 @@ public class UserControl {
         model.addAttribute("meal", meal);
         model.addAttribute("sum", sum);
         model.addAttribute("articleSum", articleSum);
+
+        double recommendEnergy = analyzeService.countRecommendEnergy(user);
+        double practicalEnergy = analyzeService.countPracticalEnergy(meal.getDayCHO(), meal.getDayProtein(),meal.getDayFat());
+        ResultVo resultVo = new ResultVo(recommendEnergy, practicalEnergy);
+        model.addAttribute("resultVo", resultVo);
+
         return "/html/user/showDietDetail";
     }
 

@@ -15,6 +15,14 @@
         /*]]>*/
     </script>
 
+    <script th:inline="javascript">
+        $(function () {
+        // ms-css-height="16-95*(DetailsInfo.Energy-DetailsInfo.REI)/DetailsInfo.REI"
+            var recommendEnergy = [[${resultVo.recommendEnergy}]]
+            var practicalEnergy = [[${resultVo.practicalEnergy}]]
+            $('.shiguan-fill-empyt').height(16-95*(practicalEnergy - recommendEnergy) / recommendEnergy);
+        });
+    </script>
 
 </head>
 <body class="indexBody">
@@ -149,32 +157,21 @@
                                             <div class="shiguan-box pull-left">
 
                                                 <div class="shiguan-fill">
-                                                    <div class="shiguan-fill-empyt"
-                                                         ms-css-height="16-95*(DetailsInfo.Energy-DetailsInfo.REI)/DetailsInfo.REI"></div>
+                                                    <div class="shiguan-fill-empyt"></div>
 
                                                 </div>
                                                 <i class="icon iconfont icon-shiguan"></i>
                                             </div>
                                             <div class="pull-right">
-                                                推荐能量：{{Number(DetailsInfo.REI).toFixed(2)}}<br/>
-                                                实际能量：{{Number(DetailsInfo.Energy).toFixed(2)}}<br/>
-                                                <span ms-if="Number(DetailsInfo.REI)>Number(DetailsInfo.Energy)">
-                    差距：
-                    </span>
-                                                <span ms-if="Number(DetailsInfo.REI)<Number(DetailsInfo.Energy)">
-                    多出：
-                    </span>
-                                                <span ms-if="Number(DetailsInfo.REI)!=Number(DetailsInfo.Energy)">
-                    {{Math.abs(DetailsInfo.REI-DetailsInfo.Energy).toFixed(2)}}
-                    </span>
-
+                                                推荐能量：<span th:text="${#numbers.formatDecimal(resultVo.recommendEnergy, 0, 2)}"></span><br/>
+                                                实际能量：<span th:text="${#numbers.formatDecimal(resultVo.practicalEnergy, 0, 2)}"></span><br/>
+                                                <span th:if="${resultVo.recommendEnergy > resultVo.practicalEnergy}">差距：</span>
+                                                <span th:if="${resultVo.recommendEnergy <= resultVo.practicalEnergy}">多出：</span>
+                                                <span th:if="${resultVo.recommendEnergy > resultVo.practicalEnergy}" th:text="${#numbers.formatDecimal(resultVo.recommendEnergy - resultVo.practicalEnergy, 0, 2)}"></span>
+                                                <span th:if="${resultVo.recommendEnergy <= resultVo.practicalEnergy}" th:text="${#numbers.formatDecimal(resultVo.practicalEnergy - resultVo.recommendEnergy, 0, 2)}"></span>
                                                 <br/>
                                             </div>
-                                            <div class="clearfix">
-
-                                            </div>
-
-
+                                            <div class="clearfix"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -184,7 +181,7 @@
                                             三餐能量统计（单位：kcal）
                                         </div>
                                         <div class="hr-panel-body">
-                                            <tsy:chart config="$D_mealPie"></tsy:chart>
+                                            <div id="energyStatistics"></div>
                                         </div>
                                     </div>
 
@@ -195,7 +192,7 @@
                                             三大营养素能量统计
                                         </div>
                                         <div class="hr-panel-body">
-                                            <tsy:chart config="$D_NEPie"></tsy:chart>
+                                           <div id="nutrientStatistics"></div>
                                         </div>
                                     </div>
 

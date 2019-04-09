@@ -4,6 +4,14 @@ public class ResultVo {
     private double recommendEnergy;
     private double practicalEnergy;
 
+    public ResultVo() {
+    }
+
+    public ResultVo(double recommendEnergy, double practicalEnergy) {
+        this.recommendEnergy = recommendEnergy;
+        this.practicalEnergy = practicalEnergy;
+    }
+
     public double getRecommendEnergy() {
         return recommendEnergy;
     }
