@@ -31,7 +31,8 @@ layui.config({
             , {field: 'roleAccount', title: '昵称', width:220}
             , {field: 'name', title: '真实姓名',  width:100}
             , {field: 'age', title: '年龄',  width:80}
-            , {field: 'weight', title: '体重(斤)', width:80 }
+            , {field: 'weight', title: '体重(公斤)', width:120 }
+            , {field: 'height', title: '身高(cm)', width:120 }
             , {field: 'sex', title: '性别', templet: '#sexTpl',  width:80}
             , {field: 'phone', title: '手机号',  width:180}
             , {field: 'createTime', title: '创建时间',sort: true,  width:180}

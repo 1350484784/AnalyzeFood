@@ -9,6 +9,7 @@ public class User {
     private String password;
     private int age;
     private int weight;
+    private int height;
     private String sex;
     private String phone;
     private String headImg;
@@ -112,5 +113,13 @@ public class User {
 
     public void setOnlineFlag(byte onlineFlag) {
         this.onlineFlag = onlineFlag;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }

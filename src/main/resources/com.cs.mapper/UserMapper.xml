@@ -31,7 +31,7 @@
     </update>
 
     <update id="updateUserById">
-        update user_info set s_roleAccount = #{roleAccount}, s_name = #{name}, n_age = #{age},n_weight = #{weight}, s_sex = #{sex} where n_roleId = #{roleId}
+        update user_info set s_roleAccount = #{roleAccount}, s_name = #{name}, n_age = #{age},n_weight = #{weight}, s_sex = #{sex} , n_height =#{height} where n_roleId = #{roleId}
     </update>
 
     <update id="updateUserHeadImgById">
@@ -55,12 +55,12 @@
         select n_roleId roleId from user_info where s_phone = #{param1}
     </select>
     <select id="selectUserById" resultType="com.cs.analyzefood.entity.User">
-        select n_roleId roleId,s_roleAccount roleAccount,s_name name,s_password password,n_age age,n_weight weight, s_sex sex,s_phone phone,d_createTime createTime,s_headImg headImg, n_onlineFlag onlineFlag
+        select n_roleId roleId,s_roleAccount roleAccount,s_name name,s_password password,n_age age,n_weight weight,n_height height, s_sex sex,s_phone phone,d_createTime createTime,s_headImg headImg, n_onlineFlag onlineFlag
         from user_info where n_roleId = #{param1}
     </select>
 
     <select id="selectUserByPhoneAndPwd" resultType="com.cs.analyzefood.entity.User">
-        select n_roleId roleId,s_roleAccount roleAccount,s_name name,s_password password,n_age age,n_weight weight, s_sex sex,s_phone phone,d_createTime createTime,s_headImg headImg, n_onlineFlag onlineFlag
+        select n_roleId roleId,s_roleAccount roleAccount,s_name name,s_password password,n_age age,n_weight weight,n_height height, s_sex sex,s_phone phone,d_createTime createTime,s_headImg headImg, n_onlineFlag onlineFlag
         from user_info where s_phone = #{param1} and s_password = #{param2}
     </select>
 

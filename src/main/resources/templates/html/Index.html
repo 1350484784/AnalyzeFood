@@ -236,7 +236,9 @@
                                                         <br>
                                                         性别: <span th:if="${session.user.sex != null}" th:text="${session.user.sex}"></span>
                                                         <br>
-                                                        体重: <span th:if="${session.user.weight != null}" th:text="${session.user.weight}"></span>
+                                                        体重（公斤）: <span th:if="${session.user.weight != null}" th:text="${session.user.weight}"></span>
+                                                        <br>
+                                                        身高（cm）: <span th:if="${session.user.height != null}" th:text="${session.user.height}"></span>
                                                         <br>
                                                         注册时间: <span th:text="${#dates.format(session.user.createTime,'yyyy-MM-dd')}"></span><br>
                                                         <br>
@@ -513,17 +515,25 @@
 
                         </div>
                         <div class="row">
-                            <!--联系电话-->
                             <div class="col-md-4">
-                                联系电话
-                                <input type="tel" class="form-control" name="phone" th:value="${session.user.phone}" disabled>
+                                身高（cm）
+                                <input type="text" class="form-control" name="height" th:value="${session.user.height}">
                                 <br>
                             </div>
                             <div class="col-md-1"></div>
                             <!--体重-->
                             <div class="col-md-4">
-                                体重(斤)
+                                体重(公斤)
                                 <input type="text" class="form-control" name="weight" th:value="${session.user.weight}">
+                                <br>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--联系电话-->
+                            <div class="col-md-6">
+                                联系电话
+                                <br>
+                                <input type="tel" class="form-control" name="phone" th:value="${session.user.phone}" disabled>
                                 <br>
                             </div>
                         </div>

@@ -346,6 +346,13 @@ public class UserControl {
     }
 
 
+    /**
+     * 分析页面
+     * @param mealId
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping("/toShowDiet")
     public String toShowDiet(int mealId, Model model, HttpSession session){
         User user = (User) session.getAttribute("user");
