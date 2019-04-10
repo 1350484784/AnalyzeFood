@@ -1,8 +1,11 @@
 package com.cs.analyzefood.service.impl;
 
+import com.cs.analyzefood.entity.MealMade;
 import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.service.AnalyzeService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AnalyzeServiceImpl implements AnalyzeService {
@@ -45,5 +48,17 @@ public class AnalyzeServiceImpl implements AnalyzeService {
     public double countPracticalEnergy(double dayCHO, double dayProtein, double dayFat) {
         return dayProtein * 4 + dayCHO * 4 + dayFat * 9;
     }
+
+    @Override
+    public double countDayEnergy(List<MealMade> mealMades, int mealType) {
+        double dayEnergy = 0;
+        for (MealMade mealMade : mealMades) {
+            if(mealMade.getMealType() == mealType){
+                dayEnergy += mealMade.getFood().getEnergy();
+            }
+        }
+        return dayEnergy;
+    }
+
 
 }

@@ -10,6 +10,7 @@ import com.cs.analyzefood.exception.SystemFailedException;
 import com.cs.analyzefood.service.*;
 import com.cs.analyzefood.util.InformUtil;
 import com.cs.analyzefood.util.JsonUtil;
+import com.cs.analyzefood.util.NumberUtil;
 import com.cs.analyzefood.util.SendMessageUtil;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
@@ -372,7 +373,14 @@ public class UserControl {
 
         double recommendEnergy = analyzeService.countRecommendEnergy(user);
         double practicalEnergy = analyzeService.countPracticalEnergy(meal.getDayCHO(), meal.getDayProtein(),meal.getDayFat());
-        ResultVo resultVo = new ResultVo(recommendEnergy, practicalEnergy);
+        double dayZao = analyzeService.countDayEnergy(meal.getMealMades(), 0);
+        double dayZhong = analyzeService.countDayEnergy(meal.getMealMades(), 1);
+        double dayWan = analyzeService.countDayEnergy(meal.getMealMades(), 2);
+        double dayCHOPer = NumberUtil.formatDouble(meal.getDayCHO()*1.0*4 / practicalEnergy);
+        double dayProteinPer = NumberUtil.formatDouble(meal.getDayProtein()*1.0*4 / practicalEnergy);
+        double dayFatPer = NumberUtil.formatDouble(meal.getDayFat()*1.0*9 / practicalEnergy);
+
+        ResultVo resultVo = new ResultVo(recommendEnergy, practicalEnergy, dayZao, dayZhong, dayWan, dayCHOPer, dayProteinPer, dayFatPer);
         model.addAttribute("resultVo", resultVo);
 
         return "/html/user/showDietDetail";
