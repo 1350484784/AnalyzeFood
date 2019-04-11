@@ -2,6 +2,7 @@ package com.cs.analyzefood.service.impl;
 
 import com.cs.analyzefood.entity.MealMade;
 import com.cs.analyzefood.entity.User;
+import com.cs.analyzefood.entity.vo.analyze.ResultEachFoodVo;
 import com.cs.analyzefood.service.AnalyzeService;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +59,44 @@ public class AnalyzeServiceImpl implements AnalyzeService {
             }
         }
         return dayEnergy;
+    }
+
+    @Override
+    public ResultEachFoodVo countEachFood(List<MealMade> mealMades) {
+        double gu = 0,dou = 0,shu = 0,guo = 0,rou = 0,nai = 0,dan = 0,yu = 0,you = 0,other = 0;
+        for (MealMade mealMade : mealMades) {
+            if(mealMade.getFood().getTypeId() == 11){
+                gu += mealMade.getNum();
+            }
+            if(mealMade.getFood().getTypeId() == 21){
+                dou += mealMade.getNum();
+            }
+            if(mealMade.getFood().getTypeId() == 31){
+                shu += mealMade.getNum();
+            }
+            if(mealMade.getFood().getTypeId() == 41){
+                guo += mealMade.getNum();
+            }
+            if(mealMade.getFood().getTypeId() == 51){
+                rou += mealMade.getNum();
+            }
+            if(mealMade.getFood().getTypeId() == 53){
+                nai += mealMade.getNum();
+            }
+            if(mealMade.getFood().getTypeId() == 54){
+                dan += mealMade.getNum();
+            }
+            if(mealMade.getFood().getTypeId() == 61){
+                yu += mealMade.getNum();
+            }
+            if(mealMade.getFood().getTypeId() == 81){
+                you += mealMade.getNum();
+            }
+            if(mealMade.getFood().getTypeId() == 82 || mealMade.getFood().getTypeId() == 83){
+                other += mealMade.getNum();
+            }
+        }
+        return new ResultEachFoodVo(gu, dou, shu, guo, rou, nai, dan, yu, you, other);
     }
 
 

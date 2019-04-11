@@ -1,6 +1,7 @@
 package com.cs.analyzefood.control.user;
 
 import com.cs.analyzefood.entity.*;
+import com.cs.analyzefood.entity.vo.analyze.ResultEachFoodVo;
 import com.cs.analyzefood.entity.vo.analyze.ResultVo;
 import com.cs.analyzefood.entity.vo.diet.DietVo;
 import com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition;
@@ -379,8 +380,9 @@ public class UserControl {
         double dayCHOPer = NumberUtil.formatDouble(meal.getDayCHO()*1.0*4 / practicalEnergy);
         double dayProteinPer = NumberUtil.formatDouble(meal.getDayProtein()*1.0*4 / practicalEnergy);
         double dayFatPer = NumberUtil.formatDouble(meal.getDayFat()*1.0*9 / practicalEnergy);
-
+        ResultEachFoodVo eachFoodVo = analyzeService.countEachFood(meal.getMealMades());
         ResultVo resultVo = new ResultVo(recommendEnergy, practicalEnergy, dayZao, dayZhong, dayWan, dayCHOPer, dayProteinPer, dayFatPer);
+        resultVo.setEachFoodVo(eachFoodVo);
         model.addAttribute("resultVo", resultVo);
 
         return "/html/user/showDietDetail";

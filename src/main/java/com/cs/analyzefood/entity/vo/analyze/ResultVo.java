@@ -12,6 +12,8 @@ public class ResultVo {
     private double dayProteinPer;
     private double dayFatPer;
 
+    private ResultEachFoodVo eachFoodVo;
+
     public ResultVo() {
     }
 
@@ -88,5 +90,13 @@ public class ResultVo {
 
     public void setDayFatPer(double dayFatPer) {
         this.dayFatPer = dayFatPer;
+    }
+
+    public ResultEachFoodVo getEachFoodVo() {
+        return eachFoodVo;
+    }
+
+    public void setEachFoodVo(ResultEachFoodVo eachFoodVo) {
+        this.eachFoodVo = eachFoodVo;
     }
 }

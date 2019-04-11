@@ -240,7 +240,7 @@
                                                         <br>
                                                         身高（cm）: <span th:if="${session.user.height != null}" th:text="${session.user.height}"></span>
                                                         <br>
-                                                        注册时间: <span th:text="${#dates.format(session.user.createTime,'yyyy-MM-dd')}"></span><br>
+                                                        注册时间: <span th:text="${#dates.format(session.user.createTime,'yyyy-MM-dd')}"></span>
                                                         <br>
                                                         联系电话: <span th:text="${session.user.phone}"></span>
                                                     </div>

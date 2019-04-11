@@ -20,7 +20,9 @@
         // ms-css-height="16-95*(DetailsInfo.Energy-DetailsInfo.REI)/DetailsInfo.REI"
             var recommendEnergy = [[${resultVo.recommendEnergy}]]
             var practicalEnergy = [[${resultVo.practicalEnergy}]]
-            $('.shiguan-fill-empyt').height(16-95*(practicalEnergy - recommendEnergy) / recommendEnergy);
+            if(recommendEnergy > practicalEnergy){
+                $('.shiguan-fill-empyt').height(16-95*(practicalEnergy - recommendEnergy) / recommendEnergy);
+            }
 
             // energyStatistics
             var echartsMeal = echarts.init(document.getElementById('energyStatistics'));
@@ -82,6 +84,25 @@
                 ]
             };
             echartsMeal.setOption(option);
+
+            //isLessOrMore
+            $('.isLessOrMore').each(function (index) {
+                var food_actualIntake = $('.food_actualIntake').eq(index).html();
+                var val = $('.recommend_food_intake').eq(index).html();
+                var recommendMin = val.substring(0, val.indexOf("-"));
+                var recommendMax = val.substring(val.indexOf("-") + 1, val.length);
+
+                console.log("food_actualIntake",food_actualIntake)
+                console.log("recommendMin",recommendMin)
+                console.log("recommendMax",recommendMax)
+                if(parseFloat(food_actualIntake) < parseFloat(recommendMin)){
+                    $('.isLessOrMore').eq(index).html('缺乏');
+                }
+                if(parseFloat(food_actualIntake) > parseFloat(recommendMax)){
+                    $('.isLessOrMore').eq(index).html('过量');
+                }
+
+            });
         });
     </script>
 
@@ -271,30 +292,126 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr ms-repeat="foodTypes">
+                                        <tr>
                                             <td>
-                                                <div class="food-type select-food-type pull-left" style="display: block"
-                                                     ms-class="food-type-{{el.TypeID}}:el.foodTotal>0"
-                                                     ms-class-2="now-food:foodType===el.TypeID">
-                    <span ms-if="el.foodTotal==0">
-                    {{el.icon}}
-                    </span>
-
-                                                </div>
+                                                <div class="food-type food-type-1 select-food-type pull-left" style="display: block"></div>
                                                 &nbsp;
-                                                {{el.Name}}
+                                                谷类薯类及杂豆
                                             </td>
-                                            <td ms-class="attention:(el.TargetWeightMin-el.foodTotal)>el.foodTotal/10||(el.foodTotal-el.TargetWeightMax)>el.foodTotal/10">
-                                                {{el.foodTotal}}
-                                                <span class="text-danger pull-right"
-                                                      ms-if="(el.TargetWeightMin-el.foodTotal)>el.foodTotal/10">缺乏</span>
-                                                <span class="text-danger pull-right"
-                                                      ms-if="(el.foodTotal-el.TargetWeightMax)>el.foodTotal/10">过量</span>
+                                            <td>
+                                                <span class="food_actualIntake" th:text="${resultVo.eachFoodVo.gu}"></span>
+                                                <span class="text-danger pull-right isLessOrMore"></span>
                                             </td>
-                                            <td>{{el.TargetWeightMin}}-{{el.TargetWeightMax}}g</td>
-
+                                            <td><span class="recommend_food_intake">250.00-400.00</span>g</td>
                                         </tr>
-
+                                        <tr>
+                                            <td>
+                                                <div class="food-type food-type-2 select-food-type pull-left" style="display: block"></div>
+                                                &nbsp;
+                                                大豆类及坚果
+                                            </td>
+                                            <td>
+                                                <span class="food_actualIntake" th:text="${resultVo.eachFoodVo.dou}"></span>
+                                                <span class="text-danger pull-right isLessOrMore"></span>
+                                            </td>
+                                            <td><span class="recommend_food_intake">25.00-35.00</span>g</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="food-type food-type-3 select-food-type pull-left" style="display: block"></div>
+                                                &nbsp;
+                                                蔬菜类
+                                            </td>
+                                            <td>
+                                                <span class="food_actualIntake" th:text="${resultVo.eachFoodVo.shu}"></span>
+                                                <span class="text-danger pull-right isLessOrMore"></span>
+                                            </td>
+                                            <td><span class="recommend_food_intake">300.00-500.00</span>g</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="food-type food-type-4 select-food-type pull-left" style="display: block"></div>
+                                                &nbsp;
+                                                水果类
+                                            </td>
+                                            <td>
+                                                <span class="food_actualIntake" th:text="${resultVo.eachFoodVo.guo}"></span>
+                                                <span class="text-danger pull-right isLessOrMore"></span>
+                                            </td>
+                                            <td><span class="recommend_food_intake">200.00-350.00</span>g</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="food-type food-type-5 select-food-type pull-left" style="display: block"></div>
+                                                &nbsp;
+                                                畜禽肉类
+                                            </td>
+                                            <td>
+                                                <span class="food_actualIntake" th:text="${resultVo.eachFoodVo.rou}"></span>
+                                                <span class="text-danger pull-right isLessOrMore"></span>
+                                            </td>
+                                            <td><span class="recommend_food_intake">40.00-75.00</span>g</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="food-type food-type-6 select-food-type pull-left" style="display: block"></div>
+                                                &nbsp;
+                                                奶类及奶制品
+                                            </td>
+                                            <td>
+                                                <span class="food_actualIntake" th:text="${resultVo.eachFoodVo.nai}"></span>
+                                                <span class="text-danger pull-right isLessOrMore"></span>
+                                            </td>
+                                            <td><span class="recommend_food_intake">250.00-350.00</span>g</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="food-type food-type-7 select-food-type pull-left" style="display: block"></div>
+                                                &nbsp;
+                                                蛋类
+                                            </td>
+                                            <td>
+                                                <span class="food_actualIntake" th:text="${resultVo.eachFoodVo.dan}"></span>
+                                                <span class="text-danger pull-right isLessOrMore"></span>
+                                            </td>
+                                            <td><span class="recommend_food_intake">25.00-50.00</span>g</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="food-type food-type-8 select-food-type pull-left" style="display: block"></div>
+                                                &nbsp;
+                                                鱼虾类
+                                            </td>
+                                            <td>
+                                                <span class="food_actualIntake" th:text="${resultVo.eachFoodVo.yu}"></span>
+                                                <span class="text-danger pull-right isLessOrMore"></span>
+                                            </td>
+                                            <td><span class="recommend_food_intake">50.00-100.00</span>g</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="food-type food-type-9 select-food-type pull-left" style="display: block"></div>
+                                                &nbsp;
+                                                油
+                                            </td>
+                                            <td>
+                                                <span class="food_actualIntake" th:text="${resultVo.eachFoodVo.you}"></span>
+                                                <span class="text-danger pull-right isLessOrMore"></span>
+                                            </td>
+                                            <td><span class="recommend_food_intake">25.00-30.00</span>g</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="food-type food-type-10 select-food-type pull-left" style="display: block"></div>
+                                                &nbsp;
+                                                其他
+                                            </td>
+                                            <td>
+                                                <span class="food_actualIntake" th:text="${resultVo.eachFoodVo.other}"></span>
+                                                <span class="text-danger pull-right isLessOrMore"></span>
+                                            </td>
+                                            <td><span class="recommend_food_intake">0.00-2000.00</span>g</td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
