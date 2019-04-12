@@ -424,14 +424,49 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr ms-repeat="TE">
-                                            <td>
-                                                {{$val.name}}
-                                            </td>
-                                            <td>
-                                                {{$val.sum}}
-
-                                            </td>
+                                        <tr>
+                                            <td>膳食纤维(g)</td>
+                                            <td><span th:text="${resultVo.microelementVo.day_fiber}"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>视黄醇当量(VA)(μgRAE)</td>
+                                            <td><span th:text="${resultVo.microelementVo.day_va}"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>硫胺素(VB1)(mg)</td>
+                                            <td><span th:text="${resultVo.microelementVo.day_vb1}"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>核黄素(VB2)(mg)</td>
+                                            <td><span th:text="${resultVo.microelementVo.day_vb2}"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>烟酸(mg)</td>
+                                            <td><span th:text="${resultVo.microelementVo.day_niacin}"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>维生素E(mg)</td>
+                                            <td><span th:text="${resultVo.microelementVo.day_ve}"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>钠(mg)</td>
+                                            <td><span th:text="${resultVo.microelementVo.day_na}"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>钙(mg)</td>
+                                            <td><span th:text="${resultVo.microelementVo.day_ca}"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>铁(mg)</td>
+                                            <td><span th:text="${resultVo.microelementVo.day_fe}"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>抗坏血酸(VC)(mg)</td>
+                                            <td><span th:text="${resultVo.microelementVo.day_vc}"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>胆固醇(mg)</td>
+                                            <td><span th:text="${resultVo.microelementVo.day_cholesterol}"></span></td>
                                         </tr>
                                         </tbody>
                                     </table>

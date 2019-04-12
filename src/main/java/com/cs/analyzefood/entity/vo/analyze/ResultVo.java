@@ -14,6 +14,8 @@ public class ResultVo {
 
     private ResultEachFoodVo eachFoodVo;
 
+    private ResultMicroelementVo microelementVo;
+
     public ResultVo() {
     }
 
@@ -98,5 +100,13 @@ public class ResultVo {
 
     public void setEachFoodVo(ResultEachFoodVo eachFoodVo) {
         this.eachFoodVo = eachFoodVo;
+    }
+
+    public ResultMicroelementVo getMicroelementVo() {
+        return microelementVo;
+    }
+
+    public void setMicroelementVo(ResultMicroelementVo microelementVo) {
+        this.microelementVo = microelementVo;
     }
 }

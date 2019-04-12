@@ -3,7 +3,9 @@ package com.cs.analyzefood.service.impl;
 import com.cs.analyzefood.entity.MealMade;
 import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.entity.vo.analyze.ResultEachFoodVo;
+import com.cs.analyzefood.entity.vo.analyze.ResultMicroelementVo;
 import com.cs.analyzefood.service.AnalyzeService;
+import com.cs.analyzefood.util.NumberUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -97,6 +99,28 @@ public class AnalyzeServiceImpl implements AnalyzeService {
             }
         }
         return new ResultEachFoodVo(gu, dou, shu, guo, rou, nai, dan, yu, you, other);
+    }
+
+    @Override
+    public ResultMicroelementVo countMicroelement(List<MealMade> mealMades) {
+        double day_fiber=0,day_va=0,day_vb1=0, day_vb2=0,day_niacin=0,day_ve=0,day_na=0,day_ca=0,day_fe=0,day_vc=0,day_cholesterol=0;
+        for (MealMade mealMade : mealMades) {
+            day_fiber += mealMade.getFood().getFiber();
+            day_va += mealMade.getFood().getVa();
+            day_vb1 += mealMade.getFood().getVb1();
+            day_vb2 += mealMade.getFood().getVb2();
+            day_niacin += mealMade.getFood().getNiacin();
+            day_ve += mealMade.getFood().getVe();
+            day_na += mealMade.getFood().getNa();
+            day_ca += mealMade.getFood().getCa();
+            day_fe += mealMade.getFood().getFe();
+            day_vc += mealMade.getFood().getVc();
+            day_cholesterol += mealMade.getFood().getCholesterol();
+        }
+        return new ResultMicroelementVo(NumberUtil.formatDouble(day_fiber),NumberUtil.formatDouble(day_va),
+                NumberUtil.formatDouble(day_vb1), NumberUtil.formatDouble(day_vb2),NumberUtil.formatDouble(day_niacin),
+                NumberUtil.formatDouble(day_ve),NumberUtil.formatDouble(day_na),NumberUtil.formatDouble(day_ca),
+                NumberUtil.formatDouble(day_fe),NumberUtil.formatDouble(day_vc),NumberUtil.formatDouble(day_cholesterol));
     }
 
 

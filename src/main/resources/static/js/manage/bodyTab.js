@@ -18,7 +18,6 @@ layui.define(["element","jquery"],function(exports){
 		$.get(url,function(data){
 			//显示左侧菜单
 			if($(".navBar").html() == ''){
-				var _this = this;
 				$(".navBar").html(navBar(data)).height($(window).height()-245);
 				element.init();  //初始化页面元素
 				$(window).resize(function(){
