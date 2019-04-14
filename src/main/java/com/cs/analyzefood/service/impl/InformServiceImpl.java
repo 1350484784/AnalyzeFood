@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class InformServiceImpl implements InformService {
@@ -18,5 +19,10 @@ public class InformServiceImpl implements InformService {
     public void addInform(InformEvent informEvent) {
         informEvent.setCreateTime(new Date());
         informMapper.insertInform(informEvent);
+    }
+
+    @Override
+    public List<InformEvent> getInformEvent(int roleId) {
+        return informMapper.selectEventsByRoleId(roleId);
     }
 }

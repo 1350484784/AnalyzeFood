@@ -77,7 +77,7 @@
                 });
             });
 
-
+            getUnReadMsg();
 
 
         });
@@ -254,6 +254,18 @@
             }
             return time;
         }
+        
+        function getUnReadMsg() {
+            $.ajax({
+                type: "POST",
+                url: contextPath+"/user/getUnReadMsg",
+                success: function (data) {
+                    console.log(data)
+                    $('#unReadMsg').html(data.length)
+                }
+            });
+            setTimeout(getUnReadMsg, 10000)
+        }
     </script>
 
 
@@ -337,6 +349,13 @@
                                         <div class="col-sm-4">
                                             <i class="icon icon-book"></i>
                                             发表文章 <strong><span th:text="${articleSum}"></span></strong> 篇
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <i class="icon icon-bookmark"></i>
+                                            <a class="cursor btn-default" data-toggle="modal" data-target="#unReadMsgModal" style="width: 40px;height: 25px" role="button" >
+                                                未读信息
+                                            </a>
+                                            <strong><span id="unReadMsg"></span></strong> 条
                                         </div>
                                     </div>
 
@@ -717,6 +736,44 @@
         </div>
     </div>
 </div>
+
+<!--未读信息-->
+<div class="modal fade " id="unReadMsgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">未读信息</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <!--<div class="unit-style padding-big-lr clearfix">-->
+                    <!--<div class="row col-md-12 real-name-con height-main margin-top-25">-->
+                        <!--<div class="col-md-2">-->
+                            <!--内容-->
+                        <!--</div>-->
+
+                        <!--<div class="col-md-10">-->
+                            <!--<textarea class="form-control textarea" rows="2" id="Report" name="content" placeholder="请详细说明举报的情况,可获得更准确的回复！"></textarea>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="unit-style padding-large-tb clearfix mt-4">-->
+                    <!--<div class="margin-large-top padding-left text-left content-right-zoon">-->
+                        <!--<div class="row text-left">-->
+                            <!--<div class=" col-md-3 offset-3">-->
+                                <!--<input type="submit" value="提交" class="submit btn  fl btn-primary btn-xs" data-dissmiss="modal" onclick="submitReport($(this))">-->
+                            <!--</div>-->
+                            <!--<div class=" col-md-3">-->
+                                <!--<input type="button" value="取消" class="btn  f1 btn-primary btn-xs " data-dissmiss="modal" onclick="resetReport($(this))">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 
 <script th:inline="javascript">

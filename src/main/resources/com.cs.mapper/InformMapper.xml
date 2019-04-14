@@ -5,4 +5,8 @@
         insert into inform_event(n_type,s_content,n_roleId,d_createTime,n_status)
         values (#{type},#{content},#{roleId},#{createTime},1)
     </insert>
+
+    <select id="selectEventsByRoleId" resultType="com.cs.analyzefood.entity.InformEvent">
+        select n_id id,n_type type,s_content content,n_roleId roleId,d_createTime createTime from inform_event where n_roleId = #{param1} and n_status = 1
+    </select>
 </mapper>

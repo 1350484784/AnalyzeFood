@@ -543,4 +543,15 @@ public class UserControl {
         WeekAnalyzeVo weekAnalyzeVo = analyzeService.WeekAnalyze(user);
         return new ResponseEntity(weekAnalyzeVo, HttpStatus.OK);
     }
+
+    @RequestMapping("/getUnReadMsg")
+    @ResponseBody
+    public ResponseEntity getUnReadMsg(HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            throw new SystemFailedException("user do not login");
+        }
+        List<InformEvent> events = informService.getInformEvent(user.getRoleId());
+        return new ResponseEntity(events, HttpStatus.OK);
+    }
 }
