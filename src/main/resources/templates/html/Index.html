@@ -8,7 +8,7 @@
     <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
     <script th:src="@{/js/user/userIndex.js}"></script>
     <script th:src="@{/js/user/dietDetail.js}"></script>
-
+    <script th:src="@{/js/echarts.js}"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
         var contextPath = [[${#request.getContextPath()}]]; //获取当前应用路径
@@ -173,8 +173,86 @@
             if(index == 2){
                 $('#mealAnalyze').css('display','block');
                 $('#myMeal').css('display','none');
+
+                $.ajax({
+                    type: "POST",
+                    url: contextPath+"/user/weekAnalyze",
+                    success: function (data) {
+                        if(data.createTime){
+                            $('#week_reach').html(data.reach ? "你需要更多的锻炼" : "你需要多补充能量");
+                            var echarts_weekAnalyze = echarts.init(document.getElementById('week_analyze'));
+                            var option = {
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data:['能量','碳水化合物','蛋白质','脂肪']
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    // data: ['周一','周二','周三','周四','周五','周六','周日']
+                                    data: tranfer_time(data.createTime.reverse())
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [
+                                    {
+                                        name:'能量',
+                                        type:'line',
+                                        stack: '总量',
+                                        data:data.weekEnergy.reverse()
+                                    },
+                                    {
+                                        name:'碳水化合物',
+                                        type:'line',
+                                        stack: '总量',
+                                        data:data.weekCHO.reverse()
+                                    },
+                                    {
+                                        name:'蛋白质',
+                                        type:'line',
+                                        stack: '总量',
+                                        data:data.weekProtein.reverse()
+                                    },
+                                    {
+                                        name:'脂肪',
+                                        type:'line',
+                                        stack: '总量',
+                                        data:data.weekFat.reverse()
+                                    }
+                                ]
+                            };
+                            echarts_weekAnalyze.setOption(option);
+                        }else{
+                            $('#week_reach').html("您需要录入膳食信息");
+                        }
+
+                    }
+                });
+
             }
 
+        }
+        
+        function tranfer_time(t) {
+            var time = [];
+            for (var i = 0; i < t.length; i++){
+                time[i] = t[i].split(" ")[0];
+            }
+            return time;
         }
     </script>
 
@@ -441,8 +519,25 @@
                     </div>
 
 
-                    <div id="mealAnalyze" style="display: none">
-                        123
+                    <!--膳食分析-->
+                    <div id="mealAnalyze" style="display: none;margin-top: 50px">
+                        <div class="hr-panel" style="margin-bottom: 20px">
+                            <div class="hr-panel-body" style="padding:10px" >
+                                <div class="row">
+                                    <div id="week_analyze" style="height: 580px;width: 900px; margin:0 auto">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-panel" style="margin-bottom: 20px">
+                            <div class="hr-panel-body" style="padding:10px" >
+                                <div class="row" style="margin-left: 20px">
+                                    <span style="font-size: 18px;color: #00aced">分析结果：</span>
+                                    <div id="week_reach" style="color: orange;font-size: 20px;margin-left: 60px">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
 

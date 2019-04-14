@@ -4,6 +4,7 @@ import com.cs.analyzefood.entity.*;
 import com.cs.analyzefood.entity.vo.analyze.ResultEachFoodVo;
 import com.cs.analyzefood.entity.vo.analyze.ResultMicroelementVo;
 import com.cs.analyzefood.entity.vo.analyze.ResultVo;
+import com.cs.analyzefood.entity.vo.analyze.WeekAnalyzeVo;
 import com.cs.analyzefood.entity.vo.diet.DietVo;
 import com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition;
 import com.cs.analyzefood.entity.vo.pageFood.PageCondition;
@@ -530,5 +531,16 @@ public class UserControl {
             return new ResponseEntity(false, HttpStatus.OK);
         }
         return new ResponseEntity(admin.getAdminAccount(), HttpStatus.OK);
+    }
+
+    @RequestMapping("/weekAnalyze")
+    @ResponseBody
+    public ResponseEntity weekAnalyze(HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            throw new SystemFailedException("user do not login");
+        }
+        WeekAnalyzeVo weekAnalyzeVo = analyzeService.WeekAnalyze(user);
+        return new ResponseEntity(weekAnalyzeVo, HttpStatus.OK);
     }
 }

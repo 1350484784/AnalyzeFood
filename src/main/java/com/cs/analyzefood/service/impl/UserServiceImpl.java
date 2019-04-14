@@ -312,5 +312,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectArticleSum(roleId);
     }
 
+    @Override
+    public List<Meal> getAllMealsInMonth() {
+        return userMapper.selectMealInMonth();
+    }
+
 
 }

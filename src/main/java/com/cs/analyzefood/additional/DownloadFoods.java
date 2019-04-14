@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class DownladFoods {
+public class DownloadFoods {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     private static final String BASE_URL = "http://www.boohee.com/";

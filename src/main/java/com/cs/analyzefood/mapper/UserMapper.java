@@ -1,11 +1,9 @@
 package com.cs.analyzefood.mapper;
 
-import com.cs.analyzefood.entity.Food;
-import com.cs.analyzefood.entity.Meal;
-import com.cs.analyzefood.entity.MealMade;
-import com.cs.analyzefood.entity.User;
+import com.cs.analyzefood.entity.*;
 import com.cs.analyzefood.entity.vo.download.DownLoadFoodVo;
 
+import java.util.Date;
 import java.util.List;
 
 public interface UserMapper {
@@ -64,6 +62,16 @@ public interface UserMapper {
     Food selectFoodByName(String name);
 
     int selectArticleSum(int roleId);
+
+    List<Meal> getWeekMeal(int roleId);
+
+    List<Meal> selectMealInMonth();
+
+    Statistics selectStatisticsByTime(Date createTime);
+
+    void insertStatistics(Statistics createStat);
+
+    void updateStatistics(Statistics createStat);
 
 
 //    int selectFoodNumByFoodIds(int[] foodIds);

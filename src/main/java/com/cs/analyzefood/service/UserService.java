@@ -7,6 +7,7 @@ import com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition;
 import com.cs.analyzefood.entity.vo.pageFood.PageCondition;
 import com.github.pagehelper.PageInfo;
 
+import java.util.Date;
 import java.util.List;
 
 public interface UserService {
@@ -31,6 +32,7 @@ public interface UserService {
     int getFoodsCount(PageCondition pageCondition);
 
 //    List<Food> getPageFood(int begin,int count);
+
     List<Food> getPageFood(int begin,int count,PageCondition pageCondition);
 
 
@@ -60,4 +62,5 @@ public interface UserService {
 
     int getArticleSum(int roleId);
 
+    List<Meal> getAllMealsInMonth();
 }
