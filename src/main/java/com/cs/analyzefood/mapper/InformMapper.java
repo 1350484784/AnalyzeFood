@@ -8,4 +8,6 @@ public interface InformMapper {
     void insertInform(InformEvent informEvent);
 
     List<InformEvent> selectEventsByRoleId(int roleId);
+
+    void updateInformStatus(int id);
 }

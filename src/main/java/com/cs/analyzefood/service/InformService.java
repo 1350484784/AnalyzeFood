@@ -8,4 +8,6 @@ public interface InformService {
     void addInform(InformEvent informEvent);
 
     List<InformEvent> getInformEvent(int roleId);
+
+    void updateInformStatus(int id);
 }

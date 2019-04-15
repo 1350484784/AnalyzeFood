@@ -25,4 +25,9 @@ public class InformServiceImpl implements InformService {
     public List<InformEvent> getInformEvent(int roleId) {
         return informMapper.selectEventsByRoleId(roleId);
     }
+
+    @Override
+    public void updateInformStatus(int id) {
+        informMapper.updateInformStatus(id);
+    }
 }

@@ -554,4 +554,11 @@ public class UserControl {
         List<InformEvent> events = informService.getInformEvent(user.getRoleId());
         return new ResponseEntity(events, HttpStatus.OK);
     }
+
+    @RequestMapping("/updateInformStatus")
+    @ResponseBody
+    public ResponseEntity updateInformStatus(int id){
+        informService.updateInformStatus(id);
+        return new ResponseEntity(true, HttpStatus.OK);
+    }
 }
