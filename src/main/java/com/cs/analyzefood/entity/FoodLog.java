@@ -6,28 +6,12 @@ public class FoodLog {
     private int id;
     private int roleId;
     private int foodId;
+    private int type;
     private int foodNum;
     private double weight;
     private Date createTime;
 
     public FoodLog() {
-    }
-
-    public FoodLog(int roleId, int foodId, int foodNum, double weight, Date createTime) {
-        this.roleId = roleId;
-        this.foodId = foodId;
-        this.foodNum = foodNum;
-        this.weight = weight;
-        this.createTime = createTime;
-    }
-
-    public FoodLog(int id, int roleId, int foodId, int foodNum, double weight, Date createTime) {
-        this.id = id;
-        this.roleId = roleId;
-        this.foodId = foodId;
-        this.foodNum = foodNum;
-        this.weight = weight;
-        this.createTime = createTime;
     }
 
     public int getId() {
@@ -76,5 +60,13 @@ public class FoodLog {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

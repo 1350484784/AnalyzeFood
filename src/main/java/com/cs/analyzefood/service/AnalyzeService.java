@@ -26,4 +26,6 @@ public interface AnalyzeService {
     void insertStatistics(int mealId, int roleId, Date createTime);
 
     void insertFoodJob(int mealId, int roleId, Date createTime);
+
+    double countDecay(double init, double finish, int t);
 }

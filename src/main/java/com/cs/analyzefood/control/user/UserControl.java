@@ -394,7 +394,12 @@ public class UserControl {
 
     @RequestMapping("/foodListPage")
     @ResponseBody
-    public ResponseEntity foodListPage(@RequestBody PageCondition pageCondition){
+    @Transactional
+    public ResponseEntity foodListPage(@RequestBody PageCondition pageCondition, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            throw new SystemFailedException("user do not login");
+        }
         if(pageCondition == null){
             pageCondition = new PageCondition(1);
         }
@@ -405,6 +410,9 @@ public class UserControl {
         int totalCount = userService.getFoodsCount(pageCondition);
 
         List<Food> foods = userService.getPageFood((pageCondition.getCurrentPage() - 1) * pageSize, pageSize, pageCondition);
+        for (Food food : foods) {
+            
+        }
 
         PageFoodVo foodVo = new PageFoodVo(foods, pageCondition.getCurrentPage(), totalCount, pageSize);
 
@@ -413,8 +421,14 @@ public class UserControl {
 
     @RequestMapping("/foodListGetFood")
     @ResponseBody
-    public ResponseEntity foodListGetFood(int foodId){
+    @Transactional
+    public ResponseEntity foodListGetFood(int foodId, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            throw new SystemFailedException("user do not login");
+        }
         Food food = userService.findFoodById(foodId);
+        
         return new ResponseEntity(food, HttpStatus.OK);
     }
 

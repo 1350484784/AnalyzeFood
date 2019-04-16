@@ -228,5 +228,17 @@ public class AnalyzeServiceImpl implements AnalyzeService {
         }
     }
 
+    @Override
+    public double countDecay(double init, double finish, int t) {
+        double n0 = 1;
+        double alpha = Math.log(init / finish) / t;
+        System.out.println(alpha);
+        double l = Math.log(n0 / init) / alpha;
+        System.out.println(l);
+        double decay = Math.exp(-alpha * (t + l));
+        System.out.println(decay);
+        return decay;
+    }
+
 
 }
