@@ -224,7 +224,13 @@ public class AnalyzeServiceImpl implements AnalyzeService {
         }
 
         for (Map.Entry<Integer, Integer> entry : foodMap.entrySet()) {
-            
+            FoodLog foodLog = userMapper.findLogByIdsInDay(roleId, entry.getKey(), 5, createTime);
+            if(foodLog == null){
+                userMapper.insertFoodLog(new FoodLog(roleId, entry.getKey(), 5, entry.getValue(), createTime));
+            }else{
+                foodLog.setFoodNum(entry.getValue());
+                userMapper.updateFoodLogNum(foodLog);
+            }
         }
     }
 
@@ -238,6 +244,21 @@ public class AnalyzeServiceImpl implements AnalyzeService {
         double decay = Math.exp(-alpha * (t + l));
         System.out.println(decay);
         return decay;
+    }
+
+    @Override
+    public void insertFoodLog(FoodLog foodLog) {
+        userMapper.insertFoodLog(foodLog);
+    }
+
+    @Override
+    public FoodLog findLogByIdsInDay(int roleId, int foodId, int type, Date date) {
+        return userMapper.findLogByIdsInDay(roleId, foodId, type, date);
+    }
+
+    @Override
+    public void updateFoodLogNum(FoodLog foodLog) {
+        userMapper.updateFoodLogNum(foodLog);
     }
 
 

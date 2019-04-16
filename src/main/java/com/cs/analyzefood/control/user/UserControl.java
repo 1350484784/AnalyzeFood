@@ -410,8 +410,16 @@ public class UserControl {
         int totalCount = userService.getFoodsCount(pageCondition);
 
         List<Food> foods = userService.getPageFood((pageCondition.getCurrentPage() - 1) * pageSize, pageSize, pageCondition);
-        for (Food food : foods) {
-            
+        if(pageCondition.getFoodName() != null){
+            for (Food food : foods) {
+                FoodLog foodLog = analyzeService.findLogByIdsInDay(user.getRoleId(), food.getFoodId(), 2, new Date());
+                if(foodLog == null){
+                    analyzeService.insertFoodLog(new FoodLog(user.getRoleId(),  food.getFoodId(), 2, 1, new Date()));
+                }else{
+                    foodLog.setFoodNum(foodLog.getFoodNum() + 1);
+                    analyzeService.updateFoodLogNum(foodLog);
+                }
+            }
         }
 
         PageFoodVo foodVo = new PageFoodVo(foods, pageCondition.getCurrentPage(), totalCount, pageSize);
@@ -428,7 +436,14 @@ public class UserControl {
             throw new SystemFailedException("user do not login");
         }
         Food food = userService.findFoodById(foodId);
-        
+
+        FoodLog foodLog = analyzeService.findLogByIdsInDay(user.getRoleId(), foodId, 3, new Date());
+        if(foodLog == null){
+            analyzeService.insertFoodLog(new FoodLog(user.getRoleId(), foodId, 3, 1, new Date()));
+        }else{
+            foodLog.setFoodNum(foodLog.getFoodNum() + 1);
+            analyzeService.updateFoodLogNum(foodLog);
+        }
         return new ResponseEntity(food, HttpStatus.OK);
     }
 

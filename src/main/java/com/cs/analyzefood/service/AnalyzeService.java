@@ -1,5 +1,6 @@
 package com.cs.analyzefood.service;
 
+import com.cs.analyzefood.entity.FoodLog;
 import com.cs.analyzefood.entity.MealMade;
 import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.entity.vo.analyze.ResultEachFoodVo;
@@ -28,4 +29,10 @@ public interface AnalyzeService {
     void insertFoodJob(int mealId, int roleId, Date createTime);
 
     double countDecay(double init, double finish, int t);
+
+    void insertFoodLog(FoodLog foodLog);
+
+    FoodLog findLogByIdsInDay(int roleId, int foodId, int type, Date date);
+
+    void updateFoodLogNum(FoodLog foodLog);
 }

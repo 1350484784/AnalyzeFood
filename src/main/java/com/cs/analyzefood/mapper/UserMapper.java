@@ -73,6 +73,12 @@ public interface UserMapper {
 
     void updateStatistics(Statistics createStat);
 
+    void insertFoodLog(FoodLog foodLog);
+
+    FoodLog findLogByIdsInDay(int roleId, int foodId, int type, Date date);
+
+    void updateFoodLogNum(FoodLog foodLog);
+
 
 //    int selectFoodNumByFoodIds(int[] foodIds);
 }

@@ -26,6 +26,11 @@
         values(#{roleId}, #{gu}, #{dou}, #{shu}, #{guo}, #{rou}, #{nai}, #{dan}, #{yu}, #{you}, #{createTime})
     </insert>
 
+    <insert id="insertFoodLog" parameterType="com.cs.analyzefood.entity.FoodLog">
+        insert into food_log(n_roleId, n_foodId, n_type, n_foodNum, d_createTime)
+        values (#{roleId}, #{foodId}, #{type}, #{foodNum}, DATE_FORMAT(#{createTime},'%Y-%m-%d'))
+    </insert>
+
 
     <update id="updateUserOnlineFlag">
         update user_info set n_onlineFlag = #{param2} where n_roleId = #{param1}
@@ -54,6 +59,10 @@
 
     <update id="updateStatistics" parameterType="com.cs.analyzefood.entity.Statistics">
         update statistics set n_roleId=#{roleId},n_gu=#{gu},n_dou= #{dou},n_shu=#{shu},n_guo= #{guo},n_rou= #{rou},n_nai= #{nai},n_dan= #{dan}, n_yu=#{yu}, n_you=#{you} where n_id=#{id}
+    </update>
+
+    <update id="updateFoodLogNum" parameterType="com.cs.analyzefood.entity.FoodLog">
+        update food_log set n_foodNum=#{foodNum} where n_id=#{id}
     </update>
 
     <delete id="deleteMealMade">
@@ -267,6 +276,10 @@
 
     <select id="selectStatisticsByTime" resultType="com.cs.analyzefood.entity.Statistics">
         select n_id id from statistics where DATE_FORMAT(d_createTime,'%Y-%m-%d') = DATE_FORMAT(#{param1}, '%Y-%m-%d')
+    </select>
+
+    <select id="findLogByIdsInDay" resultType="com.cs.analyzefood.entity.FoodLog">
+        select n_id id, n_foodNum foodNum from food_log where n_roleId=#{param1} and n_foodId=#{param2} and n_type=#{param3} and DATE_FORMAT(d_createTime,'%Y-%m-%d') = DATE_FORMAT(#{param4}, '%Y-%m-%d')
     </select>
 
 

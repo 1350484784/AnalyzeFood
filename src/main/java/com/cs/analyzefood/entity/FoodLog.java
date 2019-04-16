@@ -14,6 +14,14 @@ public class FoodLog {
     public FoodLog() {
     }
 
+    public FoodLog(int roleId, int foodId, int type, int foodNum, Date createTime) {
+        this.roleId = roleId;
+        this.foodId = foodId;
+        this.type = type;
+        this.foodNum = foodNum;
+        this.createTime = createTime;
+    }
+
     public int getId() {
         return id;
     }
