@@ -1,5 +1,6 @@
 package com.cs.analyzefood.job;
 
+import com.cs.analyzefood.entity.FoodLog;
 import com.cs.analyzefood.entity.Meal;
 import com.cs.analyzefood.service.AnalyzeService;
 import com.cs.analyzefood.service.UserService;
@@ -27,5 +28,11 @@ public class FoodLogJob implements Job {
             analyzeService.insertFoodJob(meal.getMealId(), meal.getRoleId(), meal.getCreateTime());
         }
 
+        List<FoodLog> foodLogs = userService.getAllLogsInMonth();
+
+        for (FoodLog foodLog : foodLogs) {
+            analyzeService.updateFoodJobWeight(foodLog);
+        }
+        
     }
 }

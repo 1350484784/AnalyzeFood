@@ -70,5 +70,16 @@ public class DateUtil implements Converter<String, Date> {
         return format.format(date);
     }
 
+    /**
+     * 间隔天数
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public static int intervalDaysByMillisecond(Date date1, Date date2){
+        int days = (int) ((date2.getTime() - date1.getTime()) / (1000*3600*24));
+        return days == 0 ? 1 : days;
+    }
+
 }
 

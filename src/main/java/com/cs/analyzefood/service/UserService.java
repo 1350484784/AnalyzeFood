@@ -63,4 +63,7 @@ public interface UserService {
     int getArticleSum(int roleId);
 
     List<Meal> getAllMealsInMonth();
+
+    List<FoodLog> getAllLogsInMonth();
+
 }

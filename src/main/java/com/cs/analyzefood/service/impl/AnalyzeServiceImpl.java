@@ -6,6 +6,7 @@ import com.cs.analyzefood.entity.vo.analyze.ResultMicroelementVo;
 import com.cs.analyzefood.entity.vo.analyze.WeekAnalyzeVo;
 import com.cs.analyzefood.mapper.UserMapper;
 import com.cs.analyzefood.service.AnalyzeService;
+import com.cs.analyzefood.util.DateUtil;
 import com.cs.analyzefood.util.NumberUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -234,16 +235,24 @@ public class AnalyzeServiceImpl implements AnalyzeService {
         }
     }
 
-    @Override
-    public double countDecay(double init, double finish, int t) {
+    private double countDecay(double init, double finish, int t) {
         double n0 = 1;
         double alpha = Math.log(init / finish) / t;
-        System.out.println(alpha);
         double l = Math.log(n0 / init) / alpha;
-        System.out.println(l);
         double decay = Math.exp(-alpha * (t + l));
-        System.out.println(decay);
         return decay;
+    }
+
+    private double countTF(int foodId, int type, int userId){
+        int userPi = userMapper.selectFJobOneNumByUser(foodId, type, userId);
+        int userPAll = userMapper.selectFJobAllNumByUser(userId);
+        return userPi * 1.0 / userPAll;
+    }
+
+    private double countIDF(int foodId, int type){
+        int userAll = userMapper.selectFJobAllNum();
+        int pUserAll = userMapper.selectFJob(foodId, type);
+        return userAll * 1.0 / pUserAll;
     }
 
     @Override
@@ -260,6 +269,19 @@ public class AnalyzeServiceImpl implements AnalyzeService {
     public void updateFoodLogNum(FoodLog foodLog) {
         userMapper.updateFoodLogNum(foodLog);
     }
+
+    @Override
+    public void updateFoodJobWeight(FoodLog foodLog) {
+        Double finish = userMapper.selectFJobWeightMaxInMonth();
+        finish = (finish == null || finish == 0) ? 30 : finish;
+        Double init = userMapper.selectFJobWeightMinInMonth();
+        init = (init == null || init == 0) ? finish/ 30 : init;
+        int days = DateUtil.intervalDaysByMillisecond(foodLog.getCreateTime(), new Date());
+        double decay = countDecay(init, finish, days);
+        double weight = foodLog.getType() * decay * foodLog.getFoodNum() * countTF(foodLog.getFoodId(), foodLog.getType(), foodLog.getRoleId()) * countIDF(foodLog.getFoodId(), foodLog.getType());
+        userMapper.updateFoodLogWeight(foodLog.getId(), weight);
+    }
+
 
 
 }

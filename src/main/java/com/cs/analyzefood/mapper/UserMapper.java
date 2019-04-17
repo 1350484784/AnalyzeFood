@@ -79,6 +79,23 @@ public interface UserMapper {
 
     void updateFoodLogNum(FoodLog foodLog);
 
+    List<FoodLog> selectLogsInMonth();
+
+    Double selectFJobWeightMinInMonth();
+
+    Double selectFJobWeightMaxInMonth();
+
+    int selectFJobOneNumByUser(int foodId, int type, int userId);
+
+    int selectFJobAllNumByUser(int userId);
+
+    int selectFJobAllNum();
+
+    int selectFJob(int foodId, int type);
+
+    void updateFoodLogWeight(int id, double weight);
+
+
 
 //    int selectFoodNumByFoodIds(int[] foodIds);
 }

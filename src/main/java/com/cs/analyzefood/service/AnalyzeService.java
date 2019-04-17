@@ -28,11 +28,11 @@ public interface AnalyzeService {
 
     void insertFoodJob(int mealId, int roleId, Date createTime);
 
-    double countDecay(double init, double finish, int t);
-
     void insertFoodLog(FoodLog foodLog);
 
     FoodLog findLogByIdsInDay(int roleId, int foodId, int type, Date date);
 
     void updateFoodLogNum(FoodLog foodLog);
+
+    void updateFoodJobWeight(FoodLog foodLog);
 }

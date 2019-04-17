@@ -64,6 +64,9 @@
     <update id="updateFoodLogNum" parameterType="com.cs.analyzefood.entity.FoodLog">
         update food_log set n_foodNum=#{foodNum} where n_id=#{id}
     </update>
+    <update id="updateFoodLogWeight">
+        update food_log set n_weight=#{param2} where n_id=#{param1}
+    </update>
 
     <delete id="deleteMealMade">
       delete from meal_made where n_id = #{param1}
@@ -280,6 +283,31 @@
 
     <select id="findLogByIdsInDay" resultType="com.cs.analyzefood.entity.FoodLog">
         select n_id id, n_foodNum foodNum from food_log where n_roleId=#{param1} and n_foodId=#{param2} and n_type=#{param3} and DATE_FORMAT(d_createTime,'%Y-%m-%d') = DATE_FORMAT(#{param4}, '%Y-%m-%d')
+    </select>
+
+    <select id="selectLogsInMonth" resultType="com.cs.analyzefood.entity.FoodLog">
+        select n_id id,n_roleId roleId,n_foodId foodId,n_type type,n_foodNum foodNum, n_weight weight, d_createTime createTime  from food_log where DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(d_createTime) order by d_createTime desc
+    </select>
+
+    <select id="selectFJobWeightMinInMonth" resultType="java.lang.Double">
+        select n_weight weight from food_log where DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(d_createTime) and n_weight is not null order by n_weight limit 0,1
+    </select>
+    <select id="selectFJobWeightMaxInMonth" resultType="java.lang.Double">
+        select n_weight weight from food_log where DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(d_createTime) and n_weight is not null order by n_weight desc limit 0,1
+    </select>
+
+    <select id="selectFJobOneNumByUser" resultType="java.lang.Integer">
+        select sum(n_foodNum) from food_log where DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(d_createTime) and n_roleId=#{param3} and n_foodId=#{param1} and n_type=#{param2}
+    </select>
+    <select id="selectFJobAllNumByUser" resultType="java.lang.Integer">
+        select sum(n_foodNum) from food_log where DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(d_createTime) and n_roleId=#{param1}
+    </select>
+
+    <select id="selectFJobAllNum" resultType="java.lang.Integer">
+        select sum(n_foodNum) from food_log where DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(d_createTime)
+    </select>
+    <select id="selectFJob" resultType="java.lang.Integer">
+        select count(*) from food_log where DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(d_createTime) and n_foodId=#{param1} and n_type=#{param2}
     </select>
 
 

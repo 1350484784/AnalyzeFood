@@ -1,13 +1,10 @@
 package com.cs.analyzefood.service.impl;
 
-import com.cs.analyzefood.entity.Food;
-import com.cs.analyzefood.entity.Meal;
-import com.cs.analyzefood.entity.MealMade;
+import com.cs.analyzefood.entity.*;
 import com.cs.analyzefood.entity.vo.diet.DietVo;
 import com.cs.analyzefood.entity.vo.download.DownLoadFoodVo;
 import com.cs.analyzefood.entity.vo.pageFood.PageCondition;
 import com.cs.analyzefood.mapper.UserMapper;
-import com.cs.analyzefood.entity.User;
 import com.cs.analyzefood.mapper.UserZoneMapper;
 import com.cs.analyzefood.service.UserService;
 import com.cs.analyzefood.util.DateUtil;
@@ -315,6 +312,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Meal> getAllMealsInMonth() {
         return userMapper.selectMealInMonth();
+    }
+
+    @Override
+    public List<FoodLog> getAllLogsInMonth() {
+        return userMapper.selectLogsInMonth();
     }
 
 
