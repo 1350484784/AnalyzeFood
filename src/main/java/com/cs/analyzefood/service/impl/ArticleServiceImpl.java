@@ -4,7 +4,6 @@ import com.cs.analyzefood.entity.*;
 import com.cs.analyzefood.entity.vo.pageArticle.PageArticleCondition;
 import com.cs.analyzefood.mapper.ArticleMapper;
 import com.cs.analyzefood.service.ArticleService;
-import com.cs.analyzefood.util.JsonUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +55,6 @@ public class ArticleServiceImpl implements ArticleService {
         pageInfo.setPageSize(6);
         //总条数
         pageInfo.setTotal(count);
-        System.out.println(JsonUtil.toJson(pageInfo));
         return pageInfo;
     }
 
