@@ -239,8 +239,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
         double n0 = 1;
         double alpha = Math.log(init / finish) / t;
         double l = Math.log(n0 / init) / alpha;
-        double decay = Math.exp(-alpha * (t + l));
-        return decay;
+        return Math.exp(-alpha * (t + l));
     }
 
     private double countTF(int foodId, int type, int userId){
@@ -272,10 +271,10 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 
     @Override
     public void updateFoodJobWeight(FoodLog foodLog) {
-        Double finish = userMapper.selectFJobWeightMaxInMonth();
-        finish = (finish == null || finish == 0) ? 30 : finish;
-        Double init = userMapper.selectFJobWeightMinInMonth();
-        init = (init == null || init == 0) ? finish/ 30 : init;
+        Double init = userMapper.selectFJobWeightMaxInMonth();
+        init = (init == null || init == 0) ? 30 : init;
+        Double finish = userMapper.selectFJobWeightMinInMonth();
+        finish = (finish == null || finish == 0 || init.equals(finish)) ? init/ 30 : finish;
         int days = DateUtil.intervalDaysByMillisecond(foodLog.getCreateTime(), new Date());
         double decay = countDecay(init, finish, days);
         double weight = foodLog.getType() * decay * foodLog.getFoodNum() * countTF(foodLog.getFoodId(), foodLog.getType(), foodLog.getRoleId()) * countIDF(foodLog.getFoodId(), foodLog.getType());

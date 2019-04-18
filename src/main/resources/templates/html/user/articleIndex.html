@@ -62,11 +62,13 @@
     </script>
 
     <script th:inline="javascript">
+        var execute = false;
         $(function () {
-            page_article(1,0,0,0);
+            page_article(1,1,0,0);
 
             //我的发表
             $('#myArticle').click(function () {
+                execute = false;
                 $('#article_page').html('');
                 $('#currentPage').val(1)
                 $("#morePages").val(1)
@@ -84,11 +86,12 @@
             });
 
             //加载更多
-            if ($('#isLastPage').val() == 1) {
+            if ($('#isLastPage').val() === 1) {
+                execute = true
                 $("#bottomMore").html('<div class="offset-5">没有更多文章了。。</div>').removeClass("hide");
             } else {
 
-                var execute = false;
+                execute = false;
 
                 function addMore() {
                     var pageArticleCondition = getCondition();
@@ -110,7 +113,7 @@
                                     title = title.substr(0,16) + "...";
                                 }
                                 var str = '<div class="card hoverShadow " style="padding-top: 8px;margin: 3px 1px;float: left">\n' +
-                                    '                                <div class="cardImgHead" >\n' +
+                                    '                                <div class="cardImgHead" style="width: 322px;" >\n' +
                                     '                                    <a href="javascript:void(0)"  onclick="showArticle('+articles[i].articleId+')" class="plain-a larger-img">\n' +
                                     '                                        <img class="card-img-top" width="320px" height="360px"  src="'+contextPath+articles[i].pic_path+'" >\n' +
                                     '                                    </a>\n' +
@@ -141,8 +144,10 @@
 
                             if(data.isLastPage){
                                 $('#isLastPage').val(1);
+                                execute = true
+                            } else{
+                                execute = false;
                             }
-                            execute = false;
                         },
                         error: function () {
                             alert("加载出错")
@@ -153,7 +158,8 @@
 
                 $(window).scroll(function () {
                     if ($("#morePages").val() != 1) {
-                        $("#bottomMore").html('<div class="offset-5">没有更多图片了。。</div>').removeClass("hide");
+                        execute = true
+                        $("#bottomMore").html('<div class="offset-5">没有更多文章了。。</div>').removeClass("hide");
                     } else {
 
                         if (!execute) {
@@ -184,6 +190,7 @@
                 judgeTimeOrNumber:judgeTimeOrNumber1
             }
 
+            console.log("pageArticleCondition", pageArticleCondition)
             $.ajax({
                 type:"post",
                 url:contextPath+"/user/articlePage",
@@ -193,6 +200,7 @@
                 success:function (data){
                     var str = '';
                     var articles = data.list;
+                    console.log(data)
                     if(articles != undefined){
                         for(var i = 0;i < articles.length; i++){
                             var title = articles[i].title;
@@ -200,7 +208,7 @@
                                 title = title.substr(0,16) + "...";
                             }
                             str +='<div class="card hoverShadow " style="padding-top: 8px;margin: 3px 1px;float: left">\n' +
-                                '                                <div class="cardImgHead" >\n' +
+                                '                                <div class="cardImgHead" style="width: 322px;">\n' +
                                 '                                    <a href="javascript:void(0)"  onclick="showArticle('+articles[i].articleId+')" class="plain-a larger-img">\n' +
                                 '                                        <img class="card-img-top" width="320px" height="360px"  src="'+contextPath+articles[i].pic_path+'" >\n' +
                                 '                                    </a>\n' +
@@ -233,6 +241,9 @@
 
                     if(data.isLastPage){
                         $('#isLastPage').val(1);
+                        execute = true
+                    }else{
+                        execute = false;
                     }
 
                 }
@@ -241,6 +252,7 @@
 
         //热门 最新
         function get_timeorhot(t){
+            execute = false;
             $('#article_page').html('');
             $('#currentPage').val(1)
             $("#morePages").val(1)
@@ -256,6 +268,7 @@
 
         //文章类型
         function get_titleType(t,index) {
+            execute = false;
             $('#article_page').html('');
             $('#currentPage').val(1)
             $("#morePages").val(1)
