@@ -274,6 +274,14 @@
                                 ]
                             };
                             echarts_weekAnalyze.setOption(option);
+
+                            $.ajax({
+                                type: "POST",
+                                url: contextPath+"/user/recommend",
+                                success: function () {
+                                    
+                                }
+                            });
                         }else{
                             $('#week_reach').html("您需要录入膳食信息");
                         }

@@ -95,6 +95,7 @@ public interface UserMapper {
 
     void updateFoodLogWeight(int id, double weight);
 
+    List<Statistics> selectStatisticByUserInMonth(int roleId);
 
 
 //    int selectFoodNumByFoodIds(int[] foodIds);

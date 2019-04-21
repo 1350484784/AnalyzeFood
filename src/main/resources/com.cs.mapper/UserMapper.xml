@@ -310,5 +310,9 @@
         select count(*) from food_log where DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(d_createTime) and n_foodId=#{param1} and n_type=#{param2}
     </select>
 
+    <select id="selectStatisticByUserInMonth" resultType="com.cs.analyzefood.entity.Statistics">
+
+    </select>
+
 
 </mapper>

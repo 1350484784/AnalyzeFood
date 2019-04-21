@@ -590,4 +590,19 @@ public class UserControl {
         informService.updateInformStatus(id);
         return new ResponseEntity(true, HttpStatus.OK);
     }
+
+    @RequestMapping("/recommend")
+    @ResponseBody
+    public ResponseEntity recommend(HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            throw new SystemFailedException("user do not login");
+        }
+        System.out.println("recommend");
+        List<Statistics> statistics = userService.getStatisticByUserInMonth(user.getRoleId());
+
+
+
+        return new ResponseEntity(true, HttpStatus.OK);
+    }
 }

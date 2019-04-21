@@ -319,5 +319,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectLogsInMonth();
     }
 
+    @Override
+    public List<Statistics> getStatisticByUserInMonth(int roleId) {
+        return userMapper.selectStatisticByUserInMonth(roleId);
+    }
+
 
 }
