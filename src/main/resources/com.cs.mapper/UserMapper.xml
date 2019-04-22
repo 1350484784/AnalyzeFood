@@ -290,10 +290,10 @@
     </select>
 
     <select id="selectFJobWeightMinInMonth" resultType="java.lang.Double">
-        select n_weight weight from food_log where DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(d_createTime) and n_weight is not null order by n_weight limit 0,1
+        select n_weight weight from food_log where n_roleId = #{param1} and DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(d_createTime) and n_weight is not null order by n_weight limit 0,1
     </select>
     <select id="selectFJobWeightMaxInMonth" resultType="java.lang.Double">
-        select n_weight weight from food_log where DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(d_createTime) and n_weight is not null order by n_weight desc limit 0,1
+        select n_weight weight from food_log where n_roleId = #{param1} and DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(d_createTime) and n_weight is not null order by n_weight desc limit 0,1
     </select>
 
     <select id="selectFJobOneNumByUser" resultType="java.lang.Integer">

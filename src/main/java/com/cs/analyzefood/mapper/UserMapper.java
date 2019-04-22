@@ -81,9 +81,9 @@ public interface UserMapper {
 
     List<FoodLog> selectLogsInMonth();
 
-    Double selectFJobWeightMinInMonth();
+    Double selectFJobWeightMinInMonth(int roleId);
 
-    Double selectFJobWeightMaxInMonth();
+    Double selectFJobWeightMaxInMonth(int roleId);
 
     int selectFJobOneNumByUser(int foodId, int type, int userId);
 

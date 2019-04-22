@@ -57,7 +57,8 @@ public class SpringBootMVC implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/html/**").addResourceLocations("classpath:/html/*");
         //虚拟路径
-        registry.addResourceHandler("/upload/**").addResourceLocations("file:///"+path+"/*");
+//        registry.addResourceHandler("/upload/**").addResourceLocations("file:///"+path+"/*");
+        registry.addResourceHandler("/upload/**").addResourceLocations("file:"+path+"/*");
     }
 
 

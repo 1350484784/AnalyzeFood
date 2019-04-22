@@ -163,6 +163,13 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
         </dependency>
+
+        <!--sftp-->
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.54</version>
+        </dependency>
         <!--逆向工厂-->
         <!--<dependency>-->
             <!--<groupId>org.mybatis.generator</groupId>-->

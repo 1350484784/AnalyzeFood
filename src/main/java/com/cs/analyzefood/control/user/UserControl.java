@@ -1,5 +1,6 @@
 package com.cs.analyzefood.control.user;
 
+import com.cs.analyzefood.config.FtpConfig;
 import com.cs.analyzefood.entity.*;
 import com.cs.analyzefood.entity.vo.analyze.ResultEachFoodVo;
 import com.cs.analyzefood.entity.vo.analyze.ResultMicroelementVo;
@@ -11,11 +12,11 @@ import com.cs.analyzefood.entity.vo.pageFood.PageCondition;
 import com.cs.analyzefood.entity.vo.pageFood.PageFoodVo;
 import com.cs.analyzefood.exception.SystemFailedException;
 import com.cs.analyzefood.service.*;
-import com.cs.analyzefood.util.InformUtil;
-import com.cs.analyzefood.util.JsonUtil;
-import com.cs.analyzefood.util.NumberUtil;
-import com.cs.analyzefood.util.SendMessageUtil;
+import com.cs.analyzefood.util.*;
 import com.github.pagehelper.PageInfo;
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,9 @@ public class UserControl {
 
     @Autowired
     private AnalyzeService analyzeService;
+
+    @Value("${web.upload-path}")
+    private String upload_path;
 
     @Value("${user.headImg.path}")
     private String headImg_path;
@@ -189,13 +193,20 @@ public class UserControl {
             throw new SystemFailedException("user do not login");
         }
 
-        File newFile = new File(headImg_path + imgName);
+//        File newFile = new File(headImg_path + imgName);
+        File newFile = new File(upload_path + headImg_path + imgName);
         if (!newFile.exists()) {
             try {
                 file.transferTo(newFile);
             } catch (IOException e) {
                 logger.debug(e.getMessage());
             }
+//            FTPUtil ftpUtil = new FTPUtil();
+//            Session ftpSession = ftpUtil.getSession(FtpConfig.SFTP_REQ_HOST, FtpConfig.SFTP_DEFAULT_PORT, FtpConfig.SFTP_REQ_USERNAME, FtpConfig.SFTP_REQ_PASSWORD);
+//            Channel channel = ftpUtil.getChannel(ftpSession);
+//            ChannelSftp sftp = (ChannelSftp) channel;
+//            ftpUtil.uploadFile(sftp, upload_path, newFile);
+//            ftpUtil.closeAll(sftp, channel, ftpSession);
         }
         String url = userService.uploadUserHeadImg(user.getRoleId(), imgName);
         return new ResponseEntity(url, HttpStatus.OK);
@@ -212,7 +223,7 @@ public class UserControl {
             throw new SystemFailedException("user do not login");
         }
 
-        File newFile = new File(bgImg_path + bgImgName);
+        File newFile = new File(upload_path +bgImg_path + bgImgName);
         if (!newFile.exists()) {
             try {
                 file.transferTo(newFile);
@@ -460,7 +471,7 @@ public class UserControl {
         }else{
             String filename = file.getOriginalFilename();
             picName = UUID.randomUUID().toString().replace("-", "") + "_" + filename;
-            File newFile = new File(article_path + picName);
+            File newFile = new File(upload_path + article_path + picName);
             if (!newFile.exists()) {
                 try {
                     file.transferTo(newFile);
