@@ -551,15 +551,9 @@ public class UserControl {
 
     @RequestMapping("/isAdminOnline")
     @ResponseBody
-    public ResponseEntity isAdminOnline(HttpSession session){
-        Admin admin = (Admin) session.getAttribute("admin");
-        if (admin == null) {
-            return new ResponseEntity(false, HttpStatus.OK);
-        }
-        if(admin.getOnlineFlag() == (byte) 0){
-            return new ResponseEntity(false, HttpStatus.OK);
-        }
-        return new ResponseEntity(admin.getAdminAccount(), HttpStatus.OK);
+    public ResponseEntity isAdminOnline(){
+        Admin admin = userService.getOnlineAdmin();
+        return new ResponseEntity(admin, HttpStatus.OK);
     }
 
     @RequestMapping("/weekAnalyze")

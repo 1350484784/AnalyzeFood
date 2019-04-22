@@ -97,6 +97,8 @@ public interface UserMapper {
 
     List<Statistics> selectStatisticByUserInMonth(int roleId);
 
+    Admin selectOnlineAdmin();
+
 
 //    int selectFoodNumByFoodIds(int[] foodIds);
 }

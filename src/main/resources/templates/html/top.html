@@ -90,7 +90,7 @@
                             $("#chatBox-content-demo").scrollTop($("#chatBox-content-demo")[0].scrollHeight);
                         });
 
-                        initWebSocket(data);
+                        initWebSocket(data.adminAccount);
                         $("#quxiaobtn").click(function(){
                             $('#input_msg').html("");
                         });
@@ -141,7 +141,7 @@
                 }
                 if ("WebSocket" in window) {
                     if (webSocket == null) {
-                        var url = "ws://127.0.0.1:8080/AnalyzeFood/webSocket/chat/" + roomName;
+                        var url = "ws://47.102.147.38:8080/AnalyzeFood/webSocket/chat/" + roomName;
                         webSocket = new WebSocket(url);
                     }
                     webSocket.onopen = function () {

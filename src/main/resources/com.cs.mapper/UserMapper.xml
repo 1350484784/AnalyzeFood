@@ -92,97 +92,97 @@
         from food_info where n_delFlag = 1
     </select>
 
-    <select id="selectFoodNum" resultType="java.lang.Integer" >
-        select count(*) from food_info where n_delFlag = 1
-        <if test="arg0 != null">
-            and n_typeId in (
-            <foreach collection="arg0" item="foodId" separator="," >
-                #{foodId}
-            </foreach>
-            )
-        </if>
-        <if test="arg1 != null and arg1 != ''">
-          and instr(s_foodName, #{param2})>0
-        </if>
-        <if test="arg2 != null and arg2 != 0">
-          and n_energy &gt;= #{param3}
-        </if>
-        <if test="arg3 != null and arg3 != 0">
-          and n_energy &lt;= #{param4}
-        </if>
-    </select>
-
-    <select id="selectFoodPage" resultType="com.cs.analyzefood.entity.Food">
-        select n_foodId foodId, s_foodName foodName,n_typeId typeId,n_eat_part eat_part,n_energy energy,n_moisture moisture,
-        n_protein protein,n_fat fat,n_fiber fiber,n_carbohydrate carbohydrate,n_va va,n_vb1 vb1,n_vb2 vb2,n_niacin niacin,
-        n_ve ve,n_Na na,n_Ca ca,n_Fe fe,n_vc vc,n_cholesterol cholesterol
-        from food_info where n_delFlag = 1
-        <if test="arg2 != null">
-            and n_typeId in (
-            <foreach collection="arg2" item="foodId" separator="," >
-                #{foodId}
-            </foreach>
-            )
-        </if>
-        <if test="arg3 != null and arg3 != ''">
-            and instr(s_foodName, #{param4})>0
-        </if>
-        <if test="arg4 != null and arg4 != 0">
-            and n_energy &gt;= #{param5}
-        </if>
-        <if test="arg5 != null and arg5 != 0">
-            and n_energy &lt;= #{param6}
-        </if>
-        limit #{param1},#{param2}
-    </select>
-
-
-
-    <!--&lt;!&ndash;foodName, min, max, foodIds&ndash;&gt;-->
     <!--<select id="selectFoodNum" resultType="java.lang.Integer" >-->
         <!--select count(*) from food_info where n_delFlag = 1-->
-        <!--<if test="foodIds != null">-->
+        <!--<if test="arg0 != null">-->
             <!--and n_typeId in (-->
-            <!--<foreach collection="foodIds" item="foodId" separator="," >-->
+            <!--<foreach collection="arg0" item="foodId" separator="," >-->
                 <!--#{foodId}-->
             <!--</foreach>-->
             <!--)-->
         <!--</if>-->
-        <!--<if test="foodName != null and foodName != ''">-->
-            <!--and instr(s_foodName, #{param2})>0-->
+        <!--<if test="arg1 != null and arg1 != ''">-->
+          <!--and instr(s_foodName, #{param2})>0-->
         <!--</if>-->
-        <!--<if test="min != null and min != 0">-->
-            <!--and n_energy &gt;= #{param3}-->
+        <!--<if test="arg2 != null and arg2 != 0">-->
+          <!--and n_energy &gt;= #{param3}-->
         <!--</if>-->
-        <!--<if test="max != null and max != 0">-->
-            <!--and n_energy &lt;= #{param4}-->
+        <!--<if test="arg3 != null and arg3 != 0">-->
+          <!--and n_energy &lt;= #{param4}-->
         <!--</if>-->
     <!--</select>-->
 
-    <!--&lt;!&ndash;foodName, param5, min, param6, max, count, foodIds, param3, begin, param4, param1, param2&ndash;&gt;-->
     <!--<select id="selectFoodPage" resultType="com.cs.analyzefood.entity.Food">-->
         <!--select n_foodId foodId, s_foodName foodName,n_typeId typeId,n_eat_part eat_part,n_energy energy,n_moisture moisture,-->
         <!--n_protein protein,n_fat fat,n_fiber fiber,n_carbohydrate carbohydrate,n_va va,n_vb1 vb1,n_vb2 vb2,n_niacin niacin,-->
         <!--n_ve ve,n_Na na,n_Ca ca,n_Fe fe,n_vc vc,n_cholesterol cholesterol-->
         <!--from food_info where n_delFlag = 1-->
-        <!--<if test="foodIds != null">-->
+        <!--<if test="arg2 != null">-->
             <!--and n_typeId in (-->
-            <!--<foreach collection="foodIds" item="foodId" separator="," >-->
+            <!--<foreach collection="arg2" item="foodId" separator="," >-->
                 <!--#{foodId}-->
             <!--</foreach>-->
             <!--)-->
         <!--</if>-->
-        <!--<if test="foodName != null and foodName != ''">-->
+        <!--<if test="arg3 != null and arg3 != ''">-->
             <!--and instr(s_foodName, #{param4})>0-->
         <!--</if>-->
-        <!--<if test="min != null and min != 0">-->
+        <!--<if test="arg4 != null and arg4 != 0">-->
             <!--and n_energy &gt;= #{param5}-->
         <!--</if>-->
-        <!--<if test="max != null and max != 0">-->
+        <!--<if test="arg5 != null and arg5 != 0">-->
             <!--and n_energy &lt;= #{param6}-->
         <!--</if>-->
         <!--limit #{param1},#{param2}-->
     <!--</select>-->
+
+
+
+    <!--foodName, min, max, foodIds-->
+    <select id="selectFoodNum" resultType="java.lang.Integer" >
+        select count(*) from food_info where n_delFlag = 1
+        <if test="foodIds != null">
+            and n_typeId in (
+            <foreach collection="foodIds" item="foodId" separator="," >
+                #{foodId}
+            </foreach>
+            )
+        </if>
+        <if test="foodName != null and foodName != ''">
+            and instr(s_foodName, #{param2})>0
+        </if>
+        <if test="min != null and min != 0">
+            and n_energy &gt;= #{param3}
+        </if>
+        <if test="max != null and max != 0">
+            and n_energy &lt;= #{param4}
+        </if>
+    </select>
+
+    <!--foodName, param5, min, param6, max, count, foodIds, param3, begin, param4, param1, param2-->
+    <select id="selectFoodPage" resultType="com.cs.analyzefood.entity.Food">
+        select n_foodId foodId, s_foodName foodName,n_typeId typeId,n_eat_part eat_part,n_energy energy,n_moisture moisture,
+        n_protein protein,n_fat fat,n_fiber fiber,n_carbohydrate carbohydrate,n_va va,n_vb1 vb1,n_vb2 vb2,n_niacin niacin,
+        n_ve ve,n_Na na,n_Ca ca,n_Fe fe,n_vc vc,n_cholesterol cholesterol
+        from food_info where n_delFlag = 1
+        <if test="foodIds != null">
+            and n_typeId in (
+            <foreach collection="foodIds" item="foodId" separator="," >
+                #{foodId}
+            </foreach>
+            )
+        </if>
+        <if test="foodName != null and foodName != ''">
+            and instr(s_foodName, #{param4})>0
+        </if>
+        <if test="min != null and min != 0">
+            and n_energy &gt;= #{param5}
+        </if>
+        <if test="max != null and max != 0">
+            and n_energy &lt;= #{param6}
+        </if>
+        limit #{param1},#{param2}
+    </select>
 
 
     <select id="selectFoodById" resultType="com.cs.analyzefood.entity.Food">
@@ -310,9 +310,14 @@
         select count(*) from food_log where DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(d_createTime) and n_foodId=#{param1} and n_type=#{param2}
     </select>
 
+    <select id="selectOnlineAdmin" resultType="com.cs.analyzefood.entity.Admin">
+        select s_adminAccount adminAccount from admin where n_onlineFlag = 1
+    </select>
+
     <select id="selectStatisticByUserInMonth" resultType="com.cs.analyzefood.entity.Statistics">
 
     </select>
+
 
 
 </mapper>

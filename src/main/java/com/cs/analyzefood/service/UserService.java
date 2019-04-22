@@ -67,4 +67,7 @@ public interface UserService {
     List<FoodLog> getAllLogsInMonth();
 
     List<Statistics> getStatisticByUserInMonth(int roleId);
+
+    Admin getOnlineAdmin();
+
 }

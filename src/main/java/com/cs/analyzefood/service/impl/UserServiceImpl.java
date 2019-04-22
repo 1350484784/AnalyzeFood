@@ -324,5 +324,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectStatisticByUserInMonth(roleId);
     }
 
+    @Override
+    public Admin getOnlineAdmin() {
+        return userMapper.selectOnlineAdmin();
+    }
+
 
 }
