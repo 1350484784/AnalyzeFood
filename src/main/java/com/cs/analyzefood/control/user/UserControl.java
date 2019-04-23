@@ -606,6 +606,7 @@ public class UserControl {
         System.out.println("recommend");
         List<Statistics> statistics = userService.getStatisticByUserInMonth(user.getRoleId());
         double[] x = new double[statistics.size()];
+        double[] gu = new double[statistics.size()];
         double[] dou = new double[statistics.size()];
         double[] shu = new double[statistics.size()];
         double[] guo = new double[statistics.size()];
@@ -616,6 +617,7 @@ public class UserControl {
         double[] you = new double[statistics.size()];
         for (int i = 0; i < statistics.size(); i++) {
             x[i] = i+1;
+            gu[i] = statistics.get(i).getGu();
             dou[i] = statistics.get(i).getDou();
             shu[i] = statistics.get(i).getShu();
             guo[i] = statistics.get(i).getGuo();
@@ -624,6 +626,19 @@ public class UserControl {
             dan[i] = statistics.get(i).getDan();
             yu[i] = statistics.get(i).getYu();
             you[i] = statistics.get(i).getYou();
+        }
+        boolean guRecommend = analyzeService.estimate(x, gu , 1);
+        boolean douRecommend = analyzeService.estimate(x, dou , 2);
+        boolean shuRecommend = analyzeService.estimate(x, shu , 3);
+        boolean guoRecommend = analyzeService.estimate(x, guo , 4);
+        boolean rouRecommend = analyzeService.estimate(x, rou , 5);
+        boolean naiRecommend = analyzeService.estimate(x, nai , 6);
+        boolean danRecommend = analyzeService.estimate(x, dan , 7);
+        boolean yuRecommend = analyzeService.estimate(x, yu , 8);
+        boolean youRecommend = analyzeService.estimate(x, you , 9);
+
+        if(guRecommend){
+            List<Food> foods = analyzeService.recommendFood(11);
         }
 
 

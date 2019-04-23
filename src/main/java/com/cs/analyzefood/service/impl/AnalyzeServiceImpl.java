@@ -12,6 +12,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -237,7 +238,8 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 
     private double countDecay(double init, double finish, int t) {
         double n0 = 1;
-        double alpha = Math.log(init / finish) / t;
+        int m = 30;
+        double alpha = Math.log(init / finish) / m;
         double l = Math.log(n0 / init) / alpha;
         return Math.exp(-alpha * (t + l));
     }
@@ -282,6 +284,122 @@ public class AnalyzeServiceImpl implements AnalyzeService {
         userMapper.updateFoodLogWeight(foodLog.getId(), weight);
     }
 
+    @Override
+    public boolean estimate(double[] x, double[] y, int i) {
+        double a = getA(x, y) ;
+        double b = getB(x, y, a) ;
+        //格式化设置
+        DecimalFormat df=new DecimalFormat("#,##0.00");
+        System.out.println("y="+df.format(a)+"x"+"+"+df.format(b));
+        boolean flag = false;
+        switch (i){
+            case 1:
+                if(a >= 0 || 250*2.0/3-b > 0){
+                    flag = true;
+                }
+                break;
+            case 2:
+                if(a >= 0 || 25*2.0/3-b > 0){
+                    flag = true;
+                }
+                break;
+            case 3:
+                if(a >= 0 || 300*2.0/3-b > 0){
+                    flag = true;
+                }
+                break;
+            case 4:
+                if(a >= 0 || 200*2.0/3-b > 0){
+                    flag = true;
+                }
+                break;
+            case 5:
+                if(a >= 0 || 40*2.0/3-b > 0){
+                    flag = true;
+                }
+                break;
+            case 6:
+                if(a >= 0 || 250*2.0/3-b > 0){
+                    flag = true;
+                }
+                break;
+            case 7:
+                if(a >= 0 || 25*2.0/3-b > 0){
+                    flag = true;
+                }
+                break;
+            case 8:
+                if(a >= 0 || 50*2.0/3-b > 0){
+                    flag = true;
+                }
+                break;
+            case 9:
+                if(a >= 0 || 25*2.0/3-b > 0){
+                    flag = true;
+                }
+                break;
+            default:
+                break;
+        }
+
+        return flag;
+    }
+
+    @Override
+    public List<Food> recommendFood(int type) {
+
+        return null;
+    }
+
+    /**
+     * 计算 x的系数a
+     * @param x, y
+     * @return a
+     */
+    private double getA( double[] x , double[] y ){
+        int n = x.length ;
+        return ( n * pSum( x , y ) - sum( x ) * sum( y ) )/ ( n * sqSum( x ) - Math.pow(sum(x), 2) ) ;
+    }
+
+    /**
+     * 计算常量系数b
+     * @param x,y,a
+     * @returnb
+     */
+    public double getB( double[] x , double[] y , double a ){
+        int n = x.length ;
+        return sum( y ) / n - a * sum( x ) / n ;
+    }
+
+    /**
+     * 计算常量系数C
+     * @param x, y
+     * @return b
+     */
+    private double getC( double[] x , double[] y ){
+        int n = x.length ;
+        double a = getA( x , y ) ;
+        return sum( y ) / n - a * sum( x ) / n ;
+    }
+
+    //计算和值
+    private double sum(double[] ds) {
+        double s = 0 ;
+        for( double d : ds ) s = s + d ;
+        return s ;
+    }
+    //计算开平方和值
+    private double sqSum(double[] ds) {
+        double s = 0 ;
+        for( double d : ds ) s = s + Math.pow(d, 2) ;
+        return s ;
+    }
+    //计算x和y积的和值
+    private double pSum( double[] x , double[] y ) {
+        double s = 0 ;
+        for( int i = 0 ; i < x.length ; i++ ) s = s + x[i] * y[i] ;
+        return s ;
+    }
 
 
 }

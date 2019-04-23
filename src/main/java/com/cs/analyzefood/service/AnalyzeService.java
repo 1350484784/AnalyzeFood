@@ -1,5 +1,6 @@
 package com.cs.analyzefood.service;
 
+import com.cs.analyzefood.entity.Food;
 import com.cs.analyzefood.entity.FoodLog;
 import com.cs.analyzefood.entity.MealMade;
 import com.cs.analyzefood.entity.User;
@@ -35,4 +36,9 @@ public interface AnalyzeService {
     void updateFoodLogNum(FoodLog foodLog);
 
     void updateFoodJobWeight(FoodLog foodLog);
+
+    boolean estimate(double[] x, double[] dou, int i);
+
+    List<Food> recommendFood(int type);
+
 }
