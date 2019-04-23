@@ -315,8 +315,10 @@
     </select>
 
     <select id="selectStatisticByUserInMonth" resultType="com.cs.analyzefood.entity.Statistics">
-
+        select n_id id,n_gu gu,n_dou dou, n_shu shu, n_guo guo, n_rou rou, n_nai nai, n_dan dan, n_yu yu, n_you you,d_createTime createTime from statistics where n_roleId={param1} and DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(d_createTime) order by d_createTime
     </select>
+
+
 
 
 

@@ -605,6 +605,26 @@ public class UserControl {
         }
         System.out.println("recommend");
         List<Statistics> statistics = userService.getStatisticByUserInMonth(user.getRoleId());
+        double[] x = new double[statistics.size()];
+        double[] dou = new double[statistics.size()];
+        double[] shu = new double[statistics.size()];
+        double[] guo = new double[statistics.size()];
+        double[] rou = new double[statistics.size()];
+        double[] nai = new double[statistics.size()];
+        double[] dan = new double[statistics.size()];
+        double[] yu = new double[statistics.size()];
+        double[] you = new double[statistics.size()];
+        for (int i = 0; i < statistics.size(); i++) {
+            x[i] = i+1;
+            dou[i] = statistics.get(i).getDou();
+            shu[i] = statistics.get(i).getShu();
+            guo[i] = statistics.get(i).getGuo();
+            rou[i] = statistics.get(i).getRou();
+            nai[i] = statistics.get(i).getNai();
+            dan[i] = statistics.get(i).getDan();
+            yu[i] = statistics.get(i).getYu();
+            you[i] = statistics.get(i).getYou();
+        }
 
 
 

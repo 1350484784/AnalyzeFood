@@ -271,12 +271,12 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 
     @Override
     public void updateFoodJobWeight(FoodLog foodLog) {
-        Double init = userMapper.selectFJobWeightMaxInMonth(foodLog.getRoleId());
-        init = (init == null || init == 0) ? 30 : init;
-        Double finish = userMapper.selectFJobWeightMinInMonth(foodLog.getRoleId());
-        finish = (finish == null || finish == 0 || init.equals(finish)) ? init/ 30 : finish;
+//        Double init = userMapper.selectFJobWeightMaxInMonth(foodLog.getRoleId());
+//        init = (init == null || init == 0) ? 30 : init;
+//        Double finish = userMapper.selectFJobWeightMinInMonth(foodLog.getRoleId());
+//        finish = (finish == null || finish == 0 || init.equals(finish)) ? init/ 30 : finish;
         int days = DateUtil.intervalDaysByMillisecond(foodLog.getCreateTime(), new Date());
-        double decay = countDecay(init, finish, days);
+        double decay = countDecay(30, 1, days);
         System.out.println("decay==="+ decay);
         double weight = foodLog.getType() * decay * foodLog.getFoodNum() * countTF(foodLog.getFoodId(), foodLog.getType(), foodLog.getRoleId()) * countIDF(foodLog.getFoodId(), foodLog.getType());
         userMapper.updateFoodLogWeight(foodLog.getId(), weight);
