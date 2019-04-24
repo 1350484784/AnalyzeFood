@@ -278,8 +278,60 @@
                             $.ajax({
                                 type: "POST",
                                 url: contextPath+"/user/recommend",
-                                success: function () {
-                                    
+                                success: function (result) {
+                                    console.log(result)
+                                    for(var i = 0; i < result.length; i++) {
+                                        var food = result[i];
+                                        var foodClass = getFoodClass(food.typeId);
+                                        var recommendNum = getRecommendNum(food.typeId);
+                                        var tbody =
+                                            '<tr><td>\n' +
+                                            '<div class="food-type ' + foodClass + '"></div>\n' +
+                                            '' + food.foodName + '\n' +
+                                            '</td>\n' +
+                                            '<td>\n' +
+                                            '<input type="number" class="table-input"\n' +
+                                            '   placeholder="输入重量"\n' +
+                                            '       value= "' + recommendNum + '"' +
+                                            '   style="max-width: 70px"\n' +
+                                            '  min="0"  readonly="readonly"/>\n' +
+                                            '</td>\n' +
+                                            '<td>\n' +
+                                            '<input type="text"\n' +
+                                            '   class="table-input-center"\n' +
+                                            '   placeholder=""\n' +
+                                            '       value="' + food.energy + '"  readonly="readonly"' +
+                                            '   style="max-width: 70px"\n' +
+                                            '   min="0" />\n' +
+                                            '\n' +
+                                            '</td>\n' +
+                                            '<td>\n' +
+                                            '<input type="text"\n' +
+                                            '   class=" table-input-center"\n' +
+                                            '   placeholder=""\n' +
+                                            '       value="' + food.carbohydrate + '"  readonly="readonly"' +
+                                            '   style="max-width: 70px"\n' +
+                                            '   min="0"/>\n' +
+                                            '</td>\n' +
+                                            '<td>\n' +
+                                            '<input type="text"\n' +
+                                            '   class="table-input-center"\n' +
+                                            '   placeholder=""\n' +
+                                            '       value="' + food.protein + '"  readonly="readonly"' +
+                                            '   style="max-width: 70px"\n' +
+                                            '   min="0"/>\n' +
+                                            '</td>\n' +
+                                            '<td>\n' +
+                                            '<input type="text"\n' +
+                                            '   class="table-input-center"\n' +
+                                            '   placeholder=""\n' +
+                                            '       value="' + food.fat + '"  readonly="readonly"' +
+                                            '   style="max-width: 70px"\n' +
+                                            '   min="0"/>\n' +
+                                            '</td></tr>';
+
+                                        $('#table_recommend>tbody').append(tbody);
+                                    }
                                 }
                             });
                         }else{
@@ -292,7 +344,41 @@
             }
 
         }
-        
+
+        function getRecommendNum(type) {
+            var num = 0;
+            switch(type){
+                case 11:
+                    num = 250;
+                    break;
+                case 21:
+                    num = 25;
+                    break;
+                case 31:
+                    num = 300;
+                    break;
+                case 41:
+                    num = 200;
+                    break;
+                case 51:
+                    num = 40;
+                    break;
+                case 53:
+                    num = 250;
+                    break;
+                case 54:
+                    num = 25;
+                    break;
+                case 61:
+                    num = 50;
+                    break;
+                case 81:
+                    num = 25;
+                    break;
+            }
+            return num;
+        }
+
         function tranfer_time(t) {
             var time = [];
             for (var i = 0; i < t.length; i++){
@@ -625,7 +711,31 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-9 col-md-8 col-sm-8">
+                        <div class="hr-panel" style="margin-bottom: 20px">
+                            <div class="hr-panel-title ">
+                                <span class="text-success pull-left">推荐:</span>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="hr-panel-body" style="padding:10px">
 
+                                <table class="table table-responsive table-bordered " id="table_recommend">
+                                    <thead>
+                                    <tr>
+                                        <td>食物</td>
+                                        <td>数量(g)</td>
+                                        <td>能量(kcal)</td>
+                                        <td>碳水化合物(g)</td>
+                                        <td>蛋白质(g)</td>
+                                        <td>脂肪(g)</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 

@@ -346,9 +346,13 @@ public class AnalyzeServiceImpl implements AnalyzeService {
     }
 
     @Override
-    public List<Food> recommendFood(int type) {
+    public List<Food> recommendFood(int roleId, int type) {
+        return userMapper.selectLosByUserType(roleId, type);
+    }
 
-        return null;
+    @Override
+    public List<Food> recommendFoodByUserAll(int type) {
+        return userMapper.selectLosByType(type);
     }
 
     /**

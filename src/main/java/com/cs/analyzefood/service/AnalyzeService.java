@@ -39,6 +39,7 @@ public interface AnalyzeService {
 
     boolean estimate(double[] x, double[] dou, int i);
 
-    List<Food> recommendFood(int type);
+    List<Food> recommendFood(int roleId, int type);
 
+    List<Food> recommendFoodByUserAll(int type);
 }

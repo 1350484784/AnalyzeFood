@@ -17,6 +17,7 @@ import com.github.pagehelper.PageInfo;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.Session;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -637,12 +638,89 @@ public class UserControl {
         boolean yuRecommend = analyzeService.estimate(x, yu , 8);
         boolean youRecommend = analyzeService.estimate(x, you , 9);
 
+        List<Food> result = new ArrayList<>();
         if(guRecommend){
-            List<Food> foods = analyzeService.recommendFood(11);
+            List<Food> foods = analyzeService.recommendFood(user.getRoleId(), 11);
+            if(CollectionUtils.isEmpty(foods)){
+                foods = analyzeService.recommendFoodByUserAll(11);
+            }
+            if(CollectionUtils.isNotEmpty(foods)){
+                result.addAll(foods);
+            }
+        }
+        if(douRecommend){
+            List<Food> foods = analyzeService.recommendFood(user.getRoleId(), 21);
+            if(CollectionUtils.isEmpty(foods)){
+                foods = analyzeService.recommendFoodByUserAll(21);
+            }
+            if(CollectionUtils.isNotEmpty(foods)){
+                result.addAll(foods);
+            }
+        }
+        if(shuRecommend){
+            List<Food> foods = analyzeService.recommendFood(user.getRoleId(), 31);
+            if(CollectionUtils.isEmpty(foods)){
+                foods = analyzeService.recommendFoodByUserAll(31);
+            }
+            if(CollectionUtils.isNotEmpty(foods)){
+                result.addAll(foods);
+            }
+        }
+        if(guoRecommend){
+            List<Food> foods = analyzeService.recommendFood(user.getRoleId(), 41);
+            if(CollectionUtils.isEmpty(foods)){
+                foods = analyzeService.recommendFoodByUserAll(41);
+            }
+            if(CollectionUtils.isNotEmpty(foods)){
+                result.addAll(foods);
+            }
+        }
+        if(rouRecommend){
+            List<Food> foods = analyzeService.recommendFood(user.getRoleId(), 51);
+            if(CollectionUtils.isEmpty(foods)){
+                foods = analyzeService.recommendFoodByUserAll(51);
+            }
+            if(CollectionUtils.isNotEmpty(foods)){
+                result.addAll(foods);
+            }
+        }
+        if(naiRecommend){
+            List<Food> foods = analyzeService.recommendFood(user.getRoleId(), 53);
+            if(CollectionUtils.isEmpty(foods)){
+                foods = analyzeService.recommendFoodByUserAll(53);
+            }
+            if(CollectionUtils.isNotEmpty(foods)){
+                result.addAll(foods);
+            }
+        }
+        if(danRecommend){
+            List<Food> foods = analyzeService.recommendFood(user.getRoleId(), 54);
+            if(CollectionUtils.isEmpty(foods)){
+                foods = analyzeService.recommendFoodByUserAll(54);
+            }
+            if(CollectionUtils.isNotEmpty(foods)){
+                result.addAll(foods);
+            }
+        }
+        if(yuRecommend){
+            List<Food> foods = analyzeService.recommendFood(user.getRoleId(), 61);
+            if(CollectionUtils.isEmpty(foods)){
+                foods = analyzeService.recommendFoodByUserAll(61);
+            }
+            if(CollectionUtils.isNotEmpty(foods)){
+                result.addAll(foods);
+            }
+        }
+        if(youRecommend){
+            List<Food> foods = analyzeService.recommendFood(user.getRoleId(), 81);
+            if(CollectionUtils.isEmpty(foods)){
+                foods = analyzeService.recommendFoodByUserAll(81);
+            }
+            if(CollectionUtils.isNotEmpty(foods)){
+                result.addAll(foods);
+            }
         }
 
-
-
-        return new ResponseEntity(true, HttpStatus.OK);
+        return new ResponseEntity(result, HttpStatus.OK);
     }
 }

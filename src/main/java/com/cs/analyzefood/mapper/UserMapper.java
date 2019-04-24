@@ -99,6 +99,10 @@ public interface UserMapper {
 
     Admin selectOnlineAdmin();
 
+    List<Food> selectLosByUserType(int roleId, int type);
+
+    List<Food> selectLosByType(int type);
+
 
 //    int selectFoodNumByFoodIds(int[] foodIds);
 }
