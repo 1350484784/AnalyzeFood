@@ -144,7 +144,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
         List<Meal> weekMeal = userMapper.getWeekMeal(user.getRoleId());
         int i = 0;
         int isReach = 0;
-        if(CollectionUtils.isNotEmpty(weekMeal)){
+        if(CollectionUtils.isNotEmpty(weekMeal) && weekMeal.size() >= 7){
             for (Meal meal : weekMeal) {
                 dates[i] = meal.getCreateTime();
                 Meal thisMeal = userMapper.selectMealById(meal.getMealId());

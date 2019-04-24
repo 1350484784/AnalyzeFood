@@ -280,9 +280,10 @@
                 });
                 $(t).addClass('choice-now');
             }
-
-            var pageArticleCondition = getCondition();
-            page_article(1,pageArticleCondition.articleType,pageArticleCondition.roleId,pageArticleCondition.judgeTimeOrNumber);
+            setTimeout(function () {
+                var pageArticleCondition = getCondition();
+                page_article(1,pageArticleCondition.articleType,pageArticleCondition.roleId,pageArticleCondition.judgeTimeOrNumber);
+            },400);
         }
 
         //获取 条件

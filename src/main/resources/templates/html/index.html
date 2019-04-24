@@ -216,7 +216,9 @@
                     type: "POST",
                     url: contextPath+"/user/weekAnalyze",
                     success: function (data) {
-                        if(data.createTime){
+                        console.log("data", data)
+                        if(data){
+                            $('#week_chart').css("display","block");
                             $('#week_reach').html(data.reach ? "你需要更多的锻炼" : "你需要多补充能量");
                             var echarts_weekAnalyze = echarts.init(document.getElementById('week_analyze'));
                             var option = {
@@ -335,7 +337,8 @@
                                 }
                             });
                         }else{
-                            $('#week_reach').html("您需要录入膳食信息");
+                            $('#week_chart').css("display","none");
+                            $('#week_reach').html("您需要录入更多的膳食信息");
                         }
 
                     }
@@ -693,7 +696,7 @@
 
                     <!--膳食分析-->
                     <div id="mealAnalyze" style="display: none;margin-top: 50px">
-                        <div class="hr-panel" style="margin-bottom: 20px">
+                        <div class="hr-panel" style="margin-bottom: 20px" id="week_chart">
                             <div class="hr-panel-body" style="padding:10px" >
                                 <div class="row">
                                     <div id="week_analyze" style="height: 580px;width: 900px; margin:0 auto">
@@ -710,8 +713,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
                         <div class="hr-panel" style="margin-bottom: 20px">
                             <div class="hr-panel-title " >
                                 <div style="margin-left: 20px">
@@ -737,8 +738,7 @@
                                 </table>
                             </div>
                         </div>
-
-
+                    </div>
                 </div>
 
             </div>
