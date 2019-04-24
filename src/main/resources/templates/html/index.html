@@ -290,14 +290,14 @@
                                             '' + food.foodName + '\n' +
                                             '</td>\n' +
                                             '<td>\n' +
-                                            '<input type="number" class="table-input"\n' +
+                                            '<input style="border: 0px;outline:none;cursor: pointer;" type="number" class="table-input"\n' +
                                             '   placeholder="输入重量"\n' +
                                             '       value= "' + recommendNum + '"' +
                                             '   style="max-width: 70px"\n' +
                                             '  min="0"  readonly="readonly"/>\n' +
                                             '</td>\n' +
                                             '<td>\n' +
-                                            '<input type="text"\n' +
+                                            '<input style="border: 0px;outline:none;cursor: pointer;" type="text"\n' +
                                             '   class="table-input-center"\n' +
                                             '   placeholder=""\n' +
                                             '       value="' + food.energy + '"  readonly="readonly"' +
@@ -306,7 +306,7 @@
                                             '\n' +
                                             '</td>\n' +
                                             '<td>\n' +
-                                            '<input type="text"\n' +
+                                            '<input style="border: 0px;outline:none;cursor: pointer;" type="text"\n' +
                                             '   class=" table-input-center"\n' +
                                             '   placeholder=""\n' +
                                             '       value="' + food.carbohydrate + '"  readonly="readonly"' +
@@ -314,7 +314,7 @@
                                             '   min="0"/>\n' +
                                             '</td>\n' +
                                             '<td>\n' +
-                                            '<input type="text"\n' +
+                                            '<input style="border: 0px;outline:none;cursor: pointer;" type="text"\n' +
                                             '   class="table-input-center"\n' +
                                             '   placeholder=""\n' +
                                             '       value="' + food.protein + '"  readonly="readonly"' +
@@ -322,7 +322,7 @@
                                             '   min="0"/>\n' +
                                             '</td>\n' +
                                             '<td>\n' +
-                                            '<input type="text"\n' +
+                                            '<input style="border: 0px;outline:none;cursor: pointer;" type="text"\n' +
                                             '   class="table-input-center"\n' +
                                             '   placeholder=""\n' +
                                             '       value="' + food.fat + '"  readonly="readonly"' +
@@ -711,10 +711,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-9 col-md-8 col-sm-8">
+
                         <div class="hr-panel" style="margin-bottom: 20px">
-                            <div class="hr-panel-title ">
-                                <span class="text-success pull-left">推荐:</span>
+                            <div class="hr-panel-title " >
+                                <div style="margin-left: 20px">
+                                    <span class="text-success pull-left" style="font-size: 18px;color: #00aced">推荐膳食:</span>
+                                </div>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="hr-panel-body" style="padding:10px">
@@ -735,7 +737,7 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
+
 
                 </div>
 
