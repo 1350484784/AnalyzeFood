@@ -63,11 +63,13 @@
 
     <script th:inline="javascript">
         var execute = false;
+        var needMore = false;
         $(function () {
             page_article(1,1,0,0);
 
             //我的发表
             $('#myArticle').click(function () {
+                needMore = false;
                 execute = false;
                 $('#article_page').html('');
                 $('#currentPage').val(1)
@@ -94,65 +96,67 @@
                 execute = false;
 
                 function addMore() {
-                    var pageArticleCondition = getCondition();
+                    if(needMore){
+                        var pageArticleCondition = getCondition();
 
-                    $.ajax({
-                        type: "POST",
-                        url: contextPath+"/user/articlePage",
-                        dataType:"json",
-                        contentType : "application/json",
-                        data: JSON.stringify(pageArticleCondition),
-                        success: function (data) {
-                            var articles = data.list;
-                            if (data.isLastPage) {
-                                $("#morePages").val(2);
-                            }
-                            for(var i = 0;i < articles.length; i++){
-                                var title = articles[i].title;
-                                if(title.length > 16){
-                                    title = title.substr(0,16) + "...";
+                        $.ajax({
+                            type: "POST",
+                            url: contextPath+"/user/articlePage",
+                            dataType:"json",
+                            contentType : "application/json",
+                            data: JSON.stringify(pageArticleCondition),
+                            success: function (data) {
+                                var articles = data.list;
+                                if (data.isLastPage) {
+                                    $("#morePages").val(2);
                                 }
-                                var str = '<div class="card hoverShadow " style="padding-top: 8px;margin: 3px 1px;float: left">\n' +
-                                    '                                <div class="cardImgHead" style="width: 322px;" >\n' +
-                                    '                                    <a href="javascript:void(0)"  onclick="showArticle('+articles[i].articleId+')" class="plain-a larger-img">\n' +
-                                    '                                        <img class="card-img-top" width="320px" height="360px"  src="'+contextPath+articles[i].pic_path+'" >\n' +
-                                    '                                    </a>\n' +
-                                    '                                </div>\n' +
-                                    '                                <div class="card-body border border-top-0 rounded-bottom">\n' +
-                                    '                                    <div class="card-text overFlowOneRow">\n' +
-                                    '                                        <a href="javascript:void(0)"  onclick="showArticle('+articles[i].articleId+')" class="plain-a" >'+title+'</a>\n' +
-                                    '                                    </div>\n' +
-                                    '                                    <div class="card-text">\n' +
-                                    '                                        <small class="text-muted">\n' +
-                                    '                                            <img class="cursor" style="margin-top: -2px" src="/AnalyzeFood/image/clock-icon.svg" width="12px"/>&nbsp;&nbsp;\n' +
-                                    '                                            <span>'+articles[i].createTime+'</span>\n' +
-                                    '                                            <div style="float: right" class="mr-1 mt-1 align-bottom">\n' +
-                                    '                                                <img class="cursor" style="margin-top: -4px" src="/AnalyzeFood/image/eye.png" width="15px"/>&nbsp;\n' +
-                                    '                                                <span>'+articles[i].view+'</span>&nbsp;&nbsp;&nbsp;\n' +
-                                    '                                                <img class="cursor" style="margin-top: -2px" src="/AnalyzeFood/image/comment.png" width="14px"/>&nbsp;\n' +
-                                    '                                                <span>'+articles[i].commentNum+'</span>\n' +
-                                    '\n' +
-                                    '                                            </div>\n' +
-                                    '                                        </small>\n' +
-                                    '                                    </div>\n' +
-                                    '                                </div>\n' +
-                                    '                            </div>';
+                                for(var i = 0;i < articles.length; i++){
+                                    var title = articles[i].title;
+                                    if(title.length > 16){
+                                        title = title.substr(0,16) + "...";
+                                    }
+                                    var str = '<div class="card hoverShadow " style="padding-top: 8px;margin: 3px 1px;float: left">\n' +
+                                        '                                <div class="cardImgHead" style="width: 322px;" >\n' +
+                                        '                                    <a href="javascript:void(0)"  onclick="showArticle('+articles[i].articleId+')" class="plain-a larger-img">\n' +
+                                        '                                        <img class="card-img-top" width="320px" height="360px"  src="'+contextPath+articles[i].pic_path+'" >\n' +
+                                        '                                    </a>\n' +
+                                        '                                </div>\n' +
+                                        '                                <div class="card-body border border-top-0 rounded-bottom">\n' +
+                                        '                                    <div class="card-text overFlowOneRow">\n' +
+                                        '                                        <a href="javascript:void(0)"  onclick="showArticle('+articles[i].articleId+')" class="plain-a" >'+title+'</a>\n' +
+                                        '                                    </div>\n' +
+                                        '                                    <div class="card-text">\n' +
+                                        '                                        <small class="text-muted">\n' +
+                                        '                                            <img class="cursor" style="margin-top: -2px" src="/AnalyzeFood/image/clock-icon.svg" width="12px"/>&nbsp;&nbsp;\n' +
+                                        '                                            <span>'+articles[i].createTime+'</span>\n' +
+                                        '                                            <div style="float: right" class="mr-1 mt-1 align-bottom">\n' +
+                                        '                                                <img class="cursor" style="margin-top: -4px" src="/AnalyzeFood/image/eye.png" width="15px"/>&nbsp;\n' +
+                                        '                                                <span>'+articles[i].view+'</span>&nbsp;&nbsp;&nbsp;\n' +
+                                        '                                                <img class="cursor" style="margin-top: -2px" src="/AnalyzeFood/image/comment.png" width="14px"/>&nbsp;\n' +
+                                        '                                                <span>'+articles[i].commentNum+'</span>\n' +
+                                        '\n' +
+                                        '                                            </div>\n' +
+                                        '                                        </small>\n' +
+                                        '                                    </div>\n' +
+                                        '                                </div>\n' +
+                                        '                            </div>';
 
-                                $('#article_page').html($('#article_page').html() + str);
-                            }
-                            $('#currentPage').val(data.pageNum);
+                                    $('#article_page').html($('#article_page').html() + str);
+                                }
+                                $('#currentPage').val(data.pageNum);
 
-                            if(data.isLastPage){
-                                $('#isLastPage').val(1);
-                                execute = true
-                            } else{
-                                execute = false;
+                                if(data.isLastPage){
+                                    $('#isLastPage').val(1);
+                                    execute = true
+                                } else{
+                                    execute = false;
+                                }
+                            },
+                            error: function () {
+                                alert("加载出错")
                             }
-                        },
-                        error: function () {
-                            alert("加载出错")
-                        }
-                    })
+                        })
+                    }
                 }
 
 
@@ -162,7 +166,7 @@
                         $("#bottomMore").html('<div class="offset-5">没有更多文章了。。</div>').removeClass("hide");
                     } else {
 
-                        if (!execute) {
+                        if (!execute && needMore) {
                             //当前滑动高度
                             var scrollTop = $(this).scrollTop();
                             //总高度
@@ -170,7 +174,7 @@
                             //浏览器窗口高度
                             var windowHeight = $(this).height();
                             //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
-                            if (scrollTop + windowHeight + 320 >= scrollHeight) {
+                            if (scrollTop + windowHeight >= scrollHeight) {
                                 execute = true;
                                 setTimeout(addMore, 500);
                             }
@@ -235,6 +239,7 @@
 
                             $('#article_page').html(str);
                         }
+                        needMore = true;
                     }
 
                     $('#currentPage').val(data.pageNum);
@@ -252,6 +257,7 @@
 
         //热门 最新
         function get_timeorhot(t){
+            needMore = false;
             execute = false;
             $('#article_page').html('');
             $('#currentPage').val(1)
@@ -268,6 +274,7 @@
 
         //文章类型
         function get_titleType(t,index) {
+            needMore = false;
             execute = false;
             $('#article_page').html('');
             $('#currentPage').val(1)

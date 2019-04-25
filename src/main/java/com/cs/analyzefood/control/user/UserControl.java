@@ -468,7 +468,7 @@ public class UserControl {
 
         String picName;
         if(file != null && file.getOriginalFilename().equals("")){
-            picName =  UUID.randomUUID().toString().replace("-", "") + "_" + article_moren;
+            picName = article_moren;
         }else{
             String filename = file.getOriginalFilename();
             picName = UUID.randomUUID().toString().replace("-", "") + "_" + filename;
