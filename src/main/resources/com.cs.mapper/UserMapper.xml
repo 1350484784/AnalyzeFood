@@ -322,13 +322,22 @@
         select f.n_foodId foodId, f.s_foodName foodName,f.n_typeId typeId,f.n_eat_part eat_part,f.n_energy energy,f.n_moisture moisture,
         f.n_protein protein,f.n_fat fat,f.n_fiber fiber,f.n_carbohydrate carbohydrate,f.n_va va,f.n_vb1 vb1,f.n_vb2 vb2,f.n_niacin niacin,
         f.n_ve ve,f.n_Na na,f.n_Ca ca,f.n_Fe fe,f.n_vc vc,f.n_cholesterol cholesterol
-        from food_info f,food_log l  where f.n_delFlag = 1 and f.n_foodId = l.n_foodId and l.n_roleId=#{param1} and f.n_typeId=#{param2} group by f.n_foodId order by l.n_weight desc limit 0,2
+        from food_info f  where f.n_foodId in (
+              select foodId from (select ff.n_foodId foodId from food_info ff, food_log l
+              where ff.n_delFlag = 1 and ff.n_foodId = l.n_foodId and l.n_roleId=#{param1} and ff.n_typeId=#{param2} group by ff.n_foodId
+              order by l.n_weight desc limit 0,2 ) as foodId
+        )
+
     </select>
     <select id="selectLosByType" resultType="com.cs.analyzefood.entity.Food">
         select f.n_foodId foodId, f.s_foodName foodName,f.n_typeId typeId,f.n_eat_part eat_part,f.n_energy energy,f.n_moisture moisture,
         f.n_protein protein,f.n_fat fat,f.n_fiber fiber,f.n_carbohydrate carbohydrate,f.n_va va,f.n_vb1 vb1,f.n_vb2 vb2,f.n_niacin niacin,
         f.n_ve ve,f.n_Na na,f.n_Ca ca,f.n_Fe fe,f.n_vc vc,f.n_cholesterol cholesterol
-        from food_info f,food_log l  where f.n_delFlag = 1 and f.n_foodId = l.n_foodId and f.n_typeId=#{param1} group by f.n_foodId order by l.n_weight desc limit 0,2
+        from food_info f  where f.n_foodId in (
+              select foodId from (select ff.n_foodId foodId from food_info ff, food_log l
+              where ff.n_delFlag = 1 and ff.n_foodId = l.n_foodId and ff.n_typeId=#{param1} group by ff.n_foodId
+              order by l.n_weight desc limit 0,2 ) as foodId
+        )
     </select>
 
 
