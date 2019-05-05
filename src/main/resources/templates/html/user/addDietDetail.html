@@ -449,6 +449,10 @@
                     centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;请填写膳食信息!',101);
                     return false;
                 }
+                if(isNaN($('#dayEnergy').val())){
+                    centerContent('<span class="fa fa-check-circle" style="font-size: 20px"></span>&nbsp;&nbsp;数量输入有误！',101);
+                    return false;
+                }
 
                 var dietVo = {
                     dietTitle:'',
