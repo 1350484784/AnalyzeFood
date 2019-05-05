@@ -32,7 +32,7 @@ layui.config({
             , {field: 'title', title: '标题',  width:220, event:'showContent',style:'color: blue;'}
             , {field: 'type', title: '文章类型', width:150 }
             , {field: 'pic_path', title: '封面地址', width:180 }
-            , {field: 'view', title: '浏览数', templet: '#sexTpl',  width:80}
+            , {field: 'view', title: '浏览数',  width:80}
             , {field: 'commentNum', title: '评论数',  width:80}
             , {field: 'createTime', title: '创建时间',sort: true,  width:180}
             , {field: 'status', title: '审核',  templet: '#checkTpl'}
