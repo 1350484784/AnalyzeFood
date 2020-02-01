@@ -20,7 +20,7 @@ public class WsServer {
 
     //使用map来收集session，key为roomName，value为同一个房间的用户集合
     //concurrentMap的key不存在时报错，不是返回null
-    private static final Map<String, Set<Session>> rooms = new ConcurrentHashMap();
+    private static final ConcurrentHashMap<String, Set<Session>> rooms = new ConcurrentHashMap<>();
 
 
     @OnOpen

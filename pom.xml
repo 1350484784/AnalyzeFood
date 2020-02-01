@@ -62,12 +62,12 @@
             <version>4.12</version>
         </dependency>
 
-        <!--热部署-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
+        <!--&lt;!&ndash;热部署&ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-devtools</artifactId>-->
+            <!--<optional>true</optional>-->
+        <!--</dependency>-->
 
 
         <!-- 分页插件pagehelper -->
@@ -170,6 +170,25 @@
             <artifactId>jsch</artifactId>
             <version>0.1.54</version>
         </dependency>
+
+        <!--redis依赖配置-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!-- AOP过程拦截 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+      <!-- lombok 工具包 -->
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <optional>true</optional>
+      </dependency>
         <!--逆向工厂-->
         <!--<dependency>-->
             <!--<groupId>org.mybatis.generator</groupId>-->

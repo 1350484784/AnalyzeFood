@@ -1,21 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-    <appender name="FILE"
-              class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>logs/food.%d{yyyy-MM-dd}.log</FileNamePattern>
-        </rollingPolicy>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>%d %p %t %c - %m%n</Pattern>
-        </layout>
-    </appender>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>%d %p %t %c - %m%n</pattern>
+<!--配置项修改每10秒回扫描一次重新加载，不打印logback内部日志-->
+<configuration debug="false" scan="true" scanPeriod="10 seconds">
+
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <property name="LOG_HOME" value="/usr/local/analyzefood/log"/>
+    <!-- 控制台输出 -->
+    <appender class="ch.qos.logback.core.ConsoleAppender" name="STDOUT">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <root level="ERROR">
+
+    <!-- 日志打印策略：
+          1.每天生成日志文件，隔天会生成新的日志文件
+          2.生成的文件在达到条件后自动压缩（跨天或者文件大小达到阈值）
+          3.默认存放30天，可基于客户的安全策略进行配置
+          4.单个日志文件最大10M，超过10M从新生成新的日志文件
+          5.单个服务最大存放1G日志，多余的按照先后顺序丢弃
+    -->
+    <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="FILE">
+      <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+        <!--日志文件输出的文件名-->
+        <FileNamePattern>${LOG_HOME}/analyzefood.%d{yyyy-MM-dd}.%i.log.zip</FileNamePattern>
+        <!--单个文件最大限制在10M-->
+        <maxFileSize>10MB</maxFileSize>
+        <!--日志文件保留天数，默认30天，可根据安全需要修改-->
+        <MaxHistory>30</MaxHistory>
+        <!--日志最大存储默认为1G-->
+        <totalSizeCap>1GB</totalSizeCap>
+      </rollingPolicy>
+      <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+        <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+      </encoder>
+    </appender>
+
+
+  <!--默认打印日志级别为ERROR-->
+  <logger additivity="false" level="INFO" name="com.cs.analyzefood">
+    <appender-ref ref="FILE"/>
+    <appender-ref ref="STDOUT"/>
+  </logger>
+
+  <!--启动类的日志级别使用INFO-->
+  <logger additivity="false" level="INFO" name="com.cs.analyzefood.AnalyzefoodApplication">
+    <appender-ref ref="FILE"/>
+    <appender-ref ref="STDOUT"/>
+  </logger>
+
+  <!--sql打印-->
+  <logger additivity="false" level="INFO" name="com.cs.analyzefood.mapper" >
+    <appender-ref ref="FILE" />
+    <appender-ref ref="STDOUT" />
+  </logger>
+
+    <!-- 日志输出级别 -->
+    <root level="INFO">
         <appender-ref ref="FILE" />
         <appender-ref ref="STDOUT" />
     </root>

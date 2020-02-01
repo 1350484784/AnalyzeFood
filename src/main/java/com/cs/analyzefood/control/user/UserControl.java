@@ -1,5 +1,6 @@
 package com.cs.analyzefood.control.user;
 
+import com.cs.analyzefood.aspect.SysLog;
 import com.cs.analyzefood.config.FtpConfig;
 import com.cs.analyzefood.entity.*;
 import com.cs.analyzefood.entity.vo.analyze.ResultEachFoodVo;
@@ -79,6 +80,7 @@ public class UserControl {
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
+    @SysLog("登录操作")
     @RequestMapping("/login")
     public String login(String phone, Model model, String pwd) {
 

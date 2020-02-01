@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -41,8 +42,8 @@ public class SpringBootMVC implements WebMvcConfigurer {
 //        registry.addViewController("/index").setViewName("/index/findAll");
 
 
-//        registry.addViewController("/").setViewName("/html/login");
-//        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        registry.addViewController("/").setViewName("/html/login");
+        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
 //        super.addViewControllers(registry);
     }
 
